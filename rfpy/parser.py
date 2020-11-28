@@ -115,7 +115,8 @@ def export_bin_level(map_block: Mapping[int,L], pivoted: bool = True)->pd.DataFr
     if not pivoted:
         unpivot = pivot.melt(var_name="Frequency(HZ)", value_name="Nivel(dBm)")
         unpivot['Block_Number'] = levels.shape[0] * list(range(levels.shape[1]))
-        unpivot.sort_values('Block_Number', inplace=True).reset_index(drop=True, inplace=True)
+        unpivot.sort_values('Block_Number', inplace=True)
+        unpivot.reset_index(drop=True, inplace=True)
         return unpivot
     return pivot
 
@@ -123,16 +124,15 @@ def export_bin_level(map_block: Mapping[int,L], pivoted: bool = True)->pd.DataFr
 def export_bin_meta(map_block: Mapping[int,L])->pd.DataFrame:
     """Receives a Mapping with the different `. bin` Blocks and extracts the metadata listed in `META` in a dataframe format
     """
-    assert len(map_block[40]) == len(map_block[63]), "Check if your Binary File is of type 63. GPS Block 40 length != Spectrum Block 63"
+    if not len(map_block[63]):
+        warnings.warn("Check if your Binary File is of type 63. GPS Block 40 length != Spectrum Block 63")
     n_data = len(map_block[63])
     output = {}
     output['Block_Number'] = L(range(n_data))
-
     for attr in BLOCO_40:
         output[attr] = map_block[40].attrgot(attr)
     for attr in BLOCO_63:
         output[attr] = map_block[63].attrgot(attr)
-
     output['Equipement_ID'] = L(getattr(map_block[21][0], 'hostname')) * n_data
     df = pd.DataFrame(output)
     df.columns = META

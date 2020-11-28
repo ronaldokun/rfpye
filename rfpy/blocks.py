@@ -721,7 +721,8 @@ class DType63(GetAttr):
 
     @property
     def list_freq_mega(self) -> L:
-        return L(*self)
+        #return L(*self)
+        return self.band_mega[0] + np.arange(len(self)) * self.passo
 
 
     @property
@@ -783,13 +784,13 @@ class DType63(GetAttr):
         i é a posição de certo valor em "DataType65._get_data()
         Substitutes the old method point_freq_mega and make the class indexable
         """
-        return self.banda_mega[0] + i*self.passo
+        return self.list_freq_mega[i]
 
     def __len__(self):
         return int(self.data_points)
 
     def __iter__(self):
-        return (self[i] for i in range(len(self)))
+        return iter(self[i] for i in range(len(self)))
 
 # Cell
 class DType65(GetAttr):
@@ -1005,8 +1006,6 @@ class DType65(GetAttr):
                     Each data point is stored as a single byte number
                     representing  the percentage (0..100 % in 0.5 steps)
         """
-
-
         start = 48
         end = self.data_points
         return np.fromiter(self.data[start:end], dtype=np.float16) / 2

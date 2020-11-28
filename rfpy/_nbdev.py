@@ -2,7 +2,7 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"parse_input": "00_main.ipynb",
+index = {"process_bin": "00_main.ipynb",
          "get_files": "01_parser.ipynb",
          "path_type": "03_blocks.ipynb",
          "bin_val": "03_blocks.ipynb",
