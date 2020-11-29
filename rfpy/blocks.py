@@ -709,7 +709,7 @@ class DType63(GetAttr):
 
     @property
     def bw(self):
-        return self.banda_mega[1] - self.banda_mega[0]
+        return self.stop_mega - self.start_mega
 
     @property
     def passo(self):
@@ -720,9 +720,9 @@ class DType63(GetAttr):
 #         return np.asarray([self[i] for i in range(len(self))], dtype=np.float32)
 
     @property
-    def list_freq_mega(self) -> L:
+    def frequencies(self) -> L:
         #return L(*self)
-        return self.band_mega[0] + np.arange(len(self)) * self.passo
+        return self.start_mega + np.arange(len(self)) * self.passo
 
 
     @property
@@ -784,7 +784,7 @@ class DType63(GetAttr):
         i é a posição de certo valor em "DataType65._get_data()
         Substitutes the old method point_freq_mega and make the class indexable
         """
-        return self.list_freq_mega[i]
+        return self.frequencies[i], self.block_data[i]
 
     def __len__(self):
         return int(self.data_points)
