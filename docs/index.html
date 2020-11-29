@@ -1,13 +1,13 @@
 ---
 
-title: RFPY - Extração otimizada dos dados de arquivos `.bin` provenientes do script Logger executados nas estações de Monitoramento CRFS RFeye Node.
+title: RFPY
 
 
 keywords: fastai
 sidebar: home_sidebar
 
-summary: "Este módulo tem como objetivo o processamento e extração otimizada de dados dos arquivos `.bin` de monitoramento do espectro. Para talt utilizamos as várias funcionalidades da biblioteca <a href='https://fastcore.fast.ai/basics.html'>fastcore</a>, que expande e otimiza as estruturas de dados da linguagem python. "
-description: "Este módulo tem como objetivo o processamento e extração otimizada de dados dos arquivos `.bin` de monitoramento do espectro. Para talt utilizamos as várias funcionalidades da biblioteca <a href='https://fastcore.fast.ai/basics.html'>fastcore</a>, que expande e otimiza as estruturas de dados da linguagem python. "
+summary: "Este módulo tem como objetivo o processamento e extração otimizada de dados dos arquivos `.bin` de monitoramento do espectro provenientes do script Logger executados nas estações de Monitoramento CRFS RFeye Node. Para tal utilizamos as várias funcionalidades da biblioteca <a href='https://fastcore.fast.ai/basics.html'>fastcore</a>, que expande e otimiza as estruturas de dados da linguagem python. "
+description: "Este módulo tem como objetivo o processamento e extração otimizada de dados dos arquivos `.bin` de monitoramento do espectro provenientes do script Logger executados nas estações de Monitoramento CRFS RFeye Node. Para tal utilizamos as várias funcionalidades da biblioteca <a href='https://fastcore.fast.ai/basics.html'>fastcore</a>, que expande e otimiza as estruturas de dados da linguagem python. "
 nb_path: "index.ipynb"
 ---
 <!--
@@ -22,13 +22,6 @@ nb_path: "index.ipynb"
 
 <div class="container" id="notebook-container">
         
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -95,6 +88,16 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
 
 <div class="output_wrapper">
 <div class="output">
@@ -103,7 +106,7 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_files" class="doc_header"><code>get_files</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/parser.py#L55" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_files</code>(<strong><code>path</code></strong>, <strong><code>extensions</code></strong>=<em><code>None</code></em>, <strong><code>recurse</code></strong>=<em><code>True</code></em>, <strong><code>folders</code></strong>=<em><code>None</code></em>, <strong><code>followlinks</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="get_files" class="doc_header"><code>get_files</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/parser.py#L64" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_files</code>(<strong><code>path</code></strong>, <strong><code>extensions</code></strong>=<em><code>None</code></em>, <strong><code>recurse</code></strong>=<em><code>True</code></em>, <strong><code>folders</code></strong>=<em><code>None</code></em>, <strong><code>followlinks</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Get all the files in <code>path</code> with optional <code>extensions</code>, optionally with <code>recurse</code>, only in <code>folders</code>, if specified.</p>
 
@@ -247,6 +250,16 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
 
 <div class="output_wrapper">
 <div class="output">
@@ -255,7 +268,7 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="file2block" class="doc_header"><code>file2block</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/parser.py#L104" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>file2block</code>(<strong><code>file</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>])</p>
+<h4 id="file2block" class="doc_header"><code>file2block</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/parser.py#L113" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>file2block</code>(<strong><code>file</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>])</p>
 </blockquote>
 <p>Receives a path to a bin file and returns a defaultdict with unique block types as keys and a list of the Class Blocks as values
 :param file: A string or pathlib.Path like path to a <code>.bin</code>file generated by CFRS - Logger
@@ -730,31 +743,6 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="export_bin_meta" class="doc_header"><code>export_bin_meta</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/parser.py#L170" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>export_bin_meta</code>(<strong><code>map_block</code></strong>:<code>Mapping</code>[<code>int</code>, <code>L</code>])</p>
-</blockquote>
-<p>Receives a Mapping with the different <code>. bin</code> Blocks and extracts the metadata listed in <a href="/rfpy/parser.html#META"><code>META</code></a> in a dataframe format</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
@@ -1047,32 +1035,6 @@ memory usage: 226.1 KB
 </div>
 </div>
 </div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="export_bin_level" class="doc_header"><code>export_bin_level</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/parser.py#L147" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>export_bin_level</code>(<strong><code>map_block</code></strong>:<code>Mapping</code>[<code>int</code>, <code>L</code>], <strong><code>pivoted</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>freq_dtype</code></strong>:<code>str</code>=<em><code>'float32'</code></em>)</p>
-</blockquote>
-<p>Receives a mapping <code>map_block</code> and returns the Matrix with the Levels as values, Frequencies as columns and Block Number as index.
-:param pivoted: If False, optionally returns an unpivoted version of the Matrix</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">

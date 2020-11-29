@@ -1,5 +1,5 @@
-# RFPY - Extração otimizada dos dados de arquivos `.bin` provenientes do script Logger executados nas estações de Monitoramento CRFS RFeye Node.
-> Este módulo tem como objetivo o processamento e extração otimizada de dados dos arquivos `.bin` de monitoramento do espectro. Para talt utilizamos as várias funcionalidades da biblioteca <a href='https://fastcore.fast.ai/basics.html'>fastcore</a>, que expande e otimiza as estruturas de dados da linguagem python. 
+# RFPY
+> Este módulo tem como objetivo o processamento e extração otimizada de dados dos arquivos `.bin` de monitoramento do espectro provenientes do script Logger executados nas estações de Monitoramento CRFS RFeye Node. Para tal utilizamos as várias funcionalidades da biblioteca <a href='https://fastcore.fast.ai/basics.html'>fastcore</a>, que expande e otimiza as estruturas de dados da linguagem python. 
 
 
 ## Instalação
@@ -22,6 +22,10 @@ saida = Path(r'C:\Users\rsilva\Downloads\saida')
 
 No módulo `parser.py`, há funções auxiliares para lidar com os arquivos `.bin`, pastas e para processar tais arquivos em formatos úteis. Nesse caso utilizaremos a função `get_files` que busca de maneira recursiva arquivos de dada extensão, inclusive links simbólicos se existirem
 O caráter recursivo e a busca em links, `recurse` e `followlinks` simbólicos pode ser desativados por meio dos parâmetros e opcionalmente pode ser varrido somente o conjunto de pastas indicado em `folders` 
+
+```python
+#show_doc(get_files)
+```
 
 
 <h4 id="get_files" class="doc_header"><code>get_files</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/parser.py#L64" class="source_link" style="float:right">[source]</a></h4>
@@ -72,6 +76,10 @@ bin_file = arquivos_bin[0] ; bin_file.name
 
 ## Processamento dos blocos
 A função seguinte `file2block` recebe um arquivo `.bin` e mapeia os blocos contidos nele retornando um dicionário que tem como chave o tipo de bloco e os valores como uma lista com os blocos extraídos sequencialmente.
+
+```python
+#show_doc(file2block)
+```
 
 
 <h4 id="file2block" class="doc_header"><code>file2block</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/parser.py#L113" class="source_link" style="float:right">[source]</a></h4>
@@ -248,15 +256,6 @@ len(bloco)
 Esse é o mesmo valor do atributo `data_points`
 
 A função seguinte extrai os metadados `META` definidos no cabeçalho do arquivo `parser.py` e retorna um DataFrame.
-
-
-<h4 id="export_bin_meta" class="doc_header"><code>export_bin_meta</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/parser.py#L179" class="source_link" style="float:right">[source]</a></h4>
-
-> <code>export_bin_meta</code>(**`map_block`**:`Mapping`\[`int`, `L`\])
-
-Receives a Mapping with the different `. bin` Blocks and extracts the metadata listed in [`META`](/rfpy/parser.html#META) in a dataframe format
-    
-
 
 ```python
 %%time
@@ -490,15 +489,6 @@ A função seguinte extrai as frequências e nível num formato de Tabela Dinâmica:
 * Colunas: Frequências (MHz)
 * Índice: Números de Bloco
 * Valores: Níveis (dBm ou dBuV/m)
-
-
-<h4 id="export_bin_level" class="doc_header"><code>export_bin_level</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/parser.py#L156" class="source_link" style="float:right">[source]</a></h4>
-
-> <code>export_bin_level</code>(**`map_block`**:`Mapping`\[`int`, `L`\], **`pivoted`**:`bool`=*`True`*, **`freq_dtype`**:`str`=*`'float32'`*)
-
-Receives a mapping `map_block` and returns the Matrix with the Levels as values, Frequencies as columns and Block Number as index.
-:param pivoted: If False, optionally returns an unpivoted version of the Matrix
-
 
 ```python
 %%time
