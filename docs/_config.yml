@@ -2,7 +2,8 @@ repository: ronaldokun/rfpy
 output: web
 topnav_title: rfpy
 site_title: rfpy
-company_name: Ronaldo Batista, Arthur Pisaruki
+company_name: Ronaldo Batista
+encoding: utf-8
 description: Binary Files Parser resulting from the script Logger from CFRS - Rfeye Node Equipament
 # Set to false to disable KaTeX math
 use_math: true
