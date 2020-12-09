@@ -1,3 +1,4 @@
+
 # RFPY
 > Este módulo tem como objetivo o processamento e extração otimizada de dados dos arquivos `.bin` de monitoramento do espectro provenientes do script Logger executados nas estações de Monitoramento CRFS RFeye Node. Para tal utilizamos as várias funcionalidades da biblioteca <a href='https://fastcore.fast.ai/basics.html'>fastcore</a>, que expande e otimiza as estruturas de dados da linguagem python. 
 
@@ -12,7 +13,7 @@ Precisamos necessariamente de um diretório de entrada, contendo um ou mais arqui
 {% include note.html content='Mude os caminhos abaixo para suas pastas locais caso for executar o exemplo.' %}
 Ao utilizar o script `process_bin`, as pastas `entrada` e `saída` esses serão repassadas como parâmetros na linha de comando.
 
-```
+```python
 VERBOSE = True
 entrada = Path(r'D:\OneDrive - ANATEL\Backup_Rfeye_SP\RPO\PMEC2020\Ribeirao_Preto_SP\SLMA')
 saida = Path(r'C:\Users\rsilva\Downloads\saida')
@@ -23,19 +24,11 @@ saida = Path(r'C:\Users\rsilva\Downloads\saida')
 No módulo `parser.py`, há funções auxiliares para lidar com os arquivos `.bin`, pastas e para processar tais arquivos em formatos úteis. Nesse caso utilizaremos a função `get_files` que busca de maneira recursiva arquivos de dada extensão, inclusive links simbólicos se existirem
 O caráter recursivo e a busca em links, `recurse` e `followlinks` simbólicos pode ser desativados por meio dos parâmetros e opcionalmente pode ser varrido somente o conjunto de pastas indicado em `folders` 
 
-```
+```python
 #show_doc(get_files)
 ```
 
-
-<h4 id="get_files" class="doc_header"><code>get_files</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/parser.py#L64" class="source_link" style="float:right">[source]</a></h4>
-
-> <code>get_files</code>(**`path`**, **`extensions`**=*`None`*, **`recurse`**=*`True`*, **`folders`**=*`None`*, **`followlinks`**=*`True`*)
-
-Get all the files in `path` with optional `extensions`, optionally with `recurse`, only in `folders`, if specified.
-
-
-```
+```python
 arquivos = get_files(entrada, extensions=['.bin']) ; arquivos
 ```
 
@@ -50,7 +43,7 @@ arquivos = get_files(entrada, extensions=['.bin']) ; arquivos
 
 Temos 255 arquivos bin na pasta entrada. Podemos filtrar por pasta também
 
-```
+```python
 arquivos_bin = get_files(entrada, extensions=['.bin'], folders='tmp') ; arquivos_bin
 ```
 
@@ -63,7 +56,7 @@ arquivos_bin = get_files(entrada, extensions=['.bin'], folders='tmp') ; arquivos
 
 Nesse caso dentro da pasta 'tmp' há somente 1 arquivo `.bin`
 
-```
+```python
 bin_file = arquivos_bin[0] ; bin_file.name
 ```
 
@@ -77,12 +70,8 @@ bin_file = arquivos_bin[0] ; bin_file.name
 ## Processamento dos blocos
 A função seguinte `file2block` recebe um arquivo `.bin` e mapeia os blocos contidos nele retornando um dicionário que tem como chave o tipo de bloco e os valores como uma lista com os blocos extraídos sequencialmente.
 
-```
-#show_doc(file2block)
-```
 
-
-<h4 id="file2block" class="doc_header"><code>file2block</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/parser.py#L113" class="source_link" style="float:right">[source]</a></h4>
+<h4 id="file2block" class="doc_header"><code>file2block</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/parser.py#L101" class="source_link" style="float:right">[source]</a></h4>
 
 > <code>file2block</code>(**`file`**:`Union`\[`str`, `Path`\])
 
@@ -91,11 +80,15 @@ Receives a path to a bin file and returns a defaultdict with unique block types 
 :return: A Dictionary with block types as keys and a list of the Class Blocks available as values
 
 
-```
+```python
+%%time
 block = file2block(bin_file)
 ```
 
-```
+    Wall time: 575 ms
+    
+
+```python
 block.keys()
 ```
 
@@ -108,24 +101,35 @@ block.keys()
 
 Exceto o primeiro bloco, que é simplesmente ignorado, os demais blocos são conhecidos e tratados individualmente.
 
-```
+```python
 block[63]
 ```
 
 
 
 
-    (#6605) [<rfpy.blocks.DType63 object at 0x000002B54F47F940>,<rfpy.blocks.DType63 object at 0x000002B54F47FAC0>,<rfpy.blocks.DType63 object at 0x000002B54F47FBE0>,<rfpy.blocks.DType63 object at 0x000002B54F47FD00>,<rfpy.blocks.DType63 object at 0x000002B54F47FE20>,<rfpy.blocks.DType63 object at 0x000002B54F47FF40>,<rfpy.blocks.DType63 object at 0x000002B5482300A0>,<rfpy.blocks.DType63 object at 0x000002B5482301C0>,<rfpy.blocks.DType63 object at 0x000002B5482302E0>,<rfpy.blocks.DType63 object at 0x000002B548230400>...]
+    (#6605) [<rfpy.blocks.DType63 object at 0x0000014580665670>,<rfpy.blocks.DType63 object at 0x00000145806657F0>,<rfpy.blocks.DType63 object at 0x0000014580665910>,<rfpy.blocks.DType63 object at 0x0000014580665A30>,<rfpy.blocks.DType63 object at 0x0000014580665B50>,<rfpy.blocks.DType63 object at 0x0000014580665C70>,<rfpy.blocks.DType63 object at 0x0000014580665D90>,<rfpy.blocks.DType63 object at 0x0000014580665EB0>,<rfpy.blocks.DType63 object at 0x0000014580665FD0>,<rfpy.blocks.DType63 object at 0x00000145803E7130>...]
+
+
+
+```python
+block[40]
+```
+
+
+
+
+    (#6605) [<rfpy.blocks.DType40 object at 0x00000145806655B0>,<rfpy.blocks.DType40 object at 0x0000014580665790>,<rfpy.blocks.DType40 object at 0x00000145806658B0>,<rfpy.blocks.DType40 object at 0x00000145806659D0>,<rfpy.blocks.DType40 object at 0x0000014580665AF0>,<rfpy.blocks.DType40 object at 0x0000014580665C10>,<rfpy.blocks.DType40 object at 0x0000014580665D30>,<rfpy.blocks.DType40 object at 0x0000014580665E50>,<rfpy.blocks.DType40 object at 0x0000014580665F70>,<rfpy.blocks.DType40 object at 0x00000145803E70D0>...]
 
 
 
 Temos nesse arquivo 6605 blocos do tipo 63 - Bloco contendo dados de espectro.
 
-```
+```python
 bloco = block[63][0]
 ```
 
-```
+```python
 pprint([d for d in dir(bloco) if not d.startswith('_')])
 ```
 
@@ -172,7 +176,7 @@ pprint([d for d in dir(bloco) if not d.startswith('_')])
 
 Esses são os atributos do Bloco de Espectro acima do tipo 63. Todos podem ser acessados por meio da notação `.`
 
-```
+```python
 bloco.data_points
 ```
 
@@ -183,7 +187,7 @@ bloco.data_points
 
 
 
-```
+```python
 bloco.start_mega
 ```
 
@@ -194,7 +198,7 @@ bloco.start_mega
 
 
 
-```
+```python
 bloco.stop_mega
 ```
 
@@ -205,7 +209,7 @@ bloco.stop_mega
 
 
 
-```
+```python
 bloco.level_offset
 ```
 
@@ -218,20 +222,9 @@ bloco.level_offset
 
 O bloco se comporta como um objeto python do tipo lista. 
 
-```
-bloco[0], bloco[-1]
-```
-
-
-
-
-    ((108.0, -75.0), (137.0, -96.5))
-
-
-
 Podemos selecionar items da lista, é retornado uma tupla com a frequência em `MHz` e o nível medido em `dBm / dBuV/m` 
 
-```
+```python
 for freq, nível in bloco:
     print(freq, nível)
     break
@@ -242,7 +235,7 @@ for freq, nível in bloco:
 
 Podemos iterar as medidas num loop
 
-```
+```python
 len(bloco)
 ```
 
@@ -255,15 +248,16 @@ len(bloco)
 
 Esse é o mesmo valor do atributo `data_points`
 
+## Metadados
 A função seguinte extrai os metadados `META` definidos no cabeçalho do arquivo `parser.py` e retorna um DataFrame.
 
-```
+```python
 %%time
 meta = export_bin_meta(block)
 meta.tail(10)
 ```
 
-    Wall time: 585 ms
+    Wall time: 640 ms
     
 
 
@@ -458,7 +452,7 @@ meta.tail(10)
 
 
 
-```
+```python
 meta.info()
 ```
 
@@ -485,17 +479,33 @@ meta.info()
 
 Os metadados de um arquivo `.bin` de cerca de `100MB` ocupa somente `226KB`
 
+```python
+meta.to_feather(saida / 'file_a.fth')
+```
+
+## Frequência e Nível
 A função seguinte extrai as frequências e nível num formato de Tabela Dinâmica:
 * Colunas: Frequências (MHz)
 * Índice: Números de Bloco
 * Valores: Níveis (dBm ou dBuV/m)
 
+```python
+block[24].attrgot('thread_id')
 ```
+
+
+
+
+    (#8) [1,5,5,5,5,5,5,20]
+
+
+
+```python
 %%time
 levels = export_bin_level(block) ; levels.head()
 ```
 
-    Wall time: 7.37 s
+    Wall time: 9.71 s
     
 
 
@@ -670,7 +680,7 @@ levels = export_bin_level(block) ; levels.head()
 
 
 
-```
+```python
 levels.info()
 ```
 
@@ -683,14 +693,20 @@ levels.info()
 
 Essa matriz com mais de 98 milhões de valores ocupa somente `187.1MB` de memória
 
-Caso o parâmetro `pivoted = False` é retornada a versão tabular empilhada. No entanto o processamento é muito mais lento tendo em vista a redundância de dados que é adicionada.
+Caso o parâmetro `pivoted = False` é retornada a versão tabular empilhada. No entanto o processamento é mais lento tendo em vista a redundância de dados que é adicionada.
 
+Os tipos de dados a seguir são os automaticamente retornados pelo `numpy` / `pandas` no momento de criação da matriz
+
+```python
+dtypes = {'Block_Number': 'int32', 'Frequency(MHz)': 'float64', 'Nivel(dBm)': 'float64'}
 ```
+
+```python
 %%time
-levels = export_bin_level(block, pivoted=False) ; levels.head()
+levels = export_bin_level(block, pivoted=False, dtypes=dtypes) ; levels.head()
 ```
 
-    Wall time: 14.4 s
+    Wall time: 13.7 s
     
 
 
@@ -722,31 +738,31 @@ levels = export_bin_level(block, pivoted=False) ; levels.head()
   <tbody>
     <tr>
       <th>0</th>
-      <td>0.0</td>
+      <td>0</td>
       <td>108.000000</td>
       <td>-75.0</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>0.0</td>
+      <td>0</td>
       <td>108.001953</td>
       <td>-75.5</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>0.0</td>
+      <td>0</td>
       <td>108.003907</td>
       <td>-76.5</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>0.0</td>
+      <td>0</td>
       <td>108.005860</td>
       <td>-77.0</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>0.0</td>
+      <td>0</td>
       <td>108.007813</td>
       <td>-77.5</td>
     </tr>
@@ -756,27 +772,37 @@ levels = export_bin_level(block, pivoted=False) ; levels.head()
 
 
 
-```
+```python
 levels.info()
 ```
 
     <class 'pandas.core.frame.DataFrame'>
     RangeIndex: 98071040 entries, 0 to 98071039
     Data columns (total 3 columns):
-     #   Column          Dtype   
-    ---  ------          -----   
-     0   Block_Number    category
-     1   Frequency(MHz)  category
-     2   Nivel(dBm)      float16 
-    dtypes: category(2), float16(1)
-    memory usage: 562.6 MB
+     #   Column          Dtype  
+    ---  ------          -----  
+     0   Block_Number    int32  
+     1   Frequency(MHz)  float64
+     2   Nivel(dBm)      float64
+    dtypes: float64(2), int32(1)
+    memory usage: 1.8 GB
     
 
-Como não vamos fazer cálculos com essa matriz, somente extração e armazenamento, podemos manipular e salvar os valores como o tipo `category` do pandas. que ocupa o mesmo que um `int16` nesse caso.
+Esse formato de dados é extremamente redundante, repete-se o conjunto de blocos e frequências a cada bloco existente, por isso ocupa `1.8GB` de memória.
 
+O número de bloco pode ser perfeitamente armazenado como um `int16`, a frequência como um `float32` e os níveis, dado termos somente 1 casa decimal, podem ser armazenados como `float16`
+
+```python
+dtypes = {'Block_Number': 'int16', 'Frequency(MHz)': 'float32', 'Nivel(dBm)': 'float32'}
 ```
-levels.tail()
+
+```python
+%%time
+levels = export_bin_level(block, pivoted=False, dtypes=dtypes) ; levels.head()
 ```
+
+    Wall time: 13.9 s
+    
 
 
 
@@ -806,34 +832,34 @@ levels.tail()
   </thead>
   <tbody>
     <tr>
-      <th>98071035</th>
-      <td>14847.0</td>
-      <td>136.992187</td>
-      <td>-94.0</td>
+      <th>0</th>
+      <td>0</td>
+      <td>108.000000</td>
+      <td>-75.0</td>
     </tr>
     <tr>
-      <th>98071036</th>
-      <td>14847.0</td>
-      <td>136.994140</td>
-      <td>-98.5</td>
+      <th>1</th>
+      <td>0</td>
+      <td>108.001953</td>
+      <td>-75.5</td>
     </tr>
     <tr>
-      <th>98071037</th>
-      <td>14847.0</td>
-      <td>136.996093</td>
-      <td>-98.5</td>
+      <th>2</th>
+      <td>0</td>
+      <td>108.003906</td>
+      <td>-76.5</td>
     </tr>
     <tr>
-      <th>98071038</th>
-      <td>14847.0</td>
-      <td>136.998047</td>
-      <td>-99.0</td>
+      <th>3</th>
+      <td>0</td>
+      <td>108.005859</td>
+      <td>-77.0</td>
     </tr>
     <tr>
-      <th>98071039</th>
-      <td>14847.0</td>
-      <td>137.000000</td>
-      <td>-98.5</td>
+      <th>4</th>
+      <td>0</td>
+      <td>108.007812</td>
+      <td>-77.5</td>
     </tr>
   </tbody>
 </table>
@@ -841,10 +867,123 @@ levels.tail()
 
 
 
+```python
+levels.info()
 ```
+
+    <class 'pandas.core.frame.DataFrame'>
+    RangeIndex: 98071040 entries, 0 to 98071039
+    Data columns (total 3 columns):
+     #   Column          Dtype  
+    ---  ------          -----  
+     0   Block_Number    int16  
+     1   Frequency(MHz)  float32
+     2   Nivel(dBm)      float16
+    dtypes: float16(1), float32(1), int16(1)
+    memory usage: 748.2 MB
+    
+
+Reduzimos de `1.8GB` para `748.2MB` sem perda de informação.
+
+No entanto, como não vamos fazer cálculos com essa matriz, somente extraí-la e armazená-la no momento, podemos manipular e salvar os valores em `float32` como `category` do pandas que ocupa o mesmo espaço próximo de um `int16` nesse caso, isso irá economizar bastante espaço tendo em vista o número fixo de frequências.
+
+```python
+dtypes = {'Block_Number': 'int16', 'Frequency(MHz)': 'category', 'Nivel(dBm)': 'float16'}
+```
+
+```python
+%%time
+levels = export_bin_level(block, pivoted=False, dtypes=dtypes) ; levels.head()
+```
+
+    Wall time: 18.1 s
+    
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Block_Number</th>
+      <th>Frequency(MHz)</th>
+      <th>Nivel(dBm)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>108.000000</td>
+      <td>-75.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>108.001953</td>
+      <td>-75.5</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>108.003907</td>
+      <td>-76.5</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>108.005860</td>
+      <td>-77.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>108.007813</td>
+      <td>-77.5</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+```python
+levels.info()
+```
+
+    <class 'pandas.core.frame.DataFrame'>
+    RangeIndex: 98071040 entries, 0 to 98071039
+    Data columns (total 3 columns):
+     #   Column          Dtype   
+    ---  ------          -----   
+     0   Block_Number    int16   
+     1   Frequency(MHz)  category
+     2   Nivel(dBm)      float16 
+    dtypes: category(1), float16(1), int16(1)
+    memory usage: 561.9 MB
+    
+
+Reduzimos assim de `1.8GB` para `561.9MB` sem perda de informação nos dados. Qualquer redução adicional implica numa transformação dos dados ou perda de precisão.
+
+```python
 %%time
 levels.to_feather(saida / 'file_b.fth')
 ```
 
-    Wall time: 970 ms
+    Wall time: 1.11 s
     
