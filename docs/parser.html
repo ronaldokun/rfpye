@@ -186,7 +186,7 @@ nb_path: "01_parser.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="extract_block_levels" class="doc_header"><code>extract_block_levels</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/parser.py#L100" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>extract_block_levels</code>(<strong><code>spectrum_blocks</code></strong>:<code>Mapping</code>[<code>int</code>, <code>L</code>], <strong><code>pivoted</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>dtypes</code></strong>:<code>Mapping</code>[<code>str</code>, <code>str</code>]=<em><code>None</code></em>)</p>
+<h4 id="extract_block_levels" class="doc_header"><code>extract_block_levels</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/parser.py#L102" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>extract_block_levels</code>(<strong><code>spectrum_blocks</code></strong>:<code>Mapping</code>[<code>int</code>, <code>L</code>], <strong><code>pivoted</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>dtypes</code></strong>:<code>Mapping</code>[<code>str</code>, <code>str</code>]=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Receives a mapping <code>spectrum_blocks</code> and returns the Matrix with the Levels as values, Frequencies as columns and Block Number as index.
 :param pivoted: If False, optionally returns an unpivoted version of the Matrix</p>
@@ -219,7 +219,7 @@ nb_path: "01_parser.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="export_bin_meta" class="doc_header"><code>export_bin_meta</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/parser.py#L125" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>export_bin_meta</code>(<strong><code>map_blocks</code></strong>:<code>Mapping</code>[<code>int</code>, <code>L</code>])</p>
+<h4 id="export_bin_meta" class="doc_header"><code>export_bin_meta</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/parser.py#L127" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>export_bin_meta</code>(<strong><code>map_blocks</code></strong>:<code>Mapping</code>[<code>int</code>, <code>L</code>])</p>
 </blockquote>
 <p>Receives a Mapping with the different <code>. bin</code> Blocks and extracts the metadata from them excluding spectral data.</p>
 

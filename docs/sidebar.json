@@ -4,6 +4,7 @@
     "rfpy - CFRS Rfeye Node Logger binaries parser": "main.html",
     "Parser": "parser.html",
     "Utils": "utils.html",
-    "Blocks": "blocks.html"
+    "Blocks": "blocks.html",
+    "Title": "constants.html"
   }
 }
