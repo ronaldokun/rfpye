@@ -90,6 +90,8 @@ def classify_blocks(blocks: L)->Mapping[int,L]:
     map_block = defaultdict(L)
     for bloco in blocks.map(create_base_block):
         btype, btid = bloco.type, bloco.thread_id
+        if btype == btid == 0:
+            continue
         map_block[(btype, btid)].append(block_constructor(btype, bloco))
     return map_block
 

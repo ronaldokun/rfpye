@@ -11,13 +11,10 @@ from fastcore.foundation import L
 
 # Cell
 def bin2dec(binary_data: bytes, is_signed: bool = True) -> int:
-    """
-    bytes, bool > int
+    """Convert bytes number to int
     :param binary_data: valor de int comprimido
     :param is_signed: indica se é um valor negativo ou não
-    :return: valor traduzido
-
-    Conversor binario para int.
+    :return: decoded int
     """
     return int.from_bytes(binary_data, byteorder='little', signed=is_signed)
 

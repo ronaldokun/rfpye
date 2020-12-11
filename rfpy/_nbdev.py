@@ -29,11 +29,6 @@ index = {"process_bin": "00_main.ipynb",
          "create_base_block": "03_blocks.ipynb",
          "public_attrs": "03_blocks.ipynb",
          "getattrs": "03_blocks.ipynb",
-         "BASEBLOCK": "03_blocks.ipynb",
-         "EXCLUDE_ATTRS": "03_blocks.ipynb",
-         "DICT_PROCESSING": "03_blocks.ipynb",
-         "DICT_UNIT": "03_blocks.ipynb",
-         "TUNING_BLOCK": "03_blocks.ipynb",
          "BaseBlock": "03_blocks.ipynb",
          "TimedBlock": "03_blocks.ipynb",
          "DType21": "03_blocks.ipynb",
@@ -43,12 +38,22 @@ index = {"process_bin": "00_main.ipynb",
          "DType63": "03_blocks.ipynb",
          "DType65": "03_blocks.ipynb",
          "block_constructor": "03_blocks.ipynb",
-         "TYPE_CLASS": "03_blocks.ipynb"}
+         "TYPE_CLASS": "03_blocks.ipynb",
+         "BASEBLOCK": "04_constants.ipynb",
+         "EXCLUDE_ATTRS": "04_constants.ipynb",
+         "DICT_PROCESSING": "04_constants.ipynb",
+         "DICT_UNIT": "04_constants.ipynb",
+         "TUNING_BLOCK": "04_constants.ipynb",
+         "BYTES_TIMED": "04_constants.ipynb",
+         "BYTES_63": "04_constants.ipynb",
+         "BYTES_64": "04_constants.ipynb",
+         "BYTES_65": "04_constants.ipynb"}
 
 modules = ["main.py",
            "parser.py",
            "utils.py",
-           "blocks.py"]
+           "blocks.py",
+           "constants.py"]
 
 doc_url = "https://ronaldokun.github.io/rfpy/"
 
