@@ -45,6 +45,7 @@ index = {"process_bin": "00_main.ipynb",
          "DICT_UNIT": "04_constants.ipynb",
          "TUNING_BLOCK": "04_constants.ipynb",
          "BYTES_TIMED": "04_constants.ipynb",
+         "BYTES_21": "04_constants.ipynb",
          "BYTES_63": "04_constants.ipynb",
          "BYTES_64": "04_constants.ipynb",
          "BYTES_65": "04_constants.ipynb"}

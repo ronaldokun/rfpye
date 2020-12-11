@@ -97,32 +97,32 @@ class DType21(GetAttr):
         self.default = block
 
     @property
-    def _get_text1_len(self) -> int:
-        """Retorna o tamanho do campo TEXT1 que contém o ‘unit_info’ no arquivo cfg."""
-        return bin2dec(self.data[16:20])
-
-    @property
-    def _get_text2_len(self) -> int:
-        """Retorna o tamanho do campo TEXT2 que contém o ‘unit_info’ no arquivo cfg."""
-        inicio = 20 + self._get_text1_len
-        final = 4 + inicio
-        return bin2dec(self.data[inicio:final])
-
-    @property
     def hostname(self) -> str:
         """Retorna o campo HOSTNAME que contém o 'Unit Hostname'"""
-        return bin2str(self.data[:16])
+        return bin2str(self.data[BYTES_21[0]])
+
+    @property
+    def _get_text1_len(self) -> int:
+        """Retorna o tamanho do campo TEXT1 que contém o ‘unit_info’ no arquivo cfg."""
+        return bin2dec(self.data[BYTES_21[1]])
 
     @property
     def unit_info(self) -> str:
         """Retorna o campo TEXT1 que contém o ‘unit_info’ no arquivo cfg."""
-        fim = 20 + self._get_text1_len
+        fim = BYTES_21[1].stop + self._get_text1_len
         return bin2str(self.data[16:fim])
+
+    @property
+    def _get_text2_len(self) -> int:
+        """Retorna o tamanho do campo TEXT2 que contém o ‘unit_info’ no arquivo cfg."""
+        inicio = BYTES_21[1].stop + self._get_text1_len
+        final = 4 + inicio
+        return bin2dec(self.data[inicio:final])
 
     @property
     def method(self) -> str:
         """Retorna o campo TEXT2 que contém o ‘method’ no arquivo cfg."""
-        inicio = 24 + self._get_text1_len
+        inicio = BYTES_21[1].stop + self._get_text1_len + 4
         fim = inicio + self._get_text2_len
         return bin2str(self.data[inicio:fim])
 
@@ -356,12 +356,12 @@ class DType63(GetAttr):
     def global_error_code(self) -> int:
         """F15 = (1 byte) GERROR = Global Error Code. Radio or processing global error code
 """
-        return binascii.hexlify(bytearray(self.data[BYTES_63[15]]))
+        return bin2dec(self.data[BYTES_63[15]])
 
     @property
     def global_flags_code(self) -> int:
         """F16 - Códigos de alertas globais ou de processamento do radio."""
-        return bin2dec(self.data[BYTES_63[16]], False)
+        return bin2dec(self.data[BYTES_63[16]])
 
     @property
     def group_id(self) -> int:
