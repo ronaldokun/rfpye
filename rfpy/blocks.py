@@ -60,17 +60,17 @@ class TimedNonSpectral(GetAttr):
     @property
     def _date(self) -> Tuple:
         """F0 = (4 bytes) WALLDATE = Wall Clock Start Date of measurements"""
-        return bin2date(self.data[BYTES_40[0]])
+        return bin2date(self.data[BYTES_TIMED_NE[0]])
 
     @property
     def _time(self) -> Tuple:
         """F1 = (4 bytes) WALLTIME = Wall Clock Start Time"""
-        return bin2time(self.data[BYTES_40[1]])
+        return bin2time(self.data[BYTES_TIMED_NE[1]])
 
     @property
     def _nanosecs(self) -> Tuple:
         """F2 = (4u bytes) WALLNANO = Wall Clock Start Time Nanoseconds"""
-        return bin2dec(self.data[BYTES_40[2]], False)
+        return bin2dec(self.data[BYTES_TIMED_NE[2]], False)
 
     @property
     def wallclock_datetime(self)->datetime:
@@ -468,27 +468,27 @@ class DType63(GetAttr):
     @property
     def group_id(self) -> int:
         """F17 - O ID do grupo à qual a medida pertence.0 caso não pertença a nenhum grupo."""
-        return bin2dec(self.data[42:43])
+        return bin2dec(self.data[BYTES_63[17]])
 
     @property
     def n_tunning(self) -> int:
         """F18 - 0 ou igual à quantidade de valores de AGC usados na amostra"""
-        return bin2dec(self.data[43:45])
+        return bin2dec(self.data[BYTES_63[18]])
 
     @property
     def n_agc(self) -> int:
         """F19 - 0 ou igual à quantidade de valores de "tunings" usados na amostra"""
-        return bin2dec(self.data[45:47])
+        return bin2dec(self.data[BYTES_63[19]])
 
     @property
     def n_padding(self) -> int:
         """F20 - Valor que varia de 0 a 3 indicando o preenchimento nulo para manter o tamanho do bloco (em bytes) fixo"""
-        return bin2dec(self.data[39:40])
+        return bin2dec(self.data[BYTES_63[20]])
 
     @property
     def data_points(self) -> int:
         """F21 - O número de canais (ou "steps") que dividem igualmente a largura de banda"""
-        return bin2dec(self.data[48:52])
+        return bin2dec(self.data[BYTES_63[21]])
 
     @property
     def bw(self)-> int:
@@ -510,29 +510,29 @@ class DType63(GetAttr):
         return int(self.passo * 1000000)
 
     @property
-    def tunning_info(self) -> str:
+    def tunning_blocks(self) -> str:
         """F22 - Informações do 'tunning'. One Block per tunning(1 or 10MHz)"""
-        start = 52  # inicia aqui
+        start = BYTES_63[21].stop
         stop = start + (4 * self.n_tunning)
-        #tunning = {f'{bin2dec(self.data[i:i+2])}MHz':TUNING_BLOCK.get(self.data[i+3], 0) for i in range(start, stop, 4)}
-        flags = {TUNING_BLOCK.get(self.data[i+3], 0) for i in range(start, stop, 4)}
-        if len(flags) == 1:
-            return flags.pop()
-        return flags
+        return {f'{bin2dec(self.data[i:i+2])}MHz':TUNING_BLOCK.get(self.data[i+3], 0) for i in range(start, stop, 4)}
+#         flags = {TUNING_BLOCK.get(self.data[i+3], 0) for i in range(start, stop, 4)}
+#         if len(flags) == 1:
+#             return flags.pop()
+#        return tunning
 
     @property
     def agc_array(self) -> str:
         """F23 - Array com AGC - Automatic Gain Control as dB in single unsigned byte: 0...63"""
-        start = 52+(self.n_tunning * 4)
-        stop = start+(self.n_agc)
-        #return np.fromiter(self.data[start:stop], np.uint8)
-        return '-'.join(L(self.data[start:stop]).map(str))
+        start = BYTES_63[21].stop + (self.n_tunning * 4)
+        stop = start + self.n_agc
+        return np.fromiter(self.data[start:stop], np.uint8)
+        #return '-'.join(L(self.data[start:stop]).map(str))
 
     @property
     def block_data(self) -> np.array:
         """Spectrum Data in 'dB' with 0.5 dBm interval"""
-        start = 52+(self.n_tunning * 4) + self.n_agc
-        stop = start+(self.data_points)
+        start = BYTES_63[21].stop + self.n_tunning * 4 + self.n_agc
+        stop = start + (self.data_points)
         return np.fromiter(self.data[start:stop], dtype=np.float16) / 2 + self.level_offset - 127.5
 
     def __getitem__(self, i):
@@ -593,162 +593,64 @@ class DType65(GetAttr):
 
     @property
     def num_meas(self) -> int:
+        """F9 = (4 bytes) NAMAL = Amalgamated Results
+           i.e. ‘number of loops’. Equal to 1 if single measurement.
         """
-        self > int
-        :return: O número de resultados agrupados. Se for 1 equivale a uma única medida.
-
-        Overrides method in TimedBlock.
-
-        F9 = (4 bytes) NAMAL = Amalgamated Results
-                    i.e. ‘number of loops’. Equal to 1 if single measurement.
-        """
-        return bin2dec(self.data[28:32])
+        return bin2dec(self.data[BYTES_65[9]])
 
     @property
     def antenna(self) -> int:
-        """
-        self > int
-        :return: o ID da antena usada na medida.
-
-        Overrides method in TimedBlock.
-
-        F10 = (1u bytes) ANTUID Antenna number [ 0- 255]
-        """
-        return bin2dec(self.data[32:33], False)
+        """F10 = (1u bytes) ANTUID Antenna number [ 0- 255]"""
+        return bin2dec(self.data[BYTES_65[10]], False)
 
     @property
     def processing(self) -> Union[str, int]:
-        """
-        self > (int, str)
-        :return: O código e a descrição do tipo de processamento aplicado à medida.
-
-        Overrides method in TimedBlock.
-
-        F11 = (1 byte) PROC = Processing
-                    0 = single measurement,
-                    1 = average,
-                    2 = peak,
-                    3 = minimum
-
-        Data Type 65, Field 11
-        Data Type 63, Field 12
-        """
-        proc = bin2dec(self.data[33:34])
+        """F11 = (1 byte) PROC = Processing, 0 = single measurement, 1 = average, 2 = peak, 3 = minimum"""
+        proc = bin2dec(self.data[BYTES_65[11]])
         return DICT_PROCESSING.get(proc, proc)
 
     @property
     def unit(self) -> Union[str, int]:
-        """
-        self > str or int
-        :return: A unidade de medida.
-                Retorna um número inteiro se a unidade não foi documentada.
-
-        Overrides method in TimedBlock.
-
-        todo: Não está funcionando, todos os dados retornam o valor 0!
-
-        F12 = (1 byte) DTYPE = Data Type
-            0 = % (não documentado)
-            1 = dBm
-            2 = dBuV/m
-        """
-        unit = bin2dec(self.data[34:36])
+        """F12 = (1 byte) DTYPE = Data Type. 0 = % (undocumented), 1 = dBm, 2 = dBuV/m"""
+        unit = bin2dec(self.data[BYTES_65[12]])
         return DICT_UNIT.get(unit, unit)
 
     @property
     def global_error_code(self) -> int:
-        """
-        self > int
-        :return: O código de erro global.
-
-        Overrides method in TimedBlock.
-
-        F13 = (1 byte) GERROR = Global Error Code.
-                    Radio or processing global error code
-
-        The radio error codes and flags can be provided on request.
-        """
-        return bin2dec(self.data[36:37])
+        """ F13 = (1 byte) GERROR = Global Error Code.Radio or processing global error code"""
+        return bin2dec(self.data[BYTES_65[13]])
 
     @property
     def global_flags_code(self) -> int:
-        """
-        self > int
-        :return: Códigos de alertas globais ou de processamento do radio.
-
-        Overrides method in TimedBlock.
-
-        F14 = (1 byte) GFLAGS = Global clipping flags etc.
-                    Radio or processing global flags.
-
-        The radio error codes and flags can be provided on request.
-        """
-        return bin2dec(self.data[37:38])
+        """F14 = (1 byte) GFLAGS = Global clipping flags etc.Radio or processing global flags."""
+        return bin2dec(self.data[BYTES_65[14]])
 
     @property
     def group_id(self) -> int:
-        """
-        self > int
-        :return: O ID do grupo à qual a medida pertence.
-                 Caso 0 não pertence a nenhum grupo.
-                 Use a classe 'DataType24' para detalhes do grupo.
-
-        Overrides method in TimedBlock.
-
-        F15 = (1 bytes) GROUPID = ID used to group sets of data
-                    0 = not a member of a group
-        """
-        return bin2dec(self.data[38:39])
+        """F15 = (1 bytes) GROUPID = ID used to group sets of data. 0 = not a member of a group"""
+        return bin2dec(self.data[BYTES_65[15]])
 
     @property
     def len_padding(self) -> int:
-        """
-        self > int
-        :return: Valor que varia de 0 a 3 indicando o preenchimento nulo para manter o tamanho do bloco (em bytes) fixo.
-
-        Overrides method in TimedBlock.
-
-        A extração do NPAD (quantidade) tem pouca utilidade prática.
-        A extração do Padding (valor) não tem utilidade prática.
-
-        F16 = (1 byte) NPAD = Number of bytes of padding. 0-3
-        (NPAD bytes) Padding = As \0 bytes
-        """
-        return bin2dec(self.data[47:48])
+        """F16 = (1 byte) NPAD = Number of bytes of padding. 0-3 (NPAD bytes) Padding = As \0 bytes"""
+        return bin2dec(self.data[BYTES_65[16]])
 
     @property
     def threshold(self) -> int:
-        """
-        self > int
-        :return: O valor do limiar de detecção. A unidade é dada por self._get_unit().
-
-        F17 = (2 bytes) THRESH = Threshold Level in DTYPE
-        """
-        return bin2dec(self.data[40:42])
+        """F17 = (2 bytes) THRESH = Threshold Level in DTYPE"""
+        return bin2dec(self.data[BYTES_65[17]])
 
     @property
     def duration_seconds(self) -> int:
-        """
-        self > int
-        :return: A duração da amostra em segundos.
-
-        F18 = (2 bytes) DURATION = Duration of sampling. In seconds
-                    (i.e. 300, 900, 1800, 2600)
-        """
-        return bin2dec(self.data[42:44])
+        """F18 = (2 bytes) DURATION = Duration of sampling. In seconds (i.e. 300, 900, 1800, 2600)"""
+        return bin2dec(self.data[BYTES_65[18]])
 
     @property
     def data_points(self) -> int:
+        """F19 = (4 bytes) NDATA = Number of single byte data points.
+        Number of equal width channels dividing the reported frequency width
         """
-        self > int
-        :return: O número de canais (ou "steps") que dividem igualmente a largura de banda .
-
-        Overrides method in TimedBlock.
-
-        F19 = (4 bytes) NDATA = Number of single byte data points.
-                        Number of equal width channels dividing the reported frequency width
-        """
-        return bin2dec(self.data[44:48])
+        return bin2dec(self.data[BYTES_65[19]])
 
     def block_data(self) -> np.array:
         """
@@ -759,6 +661,6 @@ class DType65(GetAttr):
                     Each data point is stored as a single byte number
                     representing  the percentage (0..100 % in 0.5 steps)
         """
-        start = 48
+        start = BYTES_65[19].stop
         end = self.data_points
         return np.fromiter(self.data[start:end], dtype=np.float16) / 2

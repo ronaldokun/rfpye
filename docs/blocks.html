@@ -53,7 +53,11 @@ The code includes the same classes but with a very different implementation:</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Block">Block<a class="anchor-link" href="#Block"> </a></h3>
+<h3 id="BaseBlock---Common-Attributes-for-all-Blocks">BaseBlock - Common Attributes for all Blocks<a class="anchor-link" href="#BaseBlock---Common-Attributes-for-all-Blocks"> </a></h3><p>Um bloco é um pedaço do arquivo <code>.bin</code> com inicio e fim conhecidos e que contém diferentes tipos de informação.
+Possui varios campos: tipo, cabeçalho, dados e rodape.
+Cada campo possui comprimentos e informações definidas na documentação. 
+É comum a todos os blocos e todas as classes que definem os blocos seguintes recebem esse bloco base no construtor.</p>
+
 </div>
 </div>
 </div>
@@ -144,7 +148,8 @@ Recebe um bloco do arquivo bin e retorna uma instância de Base Block com os atri
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="TimedBlock">TimedBlock<a class="anchor-link" href="#TimedBlock"> </a></h3>
+<h3 id="TimedNonSpectral">TimedNonSpectral<a class="anchor-link" href="#TimedNonSpectral"> </a></h3><p>Common Attributes for Blocks 40-59</p>
+
 </div>
 </div>
 </div>
@@ -159,7 +164,51 @@ Recebe um bloco do arquivo bin e retorna uma instância de Base Block com os atri
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="TimedBlock" class="doc_header"><code>class</code> <code>TimedBlock</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/blocks.py#L44" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TimedBlock</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="TimedNonSpectral" class="doc_header"><code>class</code> <code>TimedNonSpectral</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/blocks.py#L44" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TimedNonSpectral</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+</blockquote>
+<p>Block with time attributes applied to non spectral blocks
+Implementa o mapeamento de funções dos blocos que possuem os seguintes campos
+(na mesma posição do vetor binario):F0 a F2</p>
+<p>F0 = (4 bytes) WALLDATE = Wall Clock Start Date of measurements
+F1 = (4 bytes) WALLTIME = Wall Clock Start Time
+F2 = (4u bytes) WALLNANO = Wall Clock Start Time Nanoseconds</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="TimedSpectral">TimedSpectral<a class="anchor-link" href="#TimedSpectral"> </a></h3><p>Common Attributes for Blocks 60-127</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="TimedSpectral" class="doc_header"><code>class</code> <code>TimedSpectral</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/blocks.py#L82" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TimedSpectral</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Aplicável aos tipos de bloco:</p>
 
@@ -178,6 +227,44 @@ F5 = (2u bytes) STOPMEGA = Stop Frequency MHz
 F6 = (4 bytes) STOPMILLI = Stop Frequency mHz
 F7 = (2u bytes) STARTCHAN = Start Channel number
 F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Data-Type-6-&#8211;-16-bit-IQ-Data">Data Type 6 &#8211; 16 bit IQ Data<a class="anchor-link" href="#Data-Type-6-&#8211;-16-bit-IQ-Data"> </a></h3>
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="DType6" class="doc_header"><code>class</code> <code>DType6</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/blocks.py#L131" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType6</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+</blockquote>
+<p>Data Type 6 – 16 bit IQ Data.Logger versions 1 to 4</p>
 
 </div>
 
@@ -241,9 +328,9 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType21" class="doc_header"><code>class</code> <code>DType21</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/blocks.py#L93" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType21</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="DType21" class="doc_header"><code>class</code> <code>DType21</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/blocks.py#L187" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType21</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
-<p>Data Type 21 – Unit and Job Information</p>
+<p>Data Type 21 – Unit and Job Information.Logger versions 3 to 5</p>
 
 </div>
 
@@ -279,7 +366,7 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType24" class="doc_header"><code>class</code> <code>DType24</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/blocks.py#L130" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType24</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="DType24" class="doc_header"><code>class</code> <code>DType24</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/blocks.py#L224" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType24</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 24 – Data Thread Information</p>
 
@@ -317,7 +404,7 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType40" class="doc_header"><code>class</code> <code>DType40</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/blocks.py#L152" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType40</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="DType40" class="doc_header"><code>class</code> <code>DType40</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/blocks.py#L246" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType40</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 40 – GPS Data</p>
 
@@ -355,7 +442,7 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType41" class="doc_header"><code>class</code> <code>DType41</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/blocks.py#L236" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType41</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="DType41" class="doc_header"><code>class</code> <code>DType41</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/blocks.py#L311" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType41</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 41 – Timed Free Text Information</p>
 
@@ -378,6 +465,143 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Data-Type-42-&#8211;-Timed-Free-Text-Information">Data Type 42 &#8211; Timed Free Text Information<a class="anchor-link" href="#Data-Type-42-&#8211;-Timed-Free-Text-Information"> </a></h3>
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="DType42" class="doc_header"><code>class</code> <code>DType42</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/blocks.py#L352" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType42</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+</blockquote>
+<p>Data Type 42 – Timed Free Text Information</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Data-Type-51-&#8211;-Classifier-Data">Data Type 51 &#8211; Classifier Data<a class="anchor-link" href="#Data-Type-51-&#8211;-Classifier-Data"> </a></h3><p>Only generated by Nodes 50-8/100-8/100-18 supporting Signal Classifier)</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DType51</span><span class="p">(</span><span class="n">GetAttr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Classifier Data&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">NamedTuple</span><span class="p">)</span><span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="n">DType42</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">desclen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="n">bin2dec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">BYTES_51</span><span class="p">[</span><span class="mi">5</span><span class="p">]])</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_51</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span>
+        <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
+        <span class="k">return</span> <span class="n">bin2str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">center_mega</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_51</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
+        <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">2</span>
+        <span class="k">return</span> <span class="n">bin2dec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">center_mili</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_51</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">2</span>
+        <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">4</span>
+        <span class="k">return</span> <span class="n">bin2dec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">real_time_bw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_51</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">6</span>
+        <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">4</span>
+        <span class="k">return</span> <span class="n">bin2dec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">sample_rate_numerator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_51</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">10</span>
+        <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">4</span>
+        <span class="k">return</span> <span class="n">bin2dec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">sample_rate_denominator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_51</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">14</span>
+        <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">2</span>
+        <span class="k">return</span> <span class="n">bin2dec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">len_text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_51</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">16</span>
+        <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">4</span>
+        <span class="k">return</span> <span class="n">bin2dec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>        
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_51</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">20</span>
+        <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">len_text</span>
+        <span class="k">return</span> <span class="n">bin2str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">align1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_51</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">20</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">len_text</span>
+        <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">2</span>
+        <span class="k">return</span> <span class="n">bin2dec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">align2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_51</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">22</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">len_text</span>
+        <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">bin2dec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">npad</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_51</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">23</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">len_text</span>
+        <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">bin2dec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ndata</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_51</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">24</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">len_text</span>
+        <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">4</span>
+        <span class="k">return</span> <span class="n">bin2dec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">probabilites</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_51</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">28</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">len_text</span>
+        <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndata</span>
+        <span class="k">return</span> <span class="n">bin2dec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">padding</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_51</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">28</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">len_text</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndata</span>
+        <span class="k">return</span> <span class="n">bin2dec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:])</span>    
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Data-Type-63-&#8211;-Spectral-Data">Data Type 63 &#8211; Spectral Data<a class="anchor-link" href="#Data-Type-63-&#8211;-Spectral-Data"> </a></h3>
 </div>
 </div>
@@ -393,7 +617,7 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType63" class="doc_header"><code>class</code> <code>DType63</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/blocks.py#L298" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType63</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="DType63" class="doc_header"><code>class</code> <code>DType63</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/blocks.py#L401" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType63</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 63 – Spectral Data - Frequencies and its levels</p>
 <p>The Following attributes are delegated to the <code>self.default</code> object</p>
@@ -450,40 +674,47 @@ Total Bytes = 52 + (4 * NTUN) + NAGC + NDATA + NPAD</p>
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">threshold</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;F22 - THRESH = Threshold Level in dB All data below this level will be run length encoded&quot;&quot;&quot;</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="mi">52</span>
-        <span class="k">return</span> <span class="n">bin2dec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span><span class="o">+</span><span class="mi">4</span><span class="p">])</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_63</span><span class="p">[</span><span class="mi">21</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span>
+        <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">4</span>
+        <span class="k">return</span> <span class="n">bin2dec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
     
     <span class="k">def</span> <span class="nf">norig</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;F23 - NORIG = Number of original data points4 Before compression&quot;&quot;&quot;</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="mi">56</span>
-        <span class="k">return</span> <span class="n">bin2dec</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_63</span><span class="p">[</span><span class="mi">21</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="mi">4</span>
+        <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">4</span>
+        <span class="k">return</span> <span class="n">bin2dec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
         
         
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">tunning_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">tunning_blocks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;F24 - Informações do &#39;tunning&#39;. One Block per tunning(1 or 10MHz)&quot;&quot;&quot;</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="mi">60</span>  <span class="c1"># inicia aqui</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_63</span><span class="p">[</span><span class="mi">21</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="mi">8</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_tunning</span><span class="p">)</span>
-        <span class="c1">#tunning = {f&#39;{bin2dec(self.data[i:i+2])}MHz&#39;:TUNING_BLOCK.get(self.data[i+3], 0) for i in range(start, stop, 4)}</span>
-        <span class="n">flags</span> <span class="o">=</span> <span class="p">{</span><span class="n">TUNING_BLOCK</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="mi">4</span><span class="p">)}</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">flags</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">flags</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">flags</span>              
+        <span class="k">return</span> <span class="p">{</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">bin2dec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">])</span><span class="si">}</span><span class="s1">MHz&#39;</span><span class="p">:</span><span class="n">TUNING_BLOCK</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="mi">4</span><span class="p">)}</span>
+<span class="c1">#         flags = {TUNING_BLOCK.get(self.data[i+3], 0) for i in range(start, stop, 4)}</span>
+<span class="c1">#         if len(flags) == 1:</span>
+<span class="c1">#             return flags.pop()</span>
+<span class="c1">#         return flags              </span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">agc_array</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;F23 - Array com AGC - Automatic Gain Control as dB in single unsigned byte: 0...63&quot;&quot;&quot;</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="mi">52</span><span class="o">+</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_tunning</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_63</span><span class="p">[</span><span class="mi">21</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="mi">8</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_tunning</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span><span class="o">+</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_agc</span><span class="p">)</span>
-        <span class="c1">#return np.fromiter(self.data[start:stop], np.uint8)</span>
-        <span class="k">return</span> <span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">L</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="nb">str</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+        <span class="c1">#return &#39;-&#39;.join(L(self.data[start:stop]).map(str))</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">block_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Spectrum Data in &#39;dB&#39; with 0.5 dBm interval&quot;&quot;&quot;</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="mi">52</span><span class="o">+</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_tunning</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_agc</span>
-        <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span><span class="o">+</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_points</span><span class="p">)</span>        
+        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_63</span><span class="p">[</span><span class="mi">21</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="mi">8</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_tunning</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_agc</span>
+        <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_points</span>        
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float16</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">level_offset</span> <span class="o">-</span> <span class="mf">127.5</span>
+    
+<span class="c1">#     @property</span>
+<span class="c1">#     def padding(self):</span>
+<span class="c1">#         start = BYTES_63[21].stop + 8 + (self.n_tunning * 4) + self.n_agc + self.data_points</span>
+<span class="c1">#         return bin2dec(self.data[start:])</span>
     
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a tuple with frequency, spectrum_data&quot;&quot;&quot;</span>
@@ -521,7 +752,7 @@ Total Bytes = 52 + (4 * NTUN) + NAGC + NDATA + NPAD</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType65" class="doc_header"><code>class</code> <code>DType65</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/blocks.py#L447" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType65</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="DType65" class="doc_header"><code>class</code> <code>DType65</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/blocks.py#L549" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType65</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>O Bloco do tipo 65 carrega dados de Taxa de Ocupação Espectral por Canal de Frequência (ITU-R SM.1880).</p>
 <p>O tamanho total em bytes é (48 + NDATA + NPAD)</p>
@@ -570,29 +801,38 @@ Total Bytes = 52 + (4 * NTUN) + NAGC + NDATA + NPAD</p>
     
 <div class="cell border-box-sizing code_cell rendered">
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="block_constructor" class="doc_header"><code>block_constructor</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/blocks.py#L673" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>block_constructor</code>(<strong><code>btype</code></strong>, <strong><code>bloco</code></strong>)</p>
-</blockquote>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">TYPE_CLASS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">6</span><span class="p">:</span> <span class="n">DType6</span><span class="p">,</span>
+    <span class="mi">21</span><span class="p">:</span> <span class="n">DType21</span><span class="p">,</span>
+    <span class="mi">24</span><span class="p">:</span> <span class="n">DType24</span><span class="p">,</span>
+    <span class="mi">40</span><span class="p">:</span> <span class="n">DType40</span><span class="p">,</span>
+    <span class="mi">41</span><span class="p">:</span> <span class="n">DType41</span><span class="p">,</span>
+    <span class="mi">42</span><span class="p">:</span> <span class="n">DType42</span><span class="p">,</span>
+    <span class="mi">51</span><span class="p">:</span> <span class="n">DType51</span><span class="p">,</span>
+    <span class="mi">63</span><span class="p">:</span> <span class="n">DType63</span><span class="p">,</span>
+    <span class="mi">65</span><span class="p">:</span> <span class="n">DType65</span>
+<span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">block_constructor</span><span class="p">(</span><span class="n">btype</span><span class="p">,</span> <span class="n">bloco</span><span class="p">):</span>
+    <span class="n">constructor</span> <span class="o">=</span> <span class="n">TYPE_CLASS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">btype</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">constructor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">constructor</span><span class="p">(</span><span class="n">bloco</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
 
 </div>
     {% endraw %}
@@ -609,24 +849,6 @@ Total Bytes = 52 + (4 * NTUN) + NAGC + NDATA + NPAD</p>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Converted 00_main.ipynb.
-Converted 01_parser.ipynb.
-Converted 02_utils.ipynb.
-Converted 03_blocks.ipynb.
-Converted 04_constants.ipynb.
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
