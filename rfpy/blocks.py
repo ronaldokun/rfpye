@@ -2,7 +2,7 @@
 
 __all__ = ['path_type', 'bin_val', 'bytes_encoded', 'datetime_object', 'create_base_block', 'public_attrs', 'getattrs',
            'BaseBlock', 'TimedNonSpectral', 'TimedSpectral', 'DType6', 'DType21', 'DType24', 'DType40', 'DType41',
-           'DType42', 'DType51', 'DType63', 'DType64', 'DType65', 'DType66', 'DType67', 'block_constructor',
+           'DType42', 'DType51', 'DType63', 'DType64', 'DType65', 'DType66', 'DType67', 'DType68', 'block_constructor',
            'TYPE_CLASS']
 
 # Cell
@@ -28,7 +28,7 @@ def create_base_block(bin_block: bytes)->Tuple:
     Possui varios campos: tipo, cabeçalho, dados e rodape.
     Cada campo possui comprimentos e informações definidas na documentação.
     Recebe um bloco do arquivo bin e retorna uma instância de Base Block com os atributos
-    'thread_id', 'block_size', 'block_type', 'block_trailer', 'block_data'
+    'thread_id', 'block_size', 'block_type', 'block_data'
     """
     if not isinstance(bin_block, bytes):
         raise TypeError(f"Expected type 'bytes', got '{type(bin_block)}' instead.")
@@ -81,13 +81,7 @@ class TimedNonSpectral(GetAttr):
 
 # Cell
 class TimedSpectral(GetAttr):
-    """
-    Aplicável aos tipos de bloco:
-        - DataType65
-        - DataType63
-
-    Implementa o mapeamento de funções dos blocos que possuem os seguintes campos
-    (na mesma posição do vetor binario):F0 a F8
+    """Common Atributes of Block with Time Info and Spectral Data
 
     F0 = (4 bytes) WALLDATE = Wall Clock Start Date of measurements
     F1 = (4 bytes) WALLTIME = Wall Clock Start Time
@@ -98,7 +92,6 @@ class TimedSpectral(GetAttr):
     F6 = (4 bytes) STOPMILLI = Stop Frequency mHz
     F7 = (2u bytes) STARTCHAN = Start Channel number
     F8 = (2u bytes) STOPCHAN = Stop Channel number
-
     """
     #The attributes which don't belong to this class are delegated to default: i.e Block
     def __init__(self, block: NamedTuple):
@@ -869,7 +862,7 @@ class DType66(GetAttr):
 
 # Cell
 class DType67(GetAttr):
-    """Data Type 42 – Timed Free Text Information"""
+    """Data Type 67 – Spectral Data"""
     def __init__(self, block: NamedTuple):
         """This implementation substitues inheritance of the class Block by Composition
         The attributes which belong to Block are accessed normally as if it was Inherited
@@ -923,91 +916,131 @@ class DType67(GetAttr):
         stop = start + 2
         return bin2dec(self.data[start:stop])
     @property
-    def start_channel(self)->int:
-        start = BYTES_67[5].stop + self.desclen + 20
-        stop = start + 2
-        return bin2dec(self.data[start:stop])
-    @property
     def sample(self)->int:
-        start = BYTES_67[5].stop + self.desclen + 22
+        start = BYTES_67[5].stop + self.desclen + 20
         stop = start + 4
         return bin2dec(self.data[start:stop])
     @property
     def namal(self)->int:
-        start = BYTES_67[5].stop + self.desclen + 26
+        start = BYTES_67[5].stop + self.desclen + 24
         stop = start + 4
         return bin2dec(self.data[start:stop])
     @property
     def antenna_id(self)->int:
-        start = BYTES_67[5].stop + self.desclen + 30
+        start = BYTES_67[5].stop + self.desclen + 28
         stop = start + 1
         return bin2dec(self.data[start:stop])
     @property
     def processing(self)->int:
-        start = BYTES_67[5].stop + self.desclen + 31
+        start = BYTES_67[5].stop + self.desclen + 29
         stop = start + 1
         return bin2dec(self.data[start:stop])
     @property
     def data_type(self)->int:
-        start = BYTES_67[5].stop + self.desclen + 32
+        start = BYTES_67[5].stop + self.desclen + 30
         stop = start + 1
         return bin2dec(self.data[start:stop])
     @property
     def offset(self)->int:
-        start = BYTES_67[5].stop + self.desclen + 33
+        start = BYTES_67[5].stop + self.desclen + 31
         stop = start + 1
         return bin2dec(self.data[start:stop])
     @property
     def gerror(self)->int:
-        start = BYTES_67[5].stop + self.desclen + 34
+        start = BYTES_67[5].stop + self.desclen + 32
         stop = start + 1
         return bin2dec(self.data[start:stop])
     @property
     def gflags(self)->int:
-        start = BYTES_67[5].stop + self.desclen + 35
+        start = BYTES_67[5].stop + self.desclen + 33
         stop = start + 1
         return bin2dec(self.data[start:stop])
     @property
     def n_tunning(self)->int:
-        start = BYTES_67[5].stop + self.desclen + 37 # summed 1 for alignment
+        start = BYTES_67[5].stop + self.desclen + 35 # + 1 for ignored alignment
         stop = start + 2
         return bin2dec(self.data[start:stop])
     @property
     def n_agc(self)->int:
-        start = BYTES_67[5].stop + self.desclen + 39
+        start = BYTES_67[5].stop + self.desclen + 37
         stop = start + 2
         return bin2dec(self.data[start:stop])
     @property
     def npad(self)->int:
-        start = BYTES_67[5].stop + self.desclen + 41
+        start = BYTES_67[5].stop + self.desclen + 39
         stop = start + 1
         return bin2dec(self.data[start:stop])
     @property
     def ndata(self)->int:
-        start = BYTES_67[5].stop + self.desclen + 42
-        stop = start + 1
+        start = BYTES_67[5].stop + self.desclen + 40
+        stop = start + 4
         return bin2dec(self.data[start:stop])
     @property
     def tunning_info(self)->int:
-        start = BYTES_67[5].stop + self.desclen + 43
+        start = BYTES_67[5].stop + self.desclen + 44
         stop = start + 4 * self.n_tunning
         return {f'{bin2dec(self.data[i:i+2])}MHz':TUNING_BLOCK.get(self.data[i+3], 0) for i in range(start, stop, 4)}
     @property
     def agc_array(self)->np.array:
-        start = BYTES_67[5].stop + self.desclen + 43 + 4 * self.n_tunning
+        start = BYTES_67[5].stop + self.desclen + 44 + 4 * self.n_tunning
         stop = start + self.n_agc
         return np.fromiter(self.data[start:stop], np.uint8)
     @property
     def block_data(self)->np.array:
-        start = BYTES_67[5].stop + self.desclen + 43 + 4 * self.n_tunning + self.n_agc
+        start = BYTES_67[5].stop + self.desclen + 44 + 4 * self.n_tunning + self.n_agc
         stop = start + self.ndata
         return np.fromiter(self.data[start:stop], dtype=np.float16)
 
     @property
     def padding(self)->int:
-        start = BYTES_67[5].stop + self.desclen + 43 + 4 * self.n_tunning + self.n_agc + self.ndata
+        start = BYTES_67[5].stop + self.desclen + 44 + 4 * self.n_tunning + self.n_agc + self.ndata
         stop = start + self.npad
         return bin2dec(self.data[start:stop])
+
+# Cell
+class DType68(GetAttr):
+    """Data Type 68 – Threshold Compressed Data"""
+    def __init__(self, block: NamedTuple):
+        """This implementation substitues inheritance of the class Block by Composition
+        The attributes which belong to Block are accessed normally as if it was Inherited
+        """
+        self.default = DType67(block)
+
+    @property
+    def thresh(self)->int:
+        """THRESH = Threshold Level in dB. All data below this level will be run length encoded"""
+        start = 68 + self.desclen
+        stop = start + 4
+        return bin2dec(self.data[start:stop])
+    @property
+    def norig(self)->int:
+        """NORIG = Number of original data points. Before compression"""
+        start = 72 + self.desclen
+        stop = start + 4
+        return bin2dec(self.data[start:stop])
+
+    @property
+    def tunning_info(self)->int:
+        start = 76 + self.desclen
+        stop = start + 4 * self.n_tunning
+        return {f'{bin2dec(self.data[i:i+2])}MHz':TUNING_BLOCK.get(self.data[i+3], 0) for i in range(start, stop, 4)}
+    @property
+    def agc_array(self)->np.array:
+        start = 76 + self.desclen + 4 * self.n_tunning
+        stop = start + self.n_agc
+        return np.fromiter(self.data[start:stop], np.uint8)
+    @property
+    def block_data(self)->np.array:
+        start = 76 + self.desclen + 4 * self.n_tunning + self.n_agc
+        stop = start + self.ndata
+        return np.fromiter(self.data[start:stop], dtype=np.float16)
+
+    @property
+    def padding(self)->int:
+        start = 76 + self.desclen + 4 * self.n_tunning + self.n_agc + self.ndata
+        stop = start + self.npad
+        return bin2dec(self.data[start:stop])
+
 
 # Cell
 TYPE_CLASS = {
