@@ -2,7 +2,8 @@
 
 __all__ = ['path_type', 'bin_val', 'bytes_encoded', 'datetime_object', 'create_base_block', 'public_attrs', 'getattrs',
            'BaseBlock', 'TimedNonSpectral', 'TimedSpectral', 'DType6', 'DType21', 'DType24', 'DType40', 'DType41',
-           'DType42', 'DType63', 'DType65']
+           'DType42', 'DType51', 'DType63', 'DType64', 'DType65', 'DType66', 'DType67', 'block_constructor',
+           'TYPE_CLASS']
 
 # Cell
 import binascii
@@ -125,7 +126,6 @@ class TimedSpectral(GetAttr):
     def wallclock_datetime(self):
         return  datetime(2000+self.date[2], self.date[1], self.date[0],
                             self.time[0], self.time[1], self.time[2], int(self.nanosecs/1000))
-
 
 # Cell
 class DType6(GetAttr):
@@ -360,11 +360,9 @@ class DType42(GetAttr):
     @property
     def group_id(self)->int:
         return bin2dec(self.data[BYTES_42[3]])
-
     @property
     def dynamic_id(self)->int:
         return bin2dec(self.data[BYTES_42[4]])
-
     @property
     def identifier(self) -> str:
         """F5 = (32 bytes) Fixed Length Data Type Identifier, null terminated string
@@ -384,18 +382,94 @@ class DType42(GetAttr):
         - CONF: NCPD Configuration
         """
         return bin2str(self.data[BYTES_42[5]])
-
     @property
     def len_text(self) -> int:
         """F6 - (4 bytes) NTEXT = Free Text Length. Including null termination and padding
                 (must be a whole number of 4 bytes)
         """
         return bin2dec(self.data[BYTES_42[6]])
-
     @property
     def text(self) -> str:
         """F5 = (NTEXT bytes) Null terminated Free Text"""
         return bin2str(self.data[BYTES_42[6].stop:])
+
+# Cell
+class DType51(GetAttr):
+    """Classifier Data"""
+    def __init__(self, block: NamedTuple)-> None:
+        self.default = DType42(block)
+
+    @property
+    def desclen(self): return bin2dec(self.data[BYTES_51[5]])
+    @property
+    def description(self):
+        start = BYTES_51[5].stop
+        stop = start + self.desclen
+        return bin2str(self.data[start:stop])
+    @property
+    def center_mega(self):
+        start = BYTES_51[5].stop + self.desclen
+        stop = start + 2
+        return bin2dec(self.data[start:stop])
+    @property
+    def center_mili(self):
+        start = BYTES_51[5].stop + self.desclen + 2
+        stop = start + 4
+        return bin2dec(self.data[start:stop])
+    @property
+    def real_time_bw(self):
+        start = BYTES_51[5].stop + self.desclen + 6
+        stop = start + 4
+        return bin2dec(self.data[start:stop])
+    @property
+    def sample_rate_numerator(self):
+        start = BYTES_51[5].stop + self.desclen + 10
+        stop = start + 4
+        return bin2dec(self.data[start:stop])
+    @property
+    def sample_rate_denominator(self):
+        start = BYTES_51[5].stop + self.desclen + 14
+        stop = start + 2
+        return bin2dec(self.data[start:stop])
+    @property
+    def len_text(self) -> int:
+        start = BYTES_51[5].stop + self.desclen + 16
+        stop = start + 4
+        return bin2dec(self.data[start:stop])
+    @property
+    def text(self) -> str:
+        start = BYTES_51[5].stop + self.desclen + 20
+        stop = start + self.len_text
+        return bin2str(self.data[start:stop])
+    # @property
+    # def align1(self):
+    #     start = BYTES_51[5].stop + self.desclen + 20 + self.len_text
+    #     stop = start + 2
+    #     return bin2dec(self.data[start:stop])
+    # @property
+    # def align2(self):
+    #     start = BYTES_51[5].stop + self.desclen + 22 + self.len_text
+    #     stop = start + 1
+    #     return bin2dec(self.data[start:stop])
+    @property
+    def npad(self):
+        start = BYTES_51[5].stop + self.desclen + 23 + self.len_text
+        stop = start + 1
+        return bin2dec(self.data[start:stop])
+    @property
+    def npoints(self):
+        start = BYTES_51[5].stop + self.desclen + 24 + self.len_text
+        stop = start + 4
+        return bin2dec(self.data[start:stop])
+    @property
+    def probabilites(self):
+        start = BYTES_51[5].stop + self.desclen + 28 + self.len_text
+        stop = start + self.npoints
+        return bin2dec(self.data[start:stop])
+    @property
+    def padding(self):
+        start = BYTES_51[5].stop + self.desclen + 28 + self.len_text + self.npoints
+        return bin2dec(self.data[start:])
 
 # Cell
 class DType63(GetAttr):
@@ -456,12 +530,12 @@ class DType63(GetAttr):
         return bin2dec(self.data[BYTES_63[14]])
 
     @property
-    def global_error_code(self) -> int:
+    def gerror(self) -> int:
         """F15 = (1 byte) GERROR = Global Error Code. Radio or processing global error code"""
         return bin2dec(self.data[BYTES_63[15]])
 
     @property
-    def global_flags_code(self) -> int:
+    def gflags(self) -> int:
         """F16 - Códigos de alertas globais ou de processamento do radio."""
         return bin2dec(self.data[BYTES_63[16]])
 
@@ -481,12 +555,12 @@ class DType63(GetAttr):
         return bin2dec(self.data[BYTES_63[19]])
 
     @property
-    def n_padding(self) -> int:
+    def npad(self) -> int:
         """F20 - Valor que varia de 0 a 3 indicando o preenchimento nulo para manter o tamanho do bloco (em bytes) fixo"""
         return bin2dec(self.data[BYTES_63[20]])
 
     @property
-    def data_points(self) -> int:
+    def npoints(self) -> int:
         """F21 - O número de canais (ou "steps") que dividem igualmente a largura de banda"""
         return bin2dec(self.data[BYTES_63[21]])
 
@@ -496,29 +570,25 @@ class DType63(GetAttr):
         return self.stop_mega - self.start_mega
 
     @property
-    def passo(self)-> float:
+    def step(self)-> float:
         """Retorna a faixa divida pelo número de pontos - 1"""
-        return self.bw / (self.data_points - 1)
+        return self.bw / (self.npoints - 1)
 
     def frequencies(self) -> np.array:
         """Retorna um numpy array com a faixa de frequências presentes no bloco"""
-        return self.start_mega + np.arange(len(self)) * self.passo
+        return self.start_mega + np.arange(len(self)) * self.step
 
     @property
     def rbw(self) -> int:
         """Retorna o RBW calculado a partir de STARTMEGA, STOPMEGA e NDATA."""
-        return int(self.passo * 1000000)
+        return int(self.step * 1000000)
 
     @property
-    def tunning_blocks(self) -> str:
+    def tunning_info(self) -> str:
         """F22 - Informações do 'tunning'. One Block per tunning(1 or 10MHz)"""
         start = BYTES_63[21].stop
         stop = start + (4 * self.n_tunning)
         return {f'{bin2dec(self.data[i:i+2])}MHz':TUNING_BLOCK.get(self.data[i+3], 0) for i in range(start, stop, 4)}
-#         flags = {TUNING_BLOCK.get(self.data[i+3], 0) for i in range(start, stop, 4)}
-#         if len(flags) == 1:
-#             return flags.pop()
-#        return tunning
 
     @property
     def agc_array(self) -> str:
@@ -532,8 +602,69 @@ class DType63(GetAttr):
     def block_data(self) -> np.array:
         """Spectrum Data in 'dB' with 0.5 dBm interval"""
         start = BYTES_63[21].stop + self.n_tunning * 4 + self.n_agc
-        stop = start + (self.data_points)
+        stop = start + (self.npoints)
         return np.fromiter(self.data[start:stop], dtype=np.float16) / 2 + self.level_offset - 127.5
+
+    def __getitem__(self, i):
+        """Return a tuple with frequency, spectrum_data"""
+        return self.frequencies[i], self.block_data[i]
+
+    def __len__(self):
+        return int(self.npoints)
+
+    def __iter__(self):
+        return iter(self[i] for i in range(len(self)))
+
+# Cell
+class DType64(GetAttr):
+    """This is very similar to type 63, with the addition of threshold power level and number of points before compression,
+    and obviously a compressed spectrum vector replacing the uncompressed
+
+    Fields 0 to 21 are the same from `DType63` and are delegated to this class
+    """
+    def __init__(self, block: NamedTuple)-> None:
+        self.default = Dtype63(block)
+
+    @property
+    def threshold(self):
+        """F22 - THRESH = Threshold Level in dB All data below this level will be run length encoded"""
+        start = BYTES_63[21].stop
+        stop = start + 4
+        return bin2dec(self.data[start:stop])
+
+    def norig(self):
+        """F23 - NORIG = Number of original data points4 Before compression"""
+        start = BYTES_63[21].stop + 4
+        stop = start + 4
+        return bin2dec(self.data[start:stop])
+
+
+    @property
+    def tunning_info(self) -> bytes:
+        """F24 - Informações do 'tunning'. One Block per tunning(1 or 10MHz)"""
+        start = BYTES_63[21].stop + 8
+        stop = start + (4 * self.n_tunning)
+        return {f'{bin2dec(self.data[i:i+2])}MHz':TUNING_BLOCK.get(self.data[i+3], 0) for i in range(start, stop, 4)}
+
+    @property
+    def agc_array(self) -> bytes:
+        """F23 - Array com AGC - Automatic Gain Control as dB in single unsigned byte: 0...63"""
+        start = BYTES_63[21].stop + 8 + (self.n_tunning * 4)
+        stop = start+(self.n_agc)
+        return np.fromiter(self.data[start:stop], np.uint8)
+        #return '-'.join(L(self.data[start:stop]).map(str))
+
+    @property
+    def block_data(self) -> np.array:
+        """Spectrum Data in 'dB' with 0.5 dBm interval"""
+        start = BYTES_63[21].stop + 8 + (self.n_tunning * 4) + self.n_agc
+        stop = start + self.data_points
+        return np.fromiter(self.data[start:stop], dtype=np.float16) / 2 + self.level_offset - 127.5
+
+#     @property
+#     def padding(self):
+#         start = BYTES_63[21].stop + 8 + (self.n_tunning * 4) + self.n_agc + self.data_points
+#         return bin2dec(self.data[start:])
 
     def __getitem__(self, i):
         """Return a tuple with frequency, spectrum_data"""
@@ -592,7 +723,7 @@ class DType65(GetAttr):
         self.default = TimedBlock(block)
 
     @property
-    def num_meas(self) -> int:
+    def namal(self) -> int:
         """F9 = (4 bytes) NAMAL = Amalgamated Results
            i.e. ‘number of loops’. Equal to 1 if single measurement.
         """
@@ -616,12 +747,12 @@ class DType65(GetAttr):
         return DICT_UNIT.get(unit, unit)
 
     @property
-    def global_error_code(self) -> int:
+    def gerror(self) -> int:
         """ F13 = (1 byte) GERROR = Global Error Code.Radio or processing global error code"""
         return bin2dec(self.data[BYTES_65[13]])
 
     @property
-    def global_flags_code(self) -> int:
+    def gflags(self) -> int:
         """F14 = (1 byte) GFLAGS = Global clipping flags etc.Radio or processing global flags."""
         return bin2dec(self.data[BYTES_65[14]])
 
@@ -631,7 +762,7 @@ class DType65(GetAttr):
         return bin2dec(self.data[BYTES_65[15]])
 
     @property
-    def len_padding(self) -> int:
+    def npad(self) -> int:
         """F16 = (1 byte) NPAD = Number of bytes of padding. 0-3 (NPAD bytes) Padding = As \0 bytes"""
         return bin2dec(self.data[BYTES_65[16]])
 
@@ -646,7 +777,7 @@ class DType65(GetAttr):
         return bin2dec(self.data[BYTES_65[18]])
 
     @property
-    def data_points(self) -> int:
+    def npoints(self) -> int:
         """F19 = (4 bytes) NDATA = Number of single byte data points.
         Number of equal width channels dividing the reported frequency width
         """
@@ -662,5 +793,238 @@ class DType65(GetAttr):
                     representing  the percentage (0..100 % in 0.5 steps)
         """
         start = BYTES_65[19].stop
-        end = self.data_points
+        end = self.npoints
         return np.fromiter(self.data[start:end], dtype=np.float16) / 2
+
+# Cell
+class DType66(GetAttr):
+    """Data Type 66 – 16 bit IQ Data"""
+    def __init__(self, block: NamedTuple):
+        """This implementation substitues inheritance of the class Block by Composition
+        The attributes which belong to Block are accessed normally as if it was Inherited
+        """
+        self.default = TimedNonSpectral(block)
+
+    @property
+    def group_id(self)->int: return bin2dec(self.data[BYTES_66[3]])
+    @property
+    def dynamic_id(self)->int: return bin2dec(self.data[BYTES_66[4]])
+    @property
+    def desclen(self)->int: return bin2dec(self.data[BYTES_66[5]])
+    @property
+    def description(self)->str:
+        start = BYTES_66[5].stop
+        stop = start + self.desclen
+        return bin2str(self.data[start:stop])
+    @property
+    def center_mega(self)->int:
+        start = BYTES_66[5].stop + self.desclen
+        stop = start + 2
+        return bin2dec(self.data[start:stop])
+    @property
+    def center_mili(self)->int:
+        start = BYTES_66[5].stop + self.desclen + 2
+        stop = start + 4
+        return bin2dec(self.data[start:stop])
+    @property
+    def real_time_bw(self):
+        start = BYTES_66[5].stop + self.desclen + 6
+        stop = start + 4
+        return bin2dec(self.data[start:stop])
+    @property
+    def sample_rate_numerator(self):
+        start = BYTES_66[5].stop + self.desclen + 10
+        stop = start + 4
+        return bin2dec(self.data[start:stop])
+    @property
+    def sample_rate_denominator(self):
+        start = BYTES_66[5].stop + self.desclen + 14
+        stop = start + 2
+        return bin2dec(self.data[start:stop])
+    @property
+    def antenna_id(self)->int:
+        start = BYTES_66[5].stop + self.desclen + 16
+        stop = start + 4
+        return bin2dec(self.data[start:stop])
+    @property
+    def n_gain(self)->int:
+        start = BYTES_66[5].stop + self.desclen + 20
+        stop = start + 4
+        return bin2dec(self.data[start:stop])
+    @property
+    def gain_array(self)->np.array:
+        start = BYTES_66[5].stop + self.desclen + 24
+        stop = start + self.n_gain
+        return np.fromiter(self.data[start:stop], dtype=np.int32)
+    @property
+    def n_iqpairs(self)->np.array:
+        start = BYTES_66[5].stop + self.desclen + 24 + self.n_gain
+        stop = start + 4
+        return bin2dec(self.data[start:stop])
+    @property
+    def array_iq(self)->np.array:
+        start = BYTES_66[5].stop + self.desclen + 28 + self.n_gain
+        stop = start + self.n_iqpairs
+        return np.fromiter(self.data[start:stop], dtype=np.int32)
+
+# Cell
+class DType67(GetAttr):
+    """Data Type 42 – Timed Free Text Information"""
+    def __init__(self, block: NamedTuple):
+        """This implementation substitues inheritance of the class Block by Composition
+        The attributes which belong to Block are accessed normally as if it was Inherited
+        """
+        self.default = TimedNonSpectral(block)
+
+    @property
+    def group_id(self)->int: return bin2dec(self.data[BYTES_67[3]])
+    @property
+    def dynamic_id(self)->int: return bin2dec(self.data[BYTES_67[4]])
+    @property
+    def desclen(self)->int: return bin2dec(self.data[BYTES_67[5]])
+    @property
+    def description(self)->str:
+        start = BYTES_67[5].stop
+        stop = start + self.desclen
+        return bin2str(self.data[start:stop])
+    @property
+    def start_mega(self)->int:
+        start = BYTES_67[5].stop + self.desclen
+        stop = start + 2
+        return bin2dec(self.data[start:stop])
+    @property
+    def start_mili(self)->int:
+        start = BYTES_67[5].stop + self.desclen + 2
+        stop = start + 4
+        return bin2dec(self.data[start:stop])
+    @property
+    def stop_mega(self)->int:
+        start = BYTES_67[5].stop + self.desclen + 6
+        stop = start + 2
+        return bin2dec(self.data[start:stop])
+    @property
+    def stop_mili(self)->int:
+        start = BYTES_67[5].stop + self.desclen + 8
+        stop = start + 4
+        return bin2dec(self.data[start:stop])
+    @property
+    def resolution_bw(self)->int:
+        start = BYTES_67[5].stop + self.desclen + 12
+        stop = start + 4
+        return bin2dec(self.data[start:stop])
+    @property
+    def start_channel(self)->int:
+        start = BYTES_67[5].stop + self.desclen + 16
+        stop = start + 2
+        return bin2dec(self.data[start:stop])
+    @property
+    def stop_channel(self)->int:
+        start = BYTES_67[5].stop + self.desclen + 18
+        stop = start + 2
+        return bin2dec(self.data[start:stop])
+    @property
+    def start_channel(self)->int:
+        start = BYTES_67[5].stop + self.desclen + 20
+        stop = start + 2
+        return bin2dec(self.data[start:stop])
+    @property
+    def sample(self)->int:
+        start = BYTES_67[5].stop + self.desclen + 22
+        stop = start + 4
+        return bin2dec(self.data[start:stop])
+    @property
+    def namal(self)->int:
+        start = BYTES_67[5].stop + self.desclen + 26
+        stop = start + 4
+        return bin2dec(self.data[start:stop])
+    @property
+    def antenna_id(self)->int:
+        start = BYTES_67[5].stop + self.desclen + 30
+        stop = start + 1
+        return bin2dec(self.data[start:stop])
+    @property
+    def processing(self)->int:
+        start = BYTES_67[5].stop + self.desclen + 31
+        stop = start + 1
+        return bin2dec(self.data[start:stop])
+    @property
+    def data_type(self)->int:
+        start = BYTES_67[5].stop + self.desclen + 32
+        stop = start + 1
+        return bin2dec(self.data[start:stop])
+    @property
+    def offset(self)->int:
+        start = BYTES_67[5].stop + self.desclen + 33
+        stop = start + 1
+        return bin2dec(self.data[start:stop])
+    @property
+    def gerror(self)->int:
+        start = BYTES_67[5].stop + self.desclen + 34
+        stop = start + 1
+        return bin2dec(self.data[start:stop])
+    @property
+    def gflags(self)->int:
+        start = BYTES_67[5].stop + self.desclen + 35
+        stop = start + 1
+        return bin2dec(self.data[start:stop])
+    @property
+    def n_tunning(self)->int:
+        start = BYTES_67[5].stop + self.desclen + 37 # summed 1 for alignment
+        stop = start + 2
+        return bin2dec(self.data[start:stop])
+    @property
+    def n_agc(self)->int:
+        start = BYTES_67[5].stop + self.desclen + 39
+        stop = start + 2
+        return bin2dec(self.data[start:stop])
+    @property
+    def npad(self)->int:
+        start = BYTES_67[5].stop + self.desclen + 41
+        stop = start + 1
+        return bin2dec(self.data[start:stop])
+    @property
+    def ndata(self)->int:
+        start = BYTES_67[5].stop + self.desclen + 42
+        stop = start + 1
+        return bin2dec(self.data[start:stop])
+    @property
+    def tunning_info(self)->int:
+        start = BYTES_67[5].stop + self.desclen + 43
+        stop = start + 4 * self.n_tunning
+        return {f'{bin2dec(self.data[i:i+2])}MHz':TUNING_BLOCK.get(self.data[i+3], 0) for i in range(start, stop, 4)}
+    @property
+    def agc_array(self)->np.array:
+        start = BYTES_67[5].stop + self.desclen + 43 + 4 * self.n_tunning
+        stop = start + self.n_agc
+        return np.fromiter(self.data[start:stop], np.uint8)
+    @property
+    def block_data(self)->np.array:
+        start = BYTES_67[5].stop + self.desclen + 43 + 4 * self.n_tunning + self.n_agc
+        stop = start + self.ndata
+        return np.fromiter(self.data[start:stop], dtype=np.float16)
+
+    @property
+    def padding(self)->int:
+        start = BYTES_67[5].stop + self.desclen + 43 + 4 * self.n_tunning + self.n_agc + self.ndata
+        stop = start + self.npad
+        return bin2dec(self.data[start:stop])
+
+# Cell
+TYPE_CLASS = {
+    6: DType6,
+    21: DType21,
+    24: DType24,
+    40: DType40,
+    41: DType41,
+    42: DType42,
+    51: DType51,
+    63: DType63,
+    65: DType65,
+    66: DType66
+}
+
+def block_constructor(btype, bloco):
+    constructor = TYPE_CLASS.get(btype, None)
+    if constructor:
+        return constructor(bloco)
+    return None
