@@ -9,7 +9,7 @@ from fastcore.basics import uniqueify
 from fastcore.utils import parallel
 from fastcore.foundation import L
 from .blocks import create_base_block, block_constructor
-from .utils import bin2dec, bin2str
+from .utils import bin2int, bin2str
 import pandas as pd
 import numpy as np
 import os
@@ -79,7 +79,7 @@ def parse_bin(bin_file, bytes_header: int = 36, marker: bytes = b'\x00UUUU'):
         # O primeiro bloco do arquivo é o cabeçalho e tem 36 bytes de tamanho.
         header = bfile.read(bytes_header)
         body = bfile.read()
-    return {'file_version': bin2dec(header[:4]), 'string': bin2str(header[4:]), 'blocos': classify_blocks(L(body.split(marker)))}
+    return {'file_version': bin2int(header[:4]), 'string': bin2str(header[4:]), 'blocos': classify_blocks(L(body.split(marker)))}
 
 # Cell
 def classify_blocks(blocks: L)->Mapping[int,L]:

@@ -2,7 +2,7 @@
 
 __all__ = ['BASEBLOCK', 'EXCLUDE_ATTRS', 'DICT_PROCESSING', 'DICT_UNIT', 'TUNING_BLOCK', 'BYTES_TIMED',
            'BYTES_TIMED_NE', 'BYTES_6', 'BYTES_21', 'BYTES_24', 'BYTES_40', 'BYTES_41', 'BYTES_42', 'BYTES_51',
-           'BYTES_63', 'BYTES_64', 'BYTES_65', 'BYTES_66', 'BYTES_67']
+           'BYTES_63', 'BYTES_64', 'BYTES_65', 'BYTES_V5', 'BYTES_66', 'BYTES_67']
 
 # Cell
 from typing import Mapping
@@ -97,6 +97,10 @@ BYTES_65 = { 9:  slice(28,32),
              17: slice(40,42),
              18: slice(42,44),
              19: slice(44,48)}
+
+BYTES_V5 = {3: slice(12,16),
+            4: slice(16,20),
+            5: slice(20,24)}
 
 BYTES_66 = {3: slice(12,16),
             4: slice(16,20),
