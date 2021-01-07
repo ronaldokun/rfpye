@@ -263,7 +263,6 @@ class DType21(GetAttr):
         """Return the File Number"""
         start = BYTES_21[1].stop + self._text1_len + 4 + self._text2_len
         stop = start + 4
-        self.STOP = stop
         return bin2int(self.data[start:stop])
 
 # Cell
