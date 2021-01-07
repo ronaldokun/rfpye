@@ -19,8 +19,7 @@ def process_bin(entrada:Param("Diretório contendo arquivos .bin", str),
 
         lista_bins = get_files(entrada, extensions=['.bin'], recurse=recursivo, folders=pastas)
 
-
-
         if verbose:
             print(lista_bins)
+
         return lista_bins
