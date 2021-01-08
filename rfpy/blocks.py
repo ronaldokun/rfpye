@@ -1169,6 +1169,7 @@ TYPE_CLASS = {
     42: DType42,
     51: DType51,
     63: DType63,
+    64: DType64,
     65: DType65,
     66: DType66,
     67: DType67,

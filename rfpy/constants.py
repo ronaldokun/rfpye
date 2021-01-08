@@ -3,7 +3,7 @@
 __all__ = ['BYTES_HEADER', 'DATA_BLOCK_HEADER', 'CHECKSUM', 'ENDMARKER', 'LEN_MARKER', 'BASEBLOCK', 'EXCLUDE_ATTRS',
            'DICT_PROCESSING', 'DICT_UNIT', 'TUNING_BLOCK', 'BYTES_TIMED', 'BYTES_TIMED_NE', 'BYTES_6', 'BYTES_20',
            'BYTES_21', 'BYTES_24', 'BYTES_40', 'BYTES_41', 'BYTES_42', 'BYTES_51', 'BYTES_63', 'BYTES_64', 'BYTES_65',
-           'BYTES_V5', 'BYTES_66', 'BYTES_67', 'META', 'LEVELS', 'BLOCK_SIZE']
+           'BYTES_V5', 'BYTES_66', 'BYTES_67', 'META', 'LEVELS', 'BLOCK_SIZE', 'TIMED_BLOCKS']
 
 # Cell
 from typing import Mapping, List
@@ -151,3 +151,5 @@ META = {'Block_Number': 'uint16',
 LEVELS = {'Block_Number': 'category', 'Frequency(MHz)': 'float32', "Nivel(dBm)" : 'float16'}
 
 BLOCK_SIZE = 4096
+
+TIMED_BLOCKS = [40,41,42,51,63,64,65,66,67,68,69]

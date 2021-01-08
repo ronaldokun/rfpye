@@ -135,5 +135,7 @@ def optimize(df: pd.DataFrame, datetime_features: List[str] = []):
 def public_attrs(obj: Any)->L:
     """Receives an object and return its public attributes (not starting with underscore _) excluding those listed in `EXCLUDE_ATTRS`"""
     return L(k for k in dir(obj) if not k.startswith('_') and k not in EXCLUDE_ATTRS)
-def getattrs(obj: Any)->L:
-    return {x:getattr(obj, x) for x in public_attrs(obj)}
+def getattrs(obj: Any, attrs: List = None)->L:
+    if not attrs:
+        attrs = public_attrs(obj)
+    return {x:getattr(obj, x) for x in attrs}
