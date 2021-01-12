@@ -112,21 +112,21 @@ nb_path: "01_parser.ipynb"
 <span class="k">def</span> <span class="nf">binary_iter</span><span class="p">(</span><span class="n">bin_file</span><span class="p">:</span> <span class="n">path_type</span><span class="p">,</span> <span class="n">marker</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">UUUU&#39;</span><span class="p">,</span> <span class="n">block_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4096</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">bytes</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    str, bytes, int &gt; bytes</span>
-<span class="sd">    :param bin_file: arquivo binario que contÈm os dados</span>
+<span class="sd">    :param bin_file: arquivo binario que cont√©m os dados</span>
 <span class="sd">    :param marker: separador de blocos</span>
-<span class="sd">    :param block_size: tamanho em bytes que È &quot;lido&quot; por vez no arquivo, evitando problemas de memÛria</span>
+<span class="sd">    :param block_size: tamanho em bytes que √© &quot;lido&quot; por vez no arquivo, evitando problemas de mem√≥ria</span>
 <span class="sd">    :return: bloco em formato binario</span>
-<span class="sd">    Gerador que fornece a partir de de um arquivo bin·rio, um bloco bin·rio por vez.</span>
+<span class="sd">    Gerador que fornece a partir de de um arquivo bin√°rio, um bloco bin√°rio por vez.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">bin_file</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">bfile</span><span class="p">:</span>
-        <span class="c1"># O primeiro bloco do arquivo È o cabeÁalho e tem 36 bytes de tamanho.</span>
+        <span class="c1"># O primeiro bloco do arquivo √© o cabe√ßalho e tem 36 bytes de tamanho.</span>
         <span class="k">yield</span> <span class="n">bfile</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">36</span><span class="p">)</span>
         <span class="c1"># As demais partes podem prosseguir normalmente</span>
         <span class="n">current</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span>
-        <span class="k">while</span> <span class="n">block</span> <span class="o">:=</span> <span class="n">bfile</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">block_size</span><span class="p">):</span>
+        <span class="k">while</span> <span class="n">block</span> <span class="p">:</span><span class="o">=</span> <span class="n">bfile</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">block_size</span><span class="p">):</span>
             <span class="n">current</span> <span class="o">+=</span> <span class="n">block</span>
-            <span class="k">while</span> <span class="p">(</span><span class="n">markerpos</span> <span class="o">:=</span> <span class="n">current</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">marker</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">while</span> <span class="p">(</span><span class="n">markerpos</span> <span class="p">:</span><span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">marker</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">yield</span> <span class="n">current</span><span class="p">[:</span><span class="n">markerpos</span><span class="p">]</span>
                 <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="p">[</span><span class="n">markerpos</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">marker</span><span class="p">):]</span>
 </pre></div>
@@ -136,7 +136,7 @@ nb_path: "01_parser.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A funÁ„o a seguir mapeia o arquivo <code>.bin</code> nos devidos blocos</p>
+<p>A fun√ß√£o a seguir mapeia o arquivo <code>.bin</code> nos devidos blocos</p>
 
 </div>
 </div>
@@ -219,7 +219,7 @@ nb_path: "01_parser.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="meta2df" class="doc_header"><code>meta2df</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/parser.py#L107" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>meta2df</code>(<strong><code>meta_list</code></strong>:<code>Iterable</code>[<code>T_co</code>])</p>
+<h4 id="meta2df" class="doc_header"><code>meta2df</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/parser.py#L107" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>meta2df</code>(<strong><code>meta_list</code></strong>:<code>Iterable</code>)</p>
 </blockquote>
 <p>Receives and Iterable <code>metalist</code> with metadata and converts it to a DataFrame</p>
 

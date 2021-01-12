@@ -7,13 +7,13 @@
 `pip install rfpy`
 
 ## Como utilizar
-Abaixo mostramos as funcionalidades principais dos m�dulos, utilizando-os dentro de algum outro script ou `REPL`
+Abaixo mostramos as funcionalidades principais dos módulos, utilizando-os dentro de algum outro script ou `REPL`
 
 Precisamos necessariamente de um diretório de entrada, contendo um ou mais arquivos `.bin` e um diretório de saída no qual iremos salvar os arquivos processados. 
 {% include note.html content='Mude os caminhos abaixo para suas pastas locais caso for executar o exemplo.' %}
 Ao utilizar o script `process_bin`, as pastas `entrada` e `saída` esses serão repassadas como parâmetros na linha de comando.
 
-```python
+```
 VERBOSE = True
 entrada = Path(r'D:\OneDrive - ANATEL\Backup_Rfeye_SP\RPO\PMEC2020\Ribeirao_Preto_SP\SLMA')
 saida = Path(r'C:\Users\rsilva\Downloads\saida')
@@ -21,14 +21,14 @@ saida = Path(r'C:\Users\rsilva\Downloads\saida')
 
 ## Leitura de Arquivos
 
-No módulo `parser.py`, há funções auxiliares para lidar com os arquivos `.bin`, pastas e para processar tais arquivos em formatos úteis. Nesse caso utilizaremos a função `get_files` que busca de maneira recursiva arquivos de dada entensão, inclusive links simbólicos se existirem
+No módulo `parser.py`, há funções auxiliares para lidar com os arquivos `.bin`, pastas e para processar tais arquivos em formatos úteis. Nesse caso utilizaremos a função `get_files` que busca de maneira recursiva arquivos de dada extensão, inclusive links simbólicos se existirem
 O caráter recursivo e a busca em links, `recurse` e `followlinks` simbólicos pode ser desativados por meio dos parâmetros e opcionalmente pode ser varrido somente o conjunto de pastas indicado em `folders` 
 
-```python
+```
 #show_doc(get_files)
 ```
 
-```python
+```
 arquivos = get_files(entrada, extensions=['.bin']) ; arquivos
 ```
 
@@ -39,11 +39,11 @@ arquivos = get_files(entrada, extensions=['.bin']) ; arquivos
 
 
 
-{% include important.html content='O Objeto retornado `L` é uma entensão da lista python com funcionalidades adicionais, uma delas como  podemos ver é que a representação da lista impressa mostra o comprimento da lista. Esse objeto pode ser usado de maneira idêntica à uma lista em python e sem substituição desta.' %}
+{% include important.html content='O Objeto retornado `L` é uma extensão da lista python com funcionalidades adicionais, uma delas como  podemos ver é que a representação da lista impressa mostra o comprimento da lista. Esse objeto pode ser usado de maneira idêntica à uma lista em python e sem substituição desta.' %}
 
 Temos 255 arquivos bin na pasta entrada. Podemos filtrar por pasta também
 
-```python
+```
 arquivos_bin = get_files(entrada, extensions=['.bin'], folders='tmp') ; arquivos_bin
 ```
 
@@ -56,7 +56,7 @@ arquivos_bin = get_files(entrada, extensions=['.bin'], folders='tmp') ; arquivos
 
 Nesse caso dentro da pasta 'tmp' há somente 1 arquivo `.bin`
 
-```python
+```
 bin_file = arquivos_bin[0] ; bin_file.name
 ```
 
@@ -68,7 +68,7 @@ bin_file = arquivos_bin[0] ; bin_file.name
 
 
 ## Processamento dos blocos
-A função seguinte `file2block` recebe um arquivo `.bin` e mapeia os blocos contidos nele retornando um dicionário que tem como chave o tipo de bloco e os valores como uma lista com os blocos extra�dos sequencialmente.
+A função seguinte `file2block` recebe um arquivo `.bin` e mapeia os blocos contidos nele retornando um dicionário que tem como chave o tipo de bloco e os valores como uma lista com os blocos extraídos sequencialmente.
 
 
 <h4 id="file2block" class="doc_header"><code>file2block</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/parser.py#L101" class="source_link" style="float:right">[source]</a></h4>
@@ -80,15 +80,15 @@ Receives a path to a bin file and returns a defaultdict with unique block types 
 :return: A Dictionary with block types as keys and a list of the Class Blocks available as values
 
 
-```python
+```
 %%time
 block = file2block(bin_file)
 ```
 
     Wall time: 575 ms
-    
 
-```python
+
+```
 block.keys()
 ```
 
@@ -101,7 +101,7 @@ block.keys()
 
 Exceto o primeiro bloco, que é simplesmente ignorado, os demais blocos são conhecidos e tratados individualmente.
 
-```python
+```
 block[63]
 ```
 
@@ -112,7 +112,7 @@ block[63]
 
 
 
-```python
+```
 block[40]
 ```
 
@@ -125,11 +125,11 @@ block[40]
 
 Temos nesse arquivo 6605 blocos do tipo 63 - Bloco contendo dados de espectro.
 
-```python
+```
 bloco = block[63][0]
 ```
 
-```python
+```
 pprint([d for d in dir(bloco) if not d.startswith('_')])
 ```
 
@@ -172,11 +172,11 @@ pprint([d for d in dir(bloco) if not d.startswith('_')])
      'tunning_info_array',
      'type',
      'unit']
-    
+
 
 Esses são os atributos do Bloco de Espectro acima do tipo 63. Todos podem ser acessados por meio da notação `.`
 
-```python
+```
 bloco.data_points
 ```
 
@@ -187,7 +187,7 @@ bloco.data_points
 
 
 
-```python
+```
 bloco.start_mega
 ```
 
@@ -198,7 +198,7 @@ bloco.start_mega
 
 
 
-```python
+```
 bloco.stop_mega
 ```
 
@@ -209,7 +209,7 @@ bloco.stop_mega
 
 
 
-```python
+```
 bloco.level_offset
 ```
 
@@ -224,18 +224,18 @@ O bloco se comporta como um objeto python do tipo lista.
 
 Podemos selecionar items da lista, é retornado uma tupla com a frequência em `MHz` e o nível medido em `dBm / dBuV/m` 
 
-```python
+```
 for freq, nível in bloco:
-    print(freq, n�vel)
+    print(freq, nível)
     break
 ```
 
     108.0 -75.0
-    
+
 
 Podemos iterar as medidas num loop
 
-```python
+```
 len(bloco)
 ```
 
@@ -249,16 +249,16 @@ len(bloco)
 Esse é o mesmo valor do atributo `data_points`
 
 ## Metadados
-A função seguinte extrai os metadados `META` definidos no cabe�alho do arquivo `parser.py` e retorna um DataFrame.
+A função seguinte extrai os metadados `META` definidos no cabeçalho do arquivo `parser.py` e retorna um DataFrame.
 
-```python
+```
 %%time
 meta = export_bin_meta(block)
 meta.tail(10)
 ```
 
     Wall time: 640 ms
-    
+
 
 
 
@@ -452,7 +452,7 @@ meta.tail(10)
 
 
 
-```python
+```
 meta.info()
 ```
 
@@ -475,11 +475,11 @@ meta.info()
      11  Equipement_ID    6605 non-null   category      
     dtypes: category(3), datetime64[ns](1), float16(1), float32(2), uint16(3), uint32(2)
     memory usage: 226.1 KB
-    
+
 
 Os metadados de um arquivo `.bin` de cerca de `100MB` ocupa somente `226KB`
 
-```python
+```
 meta.to_feather(saida / 'file_a.fth')
 ```
 
@@ -489,7 +489,7 @@ A função seguinte extrai as frequências e nível num formato de Tabela Dinâm
 * Índice: Números de Bloco
 * Valores: Níveis (dBm ou dBuV/m)
 
-```python
+```
 block[24].attrgot('thread_id')
 ```
 
@@ -500,13 +500,13 @@ block[24].attrgot('thread_id')
 
 
 
-```python
+```
 %%time
 levels = export_bin_level(block) ; levels.head()
 ```
 
     Wall time: 9.71 s
-    
+
 
 
 
@@ -675,12 +675,12 @@ levels = export_bin_level(block) ; levels.head()
     </tr>
   </tbody>
 </table>
-<p>5 rows � 14848 columns</p>
+<p>5 rows × 14848 columns</p>
 </div>
 
 
 
-```python
+```
 levels.info()
 ```
 
@@ -689,7 +689,7 @@ levels.info()
     Columns: 14848 entries, 108.0 to 137.0
     dtypes: float16(14848)
     memory usage: 187.1 MB
-    
+
 
 Essa matriz com mais de 98 milhões de valores ocupa somente `187.1MB` de memória
 
@@ -697,17 +697,17 @@ Caso o parâmetro `pivoted = False` é retornada a versão tabular empilhada. No
 
 Os tipos de dados a seguir são os automaticamente retornados pelo `numpy` / `pandas` no momento de criação da matriz
 
-```python
+```
 dtypes = {'Block_Number': 'int32', 'Frequency(MHz)': 'float64', 'Nivel(dBm)': 'float64'}
 ```
 
-```python
+```
 %%time
 levels = export_bin_level(block, pivoted=False, dtypes=dtypes) ; levels.head()
 ```
 
     Wall time: 13.7 s
-    
+
 
 
 
@@ -772,7 +772,7 @@ levels = export_bin_level(block, pivoted=False, dtypes=dtypes) ; levels.head()
 
 
 
-```python
+```
 levels.info()
 ```
 
@@ -786,23 +786,23 @@ levels.info()
      2   Nivel(dBm)      float64
     dtypes: float64(2), int32(1)
     memory usage: 1.8 GB
-    
+
 
 Esse formato de dados é extremamente redundante, repete-se o conjunto de blocos e frequências a cada bloco existente, por isso ocupa `1.8GB` de memória.
 
-O número de bloco pode ser perfeitamente armazenado como um `int16`, a frequ�ncia como um `float32` e os níveis, dado termos somente 1 casa decimal, podem ser armazenados como `float16`
+O número de bloco pode ser perfeitamente armazenado como um `int16`, a frequência como um `float32` e os níveis, dado termos somente 1 casa decimal, podem ser armazenados como `float16`
 
-```python
+```
 dtypes = {'Block_Number': 'int16', 'Frequency(MHz)': 'float32', 'Nivel(dBm)': 'float32'}
 ```
 
-```python
+```
 %%time
 levels = export_bin_level(block, pivoted=False, dtypes=dtypes) ; levels.head()
 ```
 
     Wall time: 13.9 s
-    
+
 
 
 
@@ -867,7 +867,7 @@ levels = export_bin_level(block, pivoted=False, dtypes=dtypes) ; levels.head()
 
 
 
-```python
+```
 levels.info()
 ```
 
@@ -881,23 +881,23 @@ levels.info()
      2   Nivel(dBm)      float16
     dtypes: float16(1), float32(1), int16(1)
     memory usage: 748.2 MB
-    
+
 
 Reduzimos de `1.8GB` para `748.2MB` sem perda de informação.
 
 No entanto, como não vamos fazer cálculos com essa matriz, somente extraí-la e armazená-la no momento, podemos manipular e salvar os valores em `float32` como `category` do pandas que ocupa o mesmo espaço próximo de um `int16` nesse caso, isso irá economizar bastante espaço tendo em vista o número fixo de frequências.
 
-```python
+```
 dtypes = {'Block_Number': 'int16', 'Frequency(MHz)': 'category', 'Nivel(dBm)': 'float16'}
 ```
 
-```python
+```
 %%time
 levels = export_bin_level(block, pivoted=False, dtypes=dtypes) ; levels.head()
 ```
 
     Wall time: 18.1 s
-    
+
 
 
 
@@ -962,7 +962,7 @@ levels = export_bin_level(block, pivoted=False, dtypes=dtypes) ; levels.head()
 
 
 
-```python
+```
 levels.info()
 ```
 
@@ -976,14 +976,14 @@ levels.info()
      2   Nivel(dBm)      float16 
     dtypes: category(1), float16(1), int16(1)
     memory usage: 561.9 MB
-    
+
 
 Reduzimos assim de `1.8GB` para `561.9MB` sem perda de informação nos dados. Qualquer redução adicional implica numa transformação dos dados ou perda de precisão.
 
-```python
+```
 %%time
 levels.to_feather(saida / 'file_b.fth')
 ```
 
     Wall time: 1.11 s
-    
+
