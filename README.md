@@ -1,17 +1,17 @@
 
 # RFPY
-> Este mÛdulo tem como objetivo o processamento e extraÁ„o otimizada de dados dos arquivos `.bin` de monitoramento do espectro provenientes do script Logger executados nas estaÁıes de Monitoramento CRFS RFeye Node. Para tal utilizamos as v·rias funcionalidades da biblioteca <a href='https://fastcore.fast.ai/basics.html'>fastcore</a>, que expande e otimiza as estruturas de dados da linguagem python. 
+> Este m√≥dulo tem como objetivo o processamento e extra√ß√£o otimizada de dados dos arquivos `.bin` de monitoramento do espectro provenientes do script Logger executados nas esta√ß√µes de Monitoramento CRFS RFeye Node. Para tal utilizamos as v√°rias funcionalidades da biblioteca <a href='https://fastcore.fast.ai/basics.html'>fastcore</a>, que expande e otimiza as estruturas de dados da linguagem python. 
 
 
-## InstalaÁ„o
+## Instala√ß√£o
 `pip install rfpy`
 
 ## Como utilizar
-Abaixo mostramos as funcionalidades principais dos mÛdulos, utilizando-os dentro de algum outro script ou `REPL`
+Abaixo mostramos as funcionalidades principais dos mÔøΩdulos, utilizando-os dentro de algum outro script ou `REPL`
 
-Precisamos necessariamente de um diretÛrio de entrada, contendo um ou mais arquivos `.bin` e um diretÛrio de saÌda no qual iremos salvar os arquivos processados. 
+Precisamos necessariamente de um diret√≥rio de entrada, contendo um ou mais arquivos `.bin` e um diret√≥rio de sa√≠da no qual iremos salvar os arquivos processados. 
 {% include note.html content='Mude os caminhos abaixo para suas pastas locais caso for executar o exemplo.' %}
-Ao utilizar o script `process_bin`, as pastas `entrada` e `saÌda` esses ser„o repassadas como par‚metros na linha de comando.
+Ao utilizar o script `process_bin`, as pastas `entrada` e `sa√≠da` esses ser√£o repassadas como par√¢metros na linha de comando.
 
 ```python
 VERBOSE = True
@@ -21,8 +21,8 @@ saida = Path(r'C:\Users\rsilva\Downloads\saida')
 
 ## Leitura de Arquivos
 
-No mÛdulo `parser.py`, h· funÁıes auxiliares para lidar com os arquivos `.bin`, pastas e para processar tais arquivos em formatos ˙teis. Nesse caso utilizaremos a funÁ„o `get_files` que busca de maneira recursiva arquivos de dada extens„o, inclusive links simbÛlicos se existirem
-O car·ter recursivo e a busca em links, `recurse` e `followlinks` simbÛlicos pode ser desativados por meio dos par‚metros e opcionalmente pode ser varrido somente o conjunto de pastas indicado em `folders` 
+No m√≥dulo `parser.py`, h√° fun√ß√µes auxiliares para lidar com os arquivos `.bin`, pastas e para processar tais arquivos em formatos √∫teis. Nesse caso utilizaremos a fun√ß√£o `get_files` que busca de maneira recursiva arquivos de dada entens√£o, inclusive links simb√≥licos se existirem
+O car√°ter recursivo e a busca em links, `recurse` e `followlinks` simb√≥licos pode ser desativados por meio dos par√¢metros e opcionalmente pode ser varrido somente o conjunto de pastas indicado em `folders` 
 
 ```python
 #show_doc(get_files)
@@ -39,9 +39,9 @@ arquivos = get_files(entrada, extensions=['.bin']) ; arquivos
 
 
 
-{% include important.html content='O Objeto retornado `L` È uma extens„o da lista python com funcionalidades adicionais, uma delas como  podemos ver È que a representaÁ„o da lista impressa mostra o comprimento da lista. Esse objeto pode ser usado de maneira idÍntica ‡ uma lista em python e sem substituiÁ„o desta.' %}
+{% include important.html content='O Objeto retornado `L` √© uma entens√£o da lista python com funcionalidades adicionais, uma delas como  podemos ver √© que a representa√ß√£o da lista impressa mostra o comprimento da lista. Esse objeto pode ser usado de maneira id√™ntica √† uma lista em python e sem substitui√ß√£o desta.' %}
 
-Temos 255 arquivos bin na pasta entrada. Podemos filtrar por pasta tambÈm
+Temos 255 arquivos bin na pasta entrada. Podemos filtrar por pasta tamb√©m
 
 ```python
 arquivos_bin = get_files(entrada, extensions=['.bin'], folders='tmp') ; arquivos_bin
@@ -54,7 +54,7 @@ arquivos_bin = get_files(entrada, extensions=['.bin'], folders='tmp') ; arquivos
 
 
 
-Nesse caso dentro da pasta 'tmp' h· somente 1 arquivo `.bin`
+Nesse caso dentro da pasta 'tmp' h√° somente 1 arquivo `.bin`
 
 ```python
 bin_file = arquivos_bin[0] ; bin_file.name
@@ -68,7 +68,7 @@ bin_file = arquivos_bin[0] ; bin_file.name
 
 
 ## Processamento dos blocos
-A funÁ„o seguinte `file2block` recebe um arquivo `.bin` e mapeia os blocos contidos nele retornando um dicion·rio que tem como chave o tipo de bloco e os valores como uma lista com os blocos extraÌdos sequencialmente.
+A fun√ß√£o seguinte `file2block` recebe um arquivo `.bin` e mapeia os blocos contidos nele retornando um dicion√°rio que tem como chave o tipo de bloco e os valores como uma lista com os blocos extraÔøΩdos sequencialmente.
 
 
 <h4 id="file2block" class="doc_header"><code>file2block</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/parser.py#L101" class="source_link" style="float:right">[source]</a></h4>
@@ -99,7 +99,7 @@ block.keys()
 
 
 
-Exceto o primeiro bloco, que È simplesmente ignorado, os demais blocos s„o conhecidos e tratados individualmente.
+Exceto o primeiro bloco, que √© simplesmente ignorado, os demais blocos s√£o conhecidos e tratados individualmente.
 
 ```python
 block[63]
@@ -174,7 +174,7 @@ pprint([d for d in dir(bloco) if not d.startswith('_')])
      'unit']
     
 
-Esses s„o os atributos do Bloco de Espectro acima do tipo 63. Todos podem ser acessados por meio da notaÁ„o `.`
+Esses s√£o os atributos do Bloco de Espectro acima do tipo 63. Todos podem ser acessados por meio da nota√ß√£o `.`
 
 ```python
 bloco.data_points
@@ -222,11 +222,11 @@ bloco.level_offset
 
 O bloco se comporta como um objeto python do tipo lista. 
 
-Podemos selecionar items da lista, È retornado uma tupla com a frequÍncia em `MHz` e o nÌvel medido em `dBm / dBuV/m` 
+Podemos selecionar items da lista, √© retornado uma tupla com a frequ√™ncia em `MHz` e o n√≠vel medido em `dBm / dBuV/m` 
 
 ```python
-for freq, nÌvel in bloco:
-    print(freq, nÌvel)
+for freq, n√≠vel in bloco:
+    print(freq, nÔøΩvel)
     break
 ```
 
@@ -246,10 +246,10 @@ len(bloco)
 
 
 
-Esse È o mesmo valor do atributo `data_points`
+Esse √© o mesmo valor do atributo `data_points`
 
 ## Metadados
-A funÁ„o seguinte extrai os metadados `META` definidos no cabeÁalho do arquivo `parser.py` e retorna um DataFrame.
+A fun√ß√£o seguinte extrai os metadados `META` definidos no cabeÔøΩalho do arquivo `parser.py` e retorna um DataFrame.
 
 ```python
 %%time
@@ -483,11 +483,11 @@ Os metadados de um arquivo `.bin` de cerca de `100MB` ocupa somente `226KB`
 meta.to_feather(saida / 'file_a.fth')
 ```
 
-## FrequÍncia e NÌvel
-A funÁ„o seguinte extrai as frequÍncias e nÌvel num formato de Tabela Din‚mica:
-* Colunas: FrequÍncias (MHz)
-* Õndice: N˙meros de Bloco
-* Valores: NÌveis (dBm ou dBuV/m)
+## Frequ√™ncia e N√≠vel
+A fun√ß√£o seguinte extrai as frequ√™ncias e n√≠vel num formato de Tabela Din√¢mica:
+* Colunas: Frequ√™ncias (MHz)
+* √çndice: N√∫meros de Bloco
+* Valores: N√≠veis (dBm ou dBuV/m)
 
 ```python
 block[24].attrgot('thread_id')
@@ -675,7 +675,7 @@ levels = export_bin_level(block) ; levels.head()
     </tr>
   </tbody>
 </table>
-<p>5 rows ◊ 14848 columns</p>
+<p>5 rows ÔøΩ 14848 columns</p>
 </div>
 
 
@@ -691,11 +691,11 @@ levels.info()
     memory usage: 187.1 MB
     
 
-Essa matriz com mais de 98 milhıes de valores ocupa somente `187.1MB` de memÛria
+Essa matriz com mais de 98 milh√µes de valores ocupa somente `187.1MB` de mem√≥ria
 
-Caso o par‚metro `pivoted = False` È retornada a vers„o tabular empilhada. No entanto o processamento È mais lento tendo em vista a redund‚ncia de dados que È adicionada.
+Caso o par√¢metro `pivoted = False` √© retornada a vers√£o tabular empilhada. No entanto o processamento √© mais lento tendo em vista a redund√¢ncia de dados que √© adicionada.
 
-Os tipos de dados a seguir s„o os automaticamente retornados pelo `numpy` / `pandas` no momento de criaÁ„o da matriz
+Os tipos de dados a seguir s√£o os automaticamente retornados pelo `numpy` / `pandas` no momento de cria√ß√£o da matriz
 
 ```python
 dtypes = {'Block_Number': 'int32', 'Frequency(MHz)': 'float64', 'Nivel(dBm)': 'float64'}
@@ -788,9 +788,9 @@ levels.info()
     memory usage: 1.8 GB
     
 
-Esse formato de dados È extremamente redundante, repete-se o conjunto de blocos e frequÍncias a cada bloco existente, por isso ocupa `1.8GB` de memÛria.
+Esse formato de dados √© extremamente redundante, repete-se o conjunto de blocos e frequ√™ncias a cada bloco existente, por isso ocupa `1.8GB` de mem√≥ria.
 
-O n˙mero de bloco pode ser perfeitamente armazenado como um `int16`, a frequÍncia como um `float32` e os nÌveis, dado termos somente 1 casa decimal, podem ser armazenados como `float16`
+O n√∫mero de bloco pode ser perfeitamente armazenado como um `int16`, a frequÔøΩncia como um `float32` e os n√≠veis, dado termos somente 1 casa decimal, podem ser armazenados como `float16`
 
 ```python
 dtypes = {'Block_Number': 'int16', 'Frequency(MHz)': 'float32', 'Nivel(dBm)': 'float32'}
@@ -883,9 +883,9 @@ levels.info()
     memory usage: 748.2 MB
     
 
-Reduzimos de `1.8GB` para `748.2MB` sem perda de informaÁ„o.
+Reduzimos de `1.8GB` para `748.2MB` sem perda de informa√ß√£o.
 
-No entanto, como n„o vamos fazer c·lculos com essa matriz, somente extraÌ-la e armazen·-la no momento, podemos manipular e salvar os valores em `float32` como `category` do pandas que ocupa o mesmo espaÁo prÛximo de um `int16` nesse caso, isso ir· economizar bastante espaÁo tendo em vista o n˙mero fixo de frequÍncias.
+No entanto, como n√£o vamos fazer c√°lculos com essa matriz, somente extra√≠-la e armazen√°-la no momento, podemos manipular e salvar os valores em `float32` como `category` do pandas que ocupa o mesmo espa√ßo pr√≥ximo de um `int16` nesse caso, isso ir√° economizar bastante espa√ßo tendo em vista o n√∫mero fixo de frequ√™ncias.
 
 ```python
 dtypes = {'Block_Number': 'int16', 'Frequency(MHz)': 'category', 'Nivel(dBm)': 'float16'}
@@ -978,7 +978,7 @@ levels.info()
     memory usage: 561.9 MB
     
 
-Reduzimos assim de `1.8GB` para `561.9MB` sem perda de informaÁ„o nos dados. Qualquer reduÁ„o adicional implica numa transformaÁ„o dos dados ou perda de precis„o.
+Reduzimos assim de `1.8GB` para `561.9MB` sem perda de informa√ß√£o nos dados. Qualquer redu√ß√£o adicional implica numa transforma√ß√£o dos dados ou perda de precis√£o.
 
 ```python
 %%time
