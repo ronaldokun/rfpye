@@ -29,6 +29,13 @@ nb_path: "index.ipynb"
 </div>
     {% endraw %}
 
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Instala&#231;&#227;o">Instala&#231;&#227;o<a class="anchor-link" href="#Instala&#231;&#227;o"> </a></h2><p><code>pip install rfpy</code></p>
@@ -47,7 +54,7 @@ nb_path: "index.ipynb"
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Precisamos necessariamente de um diretório de entrada, contendo um ou mais arquivos <code>.bin</code> e um diretório de saída no qual iremos salvar os arquivos processados. 
 {% include note.html content='Mude os caminhos abaixo para suas pastas locais caso for executar o exemplo.' %}
-Ao utilizar o script <a href="/rfpy/main.html#process_bin"><code>process_bin</code></a>, as pastas <code>entrada</code> e <code>saída</code> esses serão repassadas como parâmetros na linha de comando.</p>
+Ao utilizar o script <code>process_bin</code>, as pastas <code>entrada</code> e <code>saída</code> esses serão repassadas como parâmetros na linha de comando.</p>
 
 </div>
 </div>
@@ -99,24 +106,6 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_files" class="doc_header"><code>get_files</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/parser.py#L64" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_files</code>(<strong><code>path</code></strong>, <strong><code>extensions</code></strong>=<em><code>None</code></em>, <strong><code>recurse</code></strong>=<em><code>True</code></em>, <strong><code>folders</code></strong>=<em><code>None</code></em>, <strong><code>followlinks</code></strong>=<em><code>True</code></em>)</p>
-</blockquote>
-<p>Get all the files in <code>path</code> with optional <code>extensions</code>, optionally with <code>recurse</code>, only in <code>folders</code>, if specified.</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
     {% endraw %}
 
@@ -131,22 +120,6 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(#255) [Path(&#39;D:/OneDrive - ANATEL/Backup_Rfeye_SP/RPO/PMEC2020/Ribeirao_Preto_SP/SLMA/rfeye002304_SLMA_bimestral_occ15min_200317_232233.bin&#39;),Path(&#39;D:/OneDrive - ANATEL/Backup_Rfeye_SP/RPO/PMEC2020/Ribeirao_Preto_SP/SLMA/rfeye002304_SLMA_bimestral_occ15min_200318_225525.bin&#39;),Path(&#39;D:/OneDrive - ANATEL/Backup_Rfeye_SP/RPO/PMEC2020/Ribeirao_Preto_SP/SLMA/rfeye002304_SLMA_bimestral_occ15min_200318_225535.bin&#39;),Path(&#39;D:/OneDrive - ANATEL/Backup_Rfeye_SP/RPO/PMEC2020/Ribeirao_Preto_SP/SLMA/rfeye002304_SLMA_bimestral_occ15min_200318_225556.bin&#39;),Path(&#39;D:/OneDrive - ANATEL/Backup_Rfeye_SP/RPO/PMEC2020/Ribeirao_Preto_SP/SLMA/rfeye002304_SLMA_bimestral_occ15min_200318_225615.bin&#39;),Path(&#39;D:/OneDrive - ANATEL/Backup_Rfeye_SP/RPO/PMEC2020/Ribeirao_Preto_SP/SLMA/rfeye002304_SLMA_bimestral_occ15min_200410_183001.bin&#39;),Path(&#39;D:/OneDrive - ANATEL/Backup_Rfeye_SP/RPO/PMEC2020/Ribeirao_Preto_SP/SLMA/rfeye002304_SLMA_bimestral_occ15min_200423_162327.bin&#39;),Path(&#39;D:/OneDrive - ANATEL/Backup_Rfeye_SP/RPO/PMEC2020/Ribeirao_Preto_SP/SLMA/rfeye002304_SLMA_bimestral_occ15min_200516_120002.bin&#39;),Path(&#39;D:/OneDrive - ANATEL/Backup_Rfeye_SP/RPO/PMEC2020/Ribeirao_Preto_SP/SLMA/rfeye002304_SLMA_bimestral_occ15min_200520_054608.bin&#39;),Path(&#39;D:/OneDrive - ANATEL/Backup_Rfeye_SP/RPO/PMEC2020/Ribeirao_Preto_SP/SLMA/rfeye002304_SLMA_bimestral_occ15min_200612_013001.bin&#39;)...]</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -181,22 +154,6 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(#1) [Path(&#39;D:/OneDrive - ANATEL/Backup_Rfeye_SP/RPO/PMEC2020/Ribeirao_Preto_SP/SLMA/tmp/rfeye002304_SLMA_bimestral_PEAK_200829_234902.bin&#39;)]</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
     {% endraw %}
 
@@ -221,28 +178,12 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;rfeye002304_SLMA_bimestral_PEAK_200829_234902.bin&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
     {% endraw %}
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Processamento-dos-blocos">Processamento dos blocos<a class="anchor-link" href="#Processamento-dos-blocos"> </a></h2><p>A função seguinte <a href="/rfpy/parser.html#file2block"><code>file2block</code></a> recebe um arquivo <code>.bin</code> e mapeia os blocos contidos nele retornando um dicionário que tem como chave o tipo de bloco e os valores como uma lista com os blocos extraídos sequencialmente.</p>
+<h2 id="Processamento-dos-blocos">Processamento dos blocos<a class="anchor-link" href="#Processamento-dos-blocos"> </a></h2><p>A função seguinte <a href="/rfpy/parser.html#parse_bin"><code>parse_bin</code></a> recebe um arquivo <code>.bin</code> e mapeia os blocos contidos nele retornando um dicionário que tem como chave o tipo de bloco e os valores como uma lista com os blocos extraídos sequencialmente.</p>
 
 </div>
 </div>
@@ -250,16 +191,6 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 <div class="output_wrapper">
 <div class="output">
@@ -268,11 +199,8 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="file2block" class="doc_header"><code>file2block</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/parser.py#L113" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>file2block</code>(<strong><code>file</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>])</p>
+<h4 id="parse_bin" class="doc_header"><code>parse_bin</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/parser.py#L54" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parse_bin</code>(<strong><code>bin_file</code></strong>, <strong><code>bytes_header</code></strong>:<code>int</code>=<em><code>36</code></em>, <strong><code>marker</code></strong>:<code>bytes</code>=<em><code>b'\x00UUUU'</code></em>)</p>
 </blockquote>
-<p>Receives a path to a bin file and returns a defaultdict with unique block types as keys and a list of the Class Blocks as values
-:param file: A string or pathlib.Path like path to a <code>.bin</code>file generated by CFRS - Logger
-:return: A Dictionary with block types as keys and a list of the Class Blocks available as values</p>
 
 </div>
 
@@ -291,7 +219,8 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">block</span> <span class="o">=</span> <span class="n">file2block</span><span class="p">(</span><span class="n">bin_file</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">time</span>
+map_bin = parse_bin(bin_file)
 </pre></div>
 
     </div>
@@ -312,22 +241,6 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>dict_keys([1413563424, 21, 41, 24, 40, 63])</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -355,19 +268,20 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(#6605) [&lt;rfpy.blocks.DType63 object at 0x000002B54F47F940&gt;,&lt;rfpy.blocks.DType63 object at 0x000002B54F47FAC0&gt;,&lt;rfpy.blocks.DType63 object at 0x000002B54F47FBE0&gt;,&lt;rfpy.blocks.DType63 object at 0x000002B54F47FD00&gt;,&lt;rfpy.blocks.DType63 object at 0x000002B54F47FE20&gt;,&lt;rfpy.blocks.DType63 object at 0x000002B54F47FF40&gt;,&lt;rfpy.blocks.DType63 object at 0x000002B5482300A0&gt;,&lt;rfpy.blocks.DType63 object at 0x000002B5482301C0&gt;,&lt;rfpy.blocks.DType63 object at 0x000002B5482302E0&gt;,&lt;rfpy.blocks.DType63 object at 0x000002B548230400&gt;...]</pre>
 </div>
+    {% endraw %}
 
-</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">block</span><span class="p">[</span><span class="mi">40</span><span class="p">]</span>
+</pre></div>
+
+    </div>
 </div>
 </div>
 
@@ -412,58 +326,6 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[&#39;agc_array&#39;,
- &#39;banda_mega&#39;,
- &#39;banda_mili&#39;,
- &#39;block_data&#39;,
- &#39;bw&#39;,
- &#39;channel&#39;,
- &#39;count&#39;,
- &#39;data&#39;,
- &#39;data_points&#39;,
- &#39;date&#39;,
- &#39;datetime_stamp&#39;,
- &#39;default&#39;,
- &#39;frequencies&#39;,
- &#39;global_error_code&#39;,
- &#39;global_flags_code&#39;,
- &#39;group_id&#39;,
- &#39;id_antenna&#39;,
- &#39;index&#39;,
- &#39;len_agc&#39;,
- &#39;len_padding&#39;,
- &#39;len_tunning_info&#39;,
- &#39;level_offset&#39;,
- &#39;nanosecs&#39;,
- &#39;num_meas&#39;,
- &#39;passo&#39;,
- &#39;processing&#39;,
- &#39;rbw&#39;,
- &#39;size&#39;,
- &#39;spent_time_microsecs&#39;,
- &#39;start_mega&#39;,
- &#39;start_mili&#39;,
- &#39;stop_mega&#39;,
- &#39;stop_mili&#39;,
- &#39;thread_id&#39;,
- &#39;time&#39;,
- &#39;trailer&#39;,
- &#39;tunning_info_array&#39;,
- &#39;type&#39;,
- &#39;unit&#39;]
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
     {% endraw %}
 
@@ -488,22 +350,6 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>14848</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
     {% endraw %}
 
@@ -518,22 +364,6 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>108</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -554,22 +384,6 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>137</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
     {% endraw %}
 
@@ -587,22 +401,6 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>-20</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
     {% endraw %}
 
@@ -613,39 +411,6 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks
 </div>
 </div>
 </div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bloco</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bloco</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>((108.0, -75.0), (137.0, -96.5))</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Podemos selecionar items da lista, é retornado uma tupla com a frequência em <code>MHz</code> e o nível medido em <code>dBm / dBuV/m</code></p>
@@ -666,20 +431,6 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>108.0 -75.0
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -707,22 +458,6 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>14848</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
     {% endraw %}
 
@@ -735,7 +470,7 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A função seguinte extrai os metadados <a href="/rfpy/parser.html#META"><code>META</code></a> definidos no cabeçalho do arquivo <code>parser.py</code> e retorna um DataFrame.</p>
+<h2 id="Metadados">Metadados<a class="anchor-link" href="#Metadados"> </a></h2><p>A função seguinte extrai os metadados <a href="/rfpy/constants.html#META"><code>META</code></a> definidos no cabeçalho do arquivo <code>parser.py</code> e retorna um DataFrame.</p>
 
 </div>
 </div>
@@ -747,220 +482,12 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
-<span class="n">meta</span> <span class="o">=</span> <span class="n">export_bin_meta</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
-<span class="n">meta</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">time</span>
+meta = export_bin_meta(block)
+meta.tail(10)
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Wall time: 585 ms
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Block_Number</th>
-      <th>Latitude</th>
-      <th>Longitude</th>
-      <th>Altitude</th>
-      <th>Initial_Time</th>
-      <th>Sample_Duration</th>
-      <th>Start_Frequency</th>
-      <th>Stop_Frequency</th>
-      <th>Vector_Length</th>
-      <th>Trace_Type</th>
-      <th>Antenna_Type</th>
-      <th>Equipement_ID</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>6595</th>
-      <td>6595</td>
-      <td>-21.228973</td>
-      <td>-47.759907</td>
-      <td>623.5</td>
-      <td>2020-09-03 13:45:01.833424</td>
-      <td>60428</td>
-      <td>108</td>
-      <td>137</td>
-      <td>14848</td>
-      <td>peak</td>
-      <td>1</td>
-      <td>rfeye002304</td>
-    </tr>
-    <tr>
-      <th>6596</th>
-      <td>6596</td>
-      <td>-21.228973</td>
-      <td>-47.759933</td>
-      <td>621.5</td>
-      <td>2020-09-03 13:46:00.811335</td>
-      <td>60514</td>
-      <td>108</td>
-      <td>137</td>
-      <td>14848</td>
-      <td>peak</td>
-      <td>1</td>
-      <td>rfeye002304</td>
-    </tr>
-    <tr>
-      <th>6597</th>
-      <td>6597</td>
-      <td>-21.228977</td>
-      <td>-47.759914</td>
-      <td>623.0</td>
-      <td>2020-09-03 13:47:01.501244</td>
-      <td>60358</td>
-      <td>108</td>
-      <td>137</td>
-      <td>14848</td>
-      <td>peak</td>
-      <td>1</td>
-      <td>rfeye002304</td>
-    </tr>
-    <tr>
-      <th>6598</th>
-      <td>6598</td>
-      <td>-21.228973</td>
-      <td>-47.759907</td>
-      <td>625.0</td>
-      <td>2020-09-03 13:48:00.511332</td>
-      <td>60397</td>
-      <td>108</td>
-      <td>137</td>
-      <td>14848</td>
-      <td>peak</td>
-      <td>1</td>
-      <td>rfeye002304</td>
-    </tr>
-    <tr>
-      <th>6599</th>
-      <td>6599</td>
-      <td>-21.228964</td>
-      <td>-47.759922</td>
-      <td>620.0</td>
-      <td>2020-09-03 13:49:01.191148</td>
-      <td>60476</td>
-      <td>108</td>
-      <td>137</td>
-      <td>14848</td>
-      <td>peak</td>
-      <td>1</td>
-      <td>rfeye002304</td>
-    </tr>
-    <tr>
-      <th>6600</th>
-      <td>6600</td>
-      <td>-21.228956</td>
-      <td>-47.759922</td>
-      <td>620.5</td>
-      <td>2020-09-03 13:50:01.891165</td>
-      <td>60218</td>
-      <td>108</td>
-      <td>137</td>
-      <td>14848</td>
-      <td>peak</td>
-      <td>1</td>
-      <td>rfeye002304</td>
-    </tr>
-    <tr>
-      <th>6601</th>
-      <td>6601</td>
-      <td>-21.228941</td>
-      <td>-47.759911</td>
-      <td>621.0</td>
-      <td>2020-09-03 13:51:00.811174</td>
-      <td>60443</td>
-      <td>108</td>
-      <td>137</td>
-      <td>14848</td>
-      <td>peak</td>
-      <td>1</td>
-      <td>rfeye002304</td>
-    </tr>
-    <tr>
-      <th>6602</th>
-      <td>6602</td>
-      <td>-21.228968</td>
-      <td>-47.759907</td>
-      <td>619.0</td>
-      <td>2020-09-03 13:52:01.501244</td>
-      <td>60415</td>
-      <td>108</td>
-      <td>137</td>
-      <td>14848</td>
-      <td>peak</td>
-      <td>1</td>
-      <td>rfeye002304</td>
-    </tr>
-    <tr>
-      <th>6603</th>
-      <td>6603</td>
-      <td>-21.228954</td>
-      <td>-47.759907</td>
-      <td>620.5</td>
-      <td>2020-09-03 13:53:00.411253</td>
-      <td>60307</td>
-      <td>108</td>
-      <td>137</td>
-      <td>14848</td>
-      <td>peak</td>
-      <td>1</td>
-      <td>rfeye002304</td>
-    </tr>
-    <tr>
-      <th>6604</th>
-      <td>6604</td>
-      <td>-21.228962</td>
-      <td>-47.759907</td>
-      <td>618.0</td>
-      <td>2020-09-03 13:54:01.091231</td>
-      <td>60272</td>
-      <td>108</td>
-      <td>137</td>
-      <td>14848</td>
-      <td>peak</td>
-      <td>1</td>
-      <td>rfeye002304</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -981,38 +508,6 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
-RangeIndex: 6605 entries, 0 to 6604
-Data columns (total 12 columns):
- #   Column           Non-Null Count  Dtype         
----  ------           --------------  -----         
- 0   Block_Number     6605 non-null   uint16        
- 1   Latitude         6605 non-null   float32       
- 2   Longitude        6605 non-null   float32       
- 3   Altitude         6605 non-null   float16       
- 4   Initial_Time     6605 non-null   datetime64[ns]
- 5   Sample_Duration  6605 non-null   uint16        
- 6   Start_Frequency  6605 non-null   uint32        
- 7   Stop_Frequency   6605 non-null   uint32        
- 8   Vector_Length    6605 non-null   uint16        
- 9   Trace_Type       6605 non-null   category      
- 10  Antenna_Type     6605 non-null   category      
- 11  Equipement_ID    6605 non-null   category      
-dtypes: category(3), datetime64[ns](1), float16(1), float32(2), uint16(3), uint32(2)
-memory usage: 226.1 KB
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
     {% endraw %}
 
@@ -1023,9 +518,26 @@ memory usage: 226.1 KB
 </div>
 </div>
 </div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">meta</span><span class="o">.</span><span class="n">to_feather</span><span class="p">(</span><span class="n">saida</span> <span class="o">/</span> <span class="s1">&#39;file_a.fth&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A função seguinte extrai as frequências e nível num formato de Tabela Dinâmica:</p>
+<h2 id="Frequ&#234;ncia-e-N&#237;vel">Frequ&#234;ncia e N&#237;vel<a class="anchor-link" href="#Frequ&#234;ncia-e-N&#237;vel"> </a></h2><p>A função seguinte extrai as frequências e nível num formato de Tabela Dinâmica:</p>
 <ul>
 <li>Colunas: Frequências (MHz)</li>
 <li>Índice: Números de Bloco</li>
@@ -1042,199 +554,28 @@ memory usage: 226.1 KB
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
-<span class="n">levels</span> <span class="o">=</span> <span class="n">export_bin_level</span><span class="p">(</span><span class="n">block</span><span class="p">)</span> <span class="p">;</span> <span class="n">levels</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">block</span><span class="p">[</span><span class="mi">24</span><span class="p">]</span><span class="o">.</span><span class="n">attrgot</span><span class="p">(</span><span class="s1">&#39;thread_id&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Wall time: 7.37 s
-</pre>
 </div>
-</div>
+    {% endraw %}
 
-<div class="output_area">
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">time</span>
+levels = export_bin_level(block) ; levels.head()
+</pre></div>
 
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>108.000000</th>
-      <th>108.001953</th>
-      <th>108.003907</th>
-      <th>108.005860</th>
-      <th>108.007813</th>
-      <th>108.009766</th>
-      <th>108.011720</th>
-      <th>108.013673</th>
-      <th>108.015626</th>
-      <th>108.017579</th>
-      <th>...</th>
-      <th>136.982421</th>
-      <th>136.984374</th>
-      <th>136.986327</th>
-      <th>136.988280</th>
-      <th>136.990234</th>
-      <th>136.992187</th>
-      <th>136.994140</th>
-      <th>136.996093</th>
-      <th>136.998047</th>
-      <th>137.000000</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>-75.0</td>
-      <td>-75.5</td>
-      <td>-76.5</td>
-      <td>-77.0</td>
-      <td>-77.5</td>
-      <td>-78.5</td>
-      <td>-79.0</td>
-      <td>-80.5</td>
-      <td>-80.5</td>
-      <td>-80.5</td>
-      <td>...</td>
-      <td>-95.0</td>
-      <td>-93.5</td>
-      <td>-95.0</td>
-      <td>-93.5</td>
-      <td>-91.5</td>
-      <td>-92.0</td>
-      <td>-98.0</td>
-      <td>-99.0</td>
-      <td>-97.5</td>
-      <td>-96.5</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>-66.0</td>
-      <td>-70.5</td>
-      <td>-74.0</td>
-      <td>-75.5</td>
-      <td>-75.5</td>
-      <td>-76.0</td>
-      <td>-77.0</td>
-      <td>-77.5</td>
-      <td>-75.0</td>
-      <td>-75.5</td>
-      <td>...</td>
-      <td>-93.5</td>
-      <td>-95.0</td>
-      <td>-94.0</td>
-      <td>-91.0</td>
-      <td>-92.0</td>
-      <td>-94.0</td>
-      <td>-96.0</td>
-      <td>-96.5</td>
-      <td>-96.5</td>
-      <td>-96.5</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>-83.5</td>
-      <td>-84.5</td>
-      <td>-89.5</td>
-      <td>-81.5</td>
-      <td>-84.5</td>
-      <td>-87.0</td>
-      <td>-85.5</td>
-      <td>-83.0</td>
-      <td>-84.5</td>
-      <td>-87.5</td>
-      <td>...</td>
-      <td>-93.5</td>
-      <td>-93.5</td>
-      <td>-92.5</td>
-      <td>-92.0</td>
-      <td>-92.5</td>
-      <td>-93.5</td>
-      <td>-97.5</td>
-      <td>-98.0</td>
-      <td>-98.5</td>
-      <td>-96.5</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>-87.5</td>
-      <td>-87.5</td>
-      <td>-91.5</td>
-      <td>-69.5</td>
-      <td>-85.5</td>
-      <td>-85.5</td>
-      <td>-89.0</td>
-      <td>-90.5</td>
-      <td>-88.5</td>
-      <td>-87.0</td>
-      <td>...</td>
-      <td>-93.5</td>
-      <td>-93.5</td>
-      <td>-94.0</td>
-      <td>-93.5</td>
-      <td>-93.0</td>
-      <td>-93.0</td>
-      <td>-98.5</td>
-      <td>-96.5</td>
-      <td>-94.5</td>
-      <td>-95.0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>-80.5</td>
-      <td>-75.5</td>
-      <td>-72.5</td>
-      <td>-71.5</td>
-      <td>-73.0</td>
-      <td>-76.5</td>
-      <td>-73.0</td>
-      <td>-74.0</td>
-      <td>-79.5</td>
-      <td>-87.5</td>
-      <td>...</td>
-      <td>-95.0</td>
-      <td>-95.0</td>
-      <td>-94.0</td>
-      <td>-94.0</td>
-      <td>-93.5</td>
-      <td>-93.0</td>
-      <td>-96.5</td>
-      <td>-96.5</td>
-      <td>-95.5</td>
-      <td>-96.0</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 14848 columns</p>
-</div>
-</div>
-
-</div>
-
+    </div>
 </div>
 </div>
 
@@ -1252,24 +593,6 @@ memory usage: 226.1 KB
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
-RangeIndex: 6605 entries, 0 to 6604
-Columns: 14848 entries, 108.0 to 137.0
-dtypes: float16(14848)
-memory usage: 187.1 MB
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -1285,7 +608,14 @@ memory usage: 187.1 MB
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Caso o parâmetro <code>pivoted = False</code> é retornada a versão tabular empilhada. No entanto o processamento é muito mais lento tendo em vista a redundância de dados que é adicionada.</p>
+<p>Caso o parâmetro <code>pivoted = False</code> é retornada a versão tabular empilhada. No entanto o processamento é mais lento tendo em vista a redundância de dados que é adicionada.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Os tipos de dados a seguir são os automaticamente retornados pelo <code>numpy</code> / <code>pandas</code> no momento de criação da matriz</p>
 
 </div>
 </div>
@@ -1297,90 +627,28 @@ memory usage: 187.1 MB
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
-<span class="n">levels</span> <span class="o">=</span> <span class="n">export_bin_level</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">pivoted</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="p">;</span> <span class="n">levels</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dtypes</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Block_Number&#39;</span><span class="p">:</span> <span class="s1">&#39;int32&#39;</span><span class="p">,</span> <span class="s1">&#39;Frequency(MHz)&#39;</span><span class="p">:</span> <span class="s1">&#39;float64&#39;</span><span class="p">,</span> <span class="s1">&#39;Nivel(dBm)&#39;</span><span class="p">:</span> <span class="s1">&#39;float64&#39;</span><span class="p">}</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Wall time: 14.4 s
-</pre>
 </div>
-</div>
+    {% endraw %}
 
-<div class="output_area">
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">time</span>
+levels = export_bin_level(block, pivoted=False, dtypes=dtypes) ; levels.head()
+</pre></div>
 
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Block_Number</th>
-      <th>Frequency(MHz)</th>
-      <th>Nivel(dBm)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0.0</td>
-      <td>108.000000</td>
-      <td>-75.0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>0.0</td>
-      <td>108.001953</td>
-      <td>-75.5</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>0.0</td>
-      <td>108.003907</td>
-      <td>-76.5</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>0.0</td>
-      <td>108.005860</td>
-      <td>-77.0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>0.0</td>
-      <td>108.007813</td>
-      <td>-77.5</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
+    </div>
 </div>
 </div>
 
@@ -1401,26 +669,63 @@ memory usage: 187.1 MB
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
+</div>
+    {% endraw %}
 
-<div class="output_area">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Esse formato de dados é extremamente redundante, repete-se o conjunto de blocos e frequências a cada bloco existente, por isso ocupa <code>1.8GB</code> de memória.</p>
+<p>O número de bloco pode ser perfeitamente armazenado como um <code>int16</code>, a frequência como um <code>float32</code> e os níveis, dado termos somente 1 casa decimal, podem ser armazenados como <code>float16</code></p>
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
-RangeIndex: 98071040 entries, 0 to 98071039
-Data columns (total 3 columns):
- #   Column          Dtype   
----  ------          -----   
- 0   Block_Number    category
- 1   Frequency(MHz)  category
- 2   Nivel(dBm)      float16 
-dtypes: category(2), float16(1)
-memory usage: 562.6 MB
-</pre>
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dtypes</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Block_Number&#39;</span><span class="p">:</span> <span class="s1">&#39;int16&#39;</span><span class="p">,</span> <span class="s1">&#39;Frequency(MHz)&#39;</span><span class="p">:</span> <span class="s1">&#39;float32&#39;</span><span class="p">,</span> <span class="s1">&#39;Nivel(dBm)&#39;</span><span class="p">:</span> <span class="s1">&#39;float32&#39;</span><span class="p">}</span>
+</pre></div>
+
+    </div>
 </div>
 </div>
 
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">time</span>
+levels = export_bin_level(block, pivoted=False, dtypes=dtypes) ; levels.head()
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">levels</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+
+    </div>
 </div>
 </div>
 
@@ -1429,7 +734,14 @@ memory usage: 562.6 MB
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Como não vamos fazer cálculos com essa matriz, somente extração e armazenamento, podemos manipular e salvar os valores como o tipo <code>category</code> do pandas. que ocupa o mesmo que um <code>int16</code> nesse caso.</p>
+<p>Reduzimos de <code>1.8GB</code> para <code>748.2MB</code> sem perda de informação.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>No entanto, como não vamos fazer cálculos com essa matriz, somente extraí-la e armazená-la no momento, podemos manipular e salvar os valores em <code>float32</code> como <code>category</code> do pandas que ocupa o mesmo espaço próximo de um <code>int16</code> nesse caso, isso irá economizar bastante espaço tendo em vista o número fixo de frequências.</p>
 
 </div>
 </div>
@@ -1441,81 +753,10 @@ memory usage: 562.6 MB
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">levels</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dtypes</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Block_Number&#39;</span><span class="p">:</span> <span class="s1">&#39;int16&#39;</span><span class="p">,</span> <span class="s1">&#39;Frequency(MHz)&#39;</span><span class="p">:</span> <span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="s1">&#39;Nivel(dBm)&#39;</span><span class="p">:</span> <span class="s1">&#39;float16&#39;</span><span class="p">}</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Block_Number</th>
-      <th>Frequency(MHz)</th>
-      <th>Nivel(dBm)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>98071035</th>
-      <td>14847.0</td>
-      <td>136.992187</td>
-      <td>-94.0</td>
-    </tr>
-    <tr>
-      <th>98071036</th>
-      <td>14847.0</td>
-      <td>136.994140</td>
-      <td>-98.5</td>
-    </tr>
-    <tr>
-      <th>98071037</th>
-      <td>14847.0</td>
-      <td>136.996093</td>
-      <td>-98.5</td>
-    </tr>
-    <tr>
-      <th>98071038</th>
-      <td>14847.0</td>
-      <td>136.998047</td>
-      <td>-99.0</td>
-    </tr>
-    <tr>
-      <th>98071039</th>
-      <td>14847.0</td>
-      <td>137.000000</td>
-      <td>-98.5</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -1529,25 +770,53 @@ memory usage: 562.6 MB
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
-<span class="n">levels</span><span class="o">.</span><span class="n">to_feather</span><span class="p">(</span><span class="n">saida</span> <span class="o">/</span> <span class="s1">&#39;file_b.fth&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">time</span>
+levels = export_bin_level(block, pivoted=False, dtypes=dtypes) ; levels.head()
 </pre></div>
 
     </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
+</div>
+    {% endraw %}
 
-<div class="output_area">
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Wall time: 970 ms
-</pre>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">levels</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+
+    </div>
 </div>
 </div>
 
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Reduzimos assim de <code>1.8GB</code> para <code>561.9MB</code> sem perda de informação nos dados. Qualquer redução adicional implica numa transformação dos dados ou perda de precisão.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">time</span>
+levels.to_feather(saida / &#39;file_b.fth&#39;)
+</pre></div>
+
+    </div>
 </div>
 </div>
 
