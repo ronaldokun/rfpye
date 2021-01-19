@@ -2,7 +2,7 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"process_bin": "00_main.ipynb",
+index = {"export_metadata": "00_main.ipynb",
          "path_type": "03_blocks.ipynb",
          "bin_val": "03_blocks.ipynb",
          "bytes_encoded": "03_blocks.ipynb",
@@ -13,7 +13,6 @@ index = {"process_bin": "00_main.ipynb",
          "extract_block_levels": "01_parser.ipynb",
          "meta2df": "01_parser.ipynb",
          "extract_metadata": "01_parser.ipynb",
-         "export_meta": "01_parser.ipynb",
          "bin2int": "02_utils.ipynb",
          "bin2str": "02_utils.ipynb",
          "bin2date": "02_utils.ipynb",

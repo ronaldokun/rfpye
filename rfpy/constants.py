@@ -21,7 +21,7 @@ LEN_MARKER: int = 5
 BASEBLOCK: List = ['thread_id', 'data_size', 'type', 'data', 'checksum']
 
 EXCLUDE_ATTRS: List = ['count', 'index', 'checksum', 'default', 'date', 'time', 'nanosecs', 'data',
-                 'block_data', 'frequencies', 'agc_array', 'tunning_blocks']
+                 'block_data', 'frequencies', 'agc_array', 'tunning_info']
 
 DICT_PROCESSING: Mapping[int, str] = {0: 'single measurement', 1: 'average', 2: 'peak', 3: 'minimum'}
 

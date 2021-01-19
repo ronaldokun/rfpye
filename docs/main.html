@@ -40,6 +40,13 @@ nb_path: "00_main.ipynb"
     
 <div class="cell border-box-sizing code_cell rendered">
 
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
 <div class="output_wrapper">
 <div class="output">
 
@@ -47,7 +54,7 @@ nb_path: "00_main.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="process_bin" class="doc_header"><code>process_bin</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/main.py#L12" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>process_bin</code>(<strong><code>entrada</code></strong>:"Diret√≥rio contendo arquivos .bin", <strong><code>saida</code></strong>:"Diret√≥rio para salvar os arquivos de sa√≠da", <strong><code>pivoted</code></strong>:"Indica se o DataFrame de N√≠vel salvo √© no Formato de Tabela Din√¢mica"=<em><code>True</code></em>, <strong><code>recursivo</code></strong>:"Buscar arquivos de maneira recursiva?"=<em><code>True</code></em>, <strong><code>pastas</code></strong>:"Limita a busca √†s pastas"=<em><code>None</code></em>, <strong><code>verbose</code></strong>:"Imprimir mensagens de execu√ß√£o?"=<em><code>False</code></em>)</p>
+<h4 id="export_metadata" class="doc_header"><code>export_metadata</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpy/main.py#L38" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>export_metadata</code>(<strong><code>entrada</code></strong>:"DiretÛrio contendo arquivos .bin", <strong><code>saida</code></strong>:"DiretÛrio para salvar os arquivos de saÌda", <strong><code>recursivo</code></strong>:"Buscar arquivos de maneira recursiva?"=<em><code>True</code></em>, <strong><code>pastas</code></strong>:"Limita a busca ‡s pastas"=<em><code>None</code></em>, <strong><code>ext</code></strong>:"Qual extens„o salvar os arquivos"=<em><code>'.csv'</code></em>, <strong><code>verbose</code></strong>:"Imprimir mensagens de execuÁ„o?"=<em><code>False</code></em>)</p>
 </blockquote>
 
 </div>
@@ -74,29 +81,11 @@ nb_path: "00_main.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">parse_bin</span><span class="p">(</span><span class="n">bin_file</span><span class="p">,</span> <span class="n">save_folder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">):</span>
-    <span class="k">pass</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev.export</span> <span class="k">import</span> <span class="n">notebook2script</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev.export</span> <span class="kn">import</span> <span class="n">notebook2script</span>
 <span class="n">notebook2script</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -110,7 +99,7 @@ nb_path: "00_main.ipynb"
 Converted 01_parser.ipynb.
 Converted 02_utils.ipynb.
 Converted 03_blocks.ipynb.
-Converted index.ipynb.
+Converted 04_constants.ipynb.
 </pre>
 </div>
 </div>
