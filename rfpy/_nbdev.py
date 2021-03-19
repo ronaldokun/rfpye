@@ -3,6 +3,7 @@
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
 index = {"export_metadata": "00_main.ipynb",
+         "export_spectrum": "00_main.ipynb",
          "path_type": "03_blocks.ipynb",
          "bin_val": "03_blocks.ipynb",
          "bytes_encoded": "03_blocks.ipynb",
@@ -25,6 +26,7 @@ index = {"export_metadata": "00_main.ipynb",
          "optimize": "02_utils.ipynb",
          "public_attrs": "02_utils.ipynb",
          "getattrs": "02_utils.ipynb",
+         "cached_property": "03_blocks.ipynb",
          "create_base_block": "03_blocks.ipynb",
          "BaseBlock": "03_blocks.ipynb",
          "TimedNonSpectral": "03_blocks.ipynb",
@@ -76,7 +78,9 @@ index = {"export_metadata": "00_main.ipynb",
          "META": "04_constants.ipynb",
          "LEVELS": "04_constants.ipynb",
          "BLOCK_SIZE": "04_constants.ipynb",
-         "TIMED_BLOCKS": "04_constants.ipynb"}
+         "TIMED_BLOCKS": "04_constants.ipynb",
+         "SPECTRAL_BLOCKS": "04_constants.ipynb",
+         "MAIN_BLOCKS": "04_constants.ipynb"}
 
 modules = ["main.py",
            "parser.py",
