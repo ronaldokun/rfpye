@@ -27,7 +27,7 @@ def cached_property(f):
     if version >= 3.8:
         return functools.cached_property()(f)
     elif version >= 3.2:
-        property(functools.lru_cache()(f))
+        return property(functools.lru_cache()(f))
     else:
         raise NotImplementedError("There is no cache attribute implemented for python < 3.2")
 
@@ -1039,7 +1039,8 @@ class DType68(GetAttr):
         The attributes which belong to Block are accessed normally as if it was Inherited
         """
         self.default = DType67(block)
-
+        self.start = 76 + self.desclen + 4 * self.n_tunning + self.n_agc
+        self.stop = self.start + self.ndata
     @cached_property
     def thresh(self)->int:
         """THRESH = Threshold Level in dB. All data below this level will be run length encoded"""
@@ -1064,9 +1065,11 @@ class DType68(GetAttr):
         return np.fromiter(self.data[start:stop], np.uint8, count=stop-start)
     @cached_property
     def block_data(self)->np.array:
-        start = 76 + self.desclen + 4 * self.n_tunning + self.n_agc
-        stop = start + self.ndata
-        return np.fromiter(self.data[start:stop], dtype=np.float16, count=stop-start)
+#         start = 76 + self.desclen + 4 * self.n_tunning + self.n_agc
+#         stop = start + self.ndata
+#         self.start = start
+        #self.stop = stop
+        return np.fromiter(self.data[self.start:self.stop], dtype=np.float16, count=self.stop-self.start)
 
     @cached_property
     def padding(self)->int:

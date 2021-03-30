@@ -1,6 +1,8 @@
 from pkg_resources import parse_version
 from configparser import ConfigParser
 import setuptools
+from Cython.Build import cythonize
+import numpy
 assert parse_version(setuptools.__version__)>=parse_version('36.2')
 
 # note: all settings are in settings.ini; edit there, not here
@@ -26,6 +28,8 @@ min_python = cfg['min_python']
 
 setuptools.setup(
     name = cfg['lib_name'],
+    ext_modules=cythonize("rfpy/cyparser.pyx"),
+    include_dirs=[numpy.get_include()],
     license = lic[0],
     classifiers = [
         'Development Status :: ' + statuses[int(cfg['status'])],
