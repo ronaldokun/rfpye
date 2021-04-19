@@ -24,7 +24,9 @@ datetime_object = datetime
 # Cell
 def cached_property(f):
     version = float(platform.python_version()[0:3])
-    if version >= 3.8:
+    if version>= 3.9:
+        return functools.cache()(f)
+    elif version >= 3.8:
         return functools.cached_property()(f)
     elif version >= 3.2:
         return property(functools.lru_cache()(f))
@@ -40,7 +42,7 @@ def create_base_block(bin_block: bytes)->Tuple:
     It has several fields: type, header, data and footer.
     Each field has lengths and information defined in the documentation.
     Receives a block from the bin file and returns a Base Block instance with the attributes
-    'thread_id', 'block_size', 'block_type', 'block_data', 'checksum'
+    'thread_id', 'data_size', 'type', 'data', 'checksum'
     """
     if not isinstance(bin_block, bytes):
         raise TypeError(f"Expected type 'bytes', got '{type(bin_block)}' instead.")
@@ -66,23 +68,26 @@ class TimedNonSpectral(GetAttr):
     @cached_property
     def _date(self) -> Tuple:
         """F0 = (4 bytes) WALLDATE = Wall Clock Start Date of measurements"""
-        return bin2date(self.data[BYTES_TIMED_NE[0]])
+        date = list(bin2date(self.data[BYTES_TIMED_NE[0]]))
+        date[2] += 2000
+        return f'{str(date[2]).zfill(4)}-{str(date[1]).zfill(2)}-{str(date[0]).zfill(2)}'
+
 
     @cached_property
     def _time(self) -> Tuple:
         """F1 = (4 bytes) WALLTIME = Wall Clock Start Time"""
-        return bin2time(self.data[BYTES_TIMED_NE[1]])
+        time = bin2time(self.data[BYTES_TIMED_NE[1]])
+        return f'{str(time[0]).zfill(2)}:{str(time[1]).zfill(2)}:{str(time[2]).zfill(2)}'
 
     @cached_property
-    def _nanosecs(self) -> Tuple:
+    def _n(self) -> Tuple:
         """F2 = (4u bytes) WALLNANO = Wall Clock Start Time Nanoseconds"""
         return bin2int(self.data[BYTES_TIMED_NE[2]], False)
 
     @cached_property
-    def wallclock_datetime(self)->datetime:
+    def wallclock_datetime(self)->np.datetime64:
         """Returns the wallclock datetime"""
-        return  datetime(2000+self._date[2], self._date[1], self._date[0],
-                            self._time[0], self._time[1], self._time[2], int(self._nanosecs/1000))
+        return  np.datetime64(f'{self._date}T{self._time}.{int(self._n/1000)}')
 
 # Cell
 class TimedSpectral(GetAttr):
@@ -103,11 +108,19 @@ class TimedSpectral(GetAttr):
         self.default = block
 
     @cached_property
-    def date(self): return bin2date(self.data[BYTES_TIMED[0]]) #F0
+    def _date(self) -> Tuple:
+        """F0 = (4 bytes) WALLDATE = Wall Clock Start Date of measurements"""
+        date = list(bin2date(self.data[BYTES_TIMED[0]]))
+        date[2] += 2000
+        return f'{str(date[2]).zfill(4)}-{str(date[1]).zfill(2)}-{str(date[0]).zfill(2)}'
+
     @cached_property
-    def time(self): return bin2time(self.data[BYTES_TIMED[1]]) #F1
+    def _time(self) -> Tuple:
+        """F1 = (4 bytes) WALLTIME = Wall Clock Start Time"""
+        time = bin2time(self.data[BYTES_TIMED[1]])
+        return f'{str(time[0]).zfill(2)}:{str(time[1]).zfill(2)}:{str(time[2]).zfill(2)}'
     @cached_property
-    def nanosecs(self): return bin2int(self.data[BYTES_TIMED[2]], False) #F2
+    def _n(self): return bin2int(self.data[BYTES_TIMED[2]], False) #F2
     @cached_property
     def start_mega(self): return bin2int(self.data[BYTES_TIMED[3]], False) #F3
     @cached_property
@@ -121,9 +134,9 @@ class TimedSpectral(GetAttr):
     @cached_property
     def stop_channel(self): return bin2int(self.data[BYTES_TIMED[8]], False)
     @cached_property
-    def wallclock_datetime(self):
-        return  datetime(2000+self.date[2], self.date[1], self.date[0],
-                            self.time[0], self.time[1], self.time[2], int(self.nanosecs/1000))
+    def wallclock_datetime(self)->np.datetime64:
+        """Returns the wallclock datetime"""
+        return  np.datetime64(f'{self._date}T{self._time}.{int(self._n/1000)}')
 
 # Cell
 class TimedVersion5(GetAttr):
@@ -578,7 +591,7 @@ class DType63(GetAttr):
         unit: int = bin2int(self.data[BYTES_63[13]])
         return DICT_UNIT.get(unit, unit)
     @cached_property
-    def level_offset(self) -> int:
+    def offset(self) -> int:
         """F14 = (1 byte) OFFSET = Data level offset in DTYPE units 2’s Complement, range [-128, 127]."""
         return bin2int(self.data[BYTES_63[14]])
     @cached_property
@@ -643,7 +656,11 @@ class DType63(GetAttr):
         """Spectrum Data in 'dB' with 0.5 dBm interval"""
         start = BYTES_63[21].stop + self.n_tunning * 4 + self.n_agc
         stop = start + (self.ndata)
-        return np.fromiter(self.data[start:stop], dtype=np.float16, count=stop-start) / 2 + self.level_offset - 127.5
+        data = self.data[start:stop]
+        count = len(data)
+        buffer = np.frombuffer(data, dtype=np.uint8, count=count)
+        return  (buffer/ 2 + self.offset - 127.5).astype(np.float16)
+
     def __getitem__(self, i):
         """Return a tuple with frequency, spectrum_data"""
         return self.frequencies[i], self.block_data[i]
@@ -663,7 +680,7 @@ class DType64(GetAttr):
         self.default = Dtype63(block)
 
     @cached_property
-    def threshold(self):
+    def thresh(self):
         """F22 - THRESH = Threshold Level in dB All data below this level will be run length encoded"""
         start = BYTES_63[21].stop
         stop = start + 4
@@ -687,12 +704,12 @@ class DType64(GetAttr):
         stop = start+(self.n_agc)
         return np.fromiter(self.data[start:stop], np.uint8)
         #return '-'.join(L(self.data[start:stop]).map(str))
-    @cached_property
-    def block_data(self) -> np.array:
-        """Spectrum Data in 'dB' with 0.5 dBm interval"""
-        start = BYTES_63[21].stop + 8 + (self.n_tunning * 4) + self.n_agc
-        stop = start + self.self.ndata
-        return np.fromiter(self.data[start:stop], dtype=np.float16, count=stop-start) / 2 + self.level_offset - 127.5
+#     @cached_property
+#     def block_data(self) -> np.array:
+#         """Spectrum Data in 'dB' with 0.5 dBm interval"""
+#         start = BYTES_63[21].stop + 8 + (self.n_tunning * 4) + self.n_agc
+#         stop = start + self.self.ndata
+#         return np.fromiter(self.data[start:stop], dtype=np.float16, count=stop-start) / 2 + self.level_offset - 127.5
 #     @cached_property
 #     def padding(self):
 #         start = BYTES_63[21].stop + 8 + (self.n_tunning * 4) + self.n_agc + self.data_points
@@ -823,7 +840,7 @@ class DType65(GetAttr):
         """
         start = BYTES_65[19].stop
         end = self.npoints
-        return np.fromiter(self.data[start:end], dtype=np.float16, count=stop-start) / 2
+        return np.frombuffer(self.data[start:end], dtype=np.float16, count=stop-start) / 2
 
 # Cell
 class DType66(GetAttr):
@@ -1012,7 +1029,7 @@ class DType67(GetAttr):
     def block_data(self)->np.array:
         start = BYTES_V5[5].stop + self.desclen + 44 + 4 * self.n_tunning + self.n_agc
         stop = start + self.ndata
-        return np.fromiter(self.data[start:stop], dtype=np.float16, count=stop-start) / 2 + self.offset - 127.5
+        return np.frombuffer(self.data[start:stop], dtype=np.float16, count=stop-start) / 2 + self.offset - 127.5
     @cached_property
     def padding(self)->int:
         start = BYTES_V5[5].stop + self.desclen + 44 + 4 * self.n_tunning + self.n_agc + self.ndata
@@ -1065,11 +1082,7 @@ class DType68(GetAttr):
         return np.fromiter(self.data[start:stop], np.uint8, count=stop-start)
     @cached_property
     def block_data(self)->np.array:
-#         start = 76 + self.desclen + 4 * self.n_tunning + self.n_agc
-#         stop = start + self.ndata
-#         self.start = start
-        #self.stop = stop
-        return np.fromiter(self.data[self.start:self.stop], dtype=np.float16, count=self.stop-self.start)
+        return self.data[self.start:self.stop]
 
     @cached_property
     def padding(self)->int:
@@ -1179,7 +1192,7 @@ class DType69(GetAttr):
     def block_data(self)->np.array:
         start = BYTES_V5[5].stop + self.desclen + 38
         stop = start + self.ndata
-        return np.fromiter(self.data[start:stop], dtype=np.float16, count=stop-start)
+        return np.frombuffer(self.data[start:stop], dtype=np.float16, count=stop-start)
     @cached_property
     def padding(self)->int:
         start = BYTES_V5[5].stop + self.desclen + 38 + self.ndata
@@ -1205,7 +1218,4 @@ TYPE_CLASS = {
 }
 
 def block_constructor(btype, bloco):
-    constructor = TYPE_CLASS.get(btype, None)
-    if constructor:
-        return constructor(bloco)
-    return None
+    return TYPE_CLASS.get(btype)(bloco)

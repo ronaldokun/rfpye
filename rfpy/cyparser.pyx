@@ -2,21 +2,17 @@ cimport cython
 import numpy as np
 cimport numpy as np
 
+ctypedef np.float32_t DTYPE_t
+
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
-cpdef object cy_decode_blocks(list blocks):
-    cdef float offset = blocks[0].offset
-    cdef float MIN = offset - 127.5
-    cdef int rows = len(blocks)
-    cdef int columns = blocks[0].norig
-    cdef np.ndarray decoded = np.full((rows, columns), MIN, dtype=np.float16)
-    cdef list data = [b.data[b.start:b.stop] for b in blocks]
+cpdef np.ndarray[DTYPE_t, ndim=2] cy_extract_compressed(list data, int rows, int cols, int thresh, float MIN):
+    cdef np.ndarray[DTYPE_t, ndim=2] decoded = np.full((rows, cols), thresh, np.float32)
+    cdef const unsigned char[:] src
     cdef int RUN = 255
     cdef int ESC = 254
-    cdef const unsigned char[:] src
     cdef int NRSC
-    cdef float thresh = blocks[0].thresh
     cdef int i
     cdef int j
     cdef int ib
@@ -28,13 +24,14 @@ cpdef object cy_decode_blocks(list blocks):
         i = 0
         j = 0
         while i < nsrc:
-            ib = src[i] 
+            ib = src[i]
             i+=1
             if ib == RUN:
                 nrun = src[i] 
                 i+=1
-                decoded[row, j:j+nrun] = MIN + thresh/2.
-                j+=nrun
+                for _ in range(nrun):
+                    decoded[row, j] = thresh
+                    j+=1
             elif ib == ESC:
                 # next value is literal
                 decoded[row, j] = MIN + src[i]/2.
@@ -44,3 +41,5 @@ cpdef object cy_decode_blocks(list blocks):
                 decoded[row, j] = MIN + ib/2.
                 j+=1
     return decoded
+    
+
