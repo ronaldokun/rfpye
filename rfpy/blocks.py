@@ -44,9 +44,9 @@ def create_base_block(bin_block: bytes)->Tuple:
     Receives a block from the bin file and returns a Base Block instance with the attributes
     'thread_id', 'data_size', 'type', 'data', 'checksum'
     """
-    if not isinstance(bin_block, bytes):
-        raise TypeError(f"Expected type 'bytes', got '{type(bin_block)}' instead.")
-    return BaseBlock(*L(bin_block[:4], bin_block[4:8], bin_block[8:12]).map(bin2int), bin_block[12:-4], bin_block[-4:])
+#     if not isinstance(bin_block, bytes):
+#         raise TypeError(f"Expected type 'bytes', got '{type(bin_block)}' instead.")
+    return BaseBlock(bin2int(bin_block[:4]), bin2int(bin_block[4:8]), bin2int(bin_block[8:12]), bin_block[12:-4], bin_block[-4:])
 
 # Cell
 class TimedNonSpectral(GetAttr):
