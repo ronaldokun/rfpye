@@ -3,7 +3,7 @@
 __all__ = ['path_type', 'bin_val', 'bytes_encoded', 'datetime_object', 'cached_property', 'create_base_block',
            'BaseBlock', 'TimedNonSpectral', 'TimedSpectral', 'TimedVersion5', 'DType6', 'DType20', 'DType21', 'DType24',
            'DType40', 'DType41', 'DType42', 'DType51', 'DType63', 'DType64', 'DType65', 'DType66', 'DType67', 'DType68',
-           'DType69', 'block_constructor', 'TYPE_CLASS']
+           'DType69', 'null', 'block_constructor', 'TYPE_CLASS']
 
 # Cell
 import binascii
@@ -915,6 +915,9 @@ class DType67(GetAttr):
         The attributes which belong to Block are accessed normally as if it was Inherited
         """
         self.default = TimedVersion5(block)
+        self.start = BYTES_V5[5].stop + self.desclen + 44 + 4 * self.n_tunning + self.n_agc
+        self.stop = self.start + self.ndata
+
     @cached_property
     def description(self)->str:
         start = BYTES_V5[5].stop
@@ -1027,9 +1030,7 @@ class DType67(GetAttr):
         return np.fromiter(self.data[start:stop], np.uint8)
     @cached_property
     def block_data(self)->np.array:
-        start = BYTES_V5[5].stop + self.desclen + 44 + 4 * self.n_tunning + self.n_agc
-        stop = start + self.ndata
-        return np.frombuffer(self.data[start:stop], dtype=np.float16, count=stop-start) / 2 + self.offset - 127.5
+        return np.frombuffer(self.data[self.start:self.stop], dtype=np.float16, count=stop-start) / 2 + self.offset - 127.5
     @cached_property
     def padding(self)->int:
         start = BYTES_V5[5].stop + self.desclen + 44 + 4 * self.n_tunning + self.n_agc + self.ndata
@@ -1200,7 +1201,11 @@ class DType69(GetAttr):
         return bin2int(self.data[start:stop])
 
 # Cell
+def null(bloco):
+    return None
+
 TYPE_CLASS = {
+    0: null,
     6: DType6,
     21: DType21,
     24: DType24,
@@ -1218,4 +1223,4 @@ TYPE_CLASS = {
 }
 
 def block_constructor(btype, bloco):
-    return TYPE_CLASS.get(btype)(bloco)
+    return TYPE_CLASS.get(btype, null)(bloco)

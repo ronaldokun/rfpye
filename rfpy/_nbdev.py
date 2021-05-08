@@ -2,20 +2,24 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"export_metadata": "00_main.ipynb",
-         "export_spectrum": "00_main.ipynb",
+index = {"read_meta": "00_main.ipynb",
+         "process_bin": "00_main.ipynb",
          "path_type": "03_blocks.ipynb",
          "bin_val": "03_blocks.ipynb",
          "bytes_encoded": "03_blocks.ipynb",
          "datetime_object": "03_blocks.ipynb",
-         "get_files": "01_parser.ipynb",
          "parse_bin": "01_parser.ipynb",
          "classify_blocks": "01_parser.ipynb",
          "decode_compressed_block": "01_parser.ipynb",
          "run_length_decode5": "01_parser.ipynb",
-         "extract_levels": "01_parser.ipynb",
+         "extract_level": "01_parser.ipynb",
          "meta2df": "01_parser.ipynb",
          "extract_metadata": "01_parser.ipynb",
+         "export_meta": "01_parser.ipynb",
+         "export_level": "01_parser.ipynb",
+         "custom_theme": "02_utils.ipynb",
+         "console": "02_utils.ipynb",
+         "get_files": "02_utils.ipynb",
          "bin2int": "02_utils.ipynb",
          "bin2str": "02_utils.ipynb",
          "bin2date": "02_utils.ipynb",
@@ -25,7 +29,7 @@ index = {"export_metadata": "00_main.ipynb",
          "optimize_floats": "02_utils.ipynb",
          "optimize_ints": "02_utils.ipynb",
          "optimize_objects": "02_utils.ipynb",
-         "optimize": "02_utils.ipynb",
+         "df_optimize": "02_utils.ipynb",
          "public_attrs": "02_utils.ipynb",
          "getattrs": "02_utils.ipynb",
          "cached_property": "03_blocks.ipynb",
@@ -49,6 +53,7 @@ index = {"export_metadata": "00_main.ipynb",
          "DType67": "03_blocks.ipynb",
          "DType68": "03_blocks.ipynb",
          "DType69": "03_blocks.ipynb",
+         "null": "03_blocks.ipynb",
          "block_constructor": "03_blocks.ipynb",
          "TYPE_CLASS": "03_blocks.ipynb",
          "BYTES_HEADER": "04_constants.ipynb",
@@ -90,7 +95,7 @@ modules = ["main.py",
            "blocks.py",
            "constants.py"]
 
-doc_url = "https://ronaldokun.github.io/rfpy/"
+doc_url = "https://ronaldokun.github.io/rfpy"
 
 git_url = "https://github.com/ronaldokun/rfpy/tree/master/"
 

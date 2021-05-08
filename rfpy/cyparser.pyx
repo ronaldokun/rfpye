@@ -41,5 +41,18 @@ cpdef np.ndarray[DTYPE_t, ndim=2] cy_extract_compressed(list data, int rows, int
                 decoded[row, j] = MIN + ib/2.
                 j+=1
     return decoded
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+cpdef np.ndarray[DTYPE_t, ndim=2] cy_extract_uncompressed(list blocks, int rows, int cols, float MIN):
+    cdef np.ndarray[DTYPE_t, ndim=2] levels = np.full((rows, cols), MIN, dtype=np.float32)
+    #cdef const unsigned char[:] src
+    cdef Py_ssize_t row   
+    cdef int b = 0
+    for row in range(rows):
+        #src = blocks[row]
+        levels[b] = blocks[row]
+        b+=1
+    return levels
     
 
