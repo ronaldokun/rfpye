@@ -29,9 +29,7 @@ cpdef np.ndarray[DTYPE_t, ndim=2] cy_extract_compressed(list data, int rows, int
             if ib == RUN:
                 nrun = src[i] 
                 i+=1
-                for _ in range(nrun):
-                    decoded[row, j] = thresh
-                    j+=1
+                j+=nrun
             elif ib == ESC:
                 # next value is literal
                 decoded[row, j] = MIN + src[i]/2.

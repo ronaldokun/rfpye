@@ -11,7 +11,7 @@ index = {"read_meta": "00_main.ipynb",
          "parse_bin": "01_parser.ipynb",
          "classify_blocks": "01_parser.ipynb",
          "decode_compressed_block": "01_parser.ipynb",
-         "run_length_decode5": "01_parser.ipynb",
+         "run_length_decode6": "01_parser.ipynb",
          "extract_level": "01_parser.ipynb",
          "meta2df": "01_parser.ipynb",
          "extract_metadata": "01_parser.ipynb",
@@ -87,7 +87,8 @@ index = {"read_meta": "00_main.ipynb",
          "BLOCK_SIZE": "04_constants.ipynb",
          "TIMED_BLOCKS": "04_constants.ipynb",
          "SPECTRAL_BLOCKS": "04_constants.ipynb",
-         "MAIN_BLOCKS": "04_constants.ipynb"}
+         "MAIN_BLOCKS": "04_constants.ipynb",
+         "BLOCK_ATTRS": "04_constants.ipynb"}
 
 modules = ["main.py",
            "parser.py",

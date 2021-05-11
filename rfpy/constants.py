@@ -4,7 +4,7 @@ __all__ = ['BYTES_HEADER', 'DATA_BLOCK_HEADER', 'CHECKSUM', 'ENDMARKER', 'LEN_MA
            'DICT_PROCESSING', 'DICT_UNIT', 'TUNING_BLOCK', 'BYTES_TIMED', 'BYTES_TIMED_NE', 'BYTES_6', 'BYTES_20',
            'BYTES_21', 'BYTES_24', 'BYTES_40', 'BYTES_41', 'BYTES_42', 'BYTES_51', 'BYTES_63', 'BYTES_64', 'BYTES_65',
            'BYTES_V5', 'BYTES_66', 'BYTES_67', 'META', 'LEVELS', 'BLOCK_SIZE', 'TIMED_BLOCKS', 'SPECTRAL_BLOCKS',
-           'MAIN_BLOCKS']
+           'MAIN_BLOCKS', 'BLOCK_ATTRS']
 
 # Cell
 from typing import Mapping, List
@@ -22,7 +22,7 @@ LEN_MARKER: int = 5
 BASEBLOCK: List = ['thread_id', 'data_size', 'type', 'data', 'checksum']
 
 EXCLUDE_ATTRS: List = ['count', 'index', 'checksum', 'default', 'date', 'time', 'nanosecs', 'data',
-                 'block_data', 'frequencies', 'agc_array', 'tunning_info']
+                       'block_data', 'frequencies', 'agc_array', 'tunning_info']
 
 DICT_PROCESSING: Mapping[int, str] = {0: 'single measurement', 1: 'average', 2: 'peak', 3: 'minimum'}
 
@@ -159,4 +159,5 @@ SPECTRAL_BLOCKS = [63,64,67,68]
 
 MAIN_BLOCKS = [40, 63, 64, 67, 68]
 
-META
+BLOCK_ATTRS: Mapping[int, List] = {40: ['wallclock_datetime', 'altitude', 'gps_datetime',
+                                        'latitude', 'longitude', 'num_satellites', 'speed']}
