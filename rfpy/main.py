@@ -3,15 +3,16 @@
 __all__ = ["read_meta", "process_bin"]
 
 # Cell
+from .constants import SPECTRAL_BLOCKS
 from typing import *
 import os
 from fastcore.xtras import Path
-from fastcore.script import *
-from fastcore.utils import parallel, partial
+from fastcore.script import call_parse, Param, store_true
 from .parser import *
 import pandas as pd
 from .utils import *
-from rich.progress import track, Progress
+from rich.progress import Progress
+from loguru import logger
 
 # Cell
 def read_meta(filename):
@@ -29,6 +30,7 @@ def read_meta(filename):
     return df
 
 
+@logger.catch
 @call_parse
 def process_bin(
     entrada: Param("Diretório contendo arquivos .bin", str),
@@ -37,7 +39,8 @@ def process_bin(
     pastas: Param("Limitar a busca às pastas", Iterable[str]) = None,
     meta: Param("Extrair e Salvar os metadados?", store_true) = False,
     levels: Param("Extrair e Salvar os níveis de Espectro?", store_true) = False,
-    ext: Param("Qual extensão salvar os arquivos", str) = ".fth",
+    meta_ext: Param("Extensão do arquivo de metadados", str) = ".fth",
+    levels_ext: Param("Extensão do arquivo de níveis", str) = ".fth",
     substituir: Param(
         "Reprocessar e substituir arquivos existentes?", store_true
     ) = False,
@@ -52,80 +55,104 @@ def process_bin(
     meta_path.mkdir(exist_ok=True, parents=True)
     levels_path.mkdir(exist_ok=True, parents=True)
 
-    processed = Path(f"{saida}/processed_log.txt")
+    log_meta = Path(f"{saida}/log_meta.txt")
+    log_levels = Path(f"{saida}/log_levels.txt")
     if substituir:
-        done = set()
-    elif processed.exists():
-        done = set(processed.read_text().split("\n"))
+        done_meta = set()
+        done_levels = set()
     else:
-        done = set()
+
+        done_meta = (
+            set(log_meta.read_text().split("\n")) if log_meta.exists() else set()
+        )
+        done_levels = (
+            set(log_levels.read_text().split("\n")) if log_levels.exists() else set()
+        )
 
     console.rule("Lista de Arquivos a serem processados", style="bold red")
-    console.print(lista_bins, style="bold white", overflow="fold", justify="center")
+    console.print(
+        [f.name for f in lista_bins],
+        style="bold white",
+        overflow="fold",
+        justify="left",
+    )
     if not lista_bins:
         return
 
     erro_formato = False
     erro_novo = False
 
-    with Progress() as progress:
+    with Progress(transient=True, auto_refresh=False) as progress:
         bins = progress.track(
             lista_bins,
             total=len(lista_bins),
-            description="[green]Processando Arquivos Binários",
+            description="[green]Processando Blocos Binários",
         )
         for file in bins:
-            progress.description = f"[cyan]Mapeando Blocos do arquivo {file.name}"
-            parsed_bins[file.stem] = parse_bin(file, progress=progress)
+            progress.console.print(f"[green]Processando Blocos de: [yellow]{file.name}")
+            parsed_bins[file.stem] = parse_bin(file)
+            progress.refresh()
         if meta:
-            lista = [f for f in lista_bins if f.name not in done]
+            lista = [f for f in lista_bins if f.name not in done_meta]
             if not lista:
                 erro_novo = True
             else:
                 bins = progress.track(
-                    lista, total=len(lista), description="[green]Exportando Metadados"
+                    lista, total=len(lista), description="[cyan]Exportando Metadados"
                 )
                 for file in bins:
-                    export_meta(file.stem, parsed_bins[file.stem], meta_path, ext=ext)
-                    done.add(file.name)
+                    progress.console.print(
+                        f"[cyan]Extraindo Metadados de: [yellow]{file.name}"
+                    )
+                    export_meta(
+                        file.stem, parsed_bins[file.stem], meta_path, ext=meta_ext
+                    )
+                    done_meta.add(file.name)
+                    progress.refresh()
         if levels:
-            if ext == ".csv":
+            if meta_ext == ".csv":
                 erro_formato = True
                 lista = []
             else:
-                lista = [f for f in lista_bins if f.name not in done]
+                lista = [f for f in lista_bins if f.name not in done_levels]
                 if not lista:
                     erro_novo = True
                 else:
                     bins = progress.track(
                         lista,
                         total=len(lista),
-                        description="[green]Exportando Dados de Espectro",
+                        description="[orange]Exportando Dados de Espectro",
                     )
                     for file in bins:
-                        meta_files = get_files(meta_path)
-                        for f in meta_files:
-                            if file.stem in str(f):
-                                meta_file = f
-                                break
-                        else:
-                            console.print(
-                                "[red] :poop: Não foram encontrados os arquivos com os metadados, eles serão extraídos primeiro"
+                        progress.console.print(
+                            f"[red]Extraindo Espectro de: [yellow]{file.name}"
+                        )
+                        meta_index = []
+                        blocks = parsed_bins[file.stem]["blocks"]
+                        for (tipo, tid) in blocks.keys():
+                            if tipo not in SPECTRAL_BLOCKS:
+                                continue
+                            meta_file = Path(
+                                f"{meta_path}/{file.stem}-B_{tipo}_TId_{tid}{meta_ext}"
                             )
-                            export_meta(
-                                file.stem, parsed_bins[file.stem], meta_path, ext=ext
-                            )
-                            done.add(file.name)
-                        meta_df = read_meta(meta_file)
-                        index = meta_df.index
+                            if not meta_file.exists():
+                                export_meta(
+                                    file.stem,
+                                    parsed_bins[file.stem],
+                                    meta_path,
+                                    ext=meta_ext,
+                                )
+                                done_meta.add(file.name)
+                            meta_df = read_meta(meta_file)
+                            meta_index.append(meta_df.index.tolist())
                         export_level(
                             file.stem,
                             parsed_bins[file.stem],
                             levels_path,
-                            ext=ext,
-                            index=index,
+                            ext=levels_ext,
+                            index=meta_index,
                         )
-                        done.add(file.name)
+                        done_levels.add(file.name)
     if erro_formato:
         console.print(
             ":warning: Dados espectrais em .csv não são suportados pela explosão no tamanho de arquivo :exclamation:"
@@ -137,5 +164,6 @@ def process_bin(
             ":point_up: use --substituir no terminal ou substituir=True na chamada caso queira reprocessar os bins e sobrepôr os arquivos existentes :wink:"
         )
     else:
-        processed.write_text("\n".join(sorted(list(done))))
+        log_meta.write_text("\n".join(sorted(list(done_meta))))
+        log_levels.write_text("\n".join(sorted(list(done_levels))))
         console.print("kbô :satisfied:")
