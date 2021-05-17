@@ -836,7 +836,7 @@ class DType64(GetAttr):
         self.default = DType63(block)
         self.minimum = self.offset - 127.5
         self.start = BYTES_63[21].stop + 8 + (self.n_tunning * 4) + self.n_agc
-        self.stop = self.start + self.self.ndata
+        self.stop = self.start + self.ndata
         self._level_len = len(self.data[self.start : self.stop])
 
     @cached_property
@@ -874,19 +874,11 @@ class DType64(GetAttr):
     @cached_property
     def block_data(self) -> np.array:
         """Spectrum Data in 'dB' with 0.5 dBm interval"""
-        return (
-            np.frombuffer(
-                self.data[self.start : self.stop], dtype=np.uint8, count=self.ndata
-            )
-            / 2
-            + self.minimum
-        ).astype(np.float16)
+        return self.data[self.start : self.stop]
 
     @cached_property
     def padding(self):
-        start = (
-            BYTES_63[21].stop + 8 + (self.n_tunning * 4) + self.n_agc + self.data_points
-        )
+        start = BYTES_63[21].stop + 8 + (self.n_tunning * 4) + self.n_agc + self.ndata
         return bin2int(self.data[start:])
 
     def __getitem__(self, i):
