@@ -9,14 +9,12 @@ __all__ = ['path_type', 'bin_val', 'bytes_encoded', 'datetime_object', 'parse_bi
 #     set_start_method("spawn")
 # except RuntimeError:
 #     pass
-from loguru import logger
 import os
 from pathlib import Path
 from typing import *
 from datetime import datetime
 from collections import defaultdict
-from functools import partial
-from fastcore.basics import uniqueify
+from fastcore.basics import uniqueify, partialler
 from fastcore.utils import parallel
 from fastcore.foundation import L
 from rich.progress import track
@@ -146,7 +144,7 @@ def export_meta(
 ) -> None:
 
     file_version, string, blocks = parsed_bin.values()
-    func = partial(_export_meta, stem=stem, saida=saida, ext=ext)
+    func = partialler(_export_meta, stem=stem, saida=saida, ext=ext)
     parallel(func, list(blocks.items()), n_workers=os.cpu_count(), pause=0.5)
 
 
@@ -192,7 +190,7 @@ def export_level(
     if not index:
         index = [None] * len(blocks)
     items = list(zip(blocks, index))
-    func = partial(_export_level, stem=stem, saida=saida, ext=ext, dtype=dtype)
+    func = partialler(_export_level, stem=stem, saida=saida, ext=ext, dtype=dtype)
     parallel(func, items, n_workers=os.cpu_count(), pause=0.5)
 
 
@@ -224,4 +222,4 @@ def _export_level(
     else:
         raise ValueError(f"Extension {ext} not implemented")
 
-    #console.print(f"\nArquivo {name}{ext} exportado com sucesso!:sparkles:")
+    #console.print(f"\nArquivo {name}{ext} exportado com sucesso!:sparkles:"
