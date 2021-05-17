@@ -1,4 +1,4 @@
-name: rfpy
+name: rfpy_teste
 channels:
   - intel
   - defaults
