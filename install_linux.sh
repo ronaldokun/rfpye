@@ -1,6 +1,5 @@
 #!/bin/bash
-conda deactivate
-conda create -n rfpy_teste -c intel pip -y
-conda activate rfpy_teste
-conda install -c intel cython numpy -y
+source deactivate
+conda create -n rfpy -c intel pip -y
+conda activate rfpy
 python -m pip install -e .
