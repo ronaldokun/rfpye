@@ -19,7 +19,8 @@ from fastcore.xtras import Path
 Abaixo mostramos as funcionalidades principais dos módulos, utilizando-os dentro de algum outro script ou `REPL`
 
 Precisamos necessariamente de um diretório de entrada, contendo um ou mais arquivos `.bin` e um diretório de saída no qual iremos salvar os arquivos processados. 
-{% include note.html content='Mude os caminhos abaixo para suas pastas locais caso for executar o exemplo.' %}
+> Mude os caminhos abaixo para suas pastas locais caso for executar o exemplo.
+
 Ao utilizar o script `process_bin`, as pastas `entrada` e `saída` esses serão repassadas como parâmetros na linha de comando.
 
 ```python
@@ -41,7 +42,7 @@ O caráter recursivo e a busca em links, `recurse` e `followlinks` simbólicos p
 arquivos = get_files(entrada, extensions=['.bin']) ; arquivos
 ```
 
-{% include important.html content='O Objeto retornado `L` é uma extensão da lista python com funcionalidades adicionais, uma delas como  podemos ver é que a representação da lista impressa mostra o comprimento da lista. Esse objeto pode ser usado de maneira idêntica à uma lista em python e sem substituição desta.' %}
+> O Objeto retornado `L` é uma extensão da lista python com funcionalidades adicionais, uma delas como  podemos ver é que a representação da lista impressa mostra o comprimento da lista. Esse objeto pode ser usado de maneira idêntica à uma lista em python e sem substituição desta.
 
 Temos 255 arquivos bin na pasta entrada. Podemos filtrar por pasta também
 
