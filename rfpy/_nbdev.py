@@ -2,14 +2,10 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"CACHE_FOLDER": "00_main.ipynb",
-         "log": "00_main.ipynb",
+index = {"CACHE_FOLDER": "05_filter.ipynb",
          "custom_theme": "00_main.ipynb",
          "console": "00_main.ipynb",
          "read_meta": "00_main.ipynb",
-         "filter_spectrum": "00_main.ipynb",
-         "appended_mean": "00_main.ipynb",
-         "extract_bin_stats": "00_main.ipynb",
          "process_bin": "00_main.ipynb",
          "path_type": "01_parser.ipynb",
          "bin_val": "01_parser.ipynb",
@@ -90,13 +86,17 @@ index = {"CACHE_FOLDER": "00_main.ipynb",
          "BLOCK_SIZE": "04_constants.ipynb",
          "TIMED_BLOCKS": "04_constants.ipynb",
          "SPECTRAL_BLOCKS": "04_constants.ipynb",
-         "BLOCK_ATTRS": "04_constants.ipynb"}
+         "BLOCK_ATTRS": "04_constants.ipynb",
+         "filter_spectrum": "05_filter.ipynb",
+         "appended_mean": "05_filter.ipynb",
+         "extract_bin_stats": "05_filter.ipynb"}
 
 modules = ["main.py",
            "parser.py",
            "utils.py",
            "blocks.py",
-           "constants.py"]
+           "constants.py",
+           "filter.py"]
 
 doc_url = "https://ronaldokun.github.io/rfpy"
 

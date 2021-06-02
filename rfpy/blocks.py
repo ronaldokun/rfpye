@@ -10,8 +10,8 @@ import functools
 from datetime import datetime
 from collections import namedtuple
 from typing import Union, Tuple, NamedTuple
-from .utils import *
-from .constants import *
+from rfpy.utils import *
+from rfpy.constants import *
 import numpy as np
 from fastcore.foundation import GetAttr, L
 

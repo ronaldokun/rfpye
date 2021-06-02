@@ -18,10 +18,10 @@ from fastcore.basics import uniqueify, partialler
 from fastcore.utils import parallel
 from fastcore.foundation import L
 from rich.progress import track
-from .blocks import *
-from .utils import *
-from .constants import *
-from .cyparser import cy_extract_compressed
+from rfpy.blocks import *
+from rfpy.utils import *
+from rfpy.constants import *
+from rfpy.cyparser import cy_extract_compressed
 import pandas as pd
 import numpy as np
 

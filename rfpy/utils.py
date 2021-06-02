@@ -11,7 +11,7 @@ import pandas as pd
 from fastcore.foundation import L
 from fastcore.xtras import Path
 from fastcore.basics import uniqueify
-from .constants import EXCLUDE_ATTRS
+from rfpy.constants import EXCLUDE_ATTRS
 
 # Cell
 def _get_files(p, fs, extensions=None):
