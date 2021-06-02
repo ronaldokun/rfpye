@@ -1,4 +1,4 @@
-# RFPY
+# RFPYE
 > Este módulo tem como objetivo o processamento e extração otimizada de dados dos arquivos `.bin` de monitoramento do espectro provenientes do script Logger executados nas estações de Monitoramento CRFS RFeye Node. Para tal utilizamos as várias funcionalidades da biblioteca <a href='https://fastcore.fast.ai/basics.html'>fastcore</a>, que expande e otimiza as estruturas de dados da linguagem python. 
 
 
@@ -7,13 +7,13 @@ import warnings
 with warnings.catch_warnings():
     warnings.simplefilter("ignore")
 from pprint import pprint
-import rfpy
-from rfpy.parser import *
+import rfpye
+from rfpye.parser import *
 from fastcore.xtras import Path
 ```
 
 ## Instalação
-`pip install rfpy`
+`pip install rfpye`
 
 ## Como utilizar
 Abaixo mostramos as funcionalidades principais dos módulos, utilizando-os dentro de algum outro script ou `REPL`

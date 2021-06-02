@@ -1,5 +1,4 @@
 #!/bin/bash
-conda deactivate
-conda create -n rfpy -c intel pip -y
-conda activate rfpy
-python -m pip install -e .
+conda create -n rfpye -c intel pip -y
+conda activate rfpye
+python -m pip install rfpye

@@ -1,5 +1,3 @@
-call conda deactivate
-
 call conda create -n rfpye -c intel pip -y
 
 call conda activate rfpye
