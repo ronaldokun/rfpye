@@ -4,9 +4,9 @@ SRC = $(wildcard ./*.ipynb)
 
 all: rfpy docs
 
-rfpy: $(SRC)
+rfpye: $(SRC)
 	nbdev_build_lib
-	touch rfpy
+	touch rfpye
 
 sync:
 	nbdev_update_lib
