@@ -93,80 +93,6 @@ nb_path: "nbs\00_filter.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">filter_spectrum</span><span class="p">(</span>
-    <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
-    <span class="n">time_start</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">time_stop</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">freq_start</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">freq_stop</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Recebe o arquivo de espectro df e retorna de acordo com os filtros</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        df (pd.DataFrame): Arquivo de espectro. Timestamp como linhas e frequências como colunas</span>
-<span class="sd">        time_start (str): Timestamp de início. Se None filtra desde o início do arquivo</span>
-<span class="sd">        time_stop (str): Timestamp de fim. Se None filtra até o fim do arquivo</span>
-<span class="sd">        freq_start (str): Filtro inicial de frequência. Se None retorna desde a menor frequências</span>
-<span class="sd">        freq_stop (str): Filtro Final de frequência. Se None retorna até a maior frequência.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        pd.DataFrame: DataFrame com Frequência, min, max e mean após os filtros aplicados.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">time_start</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">time_start</span> <span class="o">=</span> <span class="s2">&quot;01/01/2000&quot;</span>
-    <span class="k">if</span> <span class="n">time_stop</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">time_stop</span> <span class="o">=</span> <span class="s2">&quot;31/12/2100&quot;</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">time_start</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">time_start</span><span class="p">)</span>
-        <span class="n">time_stop</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">time_stop</span><span class="p">)</span>
-    <span class="k">except</span> <span class="n">pd</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">ParserError</span><span class="p">:</span>
-        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;[bold red blink] Datas inválidas! Verifique as strings de data </span><span class="si">{</span><span class="n">freq_start</span><span class="si">}</span><span class="s2"> e </span><span class="si">{</span><span class="n">freq_stop</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="p">)</span>
-
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
-    <span class="k">except</span> <span class="n">pd</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">KeyError</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">):</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Não foi passado uma coluna ou índice com datetime a ser filtrado, todas as linhas serão processadas&quot;</span><span class="p">,</span>
-                <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="p">)</span>
-            <span class="n">time_start</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">time_stop</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
-    <span class="n">cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float&quot;</span><span class="p">)</span>
-    <span class="n">rows</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span>
-
-    <span class="k">if</span> <span class="n">freq_start</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">freq_start</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">if</span> <span class="n">freq_stop</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">freq_stop</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
-
-    <span class="n">filtered_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[(</span><span class="nb">float</span><span class="p">(</span><span class="n">freq_start</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">cols</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">cols</span> <span class="o">&lt;=</span> <span class="nb">float</span><span class="p">(</span><span class="n">freq_stop</span><span class="p">))]</span>
-    <span class="n">filtered_rows</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">[(</span><span class="n">time_start</span> <span class="o">&lt;=</span> <span class="n">rows</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">rows</span> <span class="o">&lt;=</span> <span class="n">time_stop</span><span class="p">)]</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">filtered_cols</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">filtered_rows</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">None</span>
-    <span class="n">count</span> <span class="o">=</span> <span class="n">filtered_rows</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">array</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">filtered_rows</span><span class="p">,</span> <span class="n">filtered_cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-    <span class="n">freq</span> <span class="o">=</span> <span class="n">filtered_cols</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
-    <span class="n">min_</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">max_</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">mean</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-        <span class="p">{</span><span class="s2">&quot;Frequency&quot;</span><span class="p">:</span> <span class="n">freq</span><span class="p">,</span> <span class="s2">&quot;Min&quot;</span><span class="p">:</span> <span class="n">min_</span><span class="p">,</span> <span class="s2">&quot;Max&quot;</span><span class="p">:</span> <span class="n">max_</span><span class="p">,</span> <span class="s2">&quot;Mean&quot;</span><span class="p">:</span> <span class="n">mean</span><span class="p">,</span> <span class="s2">&quot;Count&quot;</span><span class="p">:</span> <span class="n">count</span><span class="p">}</span>
-    <span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 </div>
     {% endraw %}
@@ -189,7 +115,7 @@ nb_path: "nbs\00_filter.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="process_bin" class="doc_header"><code>process_bin</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/filter.py#L122" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>process_bin</code>(<strong><code>entrada</code></strong>:<code>str</code>, <strong><code>saida</code></strong>:<code>str</code>, <strong><code>recursivo</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>pastas</code></strong>:<code>Iterable</code>[<code>str</code>]=<em><code>None</code></em>, <strong><code>levels</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>substituir</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>dtype</code></strong>:<code>str</code>=<em><code>'float16'</code></em>)</p>
+<h4 id="process_bin" class="doc_header"><code>process_bin</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/filter.py#L121" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>process_bin</code>(<strong><code>entrada</code></strong>:<code>str</code>, <strong><code>saida</code></strong>:<code>str</code>, <strong><code>recursivo</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>pastas</code></strong>:<code>Iterable</code>[<code>str</code>]=<em><code>None</code></em>, <strong><code>levels</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>substituir</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>dtype</code></strong>:<code>str</code>=<em><code>'float16'</code></em>)</p>
 </blockquote>
 <p>Recebe uma pasta ou arquivo bin, processa e salva os metadados e espectro na saida.</p>
 <p>Args:
@@ -214,158 +140,6 @@ nb_path: "nbs\00_filter.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">process_bin</span><span class="p">(</span>
-    <span class="n">entrada</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">saida</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">recursivo</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">pastas</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">levels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">substituir</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">dtype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;float16&quot;</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Recebe uma pasta ou arquivo bin, processa e salva os metadados e espectro na saida.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        entrada (str): Caminho para a Pasta ou Arquivo .bin</span>
-<span class="sd">        saida (str): Pasta onde salvar os arquivos processados</span>
-<span class="sd">        recursivo (bool, optional): Buscar os arquivos de entrada recursivamente. Defaults to False.</span>
-<span class="sd">        pastas (Iterable[str], optional): Limitar a busca a essas pastas. Defaults to None.</span>
-<span class="sd">        levels (bool, optional): Extrair e salvar os dados de espectro. Defaults to False.</span>
-<span class="sd">        substituir (bool, optional): Reprocessar arquivos já processados?. Defaults to False.</span>
-<span class="sd">        dtype (str, optional): Tipo de dados a salvar o espectro. Defaults to &quot;float16&quot;.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">entrada</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">entrada</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">entrada</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
-        <span class="n">lista_bins</span> <span class="o">=</span> <span class="p">[</span><span class="n">entrada</span><span class="p">]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">lista_bins</span> <span class="o">=</span> <span class="n">get_files</span><span class="p">(</span>
-            <span class="n">entrada</span><span class="p">,</span> <span class="n">extensions</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;.bin&quot;</span><span class="p">],</span> <span class="n">recurse</span><span class="o">=</span><span class="n">recursivo</span><span class="p">,</span> <span class="n">folders</span><span class="o">=</span><span class="n">pastas</span>
-        <span class="p">)</span>
-    <span class="n">parsed_bins</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">meta_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">saida</span><span class="si">}</span><span class="s2">/meta&quot;</span><span class="p">)</span>
-    <span class="n">levels_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">saida</span><span class="si">}</span><span class="s2">/levels&quot;</span><span class="p">)</span>
-    <span class="n">meta_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">levels_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">log_meta</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">saida</span><span class="si">}</span><span class="s2">/log_meta.txt&quot;</span><span class="p">)</span>
-    <span class="n">log_levels</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">saida</span><span class="si">}</span><span class="s2">/log_levels.txt&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">substituir</span><span class="p">:</span>
-        <span class="n">done_meta</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-        <span class="n">done_levels</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-    <span class="k">else</span><span class="p">:</span>
-
-        <span class="n">done_meta</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="nb">set</span><span class="p">(</span><span class="n">log_meta</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">))</span> <span class="k">if</span> <span class="n">log_meta</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="k">else</span> <span class="nb">set</span><span class="p">()</span>
-        <span class="p">)</span>
-        <span class="n">done_levels</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="nb">set</span><span class="p">(</span><span class="n">log_levels</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">))</span> <span class="k">if</span> <span class="n">log_levels</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="k">else</span> <span class="nb">set</span><span class="p">()</span>
-        <span class="p">)</span>
-
-    <span class="n">console</span><span class="o">.</span><span class="n">rule</span><span class="p">(</span><span class="s2">&quot;Lista de Arquivos a serem processados&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;bold red&quot;</span><span class="p">)</span>
-    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">lista_bins</span><span class="p">],</span>
-        <span class="n">style</span><span class="o">=</span><span class="s2">&quot;bold white&quot;</span><span class="p">,</span>
-        <span class="n">overflow</span><span class="o">=</span><span class="s2">&quot;fold&quot;</span><span class="p">,</span>
-        <span class="n">justify</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">lista_bins</span><span class="p">:</span>
-        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;:sleeping: Nenhum arquivo .bin a processar :zzz:&quot;</span><span class="p">)</span>
-        <span class="k">return</span>
-
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">levels</span><span class="p">:</span>
-        <span class="n">lista_bins</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">lista_bins</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">done_meta</span><span class="p">]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">lista_bins</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">lista_bins</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">done_levels</span><span class="p">]</span>
-
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">lista_bins</span><span class="p">:</span>
-        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;:sleeping: Nenhum arquivo novo a processar :zzz:&quot;</span><span class="p">)</span>
-        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
-            <span class="s2">&quot;:point_up: use --substituir no terminal ou substituir=True na chamada caso queira reprocessar os bins e sobrepôr os arquivos existentes :wink:&quot;</span>
-        <span class="p">)</span>
-        <span class="k">return</span>
-
-    <span class="k">try</span><span class="p">:</span>
-
-        <span class="k">with</span> <span class="n">Progress</span><span class="p">(</span><span class="n">transient</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">auto_refresh</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">progress</span><span class="p">:</span>
-            <span class="n">bins</span> <span class="o">=</span> <span class="n">progress</span><span class="o">.</span><span class="n">track</span><span class="p">(</span>
-                <span class="n">lista_bins</span><span class="p">,</span>
-                <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">lista_bins</span><span class="p">),</span>
-                <span class="n">description</span><span class="o">=</span><span class="s2">&quot;[green]Processando Blocos Binários&quot;</span><span class="p">,</span>
-            <span class="p">)</span>
-
-            <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">bins</span><span class="p">:</span>
-                <span class="n">progress</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[cyan]Processando Blocos de: [red]</span><span class="si">{</span><span class="n">file</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="n">parsed_bins</span><span class="p">[</span><span class="n">file</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">parse_bin</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
-                <span class="n">progress</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
-
-            <span class="n">lista_meta</span> <span class="o">=</span> <span class="p">[(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">parsed_bins</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">done_meta</span><span class="p">]</span>
-
-            <span class="k">if</span> <span class="n">lista_meta</span><span class="p">:</span>
-                <span class="n">blocks</span> <span class="o">=</span> <span class="n">progress</span><span class="o">.</span><span class="n">track</span><span class="p">(</span>
-                    <span class="n">lista_meta</span><span class="p">,</span>
-                    <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">lista_meta</span><span class="p">),</span>
-                    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;[cyan]Exportando Metadados&quot;</span><span class="p">,</span>
-                <span class="p">)</span>
-                <span class="k">for</span> <span class="n">file</span><span class="p">,</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">blocks</span><span class="p">:</span>
-                    <span class="n">progress</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[cyan]Extraindo Metadados de: [red]</span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                    <span class="n">export_meta</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="n">meta_path</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="s2">&quot;.fth&quot;</span><span class="p">)</span>
-                    <span class="n">done_meta</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
-                    <span class="n">progress</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">levels</span><span class="p">:</span>
-                <span class="n">lista_levels</span> <span class="o">=</span> <span class="n">lista_meta</span> <span class="o">=</span> <span class="p">[</span>
-                    <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">parsed_bins</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">done_levels</span>
-                <span class="p">]</span>
-                <span class="k">if</span> <span class="n">lista_levels</span><span class="p">:</span>
-                    <span class="n">bins</span> <span class="o">=</span> <span class="n">progress</span><span class="o">.</span><span class="n">track</span><span class="p">(</span>
-                        <span class="n">lista_levels</span><span class="p">,</span>
-                        <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">lista_levels</span><span class="p">),</span>
-                        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;[grey]Exportando Dados de Espectro&quot;</span><span class="p">,</span>
-                    <span class="p">)</span>
-                    <span class="k">for</span> <span class="n">file</span><span class="p">,</span> <span class="n">block_obj</span> <span class="ow">in</span> <span class="n">bins</span><span class="p">:</span>
-                        <span class="n">progress</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
-                            <span class="sa">f</span><span class="s2">&quot;[grey]Extraindo Espectro de: [red]</span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">&quot;</span>
-                        <span class="p">)</span>
-                        <span class="n">meta_index</span> <span class="o">=</span> <span class="p">[]</span>
-                        <span class="n">blocks</span> <span class="o">=</span> <span class="n">block_obj</span><span class="p">[</span><span class="s2">&quot;blocks&quot;</span><span class="p">]</span>
-                        <span class="k">for</span> <span class="p">(</span><span class="n">tipo</span><span class="p">,</span> <span class="n">tid</span><span class="p">)</span> <span class="ow">in</span> <span class="n">blocks</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                            <span class="k">if</span> <span class="n">tipo</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">SPECTRAL_BLOCKS</span><span class="p">:</span>
-                                <span class="k">continue</span>
-                            <span class="n">meta_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>
-                                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">meta_path</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">-B_</span><span class="si">{</span><span class="n">tipo</span><span class="si">}</span><span class="s2">_TId_</span><span class="si">{</span><span class="n">tid</span><span class="si">}</span><span class="s2">.fth&quot;</span>
-                            <span class="p">)</span>
-                            <span class="k">if</span> <span class="ow">not</span> <span class="n">meta_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-                                <span class="n">export_meta</span><span class="p">(</span>
-                                    <span class="n">file</span><span class="p">,</span>
-                                    <span class="n">block_obj</span><span class="p">,</span>
-                                    <span class="n">meta_path</span><span class="p">,</span>
-                                    <span class="n">ext</span><span class="o">=</span><span class="s2">&quot;.fth&quot;</span><span class="p">,</span>
-                                <span class="p">)</span>
-                                <span class="n">done_meta</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
-                            <span class="n">meta_df</span> <span class="o">=</span> <span class="n">read_meta</span><span class="p">(</span><span class="n">meta_file</span><span class="p">)</span>
-                            <span class="n">meta_index</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">meta_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
-                        <span class="n">export_level</span><span class="p">(</span>
-                            <span class="n">file</span><span class="p">,</span>
-                            <span class="n">block_obj</span><span class="p">,</span>
-                            <span class="n">levels_path</span><span class="p">,</span>
-                            <span class="n">ext</span><span class="o">=</span><span class="s2">&quot;.fth&quot;</span><span class="p">,</span>
-                            <span class="n">index</span><span class="o">=</span><span class="n">meta_index</span><span class="p">,</span>
-                            <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
-                        <span class="p">)</span>
-                        <span class="n">done_levels</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
-                        <span class="n">progress</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
-        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;kbô :satisfied:&quot;</span><span class="p">)</span>
-    <span class="k">finally</span><span class="p">:</span>
-        <span class="n">log_meta</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">done_meta</span><span class="p">))))</span>
-        <span class="n">log_levels</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">done_levels</span><span class="p">))))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 </div>
     {% endraw %}
@@ -394,7 +168,7 @@ nb_path: "nbs\00_filter.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="extract_bin_stats" class="doc_header"><code>extract_bin_stats</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/filter.py#L279" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>extract_bin_stats</code>(<strong><code>filename</code></strong>:<code>str</code>, <strong><code>time_start</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>time_stop</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>freq_start</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>freq_stop</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>cache</code></strong>:<code>str</code>=<em><code>Path('D:/OneDrive - ANATEL/Code/rfpye/.cache')</code></em>)</p>
+<h4 id="extract_bin_stats" class="doc_header"><code>extract_bin_stats</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/filter.py#L278" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>extract_bin_stats</code>(<strong><code>filename</code></strong>:<code>str</code>, <strong><code>time_start</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>time_stop</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>freq_start</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>freq_stop</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>cache</code></strong>:<code>str</code>=<em><code>Path('D:/OneDrive - ANATEL/Code/rfpye/.cache')</code></em>)</p>
 </blockquote>
 <p>Recebe o caminho para um arquivo CRFS bin e retorna um dataframe com o resumo estatístico dos dados de espectro</p>
 <p>Args:
@@ -420,65 +194,6 @@ nb_path: "nbs\00_filter.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">extract_bin_stats</span><span class="p">(</span>
-    <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">time_start</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">time_stop</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">freq_start</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">freq_stop</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">cache</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">CACHE_FOLDER</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Recebe o caminho para um arquivo CRFS bin e retorna um dataframe com o resumo estatístico dos dados de espectro</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        filename (str): Caminho para o arquivo bin</span>
-<span class="sd">        time_start (str): Timestamp de início. Se None filtra desde o início do arquivo</span>
-<span class="sd">        time_stop (str): Timestamp de fim. Se None filtra até o fim do arquivo</span>
-<span class="sd">        freq_start (str): Filtro inicial de frequência. Se None retorna desde a menor frequências</span>
-<span class="sd">        freq_stop (str): Filtro Final de frequência. Se None retorna até a maior frequência.</span>
-<span class="sd">        cache (str, optional): Caminho para a pasta de cache. Default é criar uma pasta oculta .cache no diretório atual.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        pd.DataFrame: Dataframe contendo o resumo estatístico do arquivo</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">cache</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">cache</span><span class="p">)</span>
-    <span class="n">cache</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">cached_files</span> <span class="o">=</span> <span class="n">get_files</span><span class="p">(</span><span class="n">cache</span> <span class="o">/</span> <span class="s2">&quot;levels&quot;</span><span class="p">)</span>
-        <span class="c1"># TODO filter based on metadata</span>
-        <span class="n">cached_levels</span> <span class="o">=</span> <span class="n">cached_files</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">name</span><span class="p">:</span> <span class="n">filename</span><span class="o">.</span><span class="n">stem</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">cached_levels</span><span class="p">:</span>
-            <span class="n">process_bin</span><span class="p">(</span><span class="n">entrada</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">saida</span><span class="o">=</span><span class="n">cache</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">break</span>
-    <span class="n">dfs</span> <span class="o">=</span> <span class="n">cached_levels</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_feather</span><span class="p">)</span>
-    <span class="n">spectra</span> <span class="o">=</span> <span class="n">dfs</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">filter_spectrum</span><span class="p">,</span> <span class="n">time_start</span><span class="o">=</span><span class="n">time_start</span><span class="p">,</span> <span class="n">time_stop</span><span class="o">=</span><span class="n">time_stop</span><span class="p">,</span> <span class="n">freq_start</span><span class="o">=</span><span class="n">freq_start</span><span class="p">,</span> <span class="n">freq_stop</span><span class="o">=</span><span class="n">freq_stop</span><span class="p">)</span>
-    <span class="n">spectra</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">spectra</span> <span class="k">if</span> <span class="n">s</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
-    <span class="n">out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Frequency&quot;</span><span class="p">,</span> <span class="s2">&quot;Min&quot;</span><span class="p">,</span> <span class="s2">&quot;Max&quot;</span><span class="p">,</span> <span class="s2">&quot;Mean&quot;</span><span class="p">])</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">spectra</span><span class="p">:</span>
-        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Os parâmetros repassados não correspondem a nenhum dado espectral do arquivo&quot;</span><span class="p">,</span>
-            <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="n">out</span>
-    <span class="n">spectra</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">spectra</span><span class="p">)</span>
-    <span class="n">gb</span> <span class="o">=</span> <span class="n">spectra</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;Frequency&quot;</span><span class="p">)</span>
-    <span class="n">out</span><span class="p">[</span><span class="s2">&quot;Frequency&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">spectra</span><span class="o">.</span><span class="n">Frequency</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
-    <span class="n">out</span><span class="p">[</span><span class="s2">&quot;Min&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gb</span><span class="o">.</span><span class="n">min</span><span class="p">()[</span><span class="s2">&quot;Min&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-    <span class="n">out</span><span class="p">[</span><span class="s2">&quot;Max&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gb</span><span class="o">.</span><span class="n">max</span><span class="p">()[</span><span class="s2">&quot;Max&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-    <span class="n">out</span><span class="p">[</span><span class="s2">&quot;Mean&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gb</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">appended_mean</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
-    <span class="k">return</span> <span class="n">out</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 </div>
     {% endraw %}
@@ -497,8 +212,7 @@ nb_path: "nbs\00_filter.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
-<span class="n">entrada</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;D:\OneDrive - ANATEL\BinFiles&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">entrada</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;D:\OneDrive - ANATEL\BinFiles&#39;</span><span class="p">)</span>
 <span class="n">saida</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;C:\Users\rsilva\Downloads\saida&#39;</span><span class="p">)</span>
 <span class="n">binfile</span> <span class="o">=</span> <span class="n">entrada</span> <span class="o">/</span> <span class="s1">&#39;201201_T153421_OneThreadID.bin&#39;</span>
 </pre></div>

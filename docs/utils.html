@@ -50,6 +50,20 @@ nb_path: "nbs\02_utils.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Leitura-de-Arquivos">Leitura de Arquivos<a class="anchor-link" href="#Leitura-de-Arquivos"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A função a seguir que busca de maneira recursiva arquivos de dada extensão, inclusive links simbólicos se existirem.
+O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks</code> simbólicos pode ser desativados por meio dos parâmetros e opcionalmente pode ser varrido somente o conjunto de pastas indicado em <code>folders</code> e os arquivos com extensões indicadas em <code>extensions</code></p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -114,6 +128,21 @@ nb_path: "nbs\02_utils.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote><p>O Objeto retornado <code>L</code> é uma extensão da lista python com funcionalidades adicionais, uma delas como  podemos ver é que a representação da lista impressa mostra o comprimento da lista. Esse objeto pode ser usado de maneira idêntica à uma lista em python e sem substituição desta.</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Convers&#227;o-de-bytes">Convers&#227;o de bytes<a class="anchor-link" href="#Convers&#227;o-de-bytes"> </a></h2><p>As funções a seguir são utilizadas na criação dos diversos atributos dos diferentes Blocos presentes no arquivo <code>.bin</code>.</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -258,83 +287,17 @@ Ignora o final do dado binario (' ') que é usado apenas para manter o tamanho d
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">bin2int</span><span class="p">(</span><span class="n">binary_data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">is_signed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Convert bytes number to int</span>
-<span class="sd">    :param binary_data: valor de int comprimido</span>
-<span class="sd">    :param is_signed: indica se é um valor negativo ou não</span>
-<span class="sd">    :return: decoded int</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">binary_data</span><span class="p">,</span> <span class="n">byteorder</span><span class="o">=</span><span class="s2">&quot;little&quot;</span><span class="p">,</span> <span class="n">signed</span><span class="o">=</span><span class="n">is_signed</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">bin2str</span><span class="p">(</span><span class="n">binary_data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    bytes &gt; str</span>
-<span class="sd">    :param binary_data: valor de str comprimida</span>
-<span class="sd">    :return: str traduzida</span>
-
-<span class="sd">    Conversor binario para str.</span>
-<span class="sd">    Erros do &#39;decoder&#39; são ignorados.</span>
-<span class="sd">    Ignora o final do dado binario (&#39;\x00&#39;) que é usado apenas para manter o tamanho dos campos.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">binary_data</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">errors</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">bin2date</span><span class="p">(</span><span class="n">binary_data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    bytes &gt; (int, int, int, int)</span>
-<span class="sd">    :param binary_data: valor de data comprimido</span>
-<span class="sd">    :return: dia, mês, ano, reserva</span>
-
-<span class="sd">    Date is expressed as dd/mm/yy/null, i.e. 4 bytes</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">day</span> <span class="o">=</span> <span class="n">binary_data</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">month</span> <span class="o">=</span> <span class="n">binary_data</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
-    <span class="n">year</span> <span class="o">=</span> <span class="n">binary_data</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
-    <span class="n">reserve</span> <span class="o">=</span> <span class="n">binary_data</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
-    <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="n">day</span><span class="p">),</span> <span class="n">bin2int</span><span class="p">(</span><span class="n">month</span><span class="p">),</span> <span class="n">bin2int</span><span class="p">(</span><span class="n">year</span><span class="p">),</span> <span class="n">bin2int</span><span class="p">(</span><span class="n">reserve</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">bin2time</span><span class="p">(</span><span class="n">binary_data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    bytes &gt; (int, int, int, int)</span>
-<span class="sd">    :param binary_data: valor de hora comprimido</span>
-<span class="sd">    :return: horas, minutos, segundos, décimos de segundo</span>
-
-<span class="sd">     Time is expressed as hh/mm/ss/cc (4 bytes), where cc is centiseconds;</span>
-<span class="sd">     and a 32-bit nanoseconds field, expressed as an unsigned 32-bit integer,</span>
-<span class="sd">     to support higher precision where required.</span>
-<span class="sd">     At most one of cc and nanoseconds can be nonzero.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">hours</span> <span class="o">=</span> <span class="n">binary_data</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">minutes</span> <span class="o">=</span> <span class="n">binary_data</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
-    <span class="n">seconds</span> <span class="o">=</span> <span class="n">binary_data</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
-    <span class="n">centiseconds</span> <span class="o">=</span> <span class="n">binary_data</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
-    <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="n">hours</span><span class="p">),</span> <span class="n">bin2int</span><span class="p">(</span><span class="n">minutes</span><span class="p">),</span> <span class="n">bin2int</span><span class="p">(</span><span class="n">seconds</span><span class="p">),</span> <span class="n">bin2int</span><span class="p">(</span><span class="n">centiseconds</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">pad</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">block_size</span><span class="p">):</span>
-
-    <span class="c1"># Calculate the missing number of</span>
-    <span class="c1"># bytes, say N</span>
-    <span class="n">pad_size</span> <span class="o">=</span> <span class="n">block_size</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">%</span> <span class="n">block_size</span>
-
-    <span class="c1"># Pad with character of N</span>
-    <span class="n">fit_text</span> <span class="o">=</span> <span class="n">text</span> <span class="o">+</span> <span class="nb">chr</span><span class="p">(</span><span class="n">pad_size</span><span class="p">)</span> <span class="o">*</span> <span class="n">pad_size</span>
-
-    <span class="k">return</span> <span class="p">(</span><span class="n">fit_text</span><span class="p">,)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Otimiza&#231;&#227;o-dos-Tipos-de-dados">Otimiza&#231;&#227;o dos Tipos de dados<a class="anchor-link" href="#Otimiza&#231;&#227;o-dos-Tipos-de-dados"> </a></h2><p>A serem criados dataframes, normalmente a tipo de data é aquele com maior resolução possível, nem sempre isso é necessário, os arquivos de espectro mesmo possuem somente uma casa decimal, portanto um <code>float16</code> já é suficiente para armazená-los. As funções a seguir fazem essa otimização</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Code below borrowed from <a href="https://medium.com/bigdatarepublic/advanced-pandas-optimize-speed-and-memory-a654b53be6c2">https://medium.com/bigdatarepublic/advanced-pandas-optimize-speed-and-memory-a654b53be6c2</a></p>
@@ -441,41 +404,6 @@ Ignora o final do dado binario (' ') que é usado apenas para manter o tamanho d
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">optimize_floats</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="n">floats</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;float64&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-    <span class="n">df</span><span class="p">[</span><span class="n">floats</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">floats</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">,</span> <span class="n">downcast</span><span class="o">=</span><span class="s2">&quot;float&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">df</span>
-
-
-<span class="k">def</span> <span class="nf">optimize_ints</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="n">ints</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;int64&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-    <span class="n">df</span><span class="p">[</span><span class="n">ints</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">ints</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">,</span> <span class="n">downcast</span><span class="o">=</span><span class="s2">&quot;integer&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">df</span>
-
-
-<span class="k">def</span> <span class="nf">optimize_objects</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">datetime_features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;object&quot;</span><span class="p">]):</span>
-        <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">datetime_features</span><span class="p">:</span>
-            <span class="n">num_unique_values</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
-            <span class="n">num_total_values</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
-            <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">num_unique_values</span><span class="p">)</span> <span class="o">/</span> <span class="n">num_total_values</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
-                <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
-    <span class="k">return</span> <span class="n">df</span>
-
-
-<span class="k">def</span> <span class="nf">df_optimize</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">datetime_features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]):</span>
-    <span class="k">return</span> <span class="n">optimize_floats</span><span class="p">(</span><span class="n">optimize_ints</span><span class="p">(</span><span class="n">optimize_objects</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">datetime_features</span><span class="p">)))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 </div>
     {% endraw %}
@@ -532,24 +460,6 @@ Ignora o final do dado binario (' ') que é usado apenas para manter o tamanho d
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">public_attrs</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">L</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Receives an object and return its public attributes (not starting with underscore _) excluding those listed in `EXCLUDE_ATTRS`&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">L</span><span class="p">(</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">k</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">EXCLUDE_ATTRS</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">getattrs</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">attrs</span><span class="p">:</span> <span class="n">Iterable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">L</span><span class="p">:</span>
-    <span class="k">if</span> <span class="n">attrs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">attrs</span> <span class="o">=</span> <span class="n">public_attrs</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">}</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 </div>
     {% endraw %}
