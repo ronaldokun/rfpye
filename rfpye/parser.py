@@ -135,7 +135,7 @@ def rowattrs(row, attrs):
 # Cell
 def extract_metadata(blocos: L, attrs: list = None) -> pd.DataFrame:
     """Receives a list of blocks, extracts the metadata from them and return a DataFrame"""
-    df = meta2df(blocos.map(rowattrs))
+    df = meta2df(blocos.map(rowattrs, attrs=attrs))
     return df
 
 # Internal Cell
