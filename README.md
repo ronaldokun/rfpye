@@ -38,7 +38,7 @@ Ao utilizar o script `process_bin`, as pastas `entrada` e `saída` esses serão 
 ```python
 from fastcore.xtras import Path
 VERBOSE = True
-entrada = Path(r'D:\OneDrive - ANATEL\Backup_Rfeye_SP\CPV\2021')
+entrada = Path(r'D:\OneDrive - ANATEL\Backup_Rfeye_SP\CGH\2021')
 saida = Path(r'C:\Users\rsilva\Downloads\saida')
 ```
 
@@ -53,19 +53,26 @@ arquivos = get_files(entrada, extensions=['.bin']) ; print(arquivos[:10])
 ```
 
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span>Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - ANATEL/Backup_Rfeye_SP/CPV/2021/rfeye002310_210204_T184230.bin'</span><span style="font-weight: bold">)</span>, 
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span>Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - </span>
+<span style="color: #008000; text-decoration-color: #008000">ANATEL/Backup_Rfeye_SP/CGH/2021/rfeye002279-SP-Congonhas_210319_T160137.bin'</span><span style="font-weight: bold">)</span>, 
 Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - </span>
-<span style="color: #008000; text-decoration-color: #008000">ANATEL/Backup_Rfeye_SP/CPV/2021/rfeye002310_210204_T184230_MaskBroken.bin'</span><span style="font-weight: bold">)</span>, 
-Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - ANATEL/Backup_Rfeye_SP/CPV/2021/rfeye002310_210204_T184431.bin'</span><span style="font-weight: bold">)</span>, 
+<span style="color: #008000; text-decoration-color: #008000">ANATEL/Backup_Rfeye_SP/CGH/2021/rfeye002279-SP-Congonhas_210325_T230001.bin'</span><span style="font-weight: bold">)</span>, 
 Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - </span>
-<span style="color: #008000; text-decoration-color: #008000">ANATEL/Backup_Rfeye_SP/CPV/2021/rfeye002310_210204_T184431_MaskBroken.bin'</span><span style="font-weight: bold">)</span>, 
-Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - ANATEL/Backup_Rfeye_SP/CPV/2021/rfeye002310_210206_T210901.bin'</span><span style="font-weight: bold">)</span>, 
-Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - ANATEL/Backup_Rfeye_SP/CPV/2021/rfeye002310_210208_T233102.bin'</span><span style="font-weight: bold">)</span>, 
-Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - ANATEL/Backup_Rfeye_SP/CPV/2021/rfeye002310_210211_T004502.bin'</span><span style="font-weight: bold">)</span>, 
+<span style="color: #008000; text-decoration-color: #008000">ANATEL/Backup_Rfeye_SP/CGH/2021/rfeye002279-SP-Congonhas_210401_T060001.bin'</span><span style="font-weight: bold">)</span>, 
 Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - </span>
-<span style="color: #008000; text-decoration-color: #008000">ANATEL/Backup_Rfeye_SP/CPV/2021/rfeye002310_210211_T004502_MaskBroken.bin'</span><span style="font-weight: bold">)</span>, 
-Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - ANATEL/Backup_Rfeye_SP/CPV/2021/RFeye002310_210211_T011350.bin'</span><span style="font-weight: bold">)</span>, 
-Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - ANATEL/Backup_Rfeye_SP/CPV/2021/RFeye002310_210213_T033501.bin'</span><span style="font-weight: bold">)]</span>
+<span style="color: #008000; text-decoration-color: #008000">ANATEL/Backup_Rfeye_SP/CGH/2021/rfeye002279-SP-Congonhas_210404_T152752.bin'</span><span style="font-weight: bold">)</span>, 
+Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - </span>
+<span style="color: #008000; text-decoration-color: #008000">ANATEL/Backup_Rfeye_SP/CGH/2021/rfeye002279-SP-Congonhas_210410_T222501.bin'</span><span style="font-weight: bold">)</span>, 
+Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - </span>
+<span style="color: #008000; text-decoration-color: #008000">ANATEL/Backup_Rfeye_SP/CGH/2021/rfeye002279-SP-Congonhas_210416_T104037.bin'</span><span style="font-weight: bold">)</span>, 
+Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - </span>
+<span style="color: #008000; text-decoration-color: #008000">ANATEL/Backup_Rfeye_SP/CGH/2021/rfeye002279-SP-Congonhas_210422_T113942.bin'</span><span style="font-weight: bold">)</span>, 
+Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - </span>
+<span style="color: #008000; text-decoration-color: #008000">ANATEL/Backup_Rfeye_SP/CGH/2021/rfeye002279-SP-Congonhas_210428_T183501.bin'</span><span style="font-weight: bold">)</span>, 
+Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - </span>
+<span style="color: #008000; text-decoration-color: #008000">ANATEL/Backup_Rfeye_SP/CGH/2021/rfeye002279-SP-Congonhas_210505_T013201.bin'</span><span style="font-weight: bold">)</span>, 
+Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - </span>
+<span style="color: #008000; text-decoration-color: #008000">ANATEL/Backup_Rfeye_SP/CGH/2021/rfeye002279-SP-Congonhas_210511_T083001.bin'</span><span style="font-weight: bold">)]</span>
 </pre>
 
 
@@ -73,11 +80,11 @@ Path<span style="font-weight: bold">(</span><span style="color: #008000; text-de
 > O Objeto retornado `L` é uma extensão da lista python com funcionalidades adicionais, uma delas como  podemos ver é que a representação da lista impressa mostra o comprimento da lista. Esse objeto pode ser usado de maneira idêntica à uma lista em python e sem substituição desta.
 
 ```python
-bin_file = arquivos[-1] ; print(bin_file.name)
+bin_file = arquivos[-3] ; print(bin_file.name)
 ```
 
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">RFeye002310_210520_T181500.bin
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">rfeye002279-SP-Congonhas_210516_T144208.bin
 </pre>
 
 
@@ -94,7 +101,7 @@ A função seguinte `parse_bin` recebe um arquivo `.bin` e mapeia os blocos cont
 map_bin = parse_bin(bin_file)['blocks']
 ```
 
-    Wall time: 4.48 s
+    Wall time: 5.26 s
     
 
 ```python
@@ -115,74 +122,98 @@ for k, b in map_bin.items():
 
 
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">40</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3023</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">40</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6341</span>
 </pre>
 
 
 
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">50</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3023</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">300</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6341</span>
 </pre>
 
 
 
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3023</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">310</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6341</span>
 </pre>
 
 
 
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3023</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">100</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1268</span>
 </pre>
 
 
 
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">90</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3023</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">110</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1268</span>
 </pre>
 
 
 
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">110</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3023</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">130</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1268</span>
 </pre>
 
 
 
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">130</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3023</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">210</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">423</span>
 </pre>
 
 
 
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">604</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">220</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">423</span>
 </pre>
 
 
 
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">20</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">604</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">230</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">423</span>
 </pre>
 
 
 
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">40</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">604</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">240</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">423</span>
 </pre>
 
 
 
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">42</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">50</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">320</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">423</span>
+</pre>
+
+
+
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">340</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">423</span>
+</pre>
+
+
+
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">360</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">423</span>
+</pre>
+
+
+
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">380</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">423</span>
+</pre>
+
+
+
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">42</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">105</span>
 </pre>
 
 
 
 ```python
 gps = map_bin[(40,1)]
-spec = map_bin[(67,20)]
+spec = map_bin[(67,110)]
 ```
 
 A seguir é mostrado um exemplo dos atributos contidos num bloco de gps e num bloco de espectro
@@ -194,18 +225,18 @@ print(getattrs(gps[0][1]))
 
 
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span>
-    <span style="color: #008000; text-decoration-color: #008000">'altitude'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">571.6</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'altitude'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">815.3</span>,
     <span style="color: #008000; text-decoration-color: #008000">'data_size'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">40</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'gps_datetime'</span>: datetime.datetime<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2021</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">20</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">18</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span><span style="font-weight: bold">)</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'gps_status'</span>: <span style="color: #008000; text-decoration-color: #008000">'Standard GPS'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'gps_datetime'</span>: datetime.datetime<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2021</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">14</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">43</span><span style="font-weight: bold">)</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'gps_status'</span>: <span style="color: #008000; text-decoration-color: #008000">'Differential GPS'</span>,
     <span style="color: #008000; text-decoration-color: #008000">'heading'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'latitude'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-23.101629</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'longitude'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-45.7066</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'num_satellites'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">11</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'speed'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.04</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'latitude'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-23.635858</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'longitude'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-46.654255</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'num_satellites'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">12</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'speed'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.014</span>,
     <span style="color: #008000; text-decoration-color: #008000">'thread_id'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,
     <span style="color: #008000; text-decoration-color: #008000">'type'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">40</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'wallclock_datetime'</span>: numpy.datetime64<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'2021-05-20T18:16:00.785620'</span><span style="font-weight: bold">)</span>
+    <span style="color: #008000; text-decoration-color: #008000">'wallclock_datetime'</span>: numpy.datetime64<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'2021-05-16T14:43:00.532926'</span><span style="font-weight: bold">)</span>
 <span style="font-weight: bold">}</span>
 </pre>
 
@@ -219,37 +250,37 @@ print(getattrs(spec[0][1]))
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span>
     <span style="color: #008000; text-decoration-color: #008000">'antenna_id'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
     <span style="color: #008000; text-decoration-color: #008000">'bw'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">40</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'data_size'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1156</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'data_size'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1164</span>,
     <span style="color: #008000; text-decoration-color: #008000">'data_type'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'desclen'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">28</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'description'</span>: <span style="color: #008000; text-decoration-color: #008000">'PRD 2021 (Faixa 2 de 4).'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'desclen'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">36</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'description'</span>: <span style="color: #008000; text-decoration-color: #008000">'PRD 2021 (Faixa principal 2 de 4).'</span>,
     <span style="color: #008000; text-decoration-color: #008000">'dynamic_id'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
     <span style="color: #008000; text-decoration-color: #008000">'gerror'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-1</span>,
     <span style="color: #008000; text-decoration-color: #008000">'gflags'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-1</span>,
     <span style="color: #008000; text-decoration-color: #008000">'group_id'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'minimum'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-56.5</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'minimum'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-32.5</span>,
     <span style="color: #008000; text-decoration-color: #008000">'n_agc'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">7</span>,
     <span style="color: #008000; text-decoration-color: #008000">'n_tunning'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">7</span>,
     <span style="color: #008000; text-decoration-color: #008000">'namal'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,
     <span style="color: #008000; text-decoration-color: #008000">'ndata'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1024</span>,
     <span style="color: #008000; text-decoration-color: #008000">'npad'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'offset'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">71</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'offset'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">95</span>,
     <span style="color: #008000; text-decoration-color: #008000">'padding'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
     <span style="color: #008000; text-decoration-color: #008000">'processing'</span>: <span style="color: #008000; text-decoration-color: #008000">'peak'</span>,
     <span style="color: #008000; text-decoration-color: #008000">'resolution_bw'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">73828</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'sample'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5316</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'start'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">131</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'sample'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6230</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'start'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">139</span>,
     <span style="color: #008000; text-decoration-color: #008000">'start_channel'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
     <span style="color: #008000; text-decoration-color: #008000">'start_mega'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>,
     <span style="color: #008000; text-decoration-color: #008000">'start_mili'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
     <span style="color: #008000; text-decoration-color: #008000">'step'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.039100684261974585</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'stop'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1155</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'stop'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1163</span>,
     <span style="color: #008000; text-decoration-color: #008000">'stop_channel'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
     <span style="color: #008000; text-decoration-color: #008000">'stop_mega'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">110</span>,
     <span style="color: #008000; text-decoration-color: #008000">'stop_mili'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'thread_id'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">20</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'thread_id'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">110</span>,
     <span style="color: #008000; text-decoration-color: #008000">'type'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'wallclock_datetime'</span>: numpy.datetime64<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'2021-05-20T18:20:00.107910'</span><span style="font-weight: bold">)</span>
+    <span style="color: #008000; text-decoration-color: #008000">'wallclock_datetime'</span>: numpy.datetime64<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'2021-05-16T14:45:00.790881'</span><span style="font-weight: bold">)</span>
 <span style="font-weight: bold">}</span>
 </pre>
 
@@ -317,82 +348,82 @@ gps_meta.head()
   </thead>
   <tbody>
     <tr>
-      <th>2021-05-20 18:16:00.785620</th>
+      <th>2021-05-16 14:43:00.532926</th>
       <td>344</td>
       <td>399</td>
-      <td>571.599976</td>
+      <td>815.299988</td>
       <td>40</td>
-      <td>2021-05-20 18:16:00</td>
-      <td>Standard GPS</td>
+      <td>2021-05-16 14:43:00</td>
+      <td>Differential GPS</td>
       <td>0.0</td>
-      <td>-23.101629</td>
-      <td>-45.706600</td>
-      <td>11</td>
-      <td>0.040</td>
+      <td>-23.635859</td>
+      <td>-46.654255</td>
+      <td>12</td>
+      <td>0.014</td>
       <td>1</td>
       <td>40</td>
     </tr>
     <tr>
-      <th>2021-05-20 18:17:00.283280</th>
-      <td>31436</td>
-      <td>31491</td>
-      <td>574.799988</td>
+      <th>2021-05-16 14:44:00.330070</th>
+      <td>5324</td>
+      <td>5379</td>
+      <td>817.299988</td>
       <td>40</td>
-      <td>2021-05-20 18:17:00</td>
-      <td>Standard GPS</td>
+      <td>2021-05-16 14:43:59</td>
+      <td>Differential GPS</td>
       <td>0.0</td>
-      <td>-23.101616</td>
-      <td>-45.706612</td>
-      <td>11</td>
-      <td>0.033</td>
-      <td>1</td>
-      <td>40</td>
-    </tr>
-    <tr>
-      <th>2021-05-20 18:18:00.183600</th>
-      <td>62528</td>
-      <td>62583</td>
-      <td>574.299988</td>
-      <td>40</td>
-      <td>2021-05-20 18:18:00</td>
-      <td>Standard GPS</td>
-      <td>0.0</td>
-      <td>-23.101612</td>
-      <td>-45.706612</td>
-      <td>11</td>
-      <td>0.037</td>
-      <td>1</td>
-      <td>40</td>
-    </tr>
-    <tr>
-      <th>2021-05-20 18:19:00.219400</th>
-      <td>93620</td>
-      <td>93675</td>
-      <td>577.200012</td>
-      <td>40</td>
-      <td>2021-05-20 18:19:00</td>
-      <td>Standard GPS</td>
-      <td>0.0</td>
-      <td>-23.101606</td>
-      <td>-45.706612</td>
-      <td>11</td>
+      <td>-23.635857</td>
+      <td>-46.654263</td>
+      <td>12</td>
       <td>0.025</td>
       <td>1</td>
       <td>40</td>
     </tr>
     <tr>
-      <th>2021-05-20 18:20:00.683610</th>
-      <td>124712</td>
-      <td>124767</td>
-      <td>573.599976</td>
+      <th>2021-05-16 14:45:00.752895</th>
+      <td>10304</td>
+      <td>10359</td>
+      <td>816.200012</td>
       <td>40</td>
-      <td>2021-05-20 18:20:00</td>
-      <td>Standard GPS</td>
+      <td>2021-05-16 14:45:00</td>
+      <td>Differential GPS</td>
       <td>0.0</td>
-      <td>-23.101625</td>
-      <td>-45.706608</td>
-      <td>11</td>
-      <td>0.053</td>
+      <td>-23.635859</td>
+      <td>-46.654266</td>
+      <td>12</td>
+      <td>0.007</td>
+      <td>1</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>2021-05-16 14:46:00.402776</th>
+      <td>86092</td>
+      <td>86147</td>
+      <td>815.299988</td>
+      <td>40</td>
+      <td>2021-05-16 14:46:00</td>
+      <td>Differential GPS</td>
+      <td>0.0</td>
+      <td>-23.635864</td>
+      <td>-46.654263</td>
+      <td>12</td>
+      <td>0.005</td>
+      <td>1</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>2021-05-16 14:47:00.302816</th>
+      <td>91072</td>
+      <td>91127</td>
+      <td>818.099976</td>
+      <td>40</td>
+      <td>2021-05-16 14:47:00</td>
+      <td>Differential GPS</td>
+      <td>0.0</td>
+      <td>-23.635859</td>
+      <td>-46.654266</td>
+      <td>12</td>
+      <td>0.025</td>
       <td>1</td>
       <td>40</td>
     </tr>
@@ -477,15 +508,15 @@ spec_meta.tail()
   </thead>
   <tbody>
     <tr>
-      <th>2021-05-22 20:15:00.160846</th>
-      <td>99227964</td>
-      <td>99229135</td>
+      <th>2021-05-21 00:00:00.695624</th>
+      <td>69731068</td>
+      <td>69732247</td>
       <td>0</td>
       <td>40</td>
-      <td>1156</td>
+      <td>1164</td>
       <td>1</td>
-      <td>28</td>
-      <td>PRD 2021 (Faixa 2 de 4).</td>
+      <td>36</td>
+      <td>PRD 2021 (Faixa principal 2 de 4).</td>
       <td>0</td>
       <td>-1</td>
       <td>...</td>
@@ -493,23 +524,23 @@ spec_meta.tail()
       <td>70</td>
       <td>0</td>
       <td>0.039101</td>
-      <td>1155</td>
+      <td>1163</td>
       <td>0</td>
       <td>110</td>
       <td>0</td>
-      <td>20</td>
+      <td>110</td>
       <td>67</td>
     </tr>
     <tr>
-      <th>2021-05-22 20:20:00.708650</th>
-      <td>99393348</td>
-      <td>99394519</td>
+      <th>2021-05-21 00:05:00.635638</th>
+      <td>69826776</td>
+      <td>69827955</td>
       <td>0</td>
       <td>40</td>
-      <td>1156</td>
+      <td>1164</td>
       <td>1</td>
-      <td>28</td>
-      <td>PRD 2021 (Faixa 2 de 4).</td>
+      <td>36</td>
+      <td>PRD 2021 (Faixa principal 2 de 4).</td>
       <td>0</td>
       <td>-1</td>
       <td>...</td>
@@ -517,23 +548,23 @@ spec_meta.tail()
       <td>70</td>
       <td>0</td>
       <td>0.039101</td>
-      <td>1155</td>
+      <td>1163</td>
       <td>0</td>
       <td>110</td>
       <td>0</td>
-      <td>20</td>
+      <td>110</td>
       <td>67</td>
     </tr>
     <tr>
-      <th>2021-05-22 20:25:00.230842</th>
-      <td>99558732</td>
-      <td>99559903</td>
+      <th>2021-05-21 00:10:00.606404</th>
+      <td>69861632</td>
+      <td>69862811</td>
       <td>0</td>
       <td>40</td>
-      <td>1156</td>
+      <td>1164</td>
       <td>1</td>
-      <td>28</td>
-      <td>PRD 2021 (Faixa 2 de 4).</td>
+      <td>36</td>
+      <td>PRD 2021 (Faixa principal 2 de 4).</td>
       <td>0</td>
       <td>-1</td>
       <td>...</td>
@@ -541,23 +572,23 @@ spec_meta.tail()
       <td>70</td>
       <td>0</td>
       <td>0.039101</td>
-      <td>1155</td>
+      <td>1163</td>
       <td>0</td>
       <td>110</td>
       <td>0</td>
-      <td>20</td>
+      <td>110</td>
       <td>67</td>
     </tr>
     <tr>
-      <th>2021-05-22 20:30:00.408390</th>
-      <td>99724116</td>
-      <td>99725287</td>
+      <th>2021-05-21 00:15:00.355210</th>
+      <td>69896488</td>
+      <td>69897667</td>
       <td>0</td>
       <td>40</td>
-      <td>1156</td>
+      <td>1164</td>
       <td>1</td>
-      <td>28</td>
-      <td>PRD 2021 (Faixa 2 de 4).</td>
+      <td>36</td>
+      <td>PRD 2021 (Faixa principal 2 de 4).</td>
       <td>0</td>
       <td>-1</td>
       <td>...</td>
@@ -565,23 +596,23 @@ spec_meta.tail()
       <td>70</td>
       <td>0</td>
       <td>0.039101</td>
-      <td>1155</td>
+      <td>1163</td>
       <td>0</td>
       <td>110</td>
       <td>0</td>
-      <td>20</td>
+      <td>110</td>
       <td>67</td>
     </tr>
     <tr>
-      <th>2021-05-22 20:35:00.180936</th>
-      <td>99889500</td>
-      <td>99890671</td>
+      <th>2021-05-21 00:20:00.385654</th>
+      <td>69992196</td>
+      <td>69993375</td>
       <td>0</td>
       <td>40</td>
-      <td>1156</td>
+      <td>1164</td>
       <td>1</td>
-      <td>28</td>
-      <td>PRD 2021 (Faixa 2 de 4).</td>
+      <td>36</td>
+      <td>PRD 2021 (Faixa principal 2 de 4).</td>
       <td>0</td>
       <td>-1</td>
       <td>...</td>
@@ -589,11 +620,11 @@ spec_meta.tail()
       <td>70</td>
       <td>0</td>
       <td>0.039101</td>
-      <td>1155</td>
+      <td>1163</td>
       <td>0</td>
       <td>110</td>
       <td>0</td>
-      <td>20</td>
+      <td>110</td>
       <td>67</td>
     </tr>
   </tbody>
@@ -661,123 +692,123 @@ levels.head()
   <tbody>
     <tr>
       <th>0</th>
-      <td>31.5</td>
-      <td>30.5</td>
+      <td>48.5</td>
+      <td>47.5</td>
+      <td>46.0</td>
+      <td>42.5</td>
       <td>32.0</td>
-      <td>37.5</td>
-      <td>36.5</td>
-      <td>34.5</td>
-      <td>35.0</td>
-      <td>33.5</td>
-      <td>33.0</td>
-      <td>33.5</td>
+      <td>39.0</td>
+      <td>32.5</td>
+      <td>41.0</td>
+      <td>44.5</td>
+      <td>45.5</td>
       <td>...</td>
-      <td>19.0</td>
-      <td>19.0</td>
-      <td>20.5</td>
-      <td>21.0</td>
-      <td>19.5</td>
-      <td>8.0</td>
-      <td>1.0</td>
-      <td>19.5</td>
-      <td>22.5</td>
-      <td>23.0</td>
+      <td>34.0</td>
+      <td>37.0</td>
+      <td>38.5</td>
+      <td>38.0</td>
+      <td>32.5</td>
+      <td>28.0</td>
+      <td>36.0</td>
+      <td>34.5</td>
+      <td>27.5</td>
+      <td>34.5</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>30.5</td>
-      <td>32.0</td>
-      <td>31.5</td>
-      <td>27.5</td>
-      <td>29.5</td>
-      <td>29.0</td>
-      <td>27.5</td>
-      <td>27.5</td>
-      <td>27.5</td>
-      <td>29.5</td>
+      <td>35.5</td>
+      <td>35.5</td>
+      <td>36.5</td>
+      <td>46.0</td>
+      <td>43.0</td>
+      <td>44.5</td>
+      <td>47.0</td>
+      <td>45.5</td>
+      <td>40.0</td>
+      <td>38.5</td>
       <td>...</td>
-      <td>16.5</td>
-      <td>11.5</td>
-      <td>20.0</td>
-      <td>20.5</td>
-      <td>14.5</td>
-      <td>17.0</td>
-      <td>20.0</td>
-      <td>19.5</td>
-      <td>18.0</td>
-      <td>19.5</td>
+      <td>35.5</td>
+      <td>34.5</td>
+      <td>31.0</td>
+      <td>34.5</td>
+      <td>35.5</td>
+      <td>28.5</td>
+      <td>21.5</td>
+      <td>28.5</td>
+      <td>27.0</td>
+      <td>37.5</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>31.5</td>
-      <td>28.5</td>
-      <td>29.0</td>
-      <td>33.0</td>
-      <td>31.0</td>
-      <td>29.0</td>
-      <td>29.5</td>
-      <td>31.0</td>
-      <td>30.0</td>
-      <td>33.0</td>
+      <td>47.0</td>
+      <td>44.5</td>
+      <td>44.0</td>
+      <td>41.5</td>
+      <td>40.5</td>
+      <td>42.0</td>
+      <td>40.0</td>
+      <td>40.0</td>
+      <td>43.0</td>
+      <td>39.5</td>
       <td>...</td>
-      <td>13.5</td>
-      <td>14.5</td>
-      <td>17.5</td>
-      <td>16.5</td>
-      <td>6.0</td>
-      <td>20.5</td>
-      <td>20.5</td>
-      <td>20.5</td>
-      <td>19.5</td>
-      <td>17.5</td>
+      <td>31.0</td>
+      <td>38.0</td>
+      <td>41.5</td>
+      <td>38.5</td>
+      <td>31.0</td>
+      <td>31.0</td>
+      <td>31.0</td>
+      <td>39.5</td>
+      <td>39.5</td>
+      <td>37.5</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>31.5</td>
-      <td>31.5</td>
-      <td>31.5</td>
-      <td>32.0</td>
-      <td>33.5</td>
+      <td>40.0</td>
+      <td>43.0</td>
+      <td>42.0</td>
+      <td>46.5</td>
+      <td>45.5</td>
+      <td>40.5</td>
       <td>35.0</td>
-      <td>34.0</td>
-      <td>33.5</td>
-      <td>33.0</td>
-      <td>33.5</td>
+      <td>35.0</td>
+      <td>37.5</td>
+      <td>37.0</td>
       <td>...</td>
-      <td>21.0</td>
-      <td>19.5</td>
-      <td>21.0</td>
-      <td>23.5</td>
-      <td>20.5</td>
-      <td>20.0</td>
-      <td>23.0</td>
-      <td>22.0</td>
-      <td>19.5</td>
-      <td>16.5</td>
+      <td>37.0</td>
+      <td>38.5</td>
+      <td>39.0</td>
+      <td>35.5</td>
+      <td>36.5</td>
+      <td>32.5</td>
+      <td>26.5</td>
+      <td>33.5</td>
+      <td>35.5</td>
+      <td>33.0</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>27.5</td>
-      <td>26.5</td>
-      <td>31.0</td>
-      <td>30.0</td>
-      <td>30.0</td>
-      <td>31.0</td>
-      <td>30.5</td>
-      <td>27.5</td>
-      <td>26.0</td>
-      <td>27.5</td>
+      <td>40.0</td>
+      <td>35.0</td>
+      <td>32.0</td>
+      <td>42.0</td>
+      <td>41.0</td>
+      <td>40.5</td>
+      <td>36.5</td>
+      <td>32.5</td>
+      <td>46.0</td>
+      <td>47.5</td>
       <td>...</td>
-      <td>10.0</td>
-      <td>0.5</td>
-      <td>9.5</td>
-      <td>14.0</td>
-      <td>19.0</td>
-      <td>21.0</td>
-      <td>10.5</td>
-      <td>20.0</td>
+      <td>31.0</td>
+      <td>28.0</td>
+      <td>41.0</td>
+      <td>42.5</td>
+      <td>39.0</td>
+      <td>31.0</td>
+      <td>25.0</td>
+      <td>16.5</td>
       <td>23.0</td>
-      <td>22.0</td>
+      <td>23.0</td>
     </tr>
   </tbody>
 </table>
@@ -804,7 +835,48 @@ process_bin(bin_file, saida)
 
 
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #c0c0c0; text-decoration-color: #c0c0c0; font-weight: bold">[</span><span style="color: #008000; text-decoration-color: #008000">'RFeye002310_210520_T181500.bin'</span><span style="color: #c0c0c0; text-decoration-color: #c0c0c0; font-weight: bold">]                                                           </span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #c0c0c0; text-decoration-color: #c0c0c0; font-weight: bold">[</span><span style="color: #008000; text-decoration-color: #008000">'rfeye002279-SP-Congonhas_210516_T144208.bin'</span><span style="color: #c0c0c0; text-decoration-color: #c0c0c0; font-weight: bold">]                                              </span>
+</pre>
+
+
+
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #008080; text-decoration-color: #008080">Processando Blocos de: </span><span style="color: #800000; text-decoration-color: #800000">rfeye002279-SP-Congonhas_210516_T144208.bin</span>
+</pre>
+
+
+
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #008080; text-decoration-color: #008080">Extraindo Metadados de: </span><span style="color: #800000; text-decoration-color: #800000">rfeye002279-SP-Congonhas_210516_T144208.bin</span>
+</pre>
+
+
+
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+
+
+
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">kbô 😆
+</pre>
+
+
+
+Se chamarmos a função novamente:
+
+```python
+process_bin(bin_file, saida)
+```
+
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800000; text-decoration-color: #800000; font-weight: bold">─────────────────────────── </span>Lista de Arquivos a serem processados<span style="color: #800000; text-decoration-color: #800000; font-weight: bold"> ───────────────────────────</span>
+</pre>
+
+
+
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #c0c0c0; text-decoration-color: #c0c0c0; font-weight: bold">[</span><span style="color: #008000; text-decoration-color: #008000">'rfeye002279-SP-Congonhas_210516_T144208.bin'</span><span style="color: #c0c0c0; text-decoration-color: #c0c0c0; font-weight: bold">]                                              </span>
 </pre>
 
 
@@ -863,37 +935,37 @@ stats
     <tr>
       <th>0</th>
       <td>50.000000</td>
-      <td>-7.0</td>
-      <td>36.0</td>
-      <td>22.484375</td>
+      <td>18.0</td>
+      <td>48.5</td>
+      <td>37.81250</td>
     </tr>
     <tr>
       <th>1</th>
       <td>50.039101</td>
-      <td>3.0</td>
-      <td>37.5</td>
-      <td>22.640625</td>
+      <td>10.5</td>
+      <td>49.0</td>
+      <td>37.62500</td>
     </tr>
     <tr>
       <th>2</th>
       <td>50.078201</td>
-      <td>-3.5</td>
-      <td>38.5</td>
-      <td>22.593750</td>
+      <td>8.5</td>
+      <td>48.5</td>
+      <td>37.59375</td>
     </tr>
     <tr>
       <th>3</th>
       <td>50.117302</td>
-      <td>-2.0</td>
-      <td>35.0</td>
-      <td>22.765625</td>
+      <td>17.5</td>
+      <td>49.5</td>
+      <td>37.96875</td>
     </tr>
     <tr>
       <th>4</th>
       <td>50.156403</td>
-      <td>5.5</td>
-      <td>33.0</td>
-      <td>22.781250</td>
+      <td>17.5</td>
+      <td>50.0</td>
+      <td>38.00000</td>
     </tr>
     <tr>
       <th>...</th>
@@ -903,43 +975,43 @@ stats
       <td>...</td>
     </tr>
     <tr>
-      <th>26875</th>
-      <td>1218.844360</td>
-      <td>-137.0</td>
-      <td>-102.5</td>
-      <td>-112.500000</td>
+      <th>43003</th>
+      <td>5159.843750</td>
+      <td>-128.5</td>
+      <td>-104.0</td>
+      <td>-112.43750</td>
     </tr>
     <tr>
-      <th>26876</th>
-      <td>1218.883301</td>
-      <td>-146.5</td>
+      <th>43004</th>
+      <td>5159.882812</td>
+      <td>-125.0</td>
+      <td>-103.5</td>
+      <td>-112.25000</td>
+    </tr>
+    <tr>
+      <th>43005</th>
+      <td>5159.921875</td>
+      <td>-127.0</td>
+      <td>-101.5</td>
+      <td>-111.37500</td>
+    </tr>
+    <tr>
+      <th>43006</th>
+      <td>5159.960938</td>
+      <td>-123.5</td>
       <td>-101.0</td>
-      <td>-113.000000</td>
+      <td>-111.12500</td>
     </tr>
     <tr>
-      <th>26877</th>
-      <td>1218.922119</td>
-      <td>-136.5</td>
-      <td>-96.5</td>
-      <td>-112.500000</td>
-    </tr>
-    <tr>
-      <th>26878</th>
-      <td>1218.961060</td>
-      <td>-142.0</td>
-      <td>-95.0</td>
-      <td>-112.312500</td>
-    </tr>
-    <tr>
-      <th>26879</th>
-      <td>1219.000000</td>
-      <td>-146.0</td>
-      <td>-96.5</td>
-      <td>-112.500000</td>
+      <th>43007</th>
+      <td>5160.000000</td>
+      <td>-125.5</td>
+      <td>-103.5</td>
+      <td>-112.06250</td>
     </tr>
   </tbody>
 </table>
-<p>26880 rows × 4 columns</p>
+<p>43008 rows × 4 columns</p>
 </div>
 
 
@@ -947,118 +1019,62 @@ stats
 Podemos filtrar o intervalo tanto de frequência quanto de tempo da extração:
 
 ```python
-stats = extract_bin_stats(bin_file, cache=saida, freq_start=88, freq_stop=108)
-stats
+stats = extract_bin_stats(bin_file, cache=saida, freq_start=88.1, freq_stop=107.9)
+print(stats.head(20))
 ```
 
 
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">    Frequency   Min   Max      Mean
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.123169</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">69.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">96.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">89.43750</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.162270</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">96.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">89.43750</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.201370</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">53.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">96.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">83.62500</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.240471</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">46.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">95.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">83.81250</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.279572</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">37.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">95.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">71.93750</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.318672</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">94.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">72.37500</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.357773</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">28.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">57.40625</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">7</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.396873</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">21.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">85.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">57.90625</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.435974</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">71.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">46.00000</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">9</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.475075</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">46.40625</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.514175</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">12.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">55.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">40.71875</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">11</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.553276</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">9.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">55.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">40.93750</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">12</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.592377</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">20.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">53.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">38.06250</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">13</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.631477</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">17.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">56.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">38.28125</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">14</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.670578</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">41.59375</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">15</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.709679</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">41.90625</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.748779</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">12.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">62.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">49.96875</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">17</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.787880</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">17.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">62.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">50.25000</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">18</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.826981</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">28.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">54.37500</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">19</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.866081</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">31.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">63.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">54.68750</span>
+</pre>
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
+```python
+print(stats.tail(20))
+```
 
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Frequency</th>
-      <th>Min</th>
-      <th>Max</th>
-      <th>Mean</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>88.005867</td>
-      <td>1.0</td>
-      <td>33.0</td>
-      <td>21.109375</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>88.044968</td>
-      <td>-6.5</td>
-      <td>37.5</td>
-      <td>24.031250</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>88.084068</td>
-      <td>4.5</td>
-      <td>36.5</td>
-      <td>24.234375</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>88.123169</td>
-      <td>2.0</td>
-      <td>41.0</td>
-      <td>26.328125</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>88.162270</td>
-      <td>2.0</td>
-      <td>37.5</td>
-      <td>26.421875</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>866</th>
-      <td>107.959808</td>
-      <td>-6.0</td>
-      <td>30.0</td>
-      <td>18.140625</td>
-    </tr>
-    <tr>
-      <th>867</th>
-      <td>107.969582</td>
-      <td>-140.0</td>
-      <td>-87.5</td>
-      <td>-105.562500</td>
-    </tr>
-    <tr>
-      <th>868</th>
-      <td>107.979347</td>
-      <td>-143.5</td>
-      <td>-92.0</td>
-      <td>-105.875000</td>
-    </tr>
-    <tr>
-      <th>869</th>
-      <td>107.989113</td>
-      <td>-140.5</td>
-      <td>-94.0</td>
-      <td>-105.875000</td>
-    </tr>
-    <tr>
-      <th>870</th>
-      <td>107.998886</td>
-      <td>-133.5</td>
-      <td>-94.5</td>
-      <td>-106.000000</td>
-    </tr>
-  </tbody>
-</table>
-<p>871 rows × 4 columns</p>
-</div>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">      Frequency    Min   Max      Mean
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">833</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.705833</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-133.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-64.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-90.00000</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">834</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.715599</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-120.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-62.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-88.81250</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">835</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.725372</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-117.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-60.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-88.00000</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">836</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.735138</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">19.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">75.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">46.31250</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">837</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.744904</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-128.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-58.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-86.68750</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">838</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.754677</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-121.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-57.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-84.31250</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">839</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.764442</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-116.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-49.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-80.68750</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">840</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.774208</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-120.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-41.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-76.37500</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">841</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.783981</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">18.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">79.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">59.62500</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">842</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.793747</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-121.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-38.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-72.37500</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">843</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.803520</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-115.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-38.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-69.00000</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">844</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.813286</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-116.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-38.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-66.68750</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">845</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.823051</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-118.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-40.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-65.12500</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">846</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.832825</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">25.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">79.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">69.31250</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">847</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.842590</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-124.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-42.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-62.59375</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">848</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.852356</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-111.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-41.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-59.12500</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">849</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.862129</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-119.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-39.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-55.75000</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">850</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.871895</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-110.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-38.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-53.15625</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">851</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.881660</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">43.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">81.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">73.25000</span>
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">852</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.891434</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-111.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-37.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-51.71875</span>
+</pre>
 
 
