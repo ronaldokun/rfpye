@@ -38,6 +38,163 @@ nb_path: "nbs\04_constants.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="n">BYTES_HEADER</span> <span class="o">=</span> <span class="mi">36</span>
+
+<span class="n">DATA_BLOCK_HEADER</span> <span class="o">=</span> <span class="mi">12</span>
+
+<span class="n">CHECKSUM</span> <span class="o">=</span> <span class="mi">4</span>
+
+<span class="n">ENDMARKER</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">UUUU&quot;</span>
+
+<span class="n">LEN_MARKER</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="n">BASEBLOCK</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;thread_id&quot;</span><span class="p">,</span> <span class="s2">&quot;data_size&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;checksum&quot;</span><span class="p">]</span>
+
+<span class="n">EXCLUDE_ATTRS</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;checksum&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;default&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;date&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;time&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nanosecs&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;data&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;block_data&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;frequencies&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;agc_array&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tunning_info&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">DICT_PROCESSING</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;single measurement&quot;</span><span class="p">,</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;average&quot;</span><span class="p">,</span>
+    <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;peak&quot;</span><span class="p">,</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;minimum&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">DICT_UNIT</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;%&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;dBm&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;dBuV/m&quot;</span><span class="p">}</span>
+
+<span class="n">TUNING_BLOCK</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;completed without error&quot;</span><span class="p">,</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;error occurred&quot;</span><span class="p">,</span>
+    <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;radio produced an error&quot;</span><span class="p">,</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;GPRS transmission occured during capture&quot;</span><span class="p">,</span>
+    <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;ADC overflowed during capture&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="n">BYTES_TIMED</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">0</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+    <span class="mi">2</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span>
+    <span class="mi">4</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">18</span><span class="p">),</span>
+    <span class="mi">5</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
+    <span class="mi">6</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span>
+    <span class="mi">7</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">26</span><span class="p">),</span>
+    <span class="mi">8</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">26</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="n">BYTES_TIMED_NE</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="mi">2</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">)}</span>
+
+<span class="n">BYTES_6</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">0</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+    <span class="mi">2</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span>
+    <span class="mi">4</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
+    <span class="mi">5</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="n">BYTES_20</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">0</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+    <span class="mi">2</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span>
+    <span class="mi">4</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
+    <span class="mi">5</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span>
+    <span class="mi">6</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span>
+    <span class="mi">7</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span>
+    <span class="mi">8</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">36</span><span class="p">),</span>
+    <span class="mi">9</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="mi">40</span><span class="p">),</span>
+<span class="p">}</span>
+
+
+<span class="n">BYTES_21</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">20</span><span class="p">)}</span>
+
+<span class="n">BYTES_24</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">)}</span>
+
+<span class="n">BYTES_40</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span>
+    <span class="mi">4</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
+    <span class="mi">5</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">21</span><span class="p">),</span>
+    <span class="mi">6</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">21</span><span class="p">,</span> <span class="mi">22</span><span class="p">),</span>
+    <span class="mi">7</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span>
+    <span class="mi">8</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span>
+    <span class="mi">9</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span>
+    <span class="mi">10</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">36</span><span class="p">),</span>
+    <span class="mi">11</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="mi">40</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="n">BYTES_41</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">3</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">44</span><span class="p">),</span> <span class="mi">4</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">44</span><span class="p">,</span> <span class="mi">48</span><span class="p">)}</span>
+
+<span class="n">BYTES_42</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span>
+    <span class="mi">4</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
+    <span class="mi">5</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">52</span><span class="p">),</span>
+    <span class="mi">6</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">52</span><span class="p">,</span> <span class="mi">56</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="n">BYTES_51</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">5</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">24</span><span class="p">)}</span>
+
+<span class="n">BYTES_63</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">9</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span>
+    <span class="mi">10</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">36</span><span class="p">),</span>
+    <span class="mi">11</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="mi">37</span><span class="p">),</span>
+    <span class="mi">12</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">37</span><span class="p">,</span> <span class="mi">38</span><span class="p">),</span>
+    <span class="mi">13</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">38</span><span class="p">,</span> <span class="mi">39</span><span class="p">),</span>
+    <span class="mi">14</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">39</span><span class="p">,</span> <span class="mi">40</span><span class="p">),</span>
+    <span class="mi">15</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">41</span><span class="p">),</span>
+    <span class="mi">16</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">41</span><span class="p">,</span> <span class="mi">42</span><span class="p">),</span>
+    <span class="mi">17</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="mi">43</span><span class="p">),</span>
+    <span class="mi">18</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">43</span><span class="p">,</span> <span class="mi">45</span><span class="p">),</span>
+    <span class="mi">19</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">45</span><span class="p">,</span> <span class="mi">47</span><span class="p">),</span>
+    <span class="mi">20</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">47</span><span class="p">,</span> <span class="mi">48</span><span class="p">),</span>
+    <span class="mi">21</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="mi">52</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="n">BYTES_64</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">22</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">52</span><span class="p">,</span> <span class="mi">56</span><span class="p">),</span> <span class="mi">23</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">56</span><span class="p">,</span> <span class="mi">60</span><span class="p">)}</span>
+
+<span class="n">BYTES_65</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">9</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span>
+    <span class="mi">10</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">33</span><span class="p">),</span>
+    <span class="mi">11</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">34</span><span class="p">),</span>
+    <span class="mi">12</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">36</span><span class="p">),</span>
+    <span class="mi">13</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="mi">37</span><span class="p">),</span>
+    <span class="mi">14</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">37</span><span class="p">,</span> <span class="mi">38</span><span class="p">),</span>
+    <span class="mi">15</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">38</span><span class="p">,</span> <span class="mi">39</span><span class="p">),</span>
+    <span class="mi">16</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">39</span><span class="p">,</span> <span class="mi">40</span><span class="p">),</span>
+    <span class="mi">17</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">42</span><span class="p">),</span>
+    <span class="mi">18</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="mi">44</span><span class="p">),</span>
+    <span class="mi">19</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">44</span><span class="p">,</span> <span class="mi">48</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="n">BYTES_V5</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">3</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="mi">4</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="mi">5</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">24</span><span class="p">)}</span>
+
+<span class="n">BYTES_66</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">3</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="mi">4</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="mi">5</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">24</span><span class="p">)}</span>
+
+<span class="n">BYTES_67</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">3</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="mi">4</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="mi">5</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">24</span><span class="p">)}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
 
 </div>
     {% endraw %}
@@ -51,6 +208,57 @@ nb_path: "nbs\04_constants.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">META</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Block_Number&quot;</span><span class="p">:</span> <span class="s2">&quot;uint16&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Latitude&quot;</span><span class="p">:</span> <span class="s2">&quot;float32&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Longitude&quot;</span><span class="p">:</span> <span class="s2">&quot;float32&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Altitude&quot;</span><span class="p">:</span> <span class="s2">&quot;float16&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Initial_Time&quot;</span><span class="p">:</span> <span class="s2">&quot;datetime64[ns]&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Sample_Duration&quot;</span><span class="p">:</span> <span class="s2">&quot;uint16&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Start_Frequency&quot;</span><span class="p">:</span> <span class="s2">&quot;uint32&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Stop_Frequency&quot;</span><span class="p">:</span> <span class="s2">&quot;uint32&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Vector_Length&quot;</span><span class="p">:</span> <span class="s2">&quot;uint16&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Trace_Type&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Antenna_Type&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Equipement_ID&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">LEVELS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Block_Number&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Frequency(MHz)&quot;</span><span class="p">:</span> <span class="s2">&quot;float32&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Nivel(dBm)&quot;</span><span class="p">:</span> <span class="s2">&quot;float32&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">BLOCK_SIZE</span> <span class="o">=</span> <span class="mi">4096</span>
+
+<span class="n">TIMED_BLOCKS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">68</span><span class="p">,</span> <span class="mi">69</span><span class="p">]</span>
+
+<span class="n">SPECTRAL_BLOCKS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">63</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">68</span><span class="p">]</span>
+
+<span class="n">BLOCK_ATTRS</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">40</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;altitude&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;gps_datetime&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;num_satellites&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;speed&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="mi">63</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">],</span>
+    <span class="mi">64</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">],</span>
+    <span class="mi">67</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">],</span>
+    <span class="mi">68</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">,</span> <span class="s2">&quot;data_size&quot;</span><span class="p">,</span> <span class="s2">&quot;ndata&quot;</span><span class="p">,</span> <span class="s2">&quot;sample&quot;</span><span class="p">],</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
 
 </div>
     {% endraw %}

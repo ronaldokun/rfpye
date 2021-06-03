@@ -1,4 +1,4 @@
-name: rfpy
+name: rfpye
 channels:
   - conda-forge
   - intel

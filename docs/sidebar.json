@@ -1,10 +1,10 @@
 {
-  "rfpy": {
+  "rfpye": {
     "Overview": "/",
-    "rfpy - CFRS Rfeye Node Logger binaries parser": "main.html",
+    "Processamento e Filtragem": "filter.html",
     "Parser": "parser.html",
     "Utils": "utils.html",
     "Blocks": "blocks.html",
-    "Title": "constants.html"
+    "Constants": "constants.html"
   }
 }

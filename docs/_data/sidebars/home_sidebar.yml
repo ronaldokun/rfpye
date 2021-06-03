@@ -10,8 +10,8 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
-      title: rfpy - CFRS Rfeye Node Logger binaries parser
-      url: main.html
+      title: Processamento e Filtragem
+      url: filter.html
     - output: web,pdf
       title: Parser
       url: parser.html
@@ -22,9 +22,9 @@ entries:
       title: Blocks
       url: blocks.html
     - output: web,pdf
-      title: Title
+      title: Constants
       url: constants.html
     output: web
-    title: rfpy
+    title: rfpye
   output: web
   title: Sidebar

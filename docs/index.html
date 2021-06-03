@@ -71,7 +71,7 @@ nb_path: "nbs\index.ipynb"
 <p>Precisamos necessariamente de um diretório de entrada, contendo um ou mais arquivos <code>.bin</code> e um diretório de saída no qual iremos salvar os arquivos processados.</p>
 <blockquote><p>Mude os caminhos abaixo para suas pastas locais caso for executar o exemplo.</p>
 </blockquote>
-<p>Ao utilizar o script <a href="/rfpymain.html#process_bin"><code>process_bin</code></a>, as pastas <code>entrada</code> e <code>saída</code> esses serão repassadas como parâmetros na linha de comando.</p>
+<p>Ao utilizar o script <a href="/rfpyefilter.html#process_bin"><code>process_bin</code></a>, as pastas <code>entrada</code> e <code>saída</code> esses serão repassadas como parâmetros na linha de comando.</p>
 
 </div>
 </div>
@@ -103,7 +103,7 @@ nb_path: "nbs\index.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>No módulo <code>parser.py</code>, há funções auxiliares para lidar com os arquivos <code>.bin</code>, pastas e para processar tais arquivos em formatos úteis. Nesse caso utilizaremos a função <a href="/rfpyutils.html#get_files"><code>get_files</code></a> que busca de maneira recursiva arquivos de dada extensão, inclusive links simbólicos se existirem
+<p>No módulo <code>parser.py</code>, há funções auxiliares para lidar com os arquivos <code>.bin</code>, pastas e para processar tais arquivos em formatos úteis. Nesse caso utilizaremos a função <a href="/rfpyeutils.html#get_files"><code>get_files</code></a> que busca de maneira recursiva arquivos de dada extensão, inclusive links simbólicos se existirem
 O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks</code> simbólicos pode ser desativados por meio dos parâmetros e opcionalmente pode ser varrido somente o conjunto de pastas indicado em <code>folders</code></p>
 
 </div>
@@ -201,7 +201,7 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlink
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Processamento-dos-blocos">Processamento dos blocos<a class="anchor-link" href="#Processamento-dos-blocos"> </a></h2><p>A função seguinte <a href="/rfpyparser.html#parse_bin"><code>parse_bin</code></a> recebe um arquivo <code>.bin</code> e mapeia os blocos contidos nele retornando um dicionário que tem como chave o tipo de bloco e os valores como uma lista com os blocos extraídos sequencialmente.</p>
+<h2 id="Processamento-dos-blocos">Processamento dos blocos<a class="anchor-link" href="#Processamento-dos-blocos"> </a></h2><p>A função seguinte <a href="/rfpyeparser.html#parse_bin"><code>parse_bin</code></a> recebe um arquivo <code>.bin</code> e mapeia os blocos contidos nele retornando um dicionário que tem como chave o tipo de bloco e os valores como uma lista com os blocos extraídos sequencialmente.</p>
 
 </div>
 </div>
@@ -464,7 +464,7 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlink
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Metadados">Metadados<a class="anchor-link" href="#Metadados"> </a></h2><p>A função seguinte extrai os metadados <a href="/rfpyconstants.html#META"><code>META</code></a> definidos no cabeçalho do arquivo <code>parser.py</code> e retorna um DataFrame.</p>
+<h2 id="Metadados">Metadados<a class="anchor-link" href="#Metadados"> </a></h2><p>A função seguinte extrai os metadados <a href="/rfpyeconstants.html#META"><code>META</code></a> definidos no cabeçalho do arquivo <code>parser.py</code> e retorna um DataFrame.</p>
 
 </div>
 </div>
