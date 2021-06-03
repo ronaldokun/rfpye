@@ -51,7 +51,11 @@ nb_path: "nbs\index.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Instala&#231;&#227;o">Instala&#231;&#227;o<a class="anchor-link" href="#Instala&#231;&#227;o"> </a></h2><p>Como parte dessa lib utiliza código c compilado com <code>Cython</code>, é preciso que um compilador <code>C</code> esteja instalado. Em Windows, uma opção é instalar a versão apropriada do Visual Studio seguindo as orientações do site da Microsoft. No entanto uma solução mais simples e a recomendada é utilizando o <code>conda</code>.</p>
+<h2 id="Instala&#231;&#227;o">Instala&#231;&#227;o<a class="anchor-link" href="#Instala&#231;&#227;o"> </a></h2><p><code>Ubuntu</code>:</p>
+<div class="highlight"><pre><span></span>python -m pip install rfpye
+</pre></div>
+<p><code>Windows</code>:</p>
+<p>Como parte dessa lib utiliza código c compilado com <code>Cython</code>, é preciso que um compilador <code>C</code> esteja instalado. Em Windows, uma opção é instalar a versão apropriada do Visual Studio seguindo as orientações do site da Microsoft. No entanto uma solução mais simples e a recomendada é utilizando o <code>conda</code>.</p>
 <p>Primeiramente instale o <a href="https://docs.conda.io/en/latest/miniconda.html">miniconda</a>. Com o conda instalado e disponível no seu <code>PATH</code> ou através do <code>Anaconda Prompt</code> execute o comando:</p>
 <div class="highlight"><pre><span></span>conda install -c intel libpython m2w64-toolchain -y
 

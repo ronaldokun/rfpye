@@ -10,6 +10,15 @@ from rich import print
 ```
 
 ## Instalação
+
+`Ubuntu`: 
+
+```bash
+python -m pip install rfpye
+```
+
+`Windows`:
+
 Como parte dessa lib utiliza código c compilado com `Cython`, é preciso que um compilador `C` esteja instalado. Em Windows, uma opção é instalar a versão apropriada do Visual Studio seguindo as orientações do site da Microsoft. No entanto uma solução mais simples e a recomendada é utilizando o `conda`.
 
 Primeiramente instale o [miniconda](https://docs.conda.io/en/latest/miniconda.html). Com o conda instalado e disponível no seu `PATH` ou através do `Anaconda Prompt` execute o comando:
