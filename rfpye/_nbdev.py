@@ -99,6 +99,6 @@ modules = ["filter.py",
 
 doc_url = "https://ronaldokun.github.io/rfpye"
 
-git_url = "https://github.com/ronaldokun/rfpy/tree/master/"
+git_url = "https://github.com/ronaldokun/rfpye/tree/master/"
 
 def custom_doc_links(name): return None

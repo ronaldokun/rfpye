@@ -60,7 +60,7 @@ nb_path: "nbs\03_blocks.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="cached_property" class="doc_header"><code>cached_property</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpye/blocks.py#L19" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>cached_property</code>(<strong><code>f</code></strong>)</p>
+<h4 id="cached_property" class="doc_header"><code>cached_property</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L19" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>cached_property</code>(<strong><code>f</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -101,7 +101,7 @@ It is common to all blocks and all classes that define the following blocks rece
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="create_base_block" class="doc_header"><code>create_base_block</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpye/blocks.py#L36" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_base_block</code>(<strong><code>bin_block</code></strong>:<code>bytes</code>)</p>
+<h4 id="create_base_block" class="doc_header"><code>create_base_block</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L36" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_base_block</code>(<strong><code>bin_block</code></strong>:<code>bytes</code>)</p>
 </blockquote>
 <p>A block is a piece of the .bin file with a known start and end and that contains different types of information.
 It has several fields: type, header, data and footer.
@@ -173,7 +173,7 @@ Receives a block from the bin file and returns a Base Block instance with the at
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="TimedNonSpectral" class="doc_header"><code>class</code> <code>TimedNonSpectral</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpye/blocks.py#L55" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TimedNonSpectral</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="TimedNonSpectral" class="doc_header"><code>class</code> <code>TimedNonSpectral</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L55" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TimedNonSpectral</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Block with time attributes applied to non spectral blocks
 Implementa o mapeamento de funções dos blocos que possuem os seguintes campos
@@ -268,7 +268,7 @@ F2 = (4u bytes) WALLNANO = Wall Clock Start Time Nanoseconds</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="TimedSpectral" class="doc_header"><code>class</code> <code>TimedSpectral</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpye/blocks.py#L99" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TimedSpectral</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="TimedSpectral" class="doc_header"><code>class</code> <code>TimedSpectral</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L99" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TimedSpectral</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Common Atributes of Block with Time Info and Spectral Data</p>
 <p>F0 = (4 bytes) WALLDATE = Wall Clock Start Date of measurements
@@ -391,7 +391,7 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="TimedVersion5" class="doc_header"><code>class</code> <code>TimedVersion5</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpye/blocks.py#L168" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TimedVersion5</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="TimedVersion5" class="doc_header"><code>class</code> <code>TimedVersion5</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L168" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TimedVersion5</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Block with additional attributes common to Blocks from version 5 of Logger</p>
 
@@ -455,7 +455,7 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType6" class="doc_header"><code>class</code> <code>DType6</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpye/blocks.py#L187" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType6</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="DType6" class="doc_header"><code>class</code> <code>DType6</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L187" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType6</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 6 – 16 bit IQ Data.Logger versions 1 to 4</p>
 
@@ -560,7 +560,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType20" class="doc_header"><code>class</code> <code>DType20</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpye/blocks.py#L245" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType20</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="DType20" class="doc_header"><code>class</code> <code>DType20</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L245" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType20</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 20 – File Footer - Optional</p>
 
@@ -669,7 +669,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType21" class="doc_header"><code>class</code> <code>DType21</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpye/blocks.py#L309" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType21</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="DType21" class="doc_header"><code>class</code> <code>DType21</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L309" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType21</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 21 – Unit and Job Information.Logger versions 3 to 5</p>
 
@@ -760,7 +760,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType24" class="doc_header"><code>class</code> <code>DType24</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpye/blocks.py#L355" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType24</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="DType24" class="doc_header"><code>class</code> <code>DType24</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L355" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType24</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 24 – Data Thread Information</p>
 
@@ -830,7 +830,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType40" class="doc_header"><code>class</code> <code>DType40</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpye/blocks.py#L380" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType40</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="DType40" class="doc_header"><code>class</code> <code>DType40</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L380" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType40</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 40 – GPS Data</p>
 
@@ -946,7 +946,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType41" class="doc_header"><code>class</code> <code>DType41</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpye/blocks.py#L451" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType41</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="DType41" class="doc_header"><code>class</code> <code>DType41</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L451" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType41</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 41 – Timed Free Text Information</p>
 
@@ -1033,7 +1033,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType42" class="doc_header"><code>class</code> <code>DType42</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpye/blocks.py#L493" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType42</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="DType42" class="doc_header"><code>class</code> <code>DType42</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L493" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType42</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 42 – Timed Free Text Information</p>
 
@@ -1129,7 +1129,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType51" class="doc_header"><code>class</code> <code>DType51</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpye/blocks.py#L543" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType51</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="DType51" class="doc_header"><code>class</code> <code>DType51</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L543" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType51</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Classifier Data</p>
 
@@ -1266,7 +1266,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType63" class="doc_header"><code>class</code> <code>DType63</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpye/blocks.py#L635" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType63</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="DType63" class="doc_header"><code>class</code> <code>DType63</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L635" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType63</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 63 – Spectral Data - Frequencies and its levels</p>
 <p>The Following attributes are delegated to the <code>self.default</code> object</p>
@@ -1479,7 +1479,7 @@ Total Bytes = 52 + (4 * NTUN) + NAGC + NDATA + NPAD</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType64" class="doc_header"><code>class</code> <code>DType64</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpye/blocks.py#L792" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType64</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="DType64" class="doc_header"><code>class</code> <code>DType64</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L792" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType64</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>This is very similar to type 63, with the addition of threshold power level and number of points before compression,
 and obviously a compressed spectrum vector replacing the uncompressed</p>
@@ -1593,7 +1593,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType65" class="doc_header"><code>class</code> <code>DType65</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpye/blocks.py#L859" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType65</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="DType65" class="doc_header"><code>class</code> <code>DType65</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L859" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType65</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>O Bloco do tipo 65 carrega dados de Taxa de Ocupação Espectral por Canal de Frequência (ITU-R SM.1880).</p>
 <p>O tamanho total em bytes é (48 + NDATA + NPAD)</p>
@@ -1796,7 +1796,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType66" class="doc_header"><code>class</code> <code>DType66</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpye/blocks.py#L986" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType66</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="DType66" class="doc_header"><code>class</code> <code>DType66</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L986" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType66</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 66 – 16 bit IQ Data</p>
 
@@ -1917,7 +1917,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType67" class="doc_header"><code>class</code> <code>DType67</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpye/blocks.py#L1062" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType67</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="DType67" class="doc_header"><code>class</code> <code>DType67</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1062" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType67</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 67 – Spectral Data</p>
 
@@ -2152,7 +2152,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType68" class="doc_header"><code>class</code> <code>DType68</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpye/blocks.py#L1252" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType68</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="DType68" class="doc_header"><code>class</code> <code>DType68</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1252" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType68</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 68 – Threshold Compressed Data</p>
 
@@ -2249,7 +2249,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType69" class="doc_header"><code>class</code> <code>DType69</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpye/blocks.py#L1304" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType69</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="DType69" class="doc_header"><code>class</code> <code>DType69</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1304" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType69</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 69 – Frequency Channel Occupancy (ITU-R SM.1880)</p>
 
@@ -2421,7 +2421,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="block_constructor" class="doc_header"><code>block_constructor</code><a href="https://github.com/ronaldokun/rfpy/tree/master/rfpye/blocks.py#L1455" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>block_constructor</code>(<strong><code>btype</code></strong>, <strong><code>bloco</code></strong>)</p>
+<h4 id="block_constructor" class="doc_header"><code>block_constructor</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1455" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>block_constructor</code>(<strong><code>btype</code></strong>, <strong><code>bloco</code></strong>)</p>
 </blockquote>
 
 </div>

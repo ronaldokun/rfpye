@@ -102,7 +102,6 @@ def filter_spectrum(
         {"Frequency": freq, "Min": min_, "Max": max_, "Mean": mean, "Count": count}
     )
 
-
 # Internal Cell
 def read_meta(filename):
     ext = filename.suffix

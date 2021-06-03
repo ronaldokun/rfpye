@@ -4,3 +4,4 @@ include CONTRIBUTING.md
 include README.md
 recursive-exclude * __pycache__
 include rfpye/cyparser.cp37-win_amd64.pyd
+include rfpye/cyparser.c
