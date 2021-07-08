@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 from fastcore.foundation import L
 from fastcore.xtras import Path
-from fastcore.basics import uniqueify
+from fastcore.basics import uniqueify, listify
 from .constants import EXCLUDE_ATTRS
 
 # Cell
@@ -116,32 +116,38 @@ def pad(text, block_size):
     return (fit_text,)
 
 # Cell
-def optimize_floats(df: pd.DataFrame) -> pd.DataFrame:
+def optimize_floats(df: pd.DataFrame, exclude = None) -> pd.DataFrame:
     floats = df.select_dtypes(include=["float64"]).columns.tolist()
+    floats = [c for c in floats if c not in listify(exclude)]
     df[floats] = df[floats].apply(pd.to_numeric, downcast="float")
     return df
 
 
-def optimize_ints(df: pd.DataFrame) -> pd.DataFrame:
+def optimize_ints(df: pd.DataFrame, exclude=None) -> pd.DataFrame:
     ints = df.select_dtypes(include=["int64"]).columns.tolist()
+    ints = [c for c in ints if c not in listify(exclude)]
     df[ints] = df[ints].apply(pd.to_numeric, downcast="integer")
     return df
 
 
-def optimize_objects(df: pd.DataFrame, datetime_features: List[str]) -> pd.DataFrame:
-    for col in df.select_dtypes(include=["object"]):
+def optimize_objects(df: pd.DataFrame, datetime_features: List[str], exclude=None) -> pd.DataFrame:
+    for col in df.select_dtypes(include=["object"]).columns.tolist():
         if col not in datetime_features:
+            if col in listify(exclude): continue
             num_unique_values = len(df[col].unique())
             num_total_values = len(df[col])
             if float(num_unique_values) / num_total_values < 0.5:
-                df[col] = df[col].astype("category")
+                dtype = "category"
+            else:
+                dtype = "string"
+            df[col] = df[col].astype(dtype)
         else:
-            df[col] = pd.to_datetime(df[col])
+            df[col] = pd.to_datetime(df[col]).dt.date
     return df
 
 
-def df_optimize(df: pd.DataFrame, datetime_features: List[str] = []):
-    return optimize_floats(optimize_ints(optimize_objects(df, datetime_features)))
+def df_optimize(df: pd.DataFrame, datetime_features: List[str] = [], exclude = None):
+    return optimize_floats(optimize_ints(optimize_objects(df, datetime_features, exclude), exclude), exclude)
 
 # Cell
 def public_attrs(obj: Any) -> L:

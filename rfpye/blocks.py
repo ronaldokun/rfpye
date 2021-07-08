@@ -413,9 +413,7 @@ class DType40(GetAttr):
         """F5 - Positional Fix and status.
         If status=1: 0=No Fix, 1=Standard GPS, 2=Differential GPS. If status=0: set to zero.
         """
-        status_dict = {0: "No Fix", 1: "Standard GPS", 2: "Differential GPS"}
-        status = bin2int(self.data[BYTES_40[5]])
-        return status_dict.get(status, status)
+        return bin2int(self.data[BYTES_40[5]])
 
     @cached_property
     def num_satellites(self) -> int:
@@ -1151,7 +1149,8 @@ class DType67(GetAttr):
     def data_type(self) -> int:
         start = BYTES_V5[5].stop + self.desclen + 30
         stop = start + 1
-        return bin2int(self.data[start:stop])
+        dtype = bin2int(self.data[start:stop])
+        return 'dBμV/m' if dtype else 'dBm'
 
     @cached_property
     def offset(self) -> int:

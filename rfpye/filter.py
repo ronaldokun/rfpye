@@ -9,6 +9,8 @@ import os
 import logging
 from fastcore.xtras import Path
 from fastcore.script import call_parse, Param, store_true
+from fastcore.basics import listify
+from fastcore.foundation import L
 import numpy as np
 import pandas as pd
 from rich.progress import Progress
@@ -210,9 +212,9 @@ def process_bin(
                     total=len(lista_meta),
                     description="[cyan]Exportando Metadados",
                 )
-                for file, block in blocks:
+                for filename, block_dict in blocks:
                     progress.console.print(f"[cyan]Extraindo Metadados de: [red]{file}")
-                    export_meta(file, block, meta_path, ext=".fth")
+                    export_meta(filename, block_dict, meta_path, ext=".fth")
                     done_meta.add(file)
                     progress.refresh()
             if levels:
@@ -263,16 +265,16 @@ def process_bin(
         log_levels.write_text("\n".join(sorted(list(done_levels))))
 
 # Internal Cell
-def appended_mean(row: pd.Series)->float:
-    """Recebe uma linha do DataFrame e retorna sua média ponderada pela coluna Count
+def appended_mean(df: pd.Series)->float:
+    """Recebe um agrupamento do DataFrame e retorna sua média ponderada pela coluna Count
 
     Args:
-        row (pd.Series): Linha do DataFrame
+        df (pd.DataFrame): Groupby do DataFrame
 
     Returns:
         float: Média Ponderada da linha pela coluna Count
     """
-    return (row["Count"] * row["Mean"]).sum() / row["Count"].sum()
+    return (df["Count"] * df["Mean"]).sum() / df["Count"].sum()
 
 # Cell
 def extract_bin_stats(
@@ -300,28 +302,47 @@ def extract_bin_stats(
     cache = Path(cache)
     cache.mkdir(exist_ok=True, parents=True)
     filename = Path(filename)
-    while True:
-        cached_files = get_files(cache / "levels")
-        # TODO filter based on metadata
-        cached_levels = cached_files.filter(lambda name: filename.stem in str(name))
-        if not cached_levels:
-            process_bin(entrada=filename, saida=cache, levels=True)
-        else:
-            break
-    dfs = cached_levels.map(pd.read_feather)
+    if filename.is_dir():
+        filenames = get_files(filename, extensions=['.bin'])
+    else:
+        filenames = listify(filename)
+
+    cached_files = get_files(cache / "levels")
+    files = L()
+    for filename in filenames:
+        while True:
+            # TODO filter based on metadata
+            subset = cached_files.filter(lambda name: filename.stem in str(name))
+            if not len(subset):
+                process_bin(entrada=filename, saida=cache, levels=True)
+            else:
+                break
+        files += subset
+        subset = L()
+
+    dfs = files.map(pd.read_feather)
+    tids = files.map(lambda x: x.stem.split('_')[-1])
     spectra = dfs.map(filter_spectrum, time_start=time_start, time_stop=time_stop, freq_start=freq_start, freq_stop=freq_stop)
-    spectra = [s for s in spectra if s is not None]
-    out = pd.DataFrame(columns=["Frequency", "Min", "Max", "Mean"])
+    spectra = [(i,s) for i,s in zip(tids,spectra) if s is not None]
+    columns=['Tid', "Frequency", "Min", "Max", "Mean"]
+    out = pd.DataFrame(columns=columns)
     if not spectra:
         log.warning(
             f"Os parâmetros repassados não correspondem a nenhum dado espectral do arquivo",
             exc_info=True,
         )
         return out
+    for i, df in spectra:
+        df['Tid'] = i
+    spectra = [s for i,s in spectra]
     spectra = pd.concat(spectra)
-    gb = spectra.groupby("Frequency")
-    out["Frequency"] = spectra.Frequency.unique()
-    out["Min"] = gb.min()["Min"].values
-    out["Max"] = gb.max()["Max"].values
-    out["Mean"] = gb.apply(appended_mean).values
+    if (len(spectra.Frequency) == len(spectra.Frequency.unique())):
+        return spectra[columns]
+    gb = spectra.groupby(["Tid", "Frequency"])
+    out = gb.apply(appended_mean)
+    Min = gb.min()["Min"]
+    Max = gb.max()["Max"]
+    Mean = gb.apply(appended_mean)
+    out = pd.concat([Min, Max, Mean], axis=1).reset_index()
+    out.columns = columns
     return out
