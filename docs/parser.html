@@ -6,8 +6,8 @@ title: Parser
 keywords: fastai
 sidebar: home_sidebar
 
-summary: "This module handles the processing and parsing of the metadata and spectrum data from blocks"
-description: "This module handles the processing and parsing of the metadata and spectrum data from blocks"
+summary: "Este módulo lida com o processamento e análise dos metadados e dados do espectro dos blocos"
+description: "Este módulo lida com o processamento e análise dos metadados e dados do espectro dos blocos"
 nb_path: "nbs\01_parser.ipynb"
 ---
 <!--
@@ -29,13 +29,20 @@ nb_path: "nbs\01_parser.ipynb"
 </div>
     {% endraw %}
 
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Processamento-do-Arquivo-.bin-e-cria&#231;&#227;o-dos-diferentes-tipos-de-blocos">Processamento do Arquivo <code>.bin</code> e cria&#231;&#227;o dos diferentes tipos de blocos<a class="anchor-link" href="#Processamento-do-Arquivo-.bin-e-cria&#231;&#227;o-dos-diferentes-tipos-de-blocos"> </a></h2><p>A função seguinte <a href="/rfpyeparser.html#parse_bin"><code>parse_bin</code></a> recebe um arquivo <code>.bin</code> e mapeia os blocos contidos nele retornando um dicionário:</p>
+<ul>
+<li><code>file_version</code>: Versão do arquivo <code>.bin</code></li>
+<li><p><code>blocks</code>: Dicionário com os blocos do arquivo <code>.bin</code>. Cada tipo de bloco tem sua Classe Própria</p>
+<p>O dicionário <code>blocks</code> retornado tem como chave uma tupla (tipo de bloco, <code>thread_id</code>) e os valores como uma lista com os blocos ( classes ) extraídos sequencialmente.</p>
+</li>
+</ul>
+<p>O tipo de bloco é a natureza do dado contido, por exemplo: 40 - GPS, 67 - Dado Espectral. O <code>thread_id</code> discrimina em geral diferentes "faixas" do mesmo tipo de dado. Para dados espectrais, por exemplo, diferentes thread_id representam varreduras de faixas de frequência distintas</p>
 
 </div>
-    {% endraw %}
-
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -47,8 +54,17 @@ nb_path: "nbs\01_parser.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="parse_bin" class="doc_header"><code>parse_bin</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L34" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parse_bin</code>(<strong><code>bin_file</code></strong>, <strong><code>bytes_header</code></strong>:<code>int</code>=<em><code>36</code></em>, <strong><code>marker</code></strong>:<code>bytes</code>=<em><code>b'\x00UUUU'</code></em>, <strong><code>slice_</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="parse_bin" class="doc_header"><code>parse_bin</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L28" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parse_bin</code>(<strong><code>bin_file</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>], <strong><code>btypes</code></strong>:<code>Iterable</code>[<code>T_co</code>]=<em><code>dict_keys([6, 21, 24, 40, 41, 42, 51, 63, 64, 65, 66, 67, 68, 69])</code></em>, <strong><code>slice_</code></strong>:<code>slice</code>=<em><code>None</code></em>, <strong><code>bytes_header</code></strong>:<code>int</code>=<em><code>36</code></em>, <strong><code>marker</code></strong>:<code>bytes</code>=<em><code>b'UUUU'</code></em>)</p>
 </blockquote>
+<p>Receives a CRFS binfile and return a dictionary with its different blocks:</p>
+<p>Args:
+    bin_file (Union[str, Path]): path to the bin file
+    btypes (Iterable, optional): Restrict processing to only these block types. Defaults to MAIN<em>BLOCKS.keys().
+    slice</em> (slice, optional): Slice to cut the bin file if desired. Defaults to None.
+    bytes_header (int, optional): File Header Size. Defaults to BYTES_HEADER.
+    marker (bytes, optional): Byte marker delimiting the end of one block. Defaults to ENDMARKER.</p>
+<p>Returns:
+    [type]: Dictionary with the bin_file version and dictionary of the different blocks.</p>
 
 </div>
 
@@ -63,46 +79,13 @@ nb_path: "nbs\01_parser.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">parse_bin</span><span class="p">(</span>
-    <span class="n">bin_file</span><span class="p">,</span> <span class="n">bytes_header</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">BYTES_HEADER</span><span class="p">,</span> <span class="n">marker</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="n">ENDMARKER</span><span class="p">,</span> <span class="n">slice_</span><span class="o">=</span><span class="kc">None</span>
-<span class="p">):</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">bin_file</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">bfile</span><span class="p">:</span>
-        <span class="c1"># O primeiro bloco do arquivo é o cabeçalho e tem 36 bytes de tamanho.</span>
-        <span class="n">header</span> <span class="o">=</span> <span class="n">bfile</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">bytes_header</span><span class="p">)</span>
-        <span class="n">body</span> <span class="o">=</span> <span class="n">bfile</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">slice_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">assert</span> <span class="p">(</span>
-            <span class="n">slice_</span><span class="o">.</span><span class="n">start</span> <span class="o">&gt;=</span> <span class="n">bytes_header</span>
-        <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;The start of your slice has to be &gt;= </span><span class="si">{</span><span class="n">bytes_header</span><span class="si">}</span><span class="s2">, you passed </span><span class="si">{</span><span class="n">slice_</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2"> &quot;</span>
-        <span class="n">body</span> <span class="o">=</span> <span class="n">body</span><span class="p">[</span><span class="n">slice_</span><span class="p">]</span>
-    <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">&quot;file_version&quot;</span><span class="p">:</span> <span class="n">bin2int</span><span class="p">(</span><span class="n">header</span><span class="p">[:</span><span class="mi">4</span><span class="p">]),</span>
-        <span class="s2">&quot;string&quot;</span><span class="p">:</span> <span class="n">bin2str</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="mi">4</span><span class="p">:]),</span>
-        <span class="s2">&quot;blocks&quot;</span><span class="p">:</span> <span class="n">classify_blocks</span><span class="p">(</span><span class="n">body</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">marker</span><span class="p">)),</span>
-    <span class="p">}</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 </div>
     {% endraw %}
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Processamento-dos-blocos">Processamento dos blocos<a class="anchor-link" href="#Processamento-dos-blocos"> </a></h2><p>A função seguinte <a href="/rfpyeparser.html#parse_bin"><code>parse_bin</code></a> recebe um arquivo <code>.bin</code> e mapeia os blocos contidos nele retornando um dicionário que tem como chave o tipo de bloco e os valores como uma lista com os blocos extraídos sequencialmente.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>A função a seguir mapeia o arquivo <code>.bin</code> nos devidos blocos</p>
+<p>A função a seguir recebe os bytes lidos do arquivo <code>.bin</code> e mapeia esses bytes em diferentes classes de acordo com o tipo de bloco</p>
 
 </div>
 </div>
@@ -118,7 +101,7 @@ nb_path: "nbs\01_parser.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="classify_blocks" class="doc_header"><code>classify_blocks</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L53" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>classify_blocks</code>(<strong><code>blocks</code></strong>:<code>list</code>)</p>
+<h4 id="classify_blocks" class="doc_header"><code>classify_blocks</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L65" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>classify_blocks</code>(<strong><code>blocks</code></strong>:<code>Iterable</code>[<code>T_co</code>], <strong><code>btypes</code></strong>:<code>Iterable</code>[<code>T_co</code>]=<em><code>dict_keys([6, 21, 24, 40, 41, 42, 51, 63, 64, 65, 66, 67, 68, 69])</code></em>)</p>
 </blockquote>
 <p>Receives an iterable L with binary blocks and returns a defaultdict with a tuple (block types, thread_id) as keys and a list of the Class Blocks as values
 :param file: A string or pathlib.Path like path to a <code>.bin</code>file generated by CFRS - Logger
@@ -137,41 +120,6 @@ nb_path: "nbs\01_parser.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">classify_blocks</span><span class="p">(</span><span class="n">blocks</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Tuple</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Receives an iterable L with binary blocks and returns a defaultdict with a tuple (block types, thread_id) as keys and a list of the Class Blocks as values</span>
-<span class="sd">    :param file: A string or pathlib.Path like path to a `.bin`file generated by CFRS - Logger</span>
-<span class="sd">    :return: A Dictionary with block types as keys and a list of the Class Blocks available as values</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">map_block</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Tuple</span><span class="p">,</span> <span class="n">L</span><span class="p">]</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
-    <span class="n">index</span> <span class="o">=</span> <span class="n">BYTES_HEADER</span>
-    <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">blocks</span><span class="p">:</span>
-        <span class="n">bloco</span> <span class="o">=</span> <span class="n">create_base_block</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
-        <span class="n">btype</span><span class="p">,</span> <span class="n">btid</span> <span class="o">=</span> <span class="n">bloco</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">bloco</span><span class="o">.</span><span class="n">thread_id</span>
-        <span class="n">stop</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="n">DATA_BLOCK_HEADER</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">bloco</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">+</span> <span class="n">CHECKSUM</span>
-        <span class="k">if</span> <span class="n">btype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">MAIN_BLOCKS</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">index</span> <span class="o">=</span> <span class="n">stop</span> <span class="o">+</span> <span class="n">LEN_MARKER</span>
-            <span class="k">continue</span>
-        <span class="n">bloco</span> <span class="o">=</span> <span class="n">block_constructor</span><span class="p">(</span><span class="n">btype</span><span class="p">,</span> <span class="n">bloco</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">btype</span> <span class="ow">in</span> <span class="n">SPECTRAL_BLOCKS</span><span class="p">:</span>
-            <span class="n">gerror</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">bloco</span><span class="p">,</span> <span class="s2">&quot;gerror&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">gerror</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">or</span> <span class="n">bloco</span><span class="o">.</span><span class="n">_level_len</span> <span class="o">!=</span> <span class="n">bloco</span><span class="o">.</span><span class="n">ndata</span><span class="p">:</span>
-                <span class="n">index</span> <span class="o">=</span> <span class="n">stop</span> <span class="o">+</span> <span class="n">LEN_MARKER</span>
-                <span class="k">continue</span>
-
-        <span class="n">map_block</span><span class="p">[(</span><span class="n">btype</span><span class="p">,</span> <span class="n">btid</span><span class="p">)]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-            <span class="p">((</span><span class="n">index</span><span class="p">,</span> <span class="n">stop</span><span class="p">),</span> <span class="n">block_constructor</span><span class="p">(</span><span class="n">btype</span><span class="p">,</span> <span class="n">bloco</span><span class="p">))</span>
-        <span class="p">)</span>
-        <span class="n">index</span> <span class="o">=</span> <span class="n">stop</span> <span class="o">+</span> <span class="n">LEN_MARKER</span>
-    <span class="k">return</span> <span class="n">map_block</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 </div>
     {% endraw %}
@@ -187,7 +135,7 @@ nb_path: "nbs\01_parser.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="extract_level" class="doc_header"><code>extract_level</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L90" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>extract_level</code>(<strong><code>spectrum_blocks</code></strong>:<code>L</code>, <strong><code>dtype</code></strong>=<em><code>float32</code></em>)</p>
+<h4 id="extract_level" class="doc_header"><code>extract_level</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L111" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>extract_level</code>(<strong><code>spectrum_blocks</code></strong>:<code>L</code>, <strong><code>dtype</code></strong>=<em><code>float32</code></em>)</p>
 </blockquote>
 <p>Receives a mapping <code>spectrum_blocks</code> and returns the Matrix with the Levels as values, Frequencies as columns and Block Number as index.
 :param pivoted: If False, optionally returns an unpivoted version of the Matrix</p>
@@ -205,41 +153,6 @@ nb_path: "nbs\01_parser.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">extract_level</span><span class="p">(</span><span class="n">spectrum_blocks</span><span class="p">:</span> <span class="n">L</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Receives a mapping `spectrum_blocks` and returns the Matrix with the Levels as values, Frequencies as columns and Block Number as index.</span>
-<span class="sd">    :param pivoted: If False, optionally returns an unpivoted version of the Matrix</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">spectrum_blocks</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;The spectrum block list is empty&quot;</span>
-    <span class="n">spectrum_blocks</span> <span class="o">=</span> <span class="n">spectrum_blocks</span><span class="o">.</span><span class="n">itemgot</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">block</span> <span class="o">=</span> <span class="n">spectrum_blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">assert</span> <span class="n">block</span><span class="o">.</span><span class="n">type</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">63</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">68</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;The input blocks are not spectral blocks&quot;</span>
-    <span class="n">rows</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">spectrum_blocks</span><span class="p">)</span>
-    <span class="n">min_level</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">offset</span> <span class="o">-</span> <span class="mf">127.5</span>
-    <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">type</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">63</span><span class="p">,</span> <span class="mi">67</span><span class="p">):</span>
-        <span class="n">cols</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">ndata</span>
-        <span class="n">frequencies</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="s2">&quot;frequencies&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-            <span class="n">_extract_uncompressed</span><span class="p">(</span><span class="n">spectrum_blocks</span><span class="p">,</span> <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">min_level</span><span class="p">,</span> <span class="n">dtype</span><span class="p">),</span>
-            <span class="n">columns</span><span class="o">=</span><span class="n">frequencies</span><span class="p">,</span>
-        <span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">cols</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">norig</span>
-        <span class="n">thresh</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">thresh</span> <span class="o">-</span> <span class="mi">1</span>
-        <span class="n">block_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">b</span><span class="o">.</span><span class="n">block_data</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">spectrum_blocks</span><span class="p">]</span>
-        <span class="n">frequencies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">start_mega</span><span class="p">,</span> <span class="n">block</span><span class="o">.</span><span class="n">stop_mega</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
-        <span class="n">levels</span> <span class="o">=</span> <span class="n">cy_extract_compressed</span><span class="p">(</span><span class="n">block_data</span><span class="p">,</span> <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">thresh</span><span class="p">,</span> <span class="n">min_level</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">dtype</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">:</span>
-            <span class="n">levels</span> <span class="o">=</span> <span class="n">levels</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">levels</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">frequencies</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 </div>
     {% endraw %}
@@ -255,70 +168,7 @@ nb_path: "nbs\01_parser.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="meta2df" class="doc_header"><code>meta2df</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L118" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>meta2df</code>(<strong><code>meta_list</code></strong>:<code>Iterable</code>[<code>T_co</code>], <strong><code>optimize</code></strong>:<code>bool</code>=<em><code>True</code></em>)</p>
-</blockquote>
-<p>Receives and Iterable <code>metalist</code> with metadata and converts it to a DataFrame</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="rowattrs" class="doc_header"><code>rowattrs</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L129" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>rowattrs</code>(<strong><code>row</code></strong>, <strong><code>attrs</code></strong>)</p>
-</blockquote>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="extract_metadata" class="doc_header"><code>extract_metadata</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L136" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>extract_metadata</code>(<strong><code>blocos</code></strong>:<code>L</code>, <strong><code>attrs</code></strong>:<code>list</code>=<em><code>None</code></em>)</p>
+<h4 id="meta_from_blocks" class="doc_header"><code>meta_from_blocks</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L156" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>meta_from_blocks</code>(<strong><code>blocks</code></strong>:<code>L</code>, <strong><code>attrs</code></strong>:<code>list</code>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Receives a list of blocks, extracts the metadata from them and return a DataFrame</p>
 
@@ -350,7 +200,7 @@ nb_path: "nbs\01_parser.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="export_meta" class="doc_header"><code>export_meta</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L170" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>export_meta</code>(<strong><code>stem</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>], <strong><code>parsed_bin</code></strong>:<code>dict</code>, <strong><code>saida</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>], <strong><code>ext</code></strong>:<code>str</code>=<em><code>'.csv'</code></em>)</p>
+<h4 id="export_metadata" class="doc_header"><code>export_metadata</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L198" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>export_metadata</code>(<strong><code>blocks</code></strong>:<code>dict</code>, <strong><code>filter_attrs</code></strong>:<code>Union</code>[<code>NoneType</code>, <code>dict</code>]=<em><code>None</code></em>, <strong><code>to_save</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>bin_name</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>]=<em><code>None</code></em>, <strong><code>outfolder</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>]=<em><code>None</code></em>, <strong><code>extension</code></strong>:<code>str</code>=<em><code>'.csv'</code></em>)</p>
 </blockquote>
 
 </div>
@@ -366,23 +216,6 @@ nb_path: "nbs\01_parser.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">export_meta</span><span class="p">(</span>
-    <span class="n">stem</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> <span class="n">parsed_bin</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">saida</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> <span class="n">ext</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;.csv&quot;</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
-    <span class="n">file_version</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="n">blocks</span> <span class="o">=</span> <span class="n">parsed_bin</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
-    <span class="n">func</span> <span class="o">=</span> <span class="n">partialler</span><span class="p">(</span><span class="n">_export_meta</span><span class="p">,</span> <span class="n">stem</span><span class="o">=</span><span class="n">stem</span><span class="p">,</span> <span class="n">saida</span><span class="o">=</span><span class="n">saida</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="n">ext</span><span class="p">)</span>
-    <span class="n">func</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">=</span> <span class="n">_export_meta</span><span class="o">.</span><span class="vm">__module__</span>
-    <span class="n">parallel</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">blocks</span><span class="o">.</span><span class="n">items</span><span class="p">()),</span> <span class="n">n_workers</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">(),</span> <span class="n">pause</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 </div>
     {% endraw %}
@@ -398,7 +231,7 @@ nb_path: "nbs\01_parser.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="export_level" class="doc_header"><code>export_level</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L209" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>export_level</code>(<strong><code>stem</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>], <strong><code>parsed_bin</code></strong>:<code>dict</code>, <strong><code>saida</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>], <strong><code>ext</code></strong>:<code>str</code>=<em><code>'.fth'</code></em>, <strong><code>index</code></strong>:<code>DatetimeIndex</code>=<em><code>None</code></em>, <strong><code>dtype</code></strong>:<code>Union</code>[<code>str</code>, <code>dtype</code>]=<em><code>float16</code></em>)</p>
+<h4 id="export_level" class="doc_header"><code>export_level</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L255" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>export_level</code>(<strong><code>stem</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>], <strong><code>blocks</code></strong>:<code>dict</code>, <strong><code>saida</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>], <strong><code>ext</code></strong>:<code>str</code>=<em><code>'.fth'</code></em>, <strong><code>index</code></strong>:<code>DatetimeIndex</code>=<em><code>None</code></em>, <strong><code>dtype</code></strong>:<code>Union</code>[<code>str</code>, <code>dtype</code>]=<em><code>float16</code></em>)</p>
 </blockquote>
 
 </div>
@@ -414,32 +247,6 @@ nb_path: "nbs\01_parser.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">export_level</span><span class="p">(</span>
-    <span class="n">stem</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
-    <span class="n">parsed_bin</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
-    <span class="n">saida</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
-    <span class="n">ext</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;.fth&quot;</span><span class="p">,</span>
-    <span class="n">index</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">dtype</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float16</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
-    <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">blocks</span> <span class="o">=</span> <span class="n">parsed_bin</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
-    <span class="n">blocks</span> <span class="o">=</span> <span class="p">[((</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">),</span> <span class="n">b</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">),</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">blocks</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">SPECTRAL_BLOCKS</span><span class="p">]</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">index</span><span class="p">:</span>
-        <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">blocks</span><span class="p">)</span>
-    <span class="n">items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="n">index</span><span class="p">))</span>
-    <span class="n">func</span> <span class="o">=</span> <span class="n">partialler</span><span class="p">(</span><span class="n">_export_level</span><span class="p">,</span> <span class="n">stem</span><span class="o">=</span><span class="n">stem</span><span class="p">,</span> <span class="n">saida</span><span class="o">=</span><span class="n">saida</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="n">ext</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
-    <span class="n">func</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">=</span> <span class="n">_export_meta</span><span class="o">.</span><span class="vm">__module__</span>
-    <span class="n">parallel</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">items</span><span class="p">,</span> <span class="n">n_workers</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">(),</span> <span class="n">pause</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 </div>
     {% endraw %}

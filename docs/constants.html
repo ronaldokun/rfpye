@@ -50,7 +50,7 @@ nb_path: "nbs\04_constants.ipynb"
 
 <span class="n">CHECKSUM</span> <span class="o">=</span> <span class="mi">4</span>
 
-<span class="n">ENDMARKER</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">UUUU&quot;</span>
+<span class="n">ENDMARKER</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;UUUU&quot;</span>
 
 <span class="n">LEN_MARKER</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span>
 
@@ -65,6 +65,7 @@ nb_path: "nbs\04_constants.ipynb"
     <span class="s2">&quot;time&quot;</span><span class="p">,</span>
     <span class="s2">&quot;nanosecs&quot;</span><span class="p">,</span>
     <span class="s2">&quot;data&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;raw_data&quot;</span><span class="p">,</span>
     <span class="s2">&quot;block_data&quot;</span><span class="p">,</span>
     <span class="s2">&quot;frequencies&quot;</span><span class="p">,</span>
     <span class="s2">&quot;agc_array&quot;</span><span class="p">,</span>
@@ -239,20 +240,19 @@ nb_path: "nbs\04_constants.ipynb"
 
 <span class="n">SPECTRAL_BLOCKS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">63</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">68</span><span class="p">]</span>
 
+<span class="n">GPS_BLOCK</span> <span class="o">=</span> <span class="mi">40</span>
+
 <span class="n">BLOCK_ATTRS</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="mi">40</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;altitude&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;gps_datetime&quot;</span><span class="p">,</span>
+    <span class="mi">21</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;hostname&#39;</span><span class="p">,</span> <span class="s1">&#39;method&#39;</span><span class="p">],</span>
+    <span class="mi">40</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">,</span>
         <span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
         <span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
         <span class="s2">&quot;num_satellites&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;speed&quot;</span><span class="p">,</span>
     <span class="p">],</span>
     <span class="mi">63</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">],</span>
     <span class="mi">64</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">],</span>
-    <span class="mi">67</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">],</span>
-    <span class="mi">68</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">,</span> <span class="s2">&quot;data_size&quot;</span><span class="p">,</span> <span class="s2">&quot;ndata&quot;</span><span class="p">,</span> <span class="s2">&quot;sample&quot;</span><span class="p">],</span>
+    <span class="mi">67</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">,</span> <span class="s1">&#39;step&#39;</span><span class="p">,</span> <span class="s1">&#39;ndata&#39;</span><span class="p">,</span> <span class="s1">&#39;processing&#39;</span><span class="p">,</span> <span class="s1">&#39;bw&#39;</span><span class="p">,</span> <span class="s1">&#39;data_type&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;start_mega&#39;</span><span class="p">,</span> <span class="s1">&#39;stop_mega&#39;</span><span class="p">,</span> <span class="s1">&#39;thread_id&#39;</span><span class="p">],</span>
+    <span class="mi">68</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">,</span> <span class="s1">&#39;step&#39;</span><span class="p">,</span> <span class="s1">&#39;ndata&#39;</span><span class="p">,</span> <span class="s1">&#39;processing&#39;</span><span class="p">,</span> <span class="s1">&#39;bw&#39;</span><span class="p">,</span> <span class="s1">&#39;data_type&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;start_mega&#39;</span><span class="p">,</span> <span class="s1">&#39;stop_mega&#39;</span><span class="p">,</span> <span class="s1">&#39;thread_id&#39;</span><span class="p">],</span>
 <span class="p">}</span>
 </pre></div>
 

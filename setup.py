@@ -6,6 +6,16 @@ import numpy
 
 assert parse_version(setuptools.__version__) >= parse_version("36.2")
 
+
+class get_numpy_include(object):
+    """Defer numpy.get_include() until after numpy is installed."""
+
+    def __str__(self):
+        import numpy
+
+        return numpy.get_include()
+
+
 # note: all settings are in settings.ini; edit there, not here
 config = ConfigParser(delimiters=["="])
 config.read("settings.ini")

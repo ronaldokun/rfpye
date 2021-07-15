@@ -21,7 +21,7 @@ def cached_property(f):
     if version >= 3.9:
         return functools.cache()(f)
     elif version >= 3.8:
-        return functools.cached_property()(f)
+        return functools.cached_property(f)
     elif version >= 3.2:
         return property(functools.lru_cache()(f))
     else:
@@ -33,22 +33,23 @@ def cached_property(f):
 BaseBlock = namedtuple(typename="BaseBlock", field_names=BASEBLOCK)
 
 
-def create_base_block(bin_block: bytes) -> BaseBlock:
+def create_base_block(bin_block: bytes, checksum: int) -> BaseBlock:
     """
     A block is a piece of the .bin file with a known start and end and that contains different types of information.
-    It has several fields: type, header, data and footer.
+    It has several fields: file_type, header, data and footer.
     Each field has lengths and information defined in the documentation.
     Receives a block from the bin file and returns a Base Block instance with the attributes
-    'thread_id', 'data_size', 'type', 'data', 'checksum'
+    'thread_id', 'data_size', 'data_type', 'data', 'checksum'
     """
     #     if not isinstance(bin_block, bytes):
     #         raise TypeError(f"Expected type 'bytes', got '{type(bin_block)}' instead.")
+
     return BaseBlock(
         bin2int(bin_block[:4]),
         bin2int(bin_block[4:8]),
         bin2int(bin_block[8:12]),
         bin_block[12:-4],
-        bin_block[-4:],
+        checksum,
     )
 
 # Cell
@@ -655,7 +656,7 @@ class DType63(GetAttr):
         self._level_len = len(self.data[self.start : self.stop])
 
     @cached_property
-    def spent_time_microsecs(self) -> int:
+    def sample(self) -> int:
         """F9 = (4 bytes) SAMPLE = Duration of sampling.Time taken by the FPGA and Radio to execute command in µs."""
         return bin2int(self.data[BYTES_63[9]])
 
@@ -665,8 +666,8 @@ class DType63(GetAttr):
         return bin2int(self.data[BYTES_63[10]])
 
     @cached_property
-    def id_antenna(self) -> int:
-        """F11 = (1u byte) ANTUID Antenna number [ 0- 255]"""
+    def antenna_id(self) -> int:
+        """F11 = (1u byte) ANTUID Antenna number [0-255]"""
         return bin2int(self.data[BYTES_63[11]], False)
 
     @cached_property
@@ -727,24 +728,22 @@ class DType63(GetAttr):
         return bin2int(self.data[BYTES_63[21]])
 
     @cached_property
-    def bw(self) -> int:
-        """Retorna a faixa de frequência do bloco. STOP_MEGA - START_MEGA"""
-        return self.stop_mega - self.start_mega
-
-    @cached_property
     def step(self) -> float:
         """Retorna a faixa divida pelo número de pontos - 1"""
-        return self.bw / (self.ndata - 1)
+        return (self.stop_mega - self.start_mega) * 1000 / (self.ndata - 1)
 
     @cached_property
     def frequencies(self) -> np.array:
         """Retorna um numpy array com a faixa de frequências presentes no bloco"""
-        return self.start_mega + np.arange(self.ndata) * self.step
+#         return self.start_mega + np.arange(self.ndata) * self.step
+        byte_data = self.data[self.start : self.stop]
+        count = min(len(byte_data), self.ndata)
+        return np.linspace(self.start_mega, self.stop_mega, num=count)
 
     @cached_property
-    def rbw(self) -> int:
+    def bw(self) -> int:
         """Retorna o RBW calculado a partir de STARTMEGA, STOPMEGA e NDATA."""
-        return int(self.step * 1000000)
+        return int(self.step)
 
     @cached_property
     def tunning_info(self) -> Tuple:
@@ -761,20 +760,20 @@ class DType63(GetAttr):
         """F23 - Array com AGC - Automatic Gain Control as dB in single unsigned byte: 0...63"""
         start = BYTES_63[21].stop + (self.n_tunning * 4)
         stop = start + self.n_agc
-        return np.fromiter(self.data[start:stop], np.uint8)
-        # return '-'.join(L(self.data[start:stop]).map(str))
+        return np.frombuffer(self.data[start:stop], np.uint8)
+
+    @cached_property
+    def raw_data(self) -> np.array:
+        byte_data = self.data[self.start : self.stop]
+        count = min(len(byte_data), self.ndata)
+        return  np.frombuffer(
+                byte_data, dtype=np.uint8, count=count,
+        )
 
     @cached_property
     def block_data(self) -> np.array:
-        """Spectrum Data in 'dB' with 0.5 dBm interval"""
-        buffer = (
-            np.frombuffer(
-                self.data[self.start : self.stop], dtype=np.uint8, count=self.ndata
-            )
-            / 2
-            + self.minimum
-        )
-        return buffer.astype(np.float16)
+        return (self.raw_data / 2 ) + self.minimum
+
 
     def __getitem__(self, i):
         """Return a tuple with frequency, spectrum_data"""
@@ -834,7 +833,7 @@ class DType64(GetAttr):
         # return '-'.join(L(self.data[start:stop]).map(str))
 
     @cached_property
-    def block_data(self) -> np.array:
+    def raw_data(self) -> np.array:
         """Spectrum Data in 'dB' with 0.5 dBm interval"""
         return self.data[self.start : self.stop]
 
@@ -1103,7 +1102,7 @@ class DType67(GetAttr):
         return bin2int(self.data[start:stop])
 
     @cached_property
-    def resolution_bw(self) -> int:
+    def bw(self) -> int:
         start = BYTES_V5[5].stop + self.desclen + 12
         stop = start + 4
         return bin2int(self.data[start:stop])
@@ -1146,7 +1145,7 @@ class DType67(GetAttr):
         return DICT_PROCESSING.get(proc, proc)
 
     @cached_property
-    def data_type(self) -> int:
+    def unit(self) -> int:
         start = BYTES_V5[5].stop + self.desclen + 30
         stop = start + 1
         dtype = bin2int(self.data[start:stop])
@@ -1210,42 +1209,30 @@ class DType67(GetAttr):
         return np.frombuffer(self.data[start:stop], np.uint8)
 
     @cached_property
+    def raw_data(self) -> np.array:
+        byte_data = self.data[self.start : self.stop]
+        count = min(len(byte_data), self.ndata)
+        return  np.frombuffer(
+                byte_data, dtype=np.uint8, count=count,
+        )
+
+    @cached_property
     def block_data(self) -> np.array:
-        return (
-            np.frombuffer(
-                self.data[self.start : self.stop], dtype=np.uint8, count=self.ndata
-            )
-            / 2
-            + self.minimum
-        ).astype(np.float16)
+        return (self.raw_data / 2 ) + self.minimum
 
     @cached_property
     def padding(self) -> int:
-        start = (
-            BYTES_V5[5].stop
-            + self.desclen
-            + 44
-            + 4 * self.n_tunning
-            + self.n_agc
-            + self.ndata
-        )
+        start = self.stop
         stop = start + self.npad
         return bin2int(self.data[start:stop])
 
     @cached_property
-    def bw(self) -> int:
-        """Retorna a faixa de frequência do bloco. STOP_MEGA - START_MEGA"""
-        return self.stop_mega - self.start_mega
-
-    @cached_property
-    def step(self) -> float:
-        """Retorna a faixa divida pelo número de pontos - 1"""
-        return self.bw / (self.ndata - 1)
-
-    @cached_property
     def frequencies(self) -> np.array:
         """Retorna um numpy array com a faixa de frequências presentes no bloco"""
-        return self.start_mega + np.arange(self.ndata) * self.step
+#         return self.start_mega + np.arange(self.ndata) * self.step
+        byte_data = self.data[self.start : self.stop]
+        count = min(len(byte_data), self.ndata)
+        return np.linspace(self.start_mega, self.stop_mega, num=count)
 
 # Cell
 class DType68(GetAttr):
@@ -1259,6 +1246,7 @@ class DType68(GetAttr):
         self.start = 76 + self.desclen + 4 * self.n_tunning + self.n_agc
         self.stop = self.start + self.ndata
         self._level_len = len(self.data[self.start : self.stop])
+        self._ndata = self.ndata
 
     @cached_property
     def thresh(self) -> int:
@@ -1268,7 +1256,7 @@ class DType68(GetAttr):
         return bin2int(self.data[start:stop])
 
     @cached_property
-    def norig(self) -> int:
+    def ndata(self) -> int:
         """NORIG = Number of original data points. Before compression"""
         start = 72 + self.desclen
         stop = start + 4
@@ -1290,12 +1278,12 @@ class DType68(GetAttr):
         return np.fromiter(self.data[start:stop], np.uint8, count=stop - start)
 
     @cached_property
-    def block_data(self) -> np.array:
+    def raw_data(self) -> np.array:
         return self.data[self.start : self.stop]
 
     @cached_property
     def padding(self) -> int:
-        start = 76 + self.desclen + 4 * self.n_tunning + self.n_agc + self.ndata
+        start = 76 + self.desclen + 4 * self.n_tunning + self.n_agc + self._ndata
         stop = start + self.npad
         return bin2int(self.data[start:stop])
 
@@ -1379,7 +1367,7 @@ class DType69(GetAttr):
         return bin2int(self.data[start:stop])
 
     @cached_property
-    def data_type(self) -> int:
+    def unit(self) -> int:
         start = BYTES_V5[5].stop + self.desclen + 26
         stop = start + 1
         return bin2int(self.data[start:stop])
@@ -1421,10 +1409,16 @@ class DType69(GetAttr):
         return bin2int(self.data[start:stop])
 
     @cached_property
-    def block_data(self) -> np.array:
-        return np.frombuffer(
-            self.data[self.start : self.stop], dtype=np.uint8, count=self.ndata
+    def raw_data(self) -> np.array:
+        byte_data = self.data[self.start : self.stop]
+        count = min(len(byte_data), self.ndata)
+        return  np.frombuffer(
+                byte_data, dtype=np.uint8, count=count,
         )
+
+    @cached_property
+    def block_data(self) -> np.array:
+        return (self.raw_data / 2 + self.minimum).astype(np.float16)
 
     @cached_property
     def padding(self) -> int:

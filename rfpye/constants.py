@@ -15,7 +15,7 @@ DATA_BLOCK_HEADER = 12
 
 CHECKSUM = 4
 
-ENDMARKER: bytes = b"\x00UUUU"
+ENDMARKER: bytes = b"UUUU"
 
 LEN_MARKER: int = 5
 
@@ -30,6 +30,7 @@ EXCLUDE_ATTRS: List = [
     "time",
     "nanosecs",
     "data",
+    "raw_data",
     "block_data",
     "frequencies",
     "agc_array",
@@ -195,6 +196,6 @@ BLOCK_ATTRS: Mapping[int, List] = {
     ],
     63: ["wallclock_datetime"],
     64: ["wallclock_datetime"],
-    67: ["wallclock_datetime"],
-    68: ["wallclock_datetime"],
+    67: ["wallclock_datetime", 'step', 'ndata', 'processing', 'bw', 'data_type', 'description', 'start_mega', 'stop_mega', 'thread_id'],
+    68: ["wallclock_datetime", 'step', 'ndata', 'processing', 'bw', 'data_type', 'description', 'start_mega', 'stop_mega', 'thread_id'],
 }
