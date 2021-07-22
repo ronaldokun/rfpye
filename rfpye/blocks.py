@@ -656,6 +656,10 @@ class DType63(GetAttr):
         self._level_len = len(self.data[self.start : self.stop])
 
     @cached_property
+    def description(self) -> str:
+        return "Peak"
+
+    @cached_property
     def sample(self) -> int:
         """F9 = (4 bytes) SAMPLE = Duration of sampling.Time taken by the FPGA and Radio to execute command in µs."""
         return bin2int(self.data[BYTES_63[9]])
@@ -728,14 +732,9 @@ class DType63(GetAttr):
         return bin2int(self.data[BYTES_63[21]])
 
     @cached_property
-    def step(self) -> float:
-        """Retorna a faixa divida pelo número de pontos - 1"""
-        return (self.stop_mega - self.start_mega) * 1000 / (self.ndata - 1)
-
-    @cached_property
     def frequencies(self) -> np.array:
         """Retorna um numpy array com a faixa de frequências presentes no bloco"""
-#         return self.start_mega + np.arange(self.ndata) * self.step
+        #         return self.start_mega + np.arange(self.ndata) * self.step
         byte_data = self.data[self.start : self.stop]
         count = min(len(byte_data), self.ndata)
         return np.linspace(self.start_mega, self.stop_mega, num=count)
@@ -743,7 +742,7 @@ class DType63(GetAttr):
     @cached_property
     def bw(self) -> int:
         """Retorna o RBW calculado a partir de STARTMEGA, STOPMEGA e NDATA."""
-        return int(self.step)
+        return int((self.stop_mega - self.start_mega) * 1000 / (self.ndata - 1))
 
     @cached_property
     def tunning_info(self) -> Tuple:
@@ -766,14 +765,15 @@ class DType63(GetAttr):
     def raw_data(self) -> np.array:
         byte_data = self.data[self.start : self.stop]
         count = min(len(byte_data), self.ndata)
-        return  np.frombuffer(
-                byte_data, dtype=np.uint8, count=count,
+        return np.frombuffer(
+            byte_data,
+            dtype=np.uint8,
+            count=count,
         )
 
     @cached_property
     def block_data(self) -> np.array:
-        return (self.raw_data / 2 ) + self.minimum
-
+        return (self.raw_data / 2) + self.minimum
 
     def __getitem__(self, i):
         """Return a tuple with frequency, spectrum_data"""
@@ -1148,8 +1148,8 @@ class DType67(GetAttr):
     def unit(self) -> int:
         start = BYTES_V5[5].stop + self.desclen + 30
         stop = start + 1
-        dtype = bin2int(self.data[start:stop])
-        return 'dBμV/m' if dtype else 'dBm'
+        unit = bin2int(self.data[start:stop])
+        return DICT_UNIT.get(unit, unit)
 
     @cached_property
     def offset(self) -> int:
@@ -1212,13 +1212,15 @@ class DType67(GetAttr):
     def raw_data(self) -> np.array:
         byte_data = self.data[self.start : self.stop]
         count = min(len(byte_data), self.ndata)
-        return  np.frombuffer(
-                byte_data, dtype=np.uint8, count=count,
+        return np.frombuffer(
+            byte_data,
+            dtype=np.uint8,
+            count=count,
         )
 
     @cached_property
     def block_data(self) -> np.array:
-        return (self.raw_data / 2 ) + self.minimum
+        return (self.raw_data / 2) + self.minimum
 
     @cached_property
     def padding(self) -> int:
@@ -1229,7 +1231,7 @@ class DType67(GetAttr):
     @cached_property
     def frequencies(self) -> np.array:
         """Retorna um numpy array com a faixa de frequências presentes no bloco"""
-#         return self.start_mega + np.arange(self.ndata) * self.step
+        #         return self.start_mega + np.arange(self.ndata) * self.step
         byte_data = self.data[self.start : self.stop]
         count = min(len(byte_data), self.ndata)
         return np.linspace(self.start_mega, self.stop_mega, num=count)
@@ -1412,8 +1414,10 @@ class DType69(GetAttr):
     def raw_data(self) -> np.array:
         byte_data = self.data[self.start : self.stop]
         count = min(len(byte_data), self.ndata)
-        return  np.frombuffer(
-                byte_data, dtype=np.uint8, count=count,
+        return np.frombuffer(
+            byte_data,
+            dtype=np.uint8,
+            count=count,
         )
 
     @cached_property
@@ -1441,7 +1445,7 @@ MAIN_BLOCKS = {
     66: DType66,
     67: DType67,
     68: DType68,
-    69: DType69
+    69: DType69,
 }
 
 

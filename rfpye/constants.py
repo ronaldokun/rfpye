@@ -44,7 +44,7 @@ DICT_PROCESSING: Mapping[int, str] = {
     3: "minimum",
 }
 
-DICT_UNIT: Mapping[int, str] = {0: "%", 1: "dBm", 2: "dBuV/m"}
+DICT_UNIT: Mapping[int, str] = {0: "dBm", 1: "dBμV/m"}
 
 TUNING_BLOCK: Mapping[int, str] = {
     0: "completed without error",
@@ -188,14 +188,37 @@ SPECTRAL_BLOCKS = [63, 64, 67, 68]
 GPS_BLOCK = 40
 
 BLOCK_ATTRS: Mapping[int, List] = {
-    21: ['hostname', 'method'],
-    40: ["wallclock_datetime",
+    21: ["hostname", "method"],
+    40: [
+        "wallclock_datetime",
         "latitude",
         "longitude",
         "num_satellites",
     ],
     63: ["wallclock_datetime"],
     64: ["wallclock_datetime"],
-    67: ["wallclock_datetime", 'step', 'ndata', 'processing', 'bw', 'data_type', 'description', 'start_mega', 'stop_mega', 'thread_id'],
-    68: ["wallclock_datetime", 'step', 'ndata', 'processing', 'bw', 'data_type', 'description', 'start_mega', 'stop_mega', 'thread_id'],
+    67: [
+        "wallclock_datetime",
+        "step",
+        "ndata",
+        "processing",
+        "bw",
+        "data_type",
+        "description",
+        "start_mega",
+        "stop_mega",
+        "thread_id",
+    ],
+    68: [
+        "wallclock_datetime",
+        "step",
+        "ndata",
+        "processing",
+        "bw",
+        "data_type",
+        "description",
+        "start_mega",
+        "stop_mega",
+        "thread_id",
+    ],
 }
