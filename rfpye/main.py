@@ -34,7 +34,7 @@ FILTER_ATTRS = {21: ['hostname', 'method'],
 CACHE_FOLDER = Path.cwd() / ".cache"
 
 # Internal Cell
-logger.add("rfpye_{time}.log", rotation="1 week", compression='zip', backtrace=True, diagnose=True)
+logger.add("rfpye.log", rotation="1 week", compression='zip', backtrace=True, diagnose=True)
 
 # Internal Cell
 custom_theme = Theme({"info": "dim cyan", "warning": "magenta", "danger": "bold red"})
@@ -375,7 +375,7 @@ def extract_bin_data(
                         level['Minimum_Level'] = df.minimum.values.astype('float16')
                         level['Level_Data'] = extract_level(blocks[(btype, tid)], dtype=np.uint8)
                     else:
-                        level['Frequency'] = np.linspace(fluxo.start_mega, fluxo.stop_mega, count=fluxo.ndata)
+                        level['Frequency'] = np.linspace(fluxo.start_mega, fluxo.stop_mega, num=fluxo.ndata)
                         level['Level_Data'] = extract_level(blocks[(btype, tid)], dtype=dtype)
 
 
