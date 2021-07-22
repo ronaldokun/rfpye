@@ -139,7 +139,7 @@ Receives a block from the bin file and returns a Base Block instance with the at
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1">#     if not isinstance(bin_block, bytes):</span>
     <span class="c1">#         raise TypeError(f&quot;Expected type &#39;bytes&#39;, got &#39;{type(bin_block)}&#39; instead.&quot;)</span>
-    
+
     <span class="k">return</span> <span class="n">BaseBlock</span><span class="p">(</span>
         <span class="n">bin2int</span><span class="p">(</span><span class="n">bin_block</span><span class="p">[:</span><span class="mi">4</span><span class="p">]),</span>
         <span class="n">bin2int</span><span class="p">(</span><span class="n">bin_block</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">8</span><span class="p">]),</span>
@@ -1322,6 +1322,10 @@ Total Bytes = 52 + (4 * NTUN) + NAGC + NDATA + NPAD</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">_level_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">])</span>
 
     <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;Peak&quot;</span>
+
+    <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;F9 = (4 bytes) SAMPLE = Duration of sampling.Time taken by the FPGA and Radio to execute command in µs.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">BYTES_63</span><span class="p">[</span><span class="mi">9</span><span class="p">]])</span>
@@ -1394,14 +1398,9 @@ Total Bytes = 52 + (4 * NTUN) + NAGC + NDATA + NPAD</p>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">BYTES_63</span><span class="p">[</span><span class="mi">21</span><span class="p">]])</span>
 
     <span class="nd">@cached_property</span>
-    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Retorna a faixa divida pelo número de pontos - 1&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stop_mega</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_mega</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndata</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
- 
-    <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">frequencies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Retorna um numpy array com a faixa de frequências presentes no bloco&quot;&quot;&quot;</span>
-<span class="c1">#         return self.start_mega + np.arange(self.ndata) * self.step</span>
+        <span class="c1">#         return self.start_mega + np.arange(self.ndata) * self.step</span>
         <span class="n">byte_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">]</span>
         <span class="n">count</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">byte_data</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndata</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_mega</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop_mega</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">count</span><span class="p">)</span>
@@ -1409,7 +1408,7 @@ Total Bytes = 52 + (4 * NTUN) + NAGC + NDATA + NPAD</p>
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">bw</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Retorna o RBW calculado a partir de STARTMEGA, STOPMEGA e NDATA.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">step</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">stop_mega</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_mega</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndata</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">tunning_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
@@ -1427,19 +1426,20 @@ Total Bytes = 52 + (4 * NTUN) + NAGC + NDATA + NPAD</p>
         <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_63</span><span class="p">[</span><span class="mi">21</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_tunning</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_agc</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-    
+
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">raw_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
         <span class="n">byte_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">]</span>
         <span class="n">count</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">byte_data</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndata</span><span class="p">)</span>
-        <span class="k">return</span>  <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span>
-                <span class="n">byte_data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="p">,</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span>
+            <span class="n">byte_data</span><span class="p">,</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span>
+            <span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">block_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span> <span class="o">/</span> <span class="mi">2</span> <span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">minimum</span>
-
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">minimum</span>
 
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a tuple with frequency, spectrum_data&quot;&quot;&quot;</span>
@@ -2027,8 +2027,8 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
     <span class="k">def</span> <span class="nf">unit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">30</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="n">dtype</span> <span class="o">=</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
-        <span class="k">return</span> <span class="s1">&#39;dBμV/m&#39;</span> <span class="k">if</span> <span class="n">dtype</span> <span class="k">else</span> <span class="s1">&#39;dBm&#39;</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">DICT_UNIT</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">offset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -2086,18 +2086,20 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
         <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">44</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_tunning</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_agc</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-    
+
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">raw_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
         <span class="n">byte_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">]</span>
         <span class="n">count</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">byte_data</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndata</span><span class="p">)</span>
-        <span class="k">return</span>  <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span>
-                <span class="n">byte_data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="p">,</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span>
+            <span class="n">byte_data</span><span class="p">,</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span>
+            <span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">block_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span> <span class="o">/</span> <span class="mi">2</span> <span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">minimum</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">minimum</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">padding</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -2108,7 +2110,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">frequencies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Retorna um numpy array com a faixa de frequências presentes no bloco&quot;&quot;&quot;</span>
-<span class="c1">#         return self.start_mega + np.arange(self.ndata) * self.step</span>
+        <span class="c1">#         return self.start_mega + np.arange(self.ndata) * self.step</span>
         <span class="n">byte_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">]</span>
         <span class="n">count</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">byte_data</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndata</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_mega</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop_mega</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">count</span><span class="p">)</span>
@@ -2138,7 +2140,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType68" class="doc_header"><code>class</code> <code>DType68</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1238" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType68</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="DType68" class="doc_header"><code>class</code> <code>DType68</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1240" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType68</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 68 – Threshold Compressed Data</p>
 
@@ -2200,7 +2202,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
         <span class="n">start</span> <span class="o">=</span> <span class="mi">76</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_tunning</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_agc</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">stop</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
-    
+
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">raw_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">]</span>
@@ -2236,7 +2238,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType69" class="doc_header"><code>class</code> <code>DType69</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1291" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType69</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
+<h2 id="DType69" class="doc_header"><code>class</code> <code>DType69</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1293" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType69</code>(<strong><code>block</code></strong>:<code>NamedTuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 69 – Frequency Channel Occupancy (ITU-R SM.1880)</p>
 
@@ -2381,8 +2383,10 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
     <span class="k">def</span> <span class="nf">raw_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
         <span class="n">byte_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">]</span>
         <span class="n">count</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">byte_data</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndata</span><span class="p">)</span>
-        <span class="k">return</span>  <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span>
-                <span class="n">byte_data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="p">,</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span>
+            <span class="n">byte_data</span><span class="p">,</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span>
+            <span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="nd">@cached_property</span>
@@ -2414,7 +2418,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="block_constructor" class="doc_header"><code>block_constructor</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1448" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>block_constructor</code>(<strong><code>btype</code></strong>, <strong><code>bloco</code></strong>)</p>
+<h4 id="block_constructor" class="doc_header"><code>block_constructor</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1452" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>block_constructor</code>(<strong><code>btype</code></strong>, <strong><code>bloco</code></strong>)</p>
 </blockquote>
 
 </div>

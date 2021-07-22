@@ -79,7 +79,7 @@ nb_path: "nbs\04_constants.ipynb"
     <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;minimum&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
-<span class="n">DICT_UNIT</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;%&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;dBm&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;dBuV/m&quot;</span><span class="p">}</span>
+<span class="n">DICT_UNIT</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;dBm&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;dBμV/m&quot;</span><span class="p">}</span>
 
 <span class="n">TUNING_BLOCK</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
     <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;completed without error&quot;</span><span class="p">,</span>
@@ -243,16 +243,39 @@ nb_path: "nbs\04_constants.ipynb"
 <span class="n">GPS_BLOCK</span> <span class="o">=</span> <span class="mi">40</span>
 
 <span class="n">BLOCK_ATTRS</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="mi">21</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;hostname&#39;</span><span class="p">,</span> <span class="s1">&#39;method&#39;</span><span class="p">],</span>
-    <span class="mi">40</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">,</span>
+    <span class="mi">21</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;hostname&quot;</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">],</span>
+    <span class="mi">40</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">,</span>
         <span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
         <span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
         <span class="s2">&quot;num_satellites&quot;</span><span class="p">,</span>
     <span class="p">],</span>
     <span class="mi">63</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">],</span>
     <span class="mi">64</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">],</span>
-    <span class="mi">67</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">,</span> <span class="s1">&#39;step&#39;</span><span class="p">,</span> <span class="s1">&#39;ndata&#39;</span><span class="p">,</span> <span class="s1">&#39;processing&#39;</span><span class="p">,</span> <span class="s1">&#39;bw&#39;</span><span class="p">,</span> <span class="s1">&#39;data_type&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;start_mega&#39;</span><span class="p">,</span> <span class="s1">&#39;stop_mega&#39;</span><span class="p">,</span> <span class="s1">&#39;thread_id&#39;</span><span class="p">],</span>
-    <span class="mi">68</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">,</span> <span class="s1">&#39;step&#39;</span><span class="p">,</span> <span class="s1">&#39;ndata&#39;</span><span class="p">,</span> <span class="s1">&#39;processing&#39;</span><span class="p">,</span> <span class="s1">&#39;bw&#39;</span><span class="p">,</span> <span class="s1">&#39;data_type&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;start_mega&#39;</span><span class="p">,</span> <span class="s1">&#39;stop_mega&#39;</span><span class="p">,</span> <span class="s1">&#39;thread_id&#39;</span><span class="p">],</span>
+    <span class="mi">67</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;step&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ndata&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;processing&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;bw&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;data_type&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;start_mega&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;stop_mega&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;thread_id&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="mi">68</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;step&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ndata&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;processing&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;bw&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;data_type&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;start_mega&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;stop_mega&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;thread_id&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
 <span class="p">}</span>
 </pre></div>
 
