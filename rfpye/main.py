@@ -11,6 +11,7 @@ import logging
 from fastcore.xtras import Path
 from fastcore.script import call_parse, Param, store_true
 from fastcore.basics import listify
+from fastcore.xtras import is_listy
 from fastcore.foundation import L
 import numpy as np
 import pandas as pd
@@ -272,9 +273,10 @@ def process_bin(
 @logger.catch
 def extract_bin_data(
     path: str,
-    save_path: str = None,
     spec_data: bool = False,
     dtype: str = "float16",
+    save_path: str = None,
+    substituir: bool = False
 ) -> None:
     """Recebe uma pasta ou arquivo bin, processa e salva os metadados e espectro na saida.
 
@@ -286,21 +288,33 @@ def extract_bin_data(
         substituir (bool, optional): Reprocessar arquivos já processados?. Defaults to False.
         dtype (str, optional): Tipo de dados a salvar o espectro. Defaults to "float16".
     """
-
-    path = Path(path)
-    if path.is_file():
-        lista_bins = [path]
-    elif path.is_dir():
-        lista_bins = get_files(
-            path, extensions=[".bin"])
+    if is_listy(path):
+        lista_bins = L()
+        for f in path:
+            if f.is_file():
+                if f.suffix == '.bin':
+                    lista_bins.append(f)
+                else:
+                    raise TypeErrorror(f"A extensão de arquivo é inválida: {f.suffix}. Somente arquivos .bin são aceitos.")
     else:
-        raise ValueError(f"Caminho de Entrada inválido: {path}. Insira um caminho para uma pasta ou arquivo")
+        path = Path(path)
+        if path.is_file():
+            if path.suffix == '.bin':
+                lista_bins = [path]
+            else:
+                raise TypeErrorror(f"A extensão de arquivo é inválida: {path.suffix}. Somente arquivos .bin são aceitos.")
+        elif path.is_dir():
+            lista_bins = get_files(
+                path, extensions=[".bin"])
+
+        else:
+            raise ValueError(f"Caminho de Entrada inválido: {path}. Insira um caminho para uma pasta ou arquivo")
 
     parsed_bins = {}
     if save_path is not None:
         save_path = Path(save_path)
         save_path.mkdir(exist_ok=True, parents=True)
-        log = Path(f"{save_path}/logger.txt")
+        log = Path(f"{save_path}/cached.txt")
         if substituir:
             done = set()
         else:
@@ -373,12 +387,10 @@ def extract_bin_data(
                 if spec_data:
                     if save_path:
                         level['Minimum_Level'] = df.minimum.values.astype('float16')
-                        level['Level_Data'] = extract_level(blocks[(btype, tid)], dtype=np.uint8)
+                        level['Level_Data'] = extract_level(blocks[(btype, tid)], dtype=np.uint8).flatten()
                     else:
                         level['Frequency'] = np.linspace(fluxo.start_mega, fluxo.stop_mega, num=fluxo.ndata)
                         level['Level_Data'] = extract_level(blocks[(btype, tid)], dtype=dtype)
-
-
                 out['Fluxos'][(btype, tid)] =  level
             else:
                 print(btype)
