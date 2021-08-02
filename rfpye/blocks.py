@@ -138,11 +138,11 @@ class TimedSpectral(GetAttr):
 
     @cached_property
     def start_mega(self):
-        return bin2int(self.data[BYTES_TIMED[3]], False)  # F3
+        return bin2int(self.data[BYTES_TIMED[3]], False)  + self.start_mili / 1000
 
     @cached_property
     def stop_mega(self):
-        return bin2int(self.data[BYTES_TIMED[5]], False)  # F5
+        return bin2int(self.data[BYTES_TIMED[5]], False) + self.stop_mili / 1000
 
     @cached_property
     def start_mili(self):
@@ -559,7 +559,7 @@ class DType51(GetAttr):
     def center_mega(self):
         start = BYTES_51[5].stop + self.desclen
         stop = start + 2
-        return bin2int(self.data[start:stop])
+        return bin2int(self.data[start:stop], False) + self.center_mili / 1000
 
     @cached_property
     def center_mili(self):
@@ -735,9 +735,9 @@ class DType63(GetAttr):
     def frequencies(self) -> np.array:
         """Retorna um numpy array com a faixa de frequências presentes no bloco"""
         #         return self.start_mega + np.arange(self.ndata) * self.step
-        byte_data = self.data[self.start : self.stop]
-        count = min(len(byte_data), self.ndata)
-        return np.linspace(self.start_mega, self.stop_mega, num=count)
+#        byte_data = self.data[self.start : self.stop]
+#        count = min(len(byte_data), self.ndata)
+        return np.linspace(self.start_mega, self.stop_mega, num=self.ndata)
 
     @cached_property
     def bw(self) -> int:
@@ -999,7 +999,7 @@ class DType66(GetAttr):
     def center_mega(self) -> int:
         start = BYTES_V5[5].stop + self.desclen
         stop = start + 2
-        return bin2int(self.data[start:stop])
+        return bin2int(self.data[start:stop], False) + self.center_mili / 1000
 
     @cached_property
     def center_mili(self) -> int:
@@ -1081,7 +1081,7 @@ class DType67(GetAttr):
     def start_mega(self) -> int:
         start = BYTES_V5[5].stop + self.desclen
         stop = start + 2
-        return bin2int(self.data[start:stop])
+        return bin2int(self.data[start:stop], False) + self.start_mili / 1000
 
     @cached_property
     def start_mili(self) -> int:
@@ -1093,7 +1093,7 @@ class DType67(GetAttr):
     def stop_mega(self) -> int:
         start = BYTES_V5[5].stop + self.desclen + 6
         stop = start + 2
-        return bin2int(self.data[start:stop])
+        return bin2int(self.data[start:stop], False) + self.stop_mili / 1000
 
     @cached_property
     def stop_mili(self) -> int:
