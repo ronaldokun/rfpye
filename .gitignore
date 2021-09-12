@@ -142,3 +142,7 @@ checklink/cookies.txt
 # .bin files
 *.bin
 
+# drive files
+*/**desktop.ini
+
+.virtual_documents

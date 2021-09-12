@@ -1246,7 +1246,7 @@ class DType68(GetAttr):
         """
         self.default = DType67(block)
         self.start = 76 + self.desclen + 4 * self.n_tunning + self.n_agc
-        self.stop = self.start + self.ndata
+        self.stop = self.start + self.norig
         self._level_len = len(self.data[self.start : self.stop])
         self._ndata = self.ndata
 
@@ -1258,7 +1258,7 @@ class DType68(GetAttr):
         return bin2int(self.data[start:stop])
 
     @cached_property
-    def ndata(self) -> int:
+    def norig(self) -> int:
         """NORIG = Number of original data points. Before compression"""
         start = 72 + self.desclen
         stop = start + 4
