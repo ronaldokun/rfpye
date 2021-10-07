@@ -4,15 +4,16 @@ __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
 index = {"BTYPES": "00_main.ipynb",
          "FILTER_ATTRS": "00_main.ipynb",
-         "CACHE_FOLDER": "00_main.ipynb",
-         "custom_theme": "00_main.ipynb",
-         "console": "00_main.ipynb",
-         "filter_spectrum": "00_main.ipynb",
-         "read_meta": "00_main.ipynb",
-         "process_bin": "00_main.ipynb",
+         "CACHE_FOLDER": "00_filter-checkpoint.ipynb",
+         "log": "00_filter-checkpoint.ipynb",
+         "custom_theme": "04_constants.ipynb",
+         "console": "04_constants.ipynb",
+         "filter_spectrum": "05_stats.ipynb",
+         "read_meta": "05_stats.ipynb",
+         "process_bin": "05_stats.ipynb",
          "extract_bin_data": "00_main.ipynb",
-         "appended_mean": "00_main.ipynb",
-         "extract_bin_stats": "00_main.ipynb",
+         "appended_mean": "05_stats.ipynb",
+         "extract_bin_stats": "05_stats.ipynb",
          "path_type": "01_parser.ipynb",
          "bin_val": "01_parser.ipynb",
          "bytes_encoded": "01_parser.ipynb",
@@ -98,7 +99,8 @@ modules = ["main.py",
            "parser.py",
            "utils.py",
            "blocks.py",
-           "constants.py"]
+           "constants.py",
+           "stats.py"]
 
 doc_url = "https://ronaldokun.github.io/rfpye"
 

@@ -2,7 +2,1458 @@
 
 __all__ = ['cached_property', 'create_base_block', 'BaseBlock', 'TimedNonSpectral', 'TimedSpectral', 'TimedVersion5',
            'DType6', 'DType20', 'DType21', 'DType24', 'DType40', 'DType41', 'DType42', 'DType51', 'DType63', 'DType64',
-           'DType65', 'DType66', 'DType67', 'DType68', 'DType69', 'block_constructor', 'MAIN_BLOCKS']
+           'DType65', 'DType66', 'DType67', 'DType68', 'DType69', 'block_constructor', 'MAIN_BLOCKS', 'cached_property',
+           'create_base_block', 'BaseBlock', 'TimedNonSpectral', 'TimedSpectral', 'TimedVersion5', 'DType6', 'DType20',
+           'DType21', 'DType24', 'DType40', 'DType41', 'DType42', 'DType51', 'DType63', 'DType64', 'DType65', 'DType66',
+           'DType67', 'DType68', 'DType69', 'block_constructor', 'MAIN_BLOCKS']
+
+# Cell
+import platform
+import functools
+from datetime import datetime
+from collections import namedtuple
+from typing import Union, Tuple, NamedTuple
+from .utils import *
+from .constants import *
+import numpy as np
+from fastcore.foundation import GetAttr, L
+
+# Cell
+def cached_property(f):
+    version = float(platform.python_version()[0:3])
+    if version >= 3.9:
+        return functools.cache()(f)
+    elif version >= 3.8:
+        return functools.cached_property(f)
+    elif version >= 3.2:
+        return property(functools.lru_cache()(f))
+    else:
+        raise NotImplementedError(
+            "There is no cache attribute implemented for python < 3.2"
+        )
+
+# Cell
+BaseBlock = namedtuple(typename="BaseBlock", field_names=BASEBLOCK)
+
+
+def create_base_block(bin_block: bytes, checksum: int) -> BaseBlock:
+    """
+    A block is a piece of the .bin file with a known start and end and that contains different types of information.
+    It has several fields: file_type, header, data and footer.
+    Each field has lengths and information defined in the documentation.
+    Receives a block from the bin file and returns a Base Block instance with the attributes
+    'thread_id', 'data_size', 'data_type', 'data', 'checksum'
+    """
+    #     if not isinstance(bin_block, bytes):
+    #         raise TypeError(f"Expected type 'bytes', got '{type(bin_block)}' instead.")
+
+    return BaseBlock(
+        bin2int(bin_block[:4]),
+        bin2int(bin_block[4:8]),
+        bin2int(bin_block[8:12]),
+        bin_block[12:-4],
+        checksum,
+    )
+
+# Cell
+class TimedNonSpectral(GetAttr):
+    """Block with time attributes applied to non spectral blocks
+    Implementa o mapeamento de funções dos blocos que possuem os seguintes campos
+    (na mesma posição do vetor binario):F0 a F2
+
+    F0 = (4 bytes) WALLDATE = Wall Clock Start Date of measurements
+    F1 = (4 bytes) WALLTIME = Wall Clock Start Time
+    F2 = (4u bytes) WALLNANO = Wall Clock Start Time Nanoseconds
+    """
+
+    def __init__(self, block: NamedTuple):
+        """This implementation substitues inheritance of the class Block by Composition
+        The attributes which belong to Block are accessed normally as if it was Inherited
+        """
+        self.default = block
+
+    @cached_property
+    def _date(self) -> str:
+        """F0 = (4 bytes) WALLDATE = Wall Clock Start Date of measurements"""
+        date = list(bin2date(self.data[BYTES_TIMED_NE[0]]))
+        date[2] += 2000
+        return (
+            f"{str(date[2]).zfill(4)}-{str(date[1]).zfill(2)}-{str(date[0]).zfill(2)}"
+        )
+
+    @cached_property
+    def _time(self) -> str:
+        """F1 = (4 bytes) WALLTIME = Wall Clock Start Time"""
+        time = bin2time(self.data[BYTES_TIMED_NE[1]])
+        return (
+            f"{str(time[0]).zfill(2)}:{str(time[1]).zfill(2)}:{str(time[2]).zfill(2)}"
+        )
+
+    @cached_property
+    def _n(self) -> int:
+        """F2 = (4u bytes) WALLNANO = Wall Clock Start Time Nanoseconds"""
+        return bin2int(self.data[BYTES_TIMED_NE[2]], False)
+
+    @cached_property
+    def wallclock_datetime(self) -> np.datetime64:
+        """Returns the wallclock datetime"""
+        return np.datetime64(f"{self._date}T{self._time}.{int(self._n/1000)}")
+
+# Cell
+class TimedSpectral(GetAttr):
+    """Common Atributes of Block with Time Info and Spectral Data
+
+    F0 = (4 bytes) WALLDATE = Wall Clock Start Date of measurements
+    F1 = (4 bytes) WALLTIME = Wall Clock Start Time
+    F2 = (4u bytes) WALLNANO = Wall Clock Start Time Nanoseconds
+    F3 = (2u bytes) STARTMEGA = Start Frequency MHz
+    F4 = (4 bytes) STARTMILLI = Start Frequency mHz
+    F5 = (2u bytes) STOPMEGA = Stop Frequency MHz
+    F6 = (4 bytes) STOPMILLI = Stop Frequency mHz
+    F7 = (2u bytes) STARTCHAN = Start Channel number
+    F8 = (2u bytes) STOPCHAN = Stop Channel number
+    """
+
+    # The attributes which don't belong to this class are delegated to default: i.e Block
+    def __init__(self, block: NamedTuple):
+        self.default = block
+
+    @cached_property
+    def _date(self) -> str:
+        """F0 = (4 bytes) WALLDATE = Wall Clock Start Date of measurements"""
+        date = list(bin2date(self.data[BYTES_TIMED[0]]))
+        date[2] += 2000
+        return (
+            f"{str(date[2]).zfill(4)}-{str(date[1]).zfill(2)}-{str(date[0]).zfill(2)}"
+        )
+
+    @cached_property
+    def _time(self) -> str:
+        """F1 = (4 bytes) WALLTIME = Wall Clock Start Time"""
+        time = bin2time(self.data[BYTES_TIMED[1]])
+        return (
+            f"{str(time[0]).zfill(2)}:{str(time[1]).zfill(2)}:{str(time[2]).zfill(2)}"
+        )
+
+    @cached_property
+    def _n(self):
+        return bin2int(self.data[BYTES_TIMED[2]], False)  # F2
+
+    @cached_property
+    def start_mega(self):
+        return bin2int(self.data[BYTES_TIMED[3]], False)  + self.start_mili / 1000
+
+    @cached_property
+    def stop_mega(self):
+        return bin2int(self.data[BYTES_TIMED[5]], False) + self.stop_mili / 1000
+
+    @cached_property
+    def start_mili(self):
+        return bin2int(self.data[BYTES_TIMED[4]])
+
+    @cached_property
+    def stop_mili(self):
+        return bin2int(self.data[BYTES_TIMED[6]])
+
+    @cached_property
+    def start_channel(self):
+        return bin2int(self.data[BYTES_TIMED[7]], False)
+
+    @cached_property
+    def stop_channel(self):
+        return bin2int(self.data[BYTES_TIMED[8]], False)
+
+    @cached_property
+    def wallclock_datetime(self) -> np.datetime64:
+        """Returns the wallclock datetime"""
+        return np.datetime64(f"{self._date}T{self._time}.{int(self._n/1000)}")
+
+# Cell
+class TimedVersion5(GetAttr):
+    """Block with additional attributes common to Blocks from version 5 of Logger"""
+
+    def __init__(self, block: NamedTuple):
+        self.default = TimedNonSpectral(block)
+
+    @cached_property
+    def group_id(self) -> int:
+        return bin2int(self.data[BYTES_V5[3]])
+
+    @cached_property
+    def dynamic_id(self) -> int:
+        return bin2int(self.data[BYTES_V5[4]])
+
+    @cached_property
+    def desclen(self) -> int:
+        return bin2int(self.data[BYTES_V5[5]])
+
+# Cell
+class DType6(GetAttr):
+    """Data Type 6 – 16 bit IQ Data.Logger versions 1 to 4"""
+
+    # The attributes which don't belong to this class are delegated to default: i.e Block
+    def __init__(self, block: NamedTuple):
+        self.default = block
+
+    @cached_property
+    def start_freq(self) -> str:
+        """Start Frequency in MHz"""
+        return bin2str(self.data[BYTES_6[0]])
+
+    @cached_property
+    def stop_freq(self) -> int:
+        """Stop Frequency in MHz"""
+        return bin2int(self.data[BYTES_6[1]])
+
+    @cached_property
+    def delta_freq(self) -> int:
+        """Delta Frequency in MHz"""
+        return bin2int(self.data[BYTES_6[2]])
+
+    @cached_property
+    def antenna_input(self) -> int:
+        """Antenna Input Number 1=ip1, 2=ip2, 3=ip3, 4=ip4"""
+        return bin2int(self.data[BYTES_6[3]])
+
+    @cached_property
+    def n_samples(self) -> int:
+        """Number of samples per frequency"""
+        return bin2int(self.data[BYTES_6[4]])
+
+    @cached_property
+    def n_gain(self) -> int:
+        """Number of Gain Integers"""
+        return bin2int(self.data[BYTES_6[5]])
+
+    @cached_property
+    def gain_array(self) -> int:
+        """Array of Gain (dB/16). Each gain is stored as a 32 bit integer"""
+        inicio = BYTES_6[5].stop
+        fim = inicio + self.n_gain
+        return np.fromiter(self.data[inicio:fim], dtype=np.int32)
+
+    @cached_property
+    def n_iq_pairs(self) -> int:
+        """Number of IQ Pairs"""
+        inicio = BYTES_6[5].stop + self.n_gain
+        fim = inicio + 4
+        return bin2int(self.data[inicio:fim])
+
+    @cached_property
+    def iq_array(self) -> int:
+        """Array of IQ data points stored as two signed twos complement 16 bit numbers packed into a 32 bit word"""
+        inicio = BYTES_6[5].stop + self.n_gain + 4
+        return np.fromiter(self.data[inicio:], dtype=np.int32)
+
+# Cell
+class DType20(GetAttr):
+    """Data Type 20 – File Footer - Optional"""
+
+    # The attributes which don't belong to this class are delegated to default: i.e Block
+    def __init__(self, block: NamedTuple):
+        self.default = block
+
+    @cached_property
+    def bottom_latitude(self) -> float:
+        return bin2int(self.data[BYTES_20[0]]) / 1e6
+
+    @cached_property
+    def left_longitude(self) -> float:
+        return bin2int(self.data[BYTES_20[1]]) / 1e6
+
+    @cached_property
+    def top_latitude(self) -> float:
+        return bin2int(self.data[BYTES_20[2]]) / 1e6
+
+    @cached_property
+    def right_longitude(self) -> float:
+        return bin2int(self.data[BYTES_20[3]]) / 1e6
+
+    @cached_property
+    def start_date(self) -> Tuple[int, int, int, int]:
+        """Date of first data block (dd/mm/yy/null)"""
+        return bin2date(self.data[BYTES_20[4]])
+
+    @cached_property
+    def start_time(self) -> Tuple[int, int, int, int]:
+        """Time of first data block (hh/mm/ss/cc)"""
+        return bin2time(self.data[BYTES_20[5]])
+
+    @cached_property
+    def end_date(self) -> Tuple[int, int, int, int]:
+        """Date of last data block (dd/mm/yy/null)"""
+        return bin2date(self.data[BYTES_20[6]])
+
+    @cached_property
+    def end_time(self) -> Tuple[int, int, int, int]:
+        """Time of last data block (hh/mm/ss/cc)"""
+        return bin2time(self.data[BYTES_20[7]])
+
+    @cached_property
+    def n_spectral_blocks(self) -> int:
+        """Total number of blocks in threads with threadID>0"""
+        return bin2int(self.data[BYTES_20[8]])
+
+    @cached_property
+    def nddt(self) -> int:
+        """Spectral data, i.e. ThreadID > 0.
+        Optionally can be set to a special value of zero, to omit the following information."""
+        return bin2int(self.data[BYTES_20[9]])
+
+    @cached_property
+    def spectral_blocks_info(self) -> L:
+        start = BYTES_20[9].stop
+        stop = start + self.nddt
+        step = 8
+        return L.range(start, stop, step).map(
+            lambda i: (bin2int(self.data[i : i + 4]), bin2int(self.data[i + 4 : i + 8]))
+        )
+
+# Cell
+class DType21(GetAttr):
+    """Data Type 21 – Unit and Job Information.Logger versions 3 to 5"""
+
+    # The attributes which don't belong to this class are delegated to default: i.e Block
+    def __init__(self, block: NamedTuple):
+        self.default = block
+
+    @cached_property
+    def hostname(self) -> str:
+        """Retorna o campo HOSTNAME que contém o 'Unit Hostname'"""
+        return bin2str(self.data[BYTES_21[0]])
+
+    @cached_property
+    def _text1_len(self) -> int:
+        """Retorna o tamanho do campo TEXT1 que contém o ‘unit_info’ no arquivo cfg."""
+        return bin2int(self.data[BYTES_21[1]])
+
+    @cached_property
+    def unit_info(self) -> str:
+        """Retorna o campo TEXT1 que contém o ‘unit_info’ no arquivo cfg."""
+        start = BYTES_21[1].stop
+        stop = start + self._text1_len
+        return bin2str(self.data[start:stop])
+
+    @cached_property
+    def _text2_len(self) -> int:
+        """Retorna o tamanho do campo TEXT2 que contém o ‘unit_info’ no arquivo cfg."""
+        start = BYTES_21[1].stop + self._text1_len
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def method(self) -> str:
+        """Retorna o campo TEXT2 que contém o ‘method’ no arquivo cfg."""
+        start = BYTES_21[1].stop + self._text1_len + 4
+        stop = start + self._text2_len
+        return bin2str(self.data[start:stop])
+
+    @cached_property
+    def file_number(self) -> int:
+        """Return the File Number"""
+        start = BYTES_21[1].stop + self._text1_len + 4 + self._text2_len
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+# Cell
+class DType24(GetAttr):
+    """Data Type 24 – Data Thread Information"""
+
+    # The attributes which don't belong to this class are delegated to default: i.e Block
+    def __init__(self, block: NamedTuple):
+        self.default = block
+
+    @cached_property
+    def group_id(self) -> int:
+        """F0 - Número identificador do grupo. Zero significa que não faz parte de nenhum grupo"""
+        return bin2int(self.data[BYTES_24[0]])
+
+    @cached_property
+    def text_len(self) -> int:
+        """F1 - Comprimento do texto incluindo bytes nulos ao final (número inteiro de 4 bytes)."""
+        return bin2int(self.data[BYTES_24[1]])
+
+    @cached_property
+    def text(self) -> str:
+        """F2 - Texto armazenado no bloco sem os bytes nulos ao final"""
+        start = BYTES_24[1].stop
+        stop = start + self.text_len
+        return bin2str(self.data[start:stop])
+
+# Cell
+class DType40(GetAttr):
+    """Data Type 40 – GPS Data"""
+
+    def __init__(self, block: NamedTuple):
+        """This implementation substitues inheritance of the class Block by Composition
+        The attributes which belong to Block are accessed normally as if it was Inherited
+        """
+        self.default = TimedNonSpectral(block)
+
+    @cached_property
+    def _gps_date(self) -> Tuple[int, int, int, int]:
+        """F3 = (4 bytes) WALLDATE = Wall Clock Start Date of measurements"""
+        return bin2date(self.data[BYTES_40[3]])
+
+    @cached_property
+    def _gps_time(self) -> Tuple[int, int, int, int]:
+        """F4 - GPS Date. Date from GPS reading (dd/mm/yy/null)"""
+        return bin2time(self.data[BYTES_40[4]])
+
+    @cached_property
+    def gps_datetime(self) -> datetime:
+        """Returns the gps datetime constructed with `self._gps_time` and `self._gps_time`"""
+        return datetime(
+            2000 + self._gps_date[2],
+            self._gps_date[1],
+            self._gps_date[0],
+            self._gps_time[0],
+            self._gps_time[1],
+            self._gps_time[2],
+        )
+
+    @cached_property
+    def gps_status(self) -> Union[str, int]:
+        """F5 - Positional Fix and status.
+        If status=1: 0=No Fix, 1=Standard GPS, 2=Differential GPS. If status=0: set to zero.
+        """
+        return bin2int(self.data[BYTES_40[5]])
+
+    @cached_property
+    def num_satellites(self) -> int:
+        """F6 - Satellites in view. 0=bad, 1+ better"""
+        return bin2int(self.data[BYTES_40[6]])
+
+    @cached_property
+    def heading(self) -> float:
+        """F7 - Heading. Degrees * 100"""
+        return bin2int(self.data[BYTES_40[7]]) / 100
+
+    @cached_property
+    def latitude(self) -> float:
+        """F8 - Latitude = Degrees * 1000000: +ve=N, -ve=S"""
+        return bin2int(self.data[BYTES_40[8]]) / 1000000
+
+    @cached_property
+    def longitude(self) -> float:
+        """F9 - (4 bytes) Longitude = Degrees * 1000000: +ve=E, -ve=W"""
+        return bin2int(self.data[BYTES_40[9]]) / 1000000
+
+    @cached_property
+    def speed(self) -> float:
+        """F10 - (4 bytes) Speed = kph * 1000"""
+        return bin2int(self.data[BYTES_40[10]]) / 1000
+
+    @cached_property
+    def altitude(self) -> float:
+        """F11 = (4 bytes) Altitude = Metres * 1000"""
+        return bin2int(self.data[BYTES_40[11]]) / 1000
+
+# Cell
+class DType41(GetAttr):
+    """Data Type 41 – Timed Free Text Information"""
+
+    def __init__(self, block: NamedTuple):
+        """This implementation substitues inheritance of the class Block by Composition
+        The attributes which belong to Block are accessed normally as if it was Inherited
+        """
+        self.default = TimedNonSpectral(block)
+
+    @cached_property
+    def identifier(self) -> str:
+        """F3 = (32 bytes) Fixed Length Data Type Identifier, null terminated string
+        Tells the software how to deal with the free text.
+        Defined types:
+        - LOGGER_NAME: Application name
+        - LOGGER_VERSION: Application version
+        - AUDIT: Audit process output
+        - GPRS: GPRS message
+        - GSM: Cell survey information
+        - INFO: Voltages, currents and temperatures
+        - LED: LED status
+        - MASK: Mask status
+        - MESSAGE: Message text
+        - NMEA: GSM NMEA text
+        - SNMP: SNMP Message text
+        - CONF: NCPD Configuration
+        """
+        return bin2str(self.data[BYTES_41[3]])
+
+    @cached_property
+    def len_text(self) -> int:
+        """F4 - (4 bytes) NTEXT = Free Text Length. Including null termination and padding
+        (must be a whole number of 4 bytes)
+        """
+        return bin2int(self.data[BYTES_41[4]])
+
+    @cached_property
+    def text(self) -> str:
+        """F5 = (NTEXT bytes) Null terminated Free Text"""
+        return bin2str(self.data[BYTES_41[4].stop :])
+
+# Cell
+class DType42(GetAttr):
+    """Data Type 42 – Timed Free Text Information"""
+
+    def __init__(self, block: NamedTuple):
+        """This implementation substitues inheritance of the class Block by Composition
+        The attributes which belong to Block are accessed normally as if it was Inherited
+        """
+        self.default = TimedNonSpectral(block)
+
+    @cached_property
+    def group_id(self) -> int:
+        return bin2int(self.data[BYTES_42[3]])
+
+    @cached_property
+    def dynamic_id(self) -> int:
+        return bin2int(self.data[BYTES_42[4]])
+
+    @cached_property
+    def identifier(self) -> str:
+        """F5 = (32 bytes) Fixed Length Data Type Identifier, null terminated string
+        Tells the software how to deal with the free text.
+        Defined types:
+        - LOGGER_NAME: Application name
+        - LOGGER_VERSION: Application version
+        - AUDIT: Audit process output
+        - GPRS: GPRS message
+        - GSM: Cell survey information
+        - INFO: Voltages, currents and temperatures
+        - LED: LED status
+        - MASK: Mask status
+        - MESSAGE: Message text
+        - NMEA: GSM NMEA text
+        - SNMP: SNMP Message text
+        - CONF: NCPD Configuration
+        """
+        return bin2str(self.data[BYTES_42[5]])
+
+    @cached_property
+    def len_text(self) -> int:
+        """F6 - (4 bytes) NTEXT = Free Text Length. Including null termination and padding
+        (must be a whole number of 4 bytes)
+        """
+        return bin2int(self.data[BYTES_42[6]])
+
+    @cached_property
+    def text(self) -> str:
+        """F5 = (NTEXT bytes) Null terminated Free Text"""
+        return bin2str(self.data[BYTES_42[6].stop :])
+
+# Cell
+class DType51(GetAttr):
+    """Classifier Data"""
+
+    def __init__(self, block: NamedTuple) -> None:
+        self.default = DType42(block)
+
+    @cached_property
+    def desclen(self):
+        return bin2int(self.data[BYTES_51[5]])
+
+    @cached_property
+    def description(self):
+        start = BYTES_51[5].stop
+        stop = start + self.desclen
+        return bin2str(self.data[start:stop])
+
+    @cached_property
+    def center_mega(self):
+        start = BYTES_51[5].stop + self.desclen
+        stop = start + 2
+        return bin2int(self.data[start:stop], False) + self.center_mili / 1000
+
+    @cached_property
+    def center_mili(self):
+        start = BYTES_51[5].stop + self.desclen + 2
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def real_time_bw(self):
+        start = BYTES_51[5].stop + self.desclen + 6
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def sample_rate_numerator(self):
+        start = BYTES_51[5].stop + self.desclen + 10
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def sample_rate_denominator(self):
+        start = BYTES_51[5].stop + self.desclen + 14
+        stop = start + 2
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def len_text(self) -> int:
+        start = BYTES_51[5].stop + self.desclen + 16
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def text(self) -> str:
+        start = BYTES_51[5].stop + self.desclen + 20
+        stop = start + self.len_text
+        return bin2str(self.data[start:stop])
+
+    # @cached_property
+    # def align1(self):
+    #     start = BYTES_51[5].stop + self.desclen + 20 + self.len_text
+    #     stop = start + 2
+    #     return bin2dec(self.data[start:stop])
+    # @cached_property
+    # def align2(self):
+    #     start = BYTES_51[5].stop + self.desclen + 22 + self.len_text
+    #     stop = start + 1
+    #     return bin2dec(self.data[start:stop])
+    @cached_property
+    def npad(self):
+        start = BYTES_51[5].stop + self.desclen + 23 + self.len_text
+        stop = start + 1
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def npoints(self):
+        start = BYTES_51[5].stop + self.desclen + 24 + self.len_text
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def probabilites(self):
+        start = BYTES_51[5].stop + self.desclen + 28 + self.len_text
+        stop = start + self.npoints
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def padding(self):
+        start = BYTES_51[5].stop + self.desclen + 28 + self.len_text + self.npoints
+        return bin2int(self.data[start:])
+
+# Cell
+class DType63(GetAttr):
+    """Data Type 63 – Spectral Data - Frequencies and its levels
+
+    The Following attributes are delegated to the `self.default` object
+
+    F0 = (4 bytes) WALLDATE = Wall Clock Start Date of measurements
+    F1 = (4 bytes) WALLTIME = Wall Clock Start Time
+    F2 = (4u bytes) WALLNANO = Wall Clock Start Time Nanoseconds
+    F3 = (2u bytes) STARTMEGA = Start Frequency MHz
+    F4 = (4 bytes) STARTMILLI = Start Frequency mHz
+    F5 = (2u bytes) STOPMEGA = Stop Frequency MHz
+    F6 = (4 bytes) STOPMILLI = Stop Frequency mHz
+    F7 = (2u bytes) STARTCHAN = Start Channel number
+    F8 = (2u bytes) STOPCHAN = Stop Channel number
+    Total Bytes = 52 + (4 * NTUN) + NAGC + NDATA + NPAD
+    """
+
+    def __init__(self, block: NamedTuple) -> None:
+        self.default = TimedSpectral(block)
+        self.start = BYTES_63[21].stop + self.n_tunning * 4 + self.n_agc
+        self.stop = self.start + self.ndata
+        self.minimum = self.offset - 127.5
+        self._level_len = len(self.data[self.start : self.stop])
+
+    @cached_property
+    def description(self) -> str:
+        return "Peak"
+
+    @cached_property
+    def sample(self) -> int:
+        """F9 = (4 bytes) SAMPLE = Duration of sampling.Time taken by the FPGA and Radio to execute command in µs."""
+        return bin2int(self.data[BYTES_63[9]])
+
+    @cached_property
+    def num_meas(self) -> int:
+        """F10 =(4 bytes) NAMAL = Amalgamated  Results"""
+        return bin2int(self.data[BYTES_63[10]])
+
+    @cached_property
+    def antenna_id(self) -> int:
+        """F11 = (1u byte) ANTUID Antenna number [0-255]"""
+        return bin2int(self.data[BYTES_63[11]], False)
+
+    @cached_property
+    def processing(self) -> Union[str, int]:
+        """F12 = (1 byte) PROC = Processing
+        0 = single measurement,
+        1 = average,
+        2 = peak,
+        3 = minimum
+        """
+        proc = bin2int(self.data[BYTES_63[12]])
+        return DICT_PROCESSING.get(proc, proc)
+
+    @cached_property
+    def unit(self) -> Union[str, int]:
+        """F13 = (1 byte) DTYPE = Data Type. 0 = dBm, 1 = dBuV/m"""
+        unit: int = bin2int(self.data[BYTES_63[13]])
+        return DICT_UNIT.get(unit, unit)
+
+    @cached_property
+    def offset(self) -> int:
+        """F14 = (1 byte) OFFSET = Data level offset in DTYPE units 2’s Complement, range [-128, 127]."""
+        return bin2int(self.data[BYTES_63[14]])
+
+    @cached_property
+    def gerror(self) -> int:
+        """F15 = (1 byte) GERROR = Global Error Code. Radio or processing global error code"""
+        return bin2int(self.data[BYTES_63[15]])
+
+    @cached_property
+    def gflags(self) -> int:
+        """F16 - Códigos de alertas globais ou de processamento do radio."""
+        return bin2int(self.data[BYTES_63[16]])
+
+    @cached_property
+    def group_id(self) -> int:
+        """F17 - O ID do grupo à qual a medida pertence.0 caso não pertença a nenhum grupo."""
+        return bin2int(self.data[BYTES_63[17]])
+
+    @cached_property
+    def n_tunning(self) -> int:
+        """F18 - 0 ou igual à quantidade de valores de AGC usados na amostra"""
+        return bin2int(self.data[BYTES_63[18]])
+
+    @cached_property
+    def n_agc(self) -> int:
+        """F19 - 0 ou igual à quantidade de valores de "tunings" usados na amostra"""
+        return bin2int(self.data[BYTES_63[19]])
+
+    @cached_property
+    def npad(self) -> int:
+        """F20 - Valor que varia de 0 a 3 indicando o preenchimento nulo para manter o tamanho do bloco (em bytes) fixo"""
+        return bin2int(self.data[BYTES_63[20]])
+
+    @cached_property
+    def ndata(self) -> int:
+        """F21 - O número de canais (ou "steps") que dividem igualmente a largura de banda"""
+        return bin2int(self.data[BYTES_63[21]])
+
+    @cached_property
+    def frequencies(self) -> np.array:
+        """Retorna um numpy array com a faixa de frequências presentes no bloco"""
+        #         return self.start_mega + np.arange(self.ndata) * self.step
+#        byte_data = self.data[self.start : self.stop]
+#        count = min(len(byte_data), self.ndata)
+        return np.linspace(self.start_mega, self.stop_mega, num=self.ndata)
+
+    @cached_property
+    def bw(self) -> int:
+        """Retorna o RBW calculado a partir de STARTMEGA, STOPMEGA e NDATA."""
+        return int((self.stop_mega - self.start_mega) * 1000 / (self.ndata - 1))
+
+    @cached_property
+    def tunning_info(self) -> Tuple:
+        """F22 - Informações do 'tunning'. One Block per tunning(1 or 10MHz)"""
+        start = BYTES_63[21].stop
+        stop = start + (4 * self.n_tunning)
+        return tuple(
+            f"{bin2int(self.data[i:i+2])}MHz-{TUNING_BLOCK.get(self.data[i+3], 0)}"
+            for i in range(start, stop, 4)
+        )
+
+    @cached_property
+    def agc_array(self) -> np.array:
+        """F23 - Array com AGC - Automatic Gain Control as dB in single unsigned byte: 0...63"""
+        start = BYTES_63[21].stop + (self.n_tunning * 4)
+        stop = start + self.n_agc
+        return np.frombuffer(self.data[start:stop], np.uint8)
+
+    @cached_property
+    def raw_data(self) -> np.array:
+        byte_data = self.data[self.start : self.stop]
+        count = min(len(byte_data), self.ndata)
+        return np.frombuffer(
+            byte_data,
+            dtype=np.uint8,
+            count=count,
+        )
+
+    @cached_property
+    def block_data(self) -> np.array:
+        return (self.raw_data / 2) + self.minimum
+
+    def __getitem__(self, i):
+        """Return a tuple with frequency, spectrum_data"""
+        return self.frequencies[i], self.block_data[i]
+
+    def __len__(self):
+        return int(self.ndata)
+
+    def __iter__(self):
+        return iter(self[i] for i in range(len(self)))
+
+# Cell
+class DType64(GetAttr):
+    """This is very similar to type 63, with the addition of threshold power level and number of points before compression,
+    and obviously a compressed spectrum vector replacing the uncompressed
+
+    Fields 0 to 21 are the same from `DType63` and are delegated to this class
+    """
+
+    def __init__(self, block: NamedTuple) -> None:
+        self.default = DType63(block)
+        self.minimum = self.offset - 127.5
+        self.start = BYTES_63[21].stop + 8 + (self.n_tunning * 4) + self.n_agc
+        self.stop = self.start + self.ndata
+        self._level_len = len(self.data[self.start : self.stop])
+
+    @cached_property
+    def thresh(self):
+        """F22 - THRESH = Threshold Level in dB All data below this level will be run length encoded"""
+        start = BYTES_63[21].stop
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def norig(self):
+        """F23 - NORIG = Number of original data points4 Before compression"""
+        start = BYTES_63[21].stop + 4
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def tunning_info(self) -> Tuple:
+        """F24 - Informações do 'tunning'. One Block per tunning(1 or 10MHz)"""
+        start = BYTES_63[21].stop + 8
+        stop = start + (4 * self.n_tunning)
+        return tuple(
+            f"{bin2int(self.data[i:i+2])}MHz-{TUNING_BLOCK.get(self.data[i+3], 0)}"
+            for i in range(start, stop, 4)
+        )
+
+    @cached_property
+    def agc_array(self) -> bytes:
+        """F23 - Array com AGC - Automatic Gain Control as dB in single unsigned byte: 0...63"""
+        start = BYTES_63[21].stop + 8 + (self.n_tunning * 4)
+        stop = start + (self.n_agc)
+        return np.fromiter(self.data[start:stop], np.uint8)
+        # return '-'.join(L(self.data[start:stop]).map(str))
+
+    @cached_property
+    def raw_data(self) -> np.array:
+        """Spectrum Data in 'dB' with 0.5 dBm interval"""
+        return self.data[self.start : self.stop]
+
+    @cached_property
+    def padding(self):
+        start = BYTES_63[21].stop + 8 + (self.n_tunning * 4) + self.n_agc + self.ndata
+        return bin2int(self.data[start:])
+
+    def __getitem__(self, i):
+        """Return a tuple with frequency, spectrum_data"""
+        return self.frequencies[i], self.block_data[i]
+
+    def __len__(self):
+        return int(self.data_points)
+
+    def __iter__(self):
+        return iter(self[i] for i in range(len(self)))
+
+# Cell
+class DType65(GetAttr):
+    """
+     O Bloco do tipo 65 carrega dados de Taxa de Ocupação Espectral por Canal de Frequência (ITU-R SM.1880).
+
+     O tamanho total em bytes é (48 + NDATA + NPAD)
+
+     F0 a F16 e F19 já inicializados na classe TimedBlock.
+
+    *F0 = (4 bytes) WALLDATE = Wall Clock Start Date of measurements
+    *F1 = (4 bytes) WALLTIME = Wall Clock Start Time
+    *F2 = (4u bytes) WALLNANO = Wall Clock Start Time Nanoseconds
+    *F3 = (2u bytes) STARTMEGA = Start Frequency MHz
+    *F4 = (4 bytes) STARTMILLI = Start Frequency mHz
+    *F5 = (2u bytes) STOPMEGA = Stop Frequency MHz
+    *F6 = (4 bytes) STOPMILLI = Stop Frequency mHz
+    *F7 = (2u bytes) STARTCHAN = Start Channel number
+    *F8 = (2u bytes) STOPCHAN = Stop Channel number
+     F9 = (4 bytes) NAMAL = Amalgamated Results
+                     i.e. ‘number of loops’. Equal to 1 if single measurement.
+     F10 = (1u bytes) ANTUID Antenna number [ 0- 255]
+     F11 = (1 byte) PROC = Processing
+                     0 = single measurement,
+                     1 = average,
+                     2 = peak,
+                     3 = minimum
+     F12 = (2 bytes) DTYPE = Data Type
+                     1 = dBm,
+                     2 = dBuV/m
+     F13 = (1 byte) GERROR = Global Error Code. Radio or processing global error code
+     F14 = (1 byte) GFLAGS = Global clipping flags etc. Radio or processing global flags:
+     F15 = (1 bytes) GROUPID = ID used to group sets of data
+                     0 = not a member of a group
+     F16 = (1 byte) NPAD = Number of bytes of padding. 0-3
+     F17 = (2 bytes) THRESH = Threshold Level in DTYPE
+     F18 = (2 bytes) DURATION = Duration of sampling. In seconds  (i.e. 300, 900, 1800, 2600)
+     F19 = (4 bytes) NDATA = Number of single byte data points.
+                     Number of equal width channels dividing the reported frequency width
+     F20 = (NDATAu bytes) Array of data points.
+                     Each data point is stored as a single byte number
+                     representing  the percentage (0..100 % in 0.5 steps)
+     F21 = (NPAD bytes) Padding. As \0 bytes
+    """
+
+    def __init__(self, block: NamedTuple) -> None:
+        self.default = TimedSpectral(block)
+        self.start = BYTES_65[19].stop
+        self.stop = self.start + self.ndata
+        self._level_len = len(self.data[self.start : self.stop])
+
+    @cached_property
+    def namal(self) -> int:
+        """F9 = (4 bytes) NAMAL = Amalgamated Results
+        i.e. ‘number of loops’. Equal to 1 if single measurement.
+        """
+        return bin2int(self.data[BYTES_65[9]])
+
+    @cached_property
+    def antenna(self) -> int:
+        """F10 = (1u bytes) ANTUID Antenna number [ 0- 255]"""
+        return bin2int(self.data[BYTES_65[10]], False)
+
+    @cached_property
+    def processing(self) -> Union[str, int]:
+        """F11 = (1 byte) PROC = Processing, 0 = single measurement, 1 = average, 2 = peak, 3 = minimum"""
+        proc = bin2int(self.data[BYTES_65[11]])
+        return DICT_PROCESSING.get(proc, proc)
+
+    @cached_property
+    def unit(self) -> Union[str, int]:
+        """F12 = (1 byte) DTYPE = Data Type. 0 = % (undocumented), 1 = dBm, 2 = dBuV/m"""
+        unit = bin2int(self.data[BYTES_65[12]])
+        return DICT_UNIT.get(unit, unit)
+
+    @cached_property
+    def gerror(self) -> int:
+        """F13 = (1 byte) GERROR = Global Error Code.Radio or processing global error code"""
+        return bin2int(self.data[BYTES_65[13]])
+
+    @cached_property
+    def gflags(self) -> int:
+        """F14 = (1 byte) GFLAGS = Global clipping flags etc.Radio or processing global flags."""
+        return bin2int(self.data[BYTES_65[14]])
+
+    @cached_property
+    def group_id(self) -> int:
+        """F15 = (1 bytes) GROUPID = ID used to group sets of data. 0 = not a member of a group"""
+        return bin2int(self.data[BYTES_65[15]])
+
+    @cached_property
+    def npad(self) -> int:
+        """F16 = (1 byte) NPAD = Number of bytes of padding. 0-3 (NPAD bytes) Padding = As \0 bytes"""
+        return bin2int(self.data[BYTES_65[16]])
+
+    @cached_property
+    def threshold(self) -> int:
+        """F17 = (2 bytes) THRESH = Threshold Level in DTYPE"""
+        return bin2int(self.data[BYTES_65[17]])
+
+    @cached_property
+    def duration_seconds(self) -> int:
+        """F18 = (2 bytes) DURATION = Duration of sampling. In seconds (i.e. 300, 900, 1800, 2600)"""
+        return bin2int(self.data[BYTES_65[18]])
+
+    @cached_property
+    def ndata(self) -> int:
+        """F19 = (4 bytes) NDATA = Number of single byte data points.
+        Number of equal width channels dividing the reported frequency width
+        """
+        return bin2int(self.data[BYTES_65[19]])
+
+    def block_data(self) -> np.array:
+        """
+        self > -> List[float]
+        :return: A lista de todas as medidas de ocupação do bloco em '%'.
+
+        F20 = (NDATAu bytes) Array of data points.
+                    Each data point is stored as a single byte number
+                    representing  the percentage (0..100 % in 0.5 steps)
+        """
+        return (
+            np.frombuffer(
+                self.data[self.start : self.stop], dtype=np.uint8, count=self.ndata
+            )
+            / 2
+        ).astype(np.float16)
+
+# Cell
+class DType66(GetAttr):
+    """Data Type 66 – 16 bit IQ Data"""
+
+    def __init__(self, block: NamedTuple):
+        """This implementation substitues inheritance of the class Block by Composition
+        The attributes which belong to Block are accessed normally as if it was Inherited
+        """
+        self.default = TimedVersion5(block)
+
+    @cached_property
+    def description(self) -> str:
+        start = BYTES_V5[5].stop
+        stop = start + self.desclen
+        return bin2str(self.data[start:stop])
+
+    @cached_property
+    def center_mega(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen
+        stop = start + 2
+        return bin2int(self.data[start:stop], False) + self.center_mili / 1000
+
+    @cached_property
+    def center_mili(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 2
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def real_time_bw(self):
+        start = BYTES_V5[5].stop + self.desclen + 6
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def sample_rate_numerator(self):
+        start = BYTES_V5[5].stop + self.desclen + 10
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def sample_rate_denominator(self):
+        start = BYTES_V5[5].stop + self.desclen + 14
+        stop = start + 2
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def antenna_id(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 16
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def n_gain(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 20
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def gain_array(self) -> np.array:
+        start = BYTES_V5[5].stop + self.desclen + 24
+        stop = start + self.n_gain
+        return np.fromiter(self.data[start:stop], dtype=np.int32)
+
+    @cached_property
+    def n_iqpairs(self) -> np.array:
+        start = BYTES_V5[5].stop + self.desclen + 24 + self.n_gain
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def array_iq(self) -> np.array:
+        start = BYTES_V5[5].stop + self.desclen + 28 + self.n_gain
+        stop = start + self.n_iqpairs
+        return np.fromiter(self.data[start:stop], dtype=np.int32, count=stop - start)
+
+# Cell
+class DType67(GetAttr):
+    """Data Type 67 – Spectral Data"""
+
+    def __init__(self, block: NamedTuple):
+        """This implementation substitues inheritance of the class Block by Composition
+        The attributes which belong to Block are accessed normally as if it was Inherited
+        """
+        self.default = TimedVersion5(block)
+        self.start = (
+            BYTES_V5[5].stop + self.desclen + 44 + 4 * self.n_tunning + self.n_agc
+        )
+        self.stop = self.start + self.ndata
+        self.minimum = self.offset - 127.5
+        self._level_len = len(self.data[self.start : self.stop])
+
+    @cached_property
+    def description(self) -> str:
+        start = BYTES_V5[5].stop
+        stop = start + self.desclen
+        return bin2str(self.data[start:stop])
+
+    @cached_property
+    def start_mega(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen
+        stop = start + 2
+        return bin2int(self.data[start:stop], False) + self.start_mili / 1000
+
+    @cached_property
+    def start_mili(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 2
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def stop_mega(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 6
+        stop = start + 2
+        return bin2int(self.data[start:stop], False) + self.stop_mili / 1000
+
+    @cached_property
+    def stop_mili(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 8
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def bw(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 12
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def start_channel(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 16
+        stop = start + 2
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def stop_channel(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 18
+        stop = start + 2
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def sample(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 20
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def namal(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 24
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def antenna_id(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 28
+        stop = start + 1
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def processing(self) -> Union[str, int]:
+        start = BYTES_V5[5].stop + self.desclen + 29
+        stop = start + 1
+        proc = bin2int(self.data[start:stop])
+        return DICT_PROCESSING.get(proc, proc)
+
+    @cached_property
+    def unit(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 30
+        stop = start + 1
+        unit = bin2int(self.data[start:stop])
+        return DICT_UNIT.get(unit, unit)
+
+    @cached_property
+    def offset(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 31
+        stop = start + 1
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def gerror(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 32
+        stop = start + 1
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def gflags(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 33
+        stop = start + 1
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def n_tunning(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 35  # + 1 for ignored alignment
+        stop = start + 2
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def n_agc(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 37
+        stop = start + 2
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def npad(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 39
+        stop = start + 1
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def ndata(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 40
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def tunning_info(self) -> tuple:
+        start = BYTES_V5[5].stop + self.desclen + 44
+        stop = start + 4 * self.n_tunning
+        return tuple(
+            f"{bin2int(self.data[i:i+2])}MHz-{TUNING_BLOCK.get(self.data[i+3], 0)}"
+            for i in range(start, stop, 4)
+        )
+
+    @cached_property
+    def agc_array(self) -> np.array:
+        start = BYTES_V5[5].stop + self.desclen + 44 + 4 * self.n_tunning
+        stop = start + self.n_agc
+        return np.frombuffer(self.data[start:stop], np.uint8)
+
+    @cached_property
+    def raw_data(self) -> np.array:
+        byte_data = self.data[self.start : self.stop]
+        count = min(len(byte_data), self.ndata)
+        return np.frombuffer(
+            byte_data,
+            dtype=np.uint8,
+            count=count,
+        )
+
+    @cached_property
+    def block_data(self) -> np.array:
+        return (self.raw_data / 2) + self.minimum
+
+    @cached_property
+    def padding(self) -> int:
+        start = self.stop
+        stop = start + self.npad
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def frequencies(self) -> np.array:
+        """Retorna um numpy array com a faixa de frequências presentes no bloco"""
+        #         return self.start_mega + np.arange(self.ndata) * self.step
+        byte_data = self.data[self.start : self.stop]
+        count = min(len(byte_data), self.ndata)
+        return np.linspace(self.start_mega, self.stop_mega, num=count)
+
+# Cell
+class DType68(GetAttr):
+    """Data Type 68 – Threshold Compressed Data"""
+
+    def __init__(self, block: NamedTuple):
+        """This implementation substitues inheritance of the class Block by Composition
+        The attributes which belong to Block are accessed normally as if it was Inherited
+        """
+        self.default = DType67(block)
+        self.start = 76 + self.desclen + 4 * self.n_tunning + self.n_agc
+        self.stop = self.start + self.norig
+        self._level_len = len(self.data[self.start : self.stop])
+        self._ndata = self.ndata
+
+    @cached_property
+    def thresh(self) -> int:
+        """THRESH = Threshold Level in dB. All data below this level will be run length encoded"""
+        start = 68 + self.desclen
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def norig(self) -> int:
+        """NORIG = Number of original data points. Before compression"""
+        start = 72 + self.desclen
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def tunning_info(self) -> tuple:
+        start = 76 + self.desclen
+        stop = start + 4 * self.n_tunning
+        return tuple(
+            f"{bin2int(self.data[i:i+2])}MHz-{TUNING_BLOCK.get(self.data[i+3], 0)}"
+            for i in range(start, stop, 4)
+        )
+
+    @cached_property
+    def agc_array(self) -> np.array:
+        start = 76 + self.desclen + 4 * self.n_tunning
+        stop = start + self.n_agc
+        return np.fromiter(self.data[start:stop], np.uint8, count=stop - start)
+
+    @cached_property
+    def raw_data(self) -> np.array:
+        return self.data[self.start : self.stop]
+
+    @cached_property
+    def padding(self) -> int:
+        start = 76 + self.desclen + 4 * self.n_tunning + self.n_agc + self._ndata
+        stop = start + self.npad
+        return bin2int(self.data[start:stop])
+
+# Cell
+class DType69(GetAttr):
+    """Data Type 69 – Frequency Channel Occupancy (ITU-R SM.1880)"""
+
+    def __init__(self, block: NamedTuple):
+        """This implementation substitues inheritance of the class Block by Composition
+        The attributes which belong to Block are accessed normally as if it was Inherited
+        """
+        self.default = TimedVersion5(block)
+        self.start = BYTES_V5[5].stop + self.desclen + 38
+        self.stop = self.start + self.ndata
+        self._level_len = len(self.data[self.start : self.stop])
+
+    @cached_property
+    def description(self) -> str:
+        start = BYTES_V5[5].stop
+        stop = start + self.desclen
+        return bin2str(self.data[start:stop])
+
+    @cached_property
+    def start_mega(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen
+        stop = start + 2
+        return bin2int(self.data[start:stop], False)
+
+    @cached_property
+    def start_mili(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 2
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def stop_mega(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 6
+        stop = start + 2
+        return bin2int(self.data[start:stop], False)
+
+    @cached_property
+    def stop_mili(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 8
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def resolution_bw(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 12
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def start_channel(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 16
+        stop = start + 2
+        return bin2int(self.data[start:stop], False)
+
+    @cached_property
+    def stop_channel(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 18
+        stop = start + 2
+        return bin2int(self.data[start:stop], False)
+
+    @cached_property
+    def namal(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 20
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def antenna_id(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 24
+        stop = start + 1
+        return bin2int(self.data[start:stop], False)
+
+    @cached_property
+    def processing(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 25
+        stop = start + 1
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def unit(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 26
+        stop = start + 1
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def gerror(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 27
+        stop = start + 1
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def gflags(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 28
+        stop = start + 1
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def npad(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 30  # added 1 because of alignment
+        stop = start + 1
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def thresh(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 31
+        stop = start + 2
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def duration(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 32
+        stop = start + 2
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def ndata(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 34
+        stop = start + 4
+        return bin2int(self.data[start:stop])
+
+    @cached_property
+    def raw_data(self) -> np.array:
+        byte_data = self.data[self.start : self.stop]
+        count = min(len(byte_data), self.ndata)
+        return np.frombuffer(
+            byte_data,
+            dtype=np.uint8,
+            count=count,
+        )
+
+    @cached_property
+    def block_data(self) -> np.array:
+        return (self.raw_data / 2 + self.minimum).astype(np.float16)
+
+    @cached_property
+    def padding(self) -> int:
+        start = BYTES_V5[5].stop + self.desclen + 38 + self.ndata
+        stop = start + self.npad
+        return bin2int(self.data[start:stop])
+
+# Cell
+MAIN_BLOCKS = {
+    6: DType6,
+    21: DType21,
+    24: DType24,
+    40: DType40,
+    41: DType41,
+    42: DType42,
+    51: DType51,
+    63: DType63,
+    64: DType64,
+    65: DType65,
+    66: DType66,
+    67: DType67,
+    68: DType68,
+    69: DType69,
+}
+
+
+def block_constructor(btype, bloco):
+    return MAIN_BLOCKS.get(btype)(bloco)
 
 # Cell
 import platform
