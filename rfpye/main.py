@@ -81,9 +81,10 @@ def filter_spectrum(
     except pd.errors.KeyError:
         if not isinstance(df.index, pd.DatetimeIndex):
             log.warning(
-                f"Não foi passado uma coluna ou índice com datetime a ser filtrado, todas as linhas serão processadas",
+                'Não foi passado uma coluna ou índice com datetime a ser filtrado, todas as linhas serão processadas',
                 exc_info=True,
             )
+
             time_start = 0
             time_stop = df.shape[0]
 
@@ -346,18 +347,20 @@ def extract_bin_data(
         )
         return
 
-    output = dict()
+    output = {}
     for file in lista_bins:
         console.print(f"[green]Processando Blocos de: [red]{file.name}")
         parsed_bin = parse_bin(file, btypes=BTYPES)
         file_version, blocks = parsed_bin.values()
         metadata = export_metadata(blocks, filter_attrs=FILTER_ATTRS)
-        out = dict()
-        out['File_Name'] = file.name
-        out['File_Version'] = file_version
-        out['File_Type'] = 'RFEye Logger Trace'
-        out['Device'] = 'Rfeye Node'
-        out['Fluxos'] = dict()
+        out = {
+            'File_Name': file.name,
+            'File_Version': file_version,
+            'File_Type': 'RFEye Logger Trace',
+            'Device': 'Rfeye Node',
+            'Fluxos': {},
+        }
+
         for (btype, tid), df in metadata.items():
             if btype == 21:
                 out['Equipment_ID'] = df.hostname.item()
@@ -371,8 +374,7 @@ def extract_bin_data(
                 out['Sum_Longitude'] = df.longitude.sum()
             elif btype in SPECTRAL_BLOCKS:
                 timestamp = df.index.values
-                level = dict()
-                level['Initial_Time'] = timestamp.min()
+                level = {'Initial_Time': timestamp.min()}
                 level['Sample_Duration'] = df['sample'].median()
                 fluxo = df.drop(['minimum', 'sample'], axis=1).iloc[0]
                 level['Description'] = fluxo.description
