@@ -49,9 +49,10 @@ def filter_spectrum(
     except pd.errors.KeyError:
         if not isinstance(df.index, pd.DatetimeIndex):
             log.warning(
-                f"Não foi passado uma coluna ou índice com datetime a ser filtrado, todas as linhas serão processadas",
+                'Não foi passado uma coluna ou índice com datetime a ser filtrado, todas as linhas serão processadas',
                 exc_info=True,
             )
+
             time_start = 0
             time_stop = df.shape[0]
 
@@ -295,9 +296,10 @@ def extract_bin_stats(
     out = pd.DataFrame(columns=columns)
     if not spectra:
         log.warning(
-            f"Os parâmetros repassados não correspondem a nenhum dado espectral do arquivo",
+            'Os parâmetros repassados não correspondem a nenhum dado espectral do arquivo',
             exc_info=True,
         )
+
         return out
     for i, df in spectra:
         df["Tid"] = i
@@ -373,9 +375,10 @@ def filter_spectrum(
     except pd.errors.KeyError:
         if not isinstance(df.index, pd.DatetimeIndex):
             log.warning(
-                f"Não foi passado uma coluna ou índice com datetime a ser filtrado, todas as linhas serão processadas",
+                'Não foi passado uma coluna ou índice com datetime a ser filtrado, todas as linhas serão processadas',
                 exc_info=True,
             )
+
             time_start = 0
             time_stop = df.shape[0]
 
@@ -619,9 +622,10 @@ def extract_bin_stats(
     out = pd.DataFrame(columns=columns)
     if not spectra:
         log.warning(
-            f"Os parâmetros repassados não correspondem a nenhum dado espectral do arquivo",
+            'Os parâmetros repassados não correspondem a nenhum dado espectral do arquivo',
             exc_info=True,
         )
+
         return out
     for i, df in spectra:
         df["Tid"] = i

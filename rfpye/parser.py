@@ -90,9 +90,8 @@ def classify_blocks(
             if gerror != -1:
                 continue
 #                index = stop + LEN_MARKER
-        if btype == GPS_BLOCK:
-            if not getattr(bloco, "gps_status"):
-                continue  # equals to zero
+        if btype == GPS_BLOCK and not getattr(bloco, "gps_status"):
+            continue  # equals to zero
 
         map_block[(btype, btid)].append(bloco)
 #         index = stop + LEN_MARKER
@@ -113,27 +112,29 @@ def extract_level(spectrum_blocks: L, dtype=np.float32) -> pd.DataFrame:
     """Receives a mapping `spectrum_blocks` and returns the Matrix with the Levels as values, Frequencies as columns and Block Number as index.
     :param pivoted: If False, optionally returns an unpivoted version of the Matrix
     """
-    assert len(spectrum_blocks), f"The spectrum block list is empty"
+    assert len(spectrum_blocks), 'The spectrum block list is empty'
 #     spectrum_blocks = spectrum_blocks.itemgot(1)
     block = spectrum_blocks[0]
-    assert block.type in (63, 64, 67, 68), f"The input blocks are not spectral blocks"
+    assert block.type in (
+        63,
+        64,
+        67,
+        68,
+    ), 'The input blocks are not spectral blocks'
+
     rows = len(spectrum_blocks)
     cols = min(len(block.data[block.start:block.stop]), block.ndata)
-    if dtype == np.uint8:
-        min_level = 0
-    else:
-        min_level = block.offset - 127.5
+    min_level = 0 if dtype == np.uint8 else block.offset - 127.5
     if block.type in (63, 67):
 #         frequencies = getattr(block, "frequencies")
         return _extract_uncompressed(spectrum_blocks, rows, cols, min_level, dtype)
-    else:
-        thresh = block.thresh - 1
-        block_data = [b.raw_data for b in spectrum_blocks]
+    thresh = block.thresh - 1
+    block_data = [b.raw_data for b in spectrum_blocks]
 #         frequencies = np.linspace(block.start_mega, block.stop_mega, num=cols)
-        levels = cy_extract_compressed(block_data, rows, cols, thresh, min_level)
-        if dtype != np.float32:
-            levels = levels.astype(dtype)
-        return levels
+    levels = cy_extract_compressed(block_data, rows, cols, thresh, min_level)
+    if dtype != np.float32:
+        levels = levels.astype(dtype)
+    return levels
 
 # Internal Cell
 def meta2df(meta_list: Iterable, optimize: bool = True) -> pd.DataFrame:
@@ -157,8 +158,7 @@ def rowattrs(row, attrs):
 def meta_from_blocks(blocks: L, attrs: list = None) -> pd.DataFrame:
     """Receives a list of blocks, extracts the metadata from them and return a DataFrame"""
     func = partialler(getattrs, attrs=attrs)
-    df = meta2df(blocks.map(func))
-    return df
+    return meta2df(blocks.map(func))
 
 # Internal Cell
 def _extract_metadata(
@@ -312,9 +312,8 @@ def classify_blocks(
             if gerror != -1:
                 continue
 #                index = stop + LEN_MARKER
-        if btype == GPS_BLOCK:
-            if not getattr(bloco, "gps_status"):
-                continue  # equals to zero
+        if btype == GPS_BLOCK and not getattr(bloco, "gps_status"):
+            continue  # equals to zero
 
         map_block[(btype, btid)].append(bloco)
 #         index = stop + LEN_MARKER
@@ -335,27 +334,29 @@ def extract_level(spectrum_blocks: L, dtype=np.float32) -> pd.DataFrame:
     """Receives a mapping `spectrum_blocks` and returns the Matrix with the Levels as values, Frequencies as columns and Block Number as index.
     :param pivoted: If False, optionally returns an unpivoted version of the Matrix
     """
-    assert len(spectrum_blocks), f"The spectrum block list is empty"
+    assert len(spectrum_blocks), 'The spectrum block list is empty'
 #     spectrum_blocks = spectrum_blocks.itemgot(1)
     block = spectrum_blocks[0]
-    assert block.type in (63, 64, 67, 68), f"The input blocks are not spectral blocks"
+    assert block.type in (
+        63,
+        64,
+        67,
+        68,
+    ), 'The input blocks are not spectral blocks'
+
     rows = len(spectrum_blocks)
     cols = min(len(block.data[block.start:block.stop]), block.ndata)
-    if dtype == np.uint8:
-        min_level = 0
-    else:
-        min_level = block.offset - 127.5
+    min_level = 0 if dtype == np.uint8 else block.offset - 127.5
     if block.type in (63, 67):
 #         frequencies = getattr(block, "frequencies")
         return _extract_uncompressed(spectrum_blocks, rows, cols, min_level, dtype)
-    else:
-        thresh = block.thresh - 1
-        block_data = [b.raw_data for b in spectrum_blocks]
+    thresh = block.thresh - 1
+    block_data = [b.raw_data for b in spectrum_blocks]
 #         frequencies = np.linspace(block.start_mega, block.stop_mega, num=cols)
-        levels = cy_extract_compressed(block_data, rows, cols, thresh, min_level)
-        if dtype != np.float32:
-            levels = levels.astype(dtype)
-        return levels
+    levels = cy_extract_compressed(block_data, rows, cols, thresh, min_level)
+    if dtype != np.float32:
+        levels = levels.astype(dtype)
+    return levels
 
 # Internal Cell
 def meta2df(meta_list: Iterable, optimize: bool = True) -> pd.DataFrame:
@@ -379,8 +380,7 @@ def rowattrs(row, attrs):
 def meta_from_blocks(blocks: L, attrs: list = None) -> pd.DataFrame:
     """Receives a list of blocks, extracts the metadata from them and return a DataFrame"""
     func = partialler(getattrs, attrs=attrs)
-    df = meta2df(blocks.map(func))
-    return df
+    return meta2df(blocks.map(func))
 
 # Internal Cell
 def _extract_metadata(
