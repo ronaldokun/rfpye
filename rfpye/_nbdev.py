@@ -4,8 +4,8 @@ __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
 index = {"config": "01_parser.ipynb",
          "parse_bin": "01_parser.ipynb",
-         "evaluate_checksum": "01_parser.ipynb",
          "BaseBlock": "01_parser.ipynb",
+         "evaluate_checksum": "01_parser.ipynb",
          "byte2base_block": "01_parser.ipynb",
          "create_block": "01_parser.ipynb",
          "keys_from_blocks": "01_parser.ipynb",

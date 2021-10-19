@@ -408,6 +408,13 @@ Ignora o final do dado binario (' ') que é usado apenas para manter o tamanho d
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Extra&#231;&#227;o-de-Atributos-dos-objetos.">Extra&#231;&#227;o de Atributos dos objetos.<a class="anchor-link" href="#Extra&#231;&#227;o-de-Atributos-dos-objetos."> </a></h2><p>A função <a href="/rfpyeutils.html#getattrs"><code>getattrs</code></a> é uma abstração simples para extração de atributos de diferentes objetos, no entanto é amplamente utilizada ao longo das funções e métodos dos módulos.</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -446,6 +453,7 @@ Ignora o final do dado binario (' ') que é usado apenas para manter o tamanho d
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="getattrs" class="doc_header"><code>getattrs</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L159" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>getattrs</code>(<strong><code>obj</code></strong>:<code>Any</code>, <strong><code>attrs</code></strong>:<code>Iterable</code>[<code>T_co</code>]=<em><code>None</code></em>)</p>
 </blockquote>
+<p>Receives an object and return the atributes listed in <code>attrs</code>, if attrs is None return the its public attributes</p>
 
 </div>
 
@@ -464,6 +472,13 @@ Ignora o final do dado binario (' ') que é usado apenas para manter o tamanho d
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Cache-(-Memoization-)-das-propriedades-dos-objetos.">Cache ( Memoization ) das propriedades dos objetos.<a class="anchor-link" href="#Cache-(-Memoization-)-das-propriedades-dos-objetos."> </a></h2><p>A função seguinte retorna um decorador de funções ou métodos que realiza o cache dos atributos, como vários dos métodos realizam processamento pesado é imprescindível o uso do cache.</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -475,7 +490,7 @@ Ignora o final do dado binario (' ') que é usado apenas para manter o tamanho d
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="cached_property" class="doc_header"><code>cached_property</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L165" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>cached_property</code>(<strong><code>f</code></strong>)</p>
+<h4 id="cached_property" class="doc_header"><code>cached_property</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L166" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>cached_property</code>(<strong><code>f</code></strong>)</p>
 </blockquote>
 
 </div>
