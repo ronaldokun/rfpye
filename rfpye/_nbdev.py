@@ -44,13 +44,8 @@ index = {"config": "01_parser.ipynb",
          "DType68": "03_blocks.ipynb",
          "DType69": "03_blocks.ipynb",
          "MAIN_BLOCKS": "03_blocks.ipynb",
-         "custom_theme": "04_constants.ipynb",
-         "console": "04_constants.ipynb",
          "BYTES_HEADER": "04_constants.ipynb",
-         "DATA_BLOCK_HEADER": "04_constants.ipynb",
-         "CHECKSUM": "04_constants.ipynb",
          "ENDMARKER": "04_constants.ipynb",
-         "LEN_MARKER": "04_constants.ipynb",
          "EXCLUDE_ATTRS": "04_constants.ipynb",
          "DICT_PROCESSING": "04_constants.ipynb",
          "DICT_UNIT": "04_constants.ipynb",
@@ -72,26 +67,17 @@ index = {"config": "01_parser.ipynb",
          "BYTES_66": "04_constants.ipynb",
          "BYTES_67": "04_constants.ipynb",
          "KEY_ATTRS": "04_constants.ipynb",
-         "META": "04_constants.ipynb",
-         "LEVELS": "04_constants.ipynb",
-         "BLOCK_SIZE": "04_constants.ipynb",
          "TIMED_BLOCKS": "04_constants.ipynb",
          "SPECTRAL_BLOCKS": "04_constants.ipynb",
          "UNCOMPRESSED": "04_constants.ipynb",
          "COMPRESSED": "04_constants.ipynb",
          "GPS_BLOCK": "04_constants.ipynb",
-         "BLOCK_ATTRS": "04_constants.ipynb",
-         "filter_spectrum": "05_stats.ipynb",
-         "read_meta": "05_stats.ipynb",
-         "process_bin": "05_stats.ipynb",
-         "extract_bin_stats": "05_stats.ipynb",
-         "appended_mean": "05_stats.ipynb"}
+         "BLOCK_ATTRS": "04_constants.ipynb"}
 
 modules = ["parser.py",
            "utils.py",
            "blocks.py",
-           "constants.py",
-           "stats.py"]
+           "constants.py"]
 
 doc_url = "https://ronaldokun.github.io/rfpye"
 

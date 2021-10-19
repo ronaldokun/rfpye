@@ -6,8 +6,8 @@ title: Parser
 keywords: fastai
 sidebar: home_sidebar
 
-summary: "Este módulo lida com o processamento e análise dos metadados e dados do espectro dos blocos"
-description: "Este módulo lida com o processamento e análise dos metadados e dados do espectro dos blocos"
+summary: "Este módulo processa o arquivo bin e extrai os metadados e dados do espectro dos blocos, além de criar estatísticas das medições."
+description: "Este módulo processa o arquivo bin e extrai os metadados e dados do espectro dos blocos, além de criar estatísticas das medições."
 nb_path: "nbs\01_parser.ipynb"
 ---
 <!--
@@ -34,8 +34,8 @@ nb_path: "nbs\01_parser.ipynb"
 <h2 id="Processamento-do-Arquivo-.bin-e-cria&#231;&#227;o-dos-diferentes-tipos-de-blocos">Processamento do Arquivo <code>.bin</code> e cria&#231;&#227;o dos diferentes tipos de blocos<a class="anchor-link" href="#Processamento-do-Arquivo-.bin-e-cria&#231;&#227;o-dos-diferentes-tipos-de-blocos"> </a></h2><p>A função seguinte <a href="/rfpyeparser.html#parse_bin"><code>parse_bin</code></a> recebe um arquivo <code>.bin</code> e mapeia os blocos contidos nele retornando um dicionário:</p>
 <ul>
 <li><code>file_version</code>: Versão do arquivo <code>.bin</code></li>
-<li><p><code>blocks</code>: Dicionário com os blocos do arquivo <code>.bin</code>. Cada tipo de bloco tem sua Classe Própria</p>
-<p>O dicionário <code>blocks</code> retornado tem como chave uma tupla (tipo de bloco, <code>thread_id</code>) e os valores como uma lista com os blocos ( classes ) extraídos sequencialmente.</p>
+<li><p><a href="/rfpyeblocks.html"><code>blocks</code></a>: Dicionário com os blocos do arquivo <code>.bin</code>. Cada tipo de bloco tem sua Classe Própria</p>
+<p>O dicionário <a href="/rfpyeblocks.html"><code>blocks</code></a> retornado tem como chave uma tupla (tipo de bloco, <code>thread_id</code>) e os valores como uma lista com os blocos ( classes ) extraídos sequencialmente.</p>
 </li>
 </ul>
 <p>O tipo de bloco é a natureza do dado contido, por exemplo: 40 - GPS, 67 - Dado Espectral. O <code>thread_id</code> discrimina em geral diferentes "faixas" do mesmo tipo de dado. Para dados espectrais, por exemplo, diferentes thread_id representam varreduras de faixas de frequência distintas</p>
@@ -54,17 +54,16 @@ nb_path: "nbs\01_parser.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="parse_bin" class="doc_header"><code>parse_bin</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L28" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parse_bin</code>(<strong><code>bin_file</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>], <strong><code>btypes</code></strong>:<code>Iterable</code>[<code>T_co</code>]=<em><code>dict_keys([6, 21, 24, 40, 41, 42, 51, 63, 64, 65, 66, 67, 68, 69])</code></em>, <strong><code>slice_</code></strong>:<code>slice</code>=<em><code>None</code></em>, <strong><code>bytes_header</code></strong>:<code>int</code>=<em><code>36</code></em>, <strong><code>marker</code></strong>:<code>bytes</code>=<em><code>b'UUUU'</code></em>)</p>
+<h4 id="parse_bin" class="doc_header"><code>parse_bin</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L35" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parse_bin</code>(<strong><code>bin_file</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>])</p>
 </blockquote>
-<p>Receives a CRFS binfile and return a dictionary with its different blocks:</p>
-<p>Args:
-    bin_file (Union[str, Path]): path to the bin file
-    btypes (Iterable, optional): Restrict processing to only these block types. Defaults to MAIN<em>BLOCKS.keys().
-    slice</em> (slice, optional): Slice to cut the bin file if desired. Defaults to None.
-    bytes_header (int, optional): File Header Size. Defaults to BYTES_HEADER.
-    marker (bytes, optional): Byte marker delimiting the end of one block. Defaults to ENDMARKER.</p>
+<p>Receives a CRFS binfile and returns a dictionary with the file metadata, a GPS Class and a list with the different Spectrum Classes
+A block is a piece of the .bin file with a known start and end and that contains different types of information.
+It has several fields: file_type, header, data and footer.
+Each field has lengths and information defined in the documentation.
+Args:
+    bin_file (Union[str, Path]): path to the bin file</p>
 <p>Returns:
-    [type]: Dictionary with the bin_file version and dictionary of the different blocks.</p>
+    Dictionary with the file metadata, file_version, string info, gps and spectrum blocks.</p>
 
 </div>
 
@@ -101,11 +100,9 @@ nb_path: "nbs\01_parser.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="classify_blocks" class="doc_header"><code>classify_blocks</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L65" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>classify_blocks</code>(<strong><code>blocks</code></strong>:<code>Iterable</code>[<code>T_co</code>], <strong><code>btypes</code></strong>:<code>Iterable</code>[<code>T_co</code>]=<em><code>dict_keys([6, 21, 24, 40, 41, 42, 51, 63, 64, 65, 66, 67, 68, 69])</code></em>)</p>
+<h4 id="evaluate_checksum" class="doc_header"><code>evaluate_checksum</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L61" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>evaluate_checksum</code>(<strong><code>byte_block</code></strong>:<code>bytes</code>)</p>
 </blockquote>
-<p>Receives an iterable L with binary blocks and returns a defaultdict with a tuple (block types, thread_id) as keys and a list of the Class Blocks as values
-:param file: A string or pathlib.Path like path to a <code>.bin</code>file generated by CFRS - Logger
-:return: A Dictionary with block types as keys and a list of the Class Blocks available as values</p>
+<p>Receives a byte_block and verify if the calculated checksum is equal to the one registed in the specific byte</p>
 
 </div>
 
@@ -135,10 +132,9 @@ nb_path: "nbs\01_parser.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="extract_level" class="doc_header"><code>extract_level</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L111" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>extract_level</code>(<strong><code>spectrum_blocks</code></strong>:<code>L</code>, <strong><code>dtype</code></strong>=<em><code>float32</code></em>)</p>
+<h2 id="BaseBlock" class="doc_header"><code>class</code> <code>BaseBlock</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L74" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>BaseBlock</code>(<strong><code>thread_id</code></strong>:<code>int</code>, <strong><code>size</code></strong>:<code>int</code>, <strong><code>type</code></strong>:<code>int</code>, <strong><code>data</code></strong>:<code>bytes</code>, <strong><code>checksum</code></strong>:<code>int</code>)</p>
 </blockquote>
-<p>Receives a mapping <code>spectrum_blocks</code> and returns the Matrix with the Levels as values, Frequencies as columns and Block Number as index.
-:param pivoted: If False, optionally returns an unpivoted version of the Matrix</p>
+<p>Basic dataclass describing the attributes present in every block</p>
 
 </div>
 
@@ -168,9 +164,10 @@ nb_path: "nbs\01_parser.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="meta_from_blocks" class="doc_header"><code>meta_from_blocks</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L156" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>meta_from_blocks</code>(<strong><code>blocks</code></strong>:<code>L</code>, <strong><code>attrs</code></strong>:<code>list</code>=<em><code>None</code></em>)</p>
+<h4 id="byte2base_block" class="doc_header"><code>byte2base_block</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L83" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>byte2base_block</code>(<strong><code>byte_block</code></strong>:<code>bytes</code>)</p>
 </blockquote>
-<p>Receives a list of blocks, extracts the metadata from them and return a DataFrame</p>
+<p>Receives a byte block from the bin file and returns a dataclass with the attributes
+'thread_id', 'size', 'type', 'data', 'checksum' or None in case any error is identified.</p>
 
 </div>
 
@@ -200,8 +197,11 @@ nb_path: "nbs\01_parser.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="export_metadata" class="doc_header"><code>export_metadata</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L198" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>export_metadata</code>(<strong><code>blocks</code></strong>:<code>dict</code>, <strong><code>filter_attrs</code></strong>:<code>Union</code>[<code>NoneType</code>, <code>dict</code>]=<em><code>None</code></em>, <strong><code>to_save</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>bin_name</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>]=<em><code>None</code></em>, <strong><code>outfolder</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>]=<em><code>None</code></em>, <strong><code>extension</code></strong>:<code>str</code>=<em><code>'.csv'</code></em>)</p>
+<h4 id="create_block" class="doc_header"><code>create_block</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L96" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_block</code>(<strong><code>byte_block</code></strong>:<code>bytes</code>)</p>
 </blockquote>
+<p>Receives a byte_block, and converts it into one of the main classes
+Args: byte_block: A byte block directly returned from the file
+Returns: The Instance of the Block Type or None in case of error</p>
 
 </div>
 
@@ -231,8 +231,9 @@ nb_path: "nbs\01_parser.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="export_level" class="doc_header"><code>export_level</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L255" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>export_level</code>(<strong><code>stem</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>], <strong><code>blocks</code></strong>:<code>dict</code>, <strong><code>saida</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>], <strong><code>ext</code></strong>:<code>str</code>=<em><code>'.fth'</code></em>, <strong><code>index</code></strong>:<code>DatetimeIndex</code>=<em><code>None</code></em>, <strong><code>dtype</code></strong>:<code>Union</code>[<code>str</code>, <code>dtype</code>]=<em><code>float16</code></em>)</p>
+<h4 id="keys_from_blocks" class="doc_header"><code>keys_from_blocks</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L115" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>keys_from_blocks</code>(<strong><code>block</code></strong>:<code>namedtuple</code>)</p>
 </blockquote>
+<p>Receives a base block and return a namedtuple with attributes defined in KEY_ATTRS</p>
 
 </div>
 
@@ -247,6 +248,112 @@ nb_path: "nbs\01_parser.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="CrfsGPS" class="doc_header"><code>class</code> <code>CrfsGPS</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L124" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CrfsGPS</code>()</p>
+</blockquote>
+<p>Class with the GPS Attributes from the CRFS Bin File</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="CrfsSpectrum" class="doc_header"><code>class</code> <code>CrfsSpectrum</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L148" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CrfsSpectrum</code>(<strong><code>metadata</code></strong>:<code>namedtuple</code>) :: <code>GetAttr</code></p>
+</blockquote>
+<p>Class with the metadata and levels of a spectrum block from a CRFS Bin File</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="classify_blocks" class="doc_header"><code>classify_blocks</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L191" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>classify_blocks</code>(<strong><code>byte_blocks</code></strong>:<code>Iterable</code>[<code>T_co</code>])</p>
+</blockquote>
+<p>Receives an iterable with binary blocks and returns a dict with the metadata from file, the gps class and a list with the different spectrum classes</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
 
 </div>
     {% endraw %}

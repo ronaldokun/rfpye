@@ -79,6 +79,7 @@ class BaseBlock:
     data: bytes
     checksum: int
 
+# Cell
 def byte2base_block(byte_block: bytes) -> Union[BaseBlock, None]:
     """Receives a byte block from the bin file and returns a dataclass with the attributes
     'thread_id', 'size', 'type', 'data', 'checksum' or None in case any error is identified.
@@ -110,9 +111,7 @@ def create_block(byte_block: bytes)->Union[GetAttr,None]:
         return None #spectral or gps blocks with error
     return block
 
-
 # Cell
-
 def keys_from_blocks(block: namedtuple)->namedtuple:
     """Receives a base block and return a namedtuple with attributes defined in KEY_ATTRS"""
     attrs=KEY_ATTRS.get(block.type, ('type', 'thread_id'))
@@ -120,6 +119,7 @@ def keys_from_blocks(block: namedtuple)->namedtuple:
     values = getattrs(block, attrs=attrs)
     return metadata(*values)
 
+# Cell
 @dataclass
 class CrfsGPS:
     """Class with the GPS Attributes from the CRFS Bin File"""
@@ -187,7 +187,7 @@ class CrfsSpectrum(GetAttr):
         data.index.name = "Time"
         return data
 
-
+# Cell
 def classify_blocks(byte_blocks: Iterable) -> dict:
     """Receives an iterable with binary blocks and returns a dict with the metadata from file, the gps class and a list with the different spectrum classes"""
     meta = {}
@@ -203,7 +203,7 @@ def classify_blocks(byte_blocks: Iterable) -> dict:
             continue
         attrs = getattrs(block, attrs=KEY_ATTRS.get(block.type, []))
         if block.type in SPECTRAL_BLOCKS:
-            if values not in fluxos:
+            if tuple(attrs.values()) not in fluxos:
                 attributes = [a for a in attrs.keys()] + ['thresh', 'minimum']
                 metadata = namedtuple('SpecData', attributes)
                 attributes = list(attrs.values()) + [block.thresh, block.minimum]
@@ -211,7 +211,7 @@ def classify_blocks(byte_blocks: Iterable) -> dict:
             time = getattr(block, 'wallclock_datetime')
             attr = 'raw_data' if block.type in (64, 68) else 'levels'
             data = getattr(block, attr)
-            fluxos[tuple(values.values())].append(time, data)
+            fluxos[tuple(attrs.values())].append(time, data)
         else:
             meta.update(attrs)
     meta['gps'] = gps
