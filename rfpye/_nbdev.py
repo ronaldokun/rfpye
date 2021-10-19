@@ -2,11 +2,7 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"BTYPES": "00_main.ipynb",
-         "FILTER_ATTRS": "00_main.ipynb",
-         "parse_path": "00_main.ipynb",
-         "extract_bin_data": "00_main.ipynb",
-         "config": "01_parser.ipynb",
+index = {"config": "01_parser.ipynb",
          "parse_bin": "01_parser.ipynb",
          "evaluate_checksum": "01_parser.ipynb",
          "BaseBlock": "01_parser.ipynb",
@@ -89,19 +85,13 @@ index = {"BTYPES": "00_main.ipynb",
          "read_meta": "05_stats.ipynb",
          "process_bin": "05_stats.ipynb",
          "extract_bin_stats": "05_stats.ipynb",
-         "appended_mean": "05_stats.ipynb",
-         "extract_metadata": "06_meta-checkpoint.ipynb",
-         "extract_level": "07_levels-checkpoint.ipynb",
-         "export_level": "07_levels-checkpoint.ipynb"}
+         "appended_mean": "05_stats.ipynb"}
 
-modules = ["main.py",
-           "parser.py",
+modules = ["parser.py",
            "utils.py",
            "blocks.py",
            "constants.py",
-           "stats.py",
-           "meta.py",
-           "levels.py"]
+           "stats.py"]
 
 doc_url = "https://ronaldokun.github.io/rfpye"
 
