@@ -18,13 +18,12 @@ from .constants import EXCLUDE_ATTRS
 # Cell
 def _get_files(p, fs, extensions=None):
     p = Path(p)
-    res = [
+    return [
         p / f
         for f in fs
         if not f.startswith(".")
         and ((not extensions) or f'.{f.split(".")[-1].lower()}' in extensions)
     ]
-    return res
 
 # Cell
 def get_files(path, extensions=None, recurse=True, folders=None, followlinks=True):
