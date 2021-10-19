@@ -29,26 +29,6 @@ nb_path: "nbs\index.ipynb"
 </div>
     {% endraw %}
 
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
-<span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
-    <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">rich</span> <span class="kn">import</span> <span class="nb">print</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Instala&#231;&#227;o">Instala&#231;&#227;o<a class="anchor-link" href="#Instala&#231;&#227;o"> </a></h2><p><code>Ubuntu</code>:</p>
@@ -91,10 +71,9 @@ nb_path: "nbs\index.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Precisamos necessariamente de um diretório de entrada, contendo um ou mais arquivos <code>.bin</code> e um diretório de saída no qual iremos salvar os arquivos processados.</p>
-<blockquote><p>Mude os caminhos abaixo para suas pastas locais caso for executar o exemplo.</p>
+<p>Precisamos necessariamente de um diretório de entrada, contendo um ou mais arquivos <code>.bin</code></p>
+<blockquote><p>Mude os caminhos abaixo para suas pastas locais</p>
 </blockquote>
-<p>Ao utilizar o script <a href="/rfpyefilter.html#process_bin"><code>process_bin</code></a>, as pastas <code>entrada</code> e <code>saída</code> esses serão repassadas como parâmetros na linha de comando.</p>
 
 </div>
 </div>
@@ -107,9 +86,8 @@ nb_path: "nbs\index.ipynb"
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">fastcore.xtras</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="n">VERBOSE</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">entrada</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;D:\OneDrive - ANATEL\Backup_Rfeye_SP\CGH\2021&#39;</span><span class="p">)</span>
-<span class="n">saida</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;C:\Users\rsilva\Downloads\saida&#39;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">rfpye.utils</span> <span class="kn">import</span> <span class="n">get_files</span>
+<span class="kn">from</span> <span class="nn">rich</span> <span class="kn">import</span> <span class="nb">print</span>
 </pre></div>
 
     </div>
@@ -121,14 +99,7 @@ nb_path: "nbs\index.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Leitura-de-Arquivos">Leitura de Arquivos<a class="anchor-link" href="#Leitura-de-Arquivos"> </a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>No módulo <code>parser.py</code>, há funções auxiliares para lidar com os arquivos <code>.bin</code>, pastas e para processar tais arquivos em formatos úteis. Nesse caso utilizaremos a função <a href="/rfpyeutils.html#get_files"><code>get_files</code></a> que busca de maneira recursiva arquivos de dada extensão, inclusive links simbólicos se existirem
-O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlinks</code> simbólicos pode ser desativados por meio dos parâmetros e opcionalmente pode ser varrido somente o conjunto de pastas indicado em <code>folders</code></p>
+<p>A função abaixo baixa alguns arquivos de exemplo:</p>
 
 </div>
 </div>
@@ -140,47 +111,16 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlink
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">rfpye.utils</span> <span class="kn">import</span> <span class="n">get_files</span>
-<span class="n">arquivos</span> <span class="o">=</span> <span class="n">get_files</span><span class="p">(</span><span class="n">entrada</span><span class="p">,</span> <span class="n">extensions</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;.bin&#39;</span><span class="p">])</span> <span class="p">;</span> <span class="nb">print</span><span class="p">(</span><span class="n">arquivos</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;binfiles&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">get_files</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">extensions</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;.bin&#39;</span><span class="p">])):</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+    <span class="o">!</span>wget --header <span class="s1">&#39;Host: raw.githubusercontent.com&#39;</span> --user-agent <span class="s1">&#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0&#39;</span> --header <span class="s1">&#39;Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&#39;</span> --header <span class="s1">&#39;Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.5,en;q=0.3&#39;</span> --referer <span class="s1">&#39;https://github.com/EricMagalhaesDelgado/SpecFiles/blob/main/Combo3%20(CRFS%20Bin%20-%20DataTypes%204%2C%207%2C%208%2C%2060-65%20e%2067-69)/rfeye002092_210208_T202310_CRFSBINv.5.bin&#39;</span> --header <span class="s1">&#39;DNT: 1&#39;</span> --header <span class="s1">&#39;Upgrade-Insecure-Requests: 1&#39;</span> <span class="s1">&#39;https://raw.githubusercontent.com/EricMagalhaesDelgado/SpecFiles/main/Combo3%20(CRFS%20Bin%20-%20DataTypes%204%2C%207%2C%208%2C%2060-65%20e%2067-69)/rfeye002092_210208_T202310_CRFSBINv.5.bin&#39;</span> --output-document <span class="s1">&#39;rfeye002092_210208_T202310_CRFSBINv.5.bin&#39;</span>
+    <span class="o">!</span>wget --header <span class="s1">&#39;Host: raw.githubusercontent.com&#39;</span> --user-agent <span class="s1">&#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0&#39;</span> --header <span class="s1">&#39;Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&#39;</span> --header <span class="s1">&#39;Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.5,en;q=0.3&#39;</span> --referer <span class="s1">&#39;https://github.com/EricMagalhaesDelgado/SpecFiles/blob/main/Combo3%20(CRFS%20Bin%20-%20DataTypes%204%2C%207%2C%208%2C%2060-65%20e%2067-69)/rfeye002092_210208_T203131_CRFSBINv.2.bin&#39;</span> --header <span class="s1">&#39;DNT: 1&#39;</span> --header <span class="s1">&#39;Upgrade-Insecure-Requests: 1&#39;</span> <span class="s1">&#39;https://raw.githubusercontent.com/EricMagalhaesDelgado/SpecFiles/main/Combo3%20(CRFS%20Bin%20-%20DataTypes%204%2C%207%2C%208%2C%2060-65%20e%2067-69)/rfeye002092_210208_T203131_CRFSBINv.2.bin&#39;</span> --output-document <span class="s1">&#39;rfeye002092_210208_T203131_CRFSBINv.2.bin&#39;</span>
+    <span class="o">!</span>wget --header <span class="s1">&#39;Host: raw.githubusercontent.com&#39;</span> --user-agent <span class="s1">&#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0&#39;</span> --header <span class="s1">&#39;Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&#39;</span> --header <span class="s1">&#39;Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.5,en;q=0.3&#39;</span> --referer <span class="s1">&#39;https://github.com/EricMagalhaesDelgado/SpecFiles/blob/main/Combo3%20(CRFS%20Bin%20-%20DataTypes%204%2C%207%2C%208%2C%2060-65%20e%2067-69)/rfeye002292_210208_T202215_CRFSBINv.4.bin&#39;</span> --header <span class="s1">&#39;DNT: 1&#39;</span> --header <span class="s1">&#39;Upgrade-Insecure-Requests: 1&#39;</span> <span class="s1">&#39;https://raw.githubusercontent.com/EricMagalhaesDelgado/SpecFiles/main/Combo3%20(CRFS%20Bin%20-%20DataTypes%204%2C%207%2C%208%2C%2060-65%20e%2067-69)/rfeye002292_210208_T202215_CRFSBINv.4.bin&#39;</span> --output-document <span class="s1">&#39;rfeye002292_210208_T202215_CRFSBINv.4.bin&#39;</span>
+    <span class="o">!</span>wget --header <span class="s1">&#39;Host: raw.githubusercontent.com&#39;</span> --user-agent <span class="s1">&#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0&#39;</span> --header <span class="s1">&#39;Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&#39;</span> --header <span class="s1">&#39;Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.5,en;q=0.3&#39;</span> --referer <span class="s1">&#39;https://github.com/EricMagalhaesDelgado/SpecFiles/blob/main/Combo3%20(CRFS%20Bin%20-%20DataTypes%204%2C%207%2C%208%2C%2060-65%20e%2067-69)/rfeye002292_210208_T203238_CRFSBINv.3.bin&#39;</span> --header <span class="s1">&#39;DNT: 1&#39;</span> --header <span class="s1">&#39;Upgrade-Insecure-Requests: 1&#39;</span> <span class="s1">&#39;https://raw.githubusercontent.com/EricMagalhaesDelgado/SpecFiles/main/Combo3%20(CRFS%20Bin%20-%20DataTypes%204%2C%207%2C%208%2C%2060-65%20e%2067-69)/rfeye002292_210208_T203238_CRFSBINv.3.bin&#39;</span> --output-document <span class="s1">&#39;rfeye002292_210208_T203238_CRFSBINv.3.bin&#39;</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span>Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - </span>
-<span style="color: #008000; text-decoration-color: #008000">ANATEL/Backup_Rfeye_SP/CGH/2021/rfeye002279-SP-Congonhas_210319_T160137.bin'</span><span style="font-weight: bold">)</span>, 
-Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - </span>
-<span style="color: #008000; text-decoration-color: #008000">ANATEL/Backup_Rfeye_SP/CGH/2021/rfeye002279-SP-Congonhas_210325_T230001.bin'</span><span style="font-weight: bold">)</span>, 
-Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - </span>
-<span style="color: #008000; text-decoration-color: #008000">ANATEL/Backup_Rfeye_SP/CGH/2021/rfeye002279-SP-Congonhas_210401_T060001.bin'</span><span style="font-weight: bold">)</span>, 
-Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - </span>
-<span style="color: #008000; text-decoration-color: #008000">ANATEL/Backup_Rfeye_SP/CGH/2021/rfeye002279-SP-Congonhas_210404_T152752.bin'</span><span style="font-weight: bold">)</span>, 
-Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - </span>
-<span style="color: #008000; text-decoration-color: #008000">ANATEL/Backup_Rfeye_SP/CGH/2021/rfeye002279-SP-Congonhas_210410_T222501.bin'</span><span style="font-weight: bold">)</span>, 
-Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - </span>
-<span style="color: #008000; text-decoration-color: #008000">ANATEL/Backup_Rfeye_SP/CGH/2021/rfeye002279-SP-Congonhas_210416_T104037.bin'</span><span style="font-weight: bold">)</span>, 
-Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - </span>
-<span style="color: #008000; text-decoration-color: #008000">ANATEL/Backup_Rfeye_SP/CGH/2021/rfeye002279-SP-Congonhas_210422_T113942.bin'</span><span style="font-weight: bold">)</span>, 
-Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - </span>
-<span style="color: #008000; text-decoration-color: #008000">ANATEL/Backup_Rfeye_SP/CGH/2021/rfeye002279-SP-Congonhas_210428_T183501.bin'</span><span style="font-weight: bold">)</span>, 
-Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - </span>
-<span style="color: #008000; text-decoration-color: #008000">ANATEL/Backup_Rfeye_SP/CGH/2021/rfeye002279-SP-Congonhas_210505_T013201.bin'</span><span style="font-weight: bold">)</span>, 
-Path<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'D:/OneDrive - </span>
-<span style="color: #008000; text-decoration-color: #008000">ANATEL/Backup_Rfeye_SP/CGH/2021/rfeye002279-SP-Congonhas_210511_T083001.bin'</span><span style="font-weight: bold">)]</span>
-</pre>
-
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -189,8 +129,46 @@ Path<span style="font-weight: bold">(</span><span style="color: #008000; text-de
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<blockquote><p>O Objeto retornado <code>L</code> é uma extensão da lista python com funcionalidades adicionais, uma delas como  podemos ver é que a representação da lista impressa mostra o comprimento da lista. Esse objeto pode ser usado de maneira idêntica à uma lista em python e sem substituição desta.</p>
+<p>A função <a href="/rfpyeparser.html#parse_bin"><code>parse_bin</code></a> é a função principal que encapsula o processamento dos arquivos bin.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="parse_bin" class="doc_header"><code>parse_bin</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L35" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parse_bin</code>(<strong><code>bin_file</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>])</p>
 </blockquote>
+<p>Receives a CRFS binfile and returns a dictionary with the file metadata, a GPS Class and a list with the different Spectrum Classes
+A block is a piece of the .bin file with a known start and end and that contains different types of information.
+It has several fields: file_type, header, data and footer.
+Each field has lengths and information defined in the documentation.
+Args:
+    bin_file (Union[str, Path]): path to the bin file</p>
+<p>Returns:
+    Dictionary with the file metadata, file_version, string info, gps and spectrum blocks.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="CRFS-Bin---Vers&#227;o-5">CRFS Bin - Vers&#227;o 5<a class="anchor-link" href="#CRFS-Bin---Vers&#227;o-5"> </a></h2><p>Vamos listar arquivos da última versão do script Logger, Versão 5</p>
 
 </div>
 </div>
@@ -202,7 +180,8 @@ Path<span style="font-weight: bold">(</span><span style="color: #008000; text-de
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bin_file</span> <span class="o">=</span> <span class="n">arquivos</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span> <span class="p">;</span> <span class="nb">print</span><span class="p">(</span><span class="n">bin_file</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">files</span> <span class="o">=</span> <span class="n">get_files</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;D:\OneDrive - ANATEL\Sensores&#39;</span><span class="p">,</span> <span class="n">extensions</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;.bin&#39;</span><span class="p">])</span>
+<span class="n">files</span>
 </pre></div>
 
     </div>
@@ -215,10 +194,9 @@ Path<span style="font-weight: bold">(</span><span style="color: #008000; text-de
 <div class="output_area">
 
 
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">rfeye002279-SP-Congonhas_210516_T144208.bin
-</pre>
 
+<div class="output_text output_subarea output_execute_result">
+<pre>(#65) [Path(&#39;D:/OneDrive - ANATEL/Sensores/rfeye002073/rfeye002073_210620_T231206.bin&#39;),Path(&#39;D:/OneDrive - ANATEL/Sensores/rfeye002080/rfeye002080_691231_T210111.bin&#39;),Path(&#39;D:/OneDrive - ANATEL/Sensores/rfeye002081/rfeye002081_210620_T232204.bin&#39;),Path(&#39;D:/OneDrive - ANATEL/Sensores/rfeye002083/rfeye002083_210621_T160001.bin&#39;),Path(&#39;D:/OneDrive - ANATEL/Sensores/rfeye002084/rfeye002084_210623_T144012.bin&#39;),Path(&#39;D:/OneDrive - ANATEL/Sensores/rfeye002086/rfeye002086_210622_T004723.bin&#39;),Path(&#39;D:/OneDrive - ANATEL/Sensores/rfeye002087/rfeye002087_210628_T224301.bin&#39;),Path(&#39;D:/OneDrive - ANATEL/Sensores/RFeye002090-VCP/rfeye002090-VCP_210623_T024236.bin&#39;),Path(&#39;D:/OneDrive - ANATEL/Sensores/rfeye002091/rfeye002091_210618_T145747.bin&#39;),Path(&#39;D:/OneDrive - ANATEL/Sensores/rfeye002092/rfeye002092_210603_T205009.bin&#39;)...]</pre>
 </div>
 
 </div>
@@ -236,7 +214,7 @@ Path<span style="font-weight: bold">(</span><span style="color: #008000; text-de
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">rfpye.parser</span> <span class="kn">import</span> <span class="n">parse_bin</span><span class="p">,</span> <span class="n">extract_metadata</span><span class="p">,</span> <span class="n">extract_level</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">file</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">shuffle</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -246,13 +224,6 @@ Path<span style="font-weight: bold">(</span><span style="color: #008000; text-de
 </div>
     {% endraw %}
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Processamento-dos-blocos">Processamento dos blocos<a class="anchor-link" href="#Processamento-dos-blocos"> </a></h2><p>A função seguinte <a href="/rfpyeparser.html#parse_bin"><code>parse_bin</code></a> recebe um arquivo <code>.bin</code> e mapeia os blocos contidos nele retornando um dicionário que tem como chave o tipo de bloco e os valores como uma lista com os blocos extraídos sequencialmente.</p>
-
-</div>
-</div>
-</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -261,7 +232,7 @@ Path<span style="font-weight: bold">(</span><span style="color: #008000; text-de
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
-<span class="n">map_bin</span> <span class="o">=</span> <span class="n">parse_bin</span><span class="p">(</span><span class="n">bin_file</span><span class="p">)[</span><span class="s1">&#39;blocks&#39;</span><span class="p">]</span>
+<span class="n">v5</span> <span class="o">=</span> <span class="n">parse_bin</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -274,7 +245,7 @@ Path<span style="font-weight: bold">(</span><span style="color: #008000; text-de
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Wall time: 5.26 s
+<pre>Wall time: 13.2 s
 </pre>
 </div>
 </div>
@@ -292,8 +263,7 @@ Path<span style="font-weight: bold">(</span><span style="color: #008000; text-de
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">map_bin</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Tipo de Bloco: </span><span class="si">{</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">, Fluxo (Thread ID): </span><span class="si">{</span><span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">, #Blocos: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">v5</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -307,207 +277,74 @@ Path<span style="font-weight: bold">(</span><span style="color: #008000; text-de
 
 
 <div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">21</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span>
+    <span style="color: #008000; text-decoration-color: #008000">'filename'</span>: <span style="color: #008000; text-decoration-color: #008000">'rfeye002166_210620_T115535.bin'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'file_version'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">23</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'string'</span>: <span style="color: #008000; text-decoration-color: #008000">'CRFS DATA FILE V023'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'hostname'</span>: <span style="color: #008000; text-decoration-color: #008000">'rfeye002166'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'method'</span>: <span style="color: #008000; text-decoration-color: #008000">'ScriptRFeye2021_v2.cfg'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'unit_info'</span>: <span style="color: #008000; text-decoration-color: #008000">'Stationary'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'file_number'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'identifier'</span>: <span style="color: #008000; text-decoration-color: #008000">'INFO'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'gps'</span>: GPS Data - Median of Coordinates: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-22.56443</span>:<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-55.68867</span>, Altitude: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">661.90</span> 
+#Satellites: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">12.0</span> ,
+    <span style="color: #008000; text-decoration-color: #008000">'spectrum'</span>: <span style="font-weight: bold">[</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SpecData</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">type</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #808000; text-decoration-color: #808000">thread_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">300</span>, <span style="color: #808000; text-decoration-color: #808000">description</span>=<span style="color: #008000; text-decoration-color: #008000">'PMEC 2021 (Faixa 1 de 10).'</span>, 
+<span style="color: #808000; text-decoration-color: #808000">start_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">105.0</span>, <span style="color: #808000; text-decoration-color: #808000">stop_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">140.0</span>, <span style="color: #808000; text-decoration-color: #808000">unit</span>=<span style="color: #008000; text-decoration-color: #008000">'dBm'</span>, <span style="color: #808000; text-decoration-color: #808000">ndata</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3584</span>, <span style="color: #808000; text-decoration-color: #808000">bw</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">18457</span>, <span style="color: #808000; text-decoration-color: #808000">processing</span>=<span style="color: #008000; text-decoration-color: #008000">'peak'</span>, 
+<span style="color: #808000; text-decoration-color: #808000">antenna_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, <span style="color: #808000; text-decoration-color: #808000">thresh</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span>, <span style="color: #808000; text-decoration-color: #808000">minimum</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span><span style="font-weight: bold">)</span>, <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SpecData</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">type</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #808000; text-decoration-color: #808000">thread_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">310</span>, 
+<span style="color: #808000; text-decoration-color: #808000">description</span>=<span style="color: #008000; text-decoration-color: #008000">'PMEC 2021 (Faixa 2 de 10).'</span>, <span style="color: #808000; text-decoration-color: #808000">start_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">155.0</span>, <span style="color: #808000; text-decoration-color: #808000">stop_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">165.0</span>, <span style="color: #808000; text-decoration-color: #808000">unit</span>=<span style="color: #008000; text-decoration-color: #008000">'dBm'</span>, 
+<span style="color: #808000; text-decoration-color: #808000">ndata</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1024</span>, <span style="color: #808000; text-decoration-color: #808000">bw</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">18457</span>, <span style="color: #808000; text-decoration-color: #808000">processing</span>=<span style="color: #008000; text-decoration-color: #008000">'peak'</span>, <span style="color: #808000; text-decoration-color: #808000">antenna_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, <span style="color: #808000; text-decoration-color: #808000">thresh</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span>, <span style="color: #808000; text-decoration-color: #808000">minimum</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span><span style="font-weight: bold">)</span>, 
+<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SpecData</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">type</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #808000; text-decoration-color: #808000">thread_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">100</span>, <span style="color: #808000; text-decoration-color: #808000">description</span>=<span style="color: #008000; text-decoration-color: #008000">'PRD 2021 (Faixa principal 1 de 4).'</span>, 
+<span style="color: #808000; text-decoration-color: #808000">start_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">50.0</span>, <span style="color: #808000; text-decoration-color: #808000">stop_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">90.0</span>, <span style="color: #808000; text-decoration-color: #808000">unit</span>=<span style="color: #008000; text-decoration-color: #008000">'dBμV/m'</span>, <span style="color: #808000; text-decoration-color: #808000">ndata</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1024</span>, <span style="color: #808000; text-decoration-color: #808000">bw</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">73828</span>, <span style="color: #808000; text-decoration-color: #808000">processing</span>=<span style="color: #008000; text-decoration-color: #008000">'peak'</span>, 
+<span style="color: #808000; text-decoration-color: #808000">antenna_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, <span style="color: #808000; text-decoration-color: #808000">thresh</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-65.5</span>, <span style="color: #808000; text-decoration-color: #808000">minimum</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-65.5</span><span style="font-weight: bold">)</span>, <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SpecData</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">type</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #808000; text-decoration-color: #808000">thread_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">110</span>, <span style="color: #808000; text-decoration-color: #808000">description</span>=<span style="color: #008000; text-decoration-color: #008000">'PRD</span>
+<span style="color: #008000; text-decoration-color: #008000">2021 (Faixa principal 2 de 4).'</span>, <span style="color: #808000; text-decoration-color: #808000">start_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70.0</span>, <span style="color: #808000; text-decoration-color: #808000">stop_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">110.0</span>, <span style="color: #808000; text-decoration-color: #808000">unit</span>=<span style="color: #008000; text-decoration-color: #008000">'dBμV/m'</span>, <span style="color: #808000; text-decoration-color: #808000">ndata</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1024</span>,
+<span style="color: #808000; text-decoration-color: #808000">bw</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">73828</span>, <span style="color: #808000; text-decoration-color: #808000">processing</span>=<span style="color: #008000; text-decoration-color: #008000">'peak'</span>, <span style="color: #808000; text-decoration-color: #808000">antenna_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, <span style="color: #808000; text-decoration-color: #808000">thresh</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-53.5</span>, <span style="color: #808000; text-decoration-color: #808000">minimum</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-53.5</span><span style="font-weight: bold">)</span>, <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SpecData</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">type</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, 
+<span style="color: #808000; text-decoration-color: #808000">thread_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">120</span>, <span style="color: #808000; text-decoration-color: #808000">description</span>=<span style="color: #008000; text-decoration-color: #008000">'PRD 2021 (Faixa principal 3 de 4).'</span>, <span style="color: #808000; text-decoration-color: #808000">start_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">170.0</span>, 
+<span style="color: #808000; text-decoration-color: #808000">stop_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">220.0</span>, <span style="color: #808000; text-decoration-color: #808000">unit</span>=<span style="color: #008000; text-decoration-color: #008000">'dBμV/m'</span>, <span style="color: #808000; text-decoration-color: #808000">ndata</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1280</span>, <span style="color: #808000; text-decoration-color: #808000">bw</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">73828</span>, <span style="color: #808000; text-decoration-color: #808000">processing</span>=<span style="color: #008000; text-decoration-color: #008000">'peak'</span>, <span style="color: #808000; text-decoration-color: #808000">antenna_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, 
+<span style="color: #808000; text-decoration-color: #808000">thresh</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-66.5</span>, <span style="color: #808000; text-decoration-color: #808000">minimum</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-66.5</span><span style="font-weight: bold">)</span>, <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SpecData</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">type</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #808000; text-decoration-color: #808000">thread_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">130</span>, <span style="color: #808000; text-decoration-color: #808000">description</span>=<span style="color: #008000; text-decoration-color: #008000">'PRD 2021 (Faixa </span>
+<span style="color: #008000; text-decoration-color: #008000">principal 4 de 4).'</span>, <span style="color: #808000; text-decoration-color: #808000">start_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">470.0</span>, <span style="color: #808000; text-decoration-color: #808000">stop_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">700.0</span>, <span style="color: #808000; text-decoration-color: #808000">unit</span>=<span style="color: #008000; text-decoration-color: #008000">'dBμV/m'</span>, <span style="color: #808000; text-decoration-color: #808000">ndata</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5888</span>, <span style="color: #808000; text-decoration-color: #808000">bw</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">73828</span>, 
+<span style="color: #808000; text-decoration-color: #808000">processing</span>=<span style="color: #008000; text-decoration-color: #008000">'peak'</span>, <span style="color: #808000; text-decoration-color: #808000">antenna_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, <span style="color: #808000; text-decoration-color: #808000">thresh</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-65.5</span>, <span style="color: #808000; text-decoration-color: #808000">minimum</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-65.5</span><span style="font-weight: bold">)</span>, <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SpecData</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">type</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, 
+<span style="color: #808000; text-decoration-color: #808000">thread_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">200</span>, <span style="color: #808000; text-decoration-color: #808000">description</span>=<span style="color: #008000; text-decoration-color: #008000">'PMEF 2021 (Faixa 1 de 6).'</span>, <span style="color: #808000; text-decoration-color: #808000">start_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">700.0</span>, <span style="color: #808000; text-decoration-color: #808000">stop_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">960.0</span>, 
+<span style="color: #808000; text-decoration-color: #808000">unit</span>=<span style="color: #008000; text-decoration-color: #008000">'dBm'</span>, <span style="color: #808000; text-decoration-color: #808000">ndata</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6656</span>, <span style="color: #808000; text-decoration-color: #808000">bw</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">73828</span>, <span style="color: #808000; text-decoration-color: #808000">processing</span>=<span style="color: #008000; text-decoration-color: #008000">'peak'</span>, <span style="color: #808000; text-decoration-color: #808000">antenna_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, <span style="color: #808000; text-decoration-color: #808000">thresh</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span>, 
+<span style="color: #808000; text-decoration-color: #808000">minimum</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span><span style="font-weight: bold">)</span>, <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SpecData</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">type</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #808000; text-decoration-color: #808000">thread_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">210</span>, <span style="color: #808000; text-decoration-color: #808000">description</span>=<span style="color: #008000; text-decoration-color: #008000">'PMEF 2021 (Faixa 2 de 6).'</span>, 
+<span style="color: #808000; text-decoration-color: #808000">start_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1710.0</span>, <span style="color: #808000; text-decoration-color: #808000">stop_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1980.0</span>, <span style="color: #808000; text-decoration-color: #808000">unit</span>=<span style="color: #008000; text-decoration-color: #008000">'dBm'</span>, <span style="color: #808000; text-decoration-color: #808000">ndata</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6912</span>, <span style="color: #808000; text-decoration-color: #808000">bw</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">73828</span>, <span style="color: #808000; text-decoration-color: #808000">processing</span>=<span style="color: #008000; text-decoration-color: #008000">'peak'</span>, 
+<span style="color: #808000; text-decoration-color: #808000">antenna_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, <span style="color: #808000; text-decoration-color: #808000">thresh</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span>, <span style="color: #808000; text-decoration-color: #808000">minimum</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span><span style="font-weight: bold">)</span>, <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SpecData</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">type</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #808000; text-decoration-color: #808000">thread_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">220</span>, 
+<span style="color: #808000; text-decoration-color: #808000">description</span>=<span style="color: #008000; text-decoration-color: #008000">'PMEF 2021 (Faixa 3 de 6).'</span>, <span style="color: #808000; text-decoration-color: #808000">start_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2100.0</span>, <span style="color: #808000; text-decoration-color: #808000">stop_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1002168.999</span>, 
+<span style="color: #808000; text-decoration-color: #808000">unit</span>=<span style="color: #008000; text-decoration-color: #008000">'dBm'</span>, <span style="color: #808000; text-decoration-color: #808000">ndata</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1792</span>, <span style="color: #808000; text-decoration-color: #808000">bw</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">73828</span>, <span style="color: #808000; text-decoration-color: #808000">processing</span>=<span style="color: #008000; text-decoration-color: #008000">'peak'</span>, <span style="color: #808000; text-decoration-color: #808000">antenna_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, <span style="color: #808000; text-decoration-color: #808000">thresh</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span>, 
+<span style="color: #808000; text-decoration-color: #808000">minimum</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span><span style="font-weight: bold">)</span>, <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SpecData</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">type</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #808000; text-decoration-color: #808000">thread_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">230</span>, <span style="color: #808000; text-decoration-color: #808000">description</span>=<span style="color: #008000; text-decoration-color: #008000">'PMEF 2021 (Faixa 4 de 6).'</span>, 
+<span style="color: #808000; text-decoration-color: #808000">start_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2290.0</span>, <span style="color: #808000; text-decoration-color: #808000">stop_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2390.0</span>, <span style="color: #808000; text-decoration-color: #808000">unit</span>=<span style="color: #008000; text-decoration-color: #008000">'dBm'</span>, <span style="color: #808000; text-decoration-color: #808000">ndata</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2560</span>, <span style="color: #808000; text-decoration-color: #808000">bw</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">73828</span>, <span style="color: #808000; text-decoration-color: #808000">processing</span>=<span style="color: #008000; text-decoration-color: #008000">'peak'</span>, 
+<span style="color: #808000; text-decoration-color: #808000">antenna_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, <span style="color: #808000; text-decoration-color: #808000">thresh</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span>, <span style="color: #808000; text-decoration-color: #808000">minimum</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span><span style="font-weight: bold">)</span>, <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SpecData</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">type</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #808000; text-decoration-color: #808000">thread_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">240</span>, 
+<span style="color: #808000; text-decoration-color: #808000">description</span>=<span style="color: #008000; text-decoration-color: #008000">'PMEF 2021 (Faixa 5 de 6).'</span>, <span style="color: #808000; text-decoration-color: #808000">start_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2500.0</span>, <span style="color: #808000; text-decoration-color: #808000">stop_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2690.0</span>, <span style="color: #808000; text-decoration-color: #808000">unit</span>=<span style="color: #008000; text-decoration-color: #008000">'dBm'</span>, 
+<span style="color: #808000; text-decoration-color: #808000">ndata</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4864</span>, <span style="color: #808000; text-decoration-color: #808000">bw</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">73828</span>, <span style="color: #808000; text-decoration-color: #808000">processing</span>=<span style="color: #008000; text-decoration-color: #008000">'peak'</span>, <span style="color: #808000; text-decoration-color: #808000">antenna_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, <span style="color: #808000; text-decoration-color: #808000">thresh</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span>, <span style="color: #808000; text-decoration-color: #808000">minimum</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span><span style="font-weight: bold">)</span>, 
+<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SpecData</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">type</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #808000; text-decoration-color: #808000">thread_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">320</span>, <span style="color: #808000; text-decoration-color: #808000">description</span>=<span style="color: #008000; text-decoration-color: #008000">'PMEC 2021 (Faixa 3 de 10).'</span>, <span style="color: #808000; text-decoration-color: #808000">start_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">320.0</span>, 
+<span style="color: #808000; text-decoration-color: #808000">stop_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">340.0</span>, <span style="color: #808000; text-decoration-color: #808000">unit</span>=<span style="color: #008000; text-decoration-color: #008000">'dBm'</span>, <span style="color: #808000; text-decoration-color: #808000">ndata</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">bw</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">73828</span>, <span style="color: #808000; text-decoration-color: #808000">processing</span>=<span style="color: #008000; text-decoration-color: #008000">'peak'</span>, <span style="color: #808000; text-decoration-color: #808000">antenna_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, 
+<span style="color: #808000; text-decoration-color: #808000">thresh</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span>, <span style="color: #808000; text-decoration-color: #808000">minimum</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span><span style="font-weight: bold">)</span>, <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SpecData</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">type</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #808000; text-decoration-color: #808000">thread_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">330</span>, <span style="color: #808000; text-decoration-color: #808000">description</span>=<span style="color: #008000; text-decoration-color: #008000">'PMEC 2021 </span>
+<span style="color: #008000; text-decoration-color: #008000">(Faixa 4 de 10).'</span>, <span style="color: #808000; text-decoration-color: #808000">start_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">400.0</span>, <span style="color: #808000; text-decoration-color: #808000">stop_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">410.0</span>, <span style="color: #808000; text-decoration-color: #808000">unit</span>=<span style="color: #008000; text-decoration-color: #008000">'dBm'</span>, <span style="color: #808000; text-decoration-color: #808000">ndata</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">bw</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">73828</span>, 
+<span style="color: #808000; text-decoration-color: #808000">processing</span>=<span style="color: #008000; text-decoration-color: #008000">'peak'</span>, <span style="color: #808000; text-decoration-color: #808000">antenna_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, <span style="color: #808000; text-decoration-color: #808000">thresh</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span>, <span style="color: #808000; text-decoration-color: #808000">minimum</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span><span style="font-weight: bold">)</span>, <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SpecData</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">type</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, 
+<span style="color: #808000; text-decoration-color: #808000">thread_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">340</span>, <span style="color: #808000; text-decoration-color: #808000">description</span>=<span style="color: #008000; text-decoration-color: #008000">'PMEC 2021 (Faixa 5 de 10).'</span>, <span style="color: #808000; text-decoration-color: #808000">start_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">960.0</span>, 
+<span style="color: #808000; text-decoration-color: #808000">stop_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1001218.999</span>, <span style="color: #808000; text-decoration-color: #808000">unit</span>=<span style="color: #008000; text-decoration-color: #008000">'dBm'</span>, <span style="color: #808000; text-decoration-color: #808000">ndata</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6656</span>, <span style="color: #808000; text-decoration-color: #808000">bw</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">73828</span>, <span style="color: #808000; text-decoration-color: #808000">processing</span>=<span style="color: #008000; text-decoration-color: #008000">'peak'</span>, <span style="color: #808000; text-decoration-color: #808000">antenna_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, 
+<span style="color: #808000; text-decoration-color: #808000">thresh</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span>, <span style="color: #808000; text-decoration-color: #808000">minimum</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span><span style="font-weight: bold">)</span>, <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SpecData</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">type</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #808000; text-decoration-color: #808000">thread_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">350</span>, <span style="color: #808000; text-decoration-color: #808000">description</span>=<span style="color: #008000; text-decoration-color: #008000">'PMEC 2021 </span>
+<span style="color: #008000; text-decoration-color: #008000">(Faixa 6 de 10).'</span>, <span style="color: #808000; text-decoration-color: #808000">start_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1001388.999</span>, <span style="color: #808000; text-decoration-color: #808000">stop_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1001428.999</span>, <span style="color: #808000; text-decoration-color: #808000">unit</span>=<span style="color: #008000; text-decoration-color: #008000">'dBm'</span>, <span style="color: #808000; text-decoration-color: #808000">ndata</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1280</span>, 
+<span style="color: #808000; text-decoration-color: #808000">bw</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">73828</span>, <span style="color: #808000; text-decoration-color: #808000">processing</span>=<span style="color: #008000; text-decoration-color: #008000">'peak'</span>, <span style="color: #808000; text-decoration-color: #808000">antenna_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, <span style="color: #808000; text-decoration-color: #808000">thresh</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span>, <span style="color: #808000; text-decoration-color: #808000">minimum</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span><span style="font-weight: bold">)</span>, <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SpecData</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">type</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, 
+<span style="color: #808000; text-decoration-color: #808000">thread_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">360</span>, <span style="color: #808000; text-decoration-color: #808000">description</span>=<span style="color: #008000; text-decoration-color: #008000">'PMEC 2021 (Faixa 7 de 10).'</span>, <span style="color: #808000; text-decoration-color: #808000">start_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1530.0</span>, 
+<span style="color: #808000; text-decoration-color: #808000">stop_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1001648.999</span>, <span style="color: #808000; text-decoration-color: #808000">unit</span>=<span style="color: #008000; text-decoration-color: #008000">'dBm'</span>, <span style="color: #808000; text-decoration-color: #808000">ndata</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3072</span>, <span style="color: #808000; text-decoration-color: #808000">bw</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">73828</span>, <span style="color: #808000; text-decoration-color: #808000">processing</span>=<span style="color: #008000; text-decoration-color: #008000">'peak'</span>, <span style="color: #808000; text-decoration-color: #808000">antenna_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, 
+<span style="color: #808000; text-decoration-color: #808000">thresh</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span>, <span style="color: #808000; text-decoration-color: #808000">minimum</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span><span style="font-weight: bold">)</span>, <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SpecData</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">type</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #808000; text-decoration-color: #808000">thread_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">370</span>, <span style="color: #808000; text-decoration-color: #808000">description</span>=<span style="color: #008000; text-decoration-color: #008000">'PMEC 2021 </span>
+<span style="color: #008000; text-decoration-color: #008000">(Faixa 8 de 10).'</span>, <span style="color: #808000; text-decoration-color: #808000">start_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2690.0</span>, <span style="color: #808000; text-decoration-color: #808000">stop_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1002898.999</span>, <span style="color: #808000; text-decoration-color: #808000">unit</span>=<span style="color: #008000; text-decoration-color: #008000">'dBm'</span>, <span style="color: #808000; text-decoration-color: #808000">ndata</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5376</span>, 
+<span style="color: #808000; text-decoration-color: #808000">bw</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">73828</span>, <span style="color: #808000; text-decoration-color: #808000">processing</span>=<span style="color: #008000; text-decoration-color: #008000">'peak'</span>, <span style="color: #808000; text-decoration-color: #808000">antenna_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, <span style="color: #808000; text-decoration-color: #808000">thresh</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span>, <span style="color: #808000; text-decoration-color: #808000">minimum</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span><span style="font-weight: bold">)</span>, <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SpecData</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">type</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, 
+<span style="color: #808000; text-decoration-color: #808000">thread_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">380</span>, <span style="color: #808000; text-decoration-color: #808000">description</span>=<span style="color: #008000; text-decoration-color: #008000">'PMEC 2021 (Faixa 9 de 10).'</span>, <span style="color: #808000; text-decoration-color: #808000">start_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5000.0</span>, <span style="color: #808000; text-decoration-color: #808000">stop_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5160.0</span>,
+<span style="color: #808000; text-decoration-color: #808000">unit</span>=<span style="color: #008000; text-decoration-color: #008000">'dBm'</span>, <span style="color: #808000; text-decoration-color: #808000">ndata</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4096</span>, <span style="color: #808000; text-decoration-color: #808000">bw</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">73828</span>, <span style="color: #808000; text-decoration-color: #808000">processing</span>=<span style="color: #008000; text-decoration-color: #008000">'peak'</span>, <span style="color: #808000; text-decoration-color: #808000">antenna_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, <span style="color: #808000; text-decoration-color: #808000">thresh</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span>, 
+<span style="color: #808000; text-decoration-color: #808000">minimum</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span><span style="font-weight: bold">)</span>, <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SpecData</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">type</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #808000; text-decoration-color: #808000">thread_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">390</span>, <span style="color: #808000; text-decoration-color: #808000">description</span>=<span style="color: #008000; text-decoration-color: #008000">'PMEC 2021 (Faixa 10 de 10).'</span>, 
+<span style="color: #808000; text-decoration-color: #808000">start_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1005338.999</span>, <span style="color: #808000; text-decoration-color: #808000">stop_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1005458.999</span>, <span style="color: #808000; text-decoration-color: #808000">unit</span>=<span style="color: #008000; text-decoration-color: #008000">'dBm'</span>, <span style="color: #808000; text-decoration-color: #808000">ndata</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3328</span>, <span style="color: #808000; text-decoration-color: #808000">bw</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">73828</span>, 
+<span style="color: #808000; text-decoration-color: #808000">processing</span>=<span style="color: #008000; text-decoration-color: #008000">'peak'</span>, <span style="color: #808000; text-decoration-color: #808000">antenna_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, <span style="color: #808000; text-decoration-color: #808000">thresh</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span>, <span style="color: #808000; text-decoration-color: #808000">minimum</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span><span style="font-weight: bold">)</span>, <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SpecData</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">type</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, 
+<span style="color: #808000; text-decoration-color: #808000">thread_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">250</span>, <span style="color: #808000; text-decoration-color: #808000">description</span>=<span style="color: #008000; text-decoration-color: #008000">'PMEF 2021 (Faixa 6 de 6).'</span>, <span style="color: #808000; text-decoration-color: #808000">start_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3290.0</span>, <span style="color: #808000; text-decoration-color: #808000">stop_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3700.0</span>, 
+<span style="color: #808000; text-decoration-color: #808000">unit</span>=<span style="color: #008000; text-decoration-color: #008000">'dBm'</span>, <span style="color: #808000; text-decoration-color: #808000">ndata</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10496</span>, <span style="color: #808000; text-decoration-color: #808000">bw</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">73828</span>, <span style="color: #808000; text-decoration-color: #808000">processing</span>=<span style="color: #008000; text-decoration-color: #008000">'peak'</span>, <span style="color: #808000; text-decoration-color: #808000">antenna_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, <span style="color: #808000; text-decoration-color: #808000">thresh</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span>, 
+<span style="color: #808000; text-decoration-color: #808000">minimum</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span><span style="font-weight: bold">)]</span>
+<span style="font-weight: bold">}</span>
 </pre>
 
 </div>
 
 </div>
 
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">42</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>
-</pre>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">40</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6341</span>
-</pre>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">300</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6341</span>
-</pre>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">310</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6341</span>
-</pre>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">100</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1268</span>
-</pre>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">110</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1268</span>
-</pre>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">130</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1268</span>
-</pre>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">210</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">423</span>
-</pre>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">220</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">423</span>
-</pre>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">230</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">423</span>
-</pre>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">240</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">423</span>
-</pre>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">320</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">423</span>
-</pre>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">340</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">423</span>
-</pre>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">360</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">423</span>
-</pre>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">380</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">423</span>
-</pre>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tipo de Bloco: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">42</span>, Fluxo <span style="font-weight: bold">(</span>Thread ID<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, #Blocos: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">105</span>
-</pre>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gps</span> <span class="o">=</span> <span class="n">map_bin</span><span class="p">[(</span><span class="mi">40</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
-<span class="n">spec</span> <span class="o">=</span> <span class="n">map_bin</span><span class="p">[(</span><span class="mi">67</span><span class="p">,</span><span class="mi">110</span><span class="p">)]</span>
-</pre></div>
-
-    </div>
 </div>
 </div>
 
@@ -516,7 +353,15 @@ Path<span style="font-weight: bold">(</span><span style="color: #008000; text-de
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A seguir é mostrado um exemplo dos atributos contidos num bloco de gps e num bloco de espectro</p>
+<p>A saída da função é um dicionário, com os metadados do arquivo:</p>
+<p><img src="data:image/png;base64,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" alt="image.png"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>No entanto as duas chaves mais importantes do dicionário retornado são <code>gps</code> e <code>spectrum</code></p>
 
 </div>
 </div>
@@ -529,7 +374,8 @@ Path<span style="font-weight: bold">(</span><span style="color: #008000; text-de
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">rfpye.utils</span> <span class="kn">import</span> <span class="n">getattrs</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">getattrs</span><span class="p">(</span><span class="n">gps</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">getattrs</span><span class="p">(</span><span class="n">v5</span><span class="p">[</span><span class="s1">&#39;gps&#39;</span><span class="p">]))</span>
 </pre></div>
 
     </div>
@@ -543,88 +389,7 @@ Path<span style="font-weight: bold">(</span><span style="color: #008000; text-de
 
 
 <div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span>
-    <span style="color: #008000; text-decoration-color: #008000">'altitude'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">815.3</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'data_size'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">40</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'gps_datetime'</span>: datetime.datetime<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2021</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">14</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">43</span><span style="font-weight: bold">)</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'gps_status'</span>: <span style="color: #008000; text-decoration-color: #008000">'Differential GPS'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'heading'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'latitude'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-23.635858</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'longitude'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-46.654255</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'num_satellites'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">12</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'speed'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.014</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'thread_id'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'type'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">40</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'wallclock_datetime'</span>: numpy.datetime64<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'2021-05-16T14:43:00.532926'</span><span style="font-weight: bold">)</span>
-<span style="font-weight: bold">}</span>
-</pre>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">getattrs</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span>
-    <span style="color: #008000; text-decoration-color: #008000">'antenna_id'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'bw'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">40</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'data_size'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1164</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'data_type'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'desclen'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">36</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'description'</span>: <span style="color: #008000; text-decoration-color: #008000">'PRD 2021 (Faixa principal 2 de 4).'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'dynamic_id'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'gerror'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-1</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'gflags'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-1</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'group_id'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'minimum'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-32.5</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'n_agc'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">7</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'n_tunning'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">7</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'namal'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'ndata'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1024</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'npad'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'offset'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">95</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'padding'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'processing'</span>: <span style="color: #008000; text-decoration-color: #008000">'peak'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'resolution_bw'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">73828</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'sample'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6230</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'start'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">139</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'start_channel'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'start_mega'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'start_mili'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'step'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.039100684261974585</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'stop'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1163</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'stop_channel'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'stop_mega'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">110</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'stop_mili'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'thread_id'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">110</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'type'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'wallclock_datetime'</span>: numpy.datetime64<span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'2021-05-16T14:45:00.790881'</span><span style="font-weight: bold">)</span>
-<span style="font-weight: bold">}</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'altitude'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">661.9</span>, <span style="color: #008000; text-decoration-color: #008000">'latitude'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-22.564427</span>, <span style="color: #008000; text-decoration-color: #008000">'longitude'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-55.688672</span>, <span style="color: #008000; text-decoration-color: #008000">'num_satellites'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">12.0</span><span style="font-weight: bold">}</span>
 </pre>
 
 </div>
@@ -639,7 +404,7 @@ Path<span style="font-weight: bold">(</span><span style="color: #008000; text-de
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Metadados">Metadados<a class="anchor-link" href="#Metadados"> </a></h2><p>A função seguinte extrai os metadados <a href="/rfpyeconstants.html#META"><code>META</code></a> definidos no cabeçalho do arquivo <code>constants.py</code> e retorna um DataFrame.</p>
+<p>Se você imprimir a classe retornada pela chave <code>gps</code> é retornado um resumo dos seus atributos:</p>
 
 </div>
 </div>
@@ -651,8 +416,7 @@ Path<span style="font-weight: bold">(</span><span style="color: #008000; text-de
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gps_meta</span> <span class="o">=</span> <span class="n">extract_metadata</span><span class="p">(</span><span class="n">gps</span><span class="p">)</span>
-<span class="n">gps_meta</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">v5</span><span class="p">[</span><span class="s1">&#39;gps&#39;</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -665,140 +429,211 @@ Path<span style="font-weight: bold">(</span><span style="color: #008000; text-de
 <div class="output_area">
 
 
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div class="output_html rendered_html output_subarea ">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">GPS Data - Median of Coordinates: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-22.56443</span>:<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-55.68867</span>, Altitude: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">661.90</span> #Satellites: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">12.0</span> 
+</pre>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>start_byte</th>
-      <th>stop_byte</th>
-      <th>altitude</th>
-      <th>data_size</th>
-      <th>gps_datetime</th>
-      <th>gps_status</th>
-      <th>heading</th>
-      <th>latitude</th>
-      <th>longitude</th>
-      <th>num_satellites</th>
-      <th>speed</th>
-      <th>thread_id</th>
-      <th>type</th>
-    </tr>
-    <tr>
-      <th>wallclock_datetime</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>2021-05-16 14:43:00.532926</th>
-      <td>344</td>
-      <td>399</td>
-      <td>815.299988</td>
-      <td>40</td>
-      <td>2021-05-16 14:43:00</td>
-      <td>Differential GPS</td>
-      <td>0.0</td>
-      <td>-23.635859</td>
-      <td>-46.654255</td>
-      <td>12</td>
-      <td>0.014</td>
-      <td>1</td>
-      <td>40</td>
-    </tr>
-    <tr>
-      <th>2021-05-16 14:44:00.330070</th>
-      <td>5324</td>
-      <td>5379</td>
-      <td>817.299988</td>
-      <td>40</td>
-      <td>2021-05-16 14:43:59</td>
-      <td>Differential GPS</td>
-      <td>0.0</td>
-      <td>-23.635857</td>
-      <td>-46.654263</td>
-      <td>12</td>
-      <td>0.025</td>
-      <td>1</td>
-      <td>40</td>
-    </tr>
-    <tr>
-      <th>2021-05-16 14:45:00.752895</th>
-      <td>10304</td>
-      <td>10359</td>
-      <td>816.200012</td>
-      <td>40</td>
-      <td>2021-05-16 14:45:00</td>
-      <td>Differential GPS</td>
-      <td>0.0</td>
-      <td>-23.635859</td>
-      <td>-46.654266</td>
-      <td>12</td>
-      <td>0.007</td>
-      <td>1</td>
-      <td>40</td>
-    </tr>
-    <tr>
-      <th>2021-05-16 14:46:00.402776</th>
-      <td>86092</td>
-      <td>86147</td>
-      <td>815.299988</td>
-      <td>40</td>
-      <td>2021-05-16 14:46:00</td>
-      <td>Differential GPS</td>
-      <td>0.0</td>
-      <td>-23.635864</td>
-      <td>-46.654263</td>
-      <td>12</td>
-      <td>0.005</td>
-      <td>1</td>
-      <td>40</td>
-    </tr>
-    <tr>
-      <th>2021-05-16 14:47:00.302816</th>
-      <td>91072</td>
-      <td>91127</td>
-      <td>818.099976</td>
-      <td>40</td>
-      <td>2021-05-16 14:47:00</td>
-      <td>Differential GPS</td>
-      <td>0.0</td>
-      <td>-23.635859</td>
-      <td>-46.654266</td>
-      <td>12</td>
-      <td>0.025</td>
-      <td>1</td>
-      <td>40</td>
-    </tr>
-  </tbody>
-</table>
 </div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Os atributos listados são os valores consolidados por meio da <strong>mediana</strong> dos diversos blocos de GPS do arquivo.</p>
+<blockquote><p>Caso desejar a lista original de valores, os atributos são os mesmos mas precedidos de <code>_</code>, o que os torna <strong>atributos privados</strong> em python, isso somente quer dizer que não são explicitados em algus métodos como <a href="/rfpyeutils.html#getattrs"><code>getattrs</code></a>, pois normalmente não são acessíveis diretamente, mas nada impede que sejam acessados.</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">v5</span><span class="p">[</span><span class="s1">&#39;gps&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">_latitude</span><span class="p">,</span> <span class="n">v5</span><span class="p">[</span><span class="s1">&#39;gps&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">_longitude</span><span class="p">,</span> <span class="n">v5</span><span class="p">[</span><span class="s1">&#39;gps&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">_altitude</span><span class="p">,</span> <span class="n">v5</span><span class="p">[</span><span class="s1">&#39;gps&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">_num_satellites</span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>((#9057) [-22.564446,-22.564431,-22.564439,-22.564445,-22.564439,-22.564445,-22.564449,-22.564439,-22.564428,-22.564426...],
+ (#9057) [-55.688672,-55.688673,-55.688677,-55.688679,-55.688672,-55.688664,-55.688675,-55.688681,-55.688678,-55.688693...],
+ (#9057) [660.4,662.2,660.5,661.9,665.2,662.9,660.1,658.2,660.1,662.0...],
+ (#9057) [12,12,12,12,12,12,12,12,12,12...])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Cada arquivo bin normalmente possui vários fluxos de espectro distintos, cada fluxo espectral é uma classe Python, na chave <code>spectrum</code> é retornado uma lista com todos os fluxos de espectro.</p>
+<p>Vamos investigar alguns deles:</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fluxo</span> <span class="o">=</span> <span class="n">v5</span><span class="p">[</span><span class="s1">&#39;spectrum&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Ao imprimir um fluxo é mostrado informações mínimas sobre o seu conteúdo:</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">fluxo</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Blocks of Type : <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, Thread_id: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">300</span> and Span <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">105.0</span> MHz - <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">140.0</span> MHz
+</pre>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A função <code>repr</code> retorna uma representação com todos os metadados do fluxo:</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">fluxo</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SpecData</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">type</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #808000; text-decoration-color: #808000">thread_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">300</span>, <span style="color: #808000; text-decoration-color: #808000">description</span>=<span style="color: #008000; text-decoration-color: #008000">'PMEC 2021 (Faixa 1 de 10).'</span>, <span style="color: #808000; text-decoration-color: #808000">start_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">105.0</span>, 
+<span style="color: #808000; text-decoration-color: #808000">stop_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">140.0</span>, <span style="color: #808000; text-decoration-color: #808000">unit</span>=<span style="color: #008000; text-decoration-color: #008000">'dBm'</span>, <span style="color: #808000; text-decoration-color: #808000">ndata</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3584</span>, <span style="color: #808000; text-decoration-color: #808000">bw</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">18457</span>, <span style="color: #808000; text-decoration-color: #808000">processing</span>=<span style="color: #008000; text-decoration-color: #008000">'peak'</span>, <span style="color: #808000; text-decoration-color: #808000">antenna_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, 
+<span style="color: #808000; text-decoration-color: #808000">thresh</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span>, <span style="color: #808000; text-decoration-color: #808000">minimum</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-147.5</span><span style="font-weight: bold">)</span>
+</pre>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>No entanto o principal atributo de um fluxo de espectro são os valores de nível medidos, os valores medidos são retornados por meio do atributo: <code>levels</code>:</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">fluxo</span><span class="o">.</span><span class="n">levels</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[[</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-99</span>.  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-113.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-113.5</span> <span style="color: #808000; text-decoration-color: #808000">...</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-105.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-113</span>.  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-116.5</span><span style="font-weight: bold">]</span>
+ <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-111.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-110</span>.  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-115</span>.  <span style="color: #808000; text-decoration-color: #808000">...</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-116</span>.  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-111</span>.  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-108</span>. <span style="font-weight: bold">]</span>
+ <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-107</span>.  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-111.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-130</span>.  <span style="color: #808000; text-decoration-color: #808000">...</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-113.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-109.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-106.5</span><span style="font-weight: bold">]</span>
+ <span style="color: #808000; text-decoration-color: #808000">...</span>
+ <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-103</span>.  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-108.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-114</span>.  <span style="color: #808000; text-decoration-color: #808000">...</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-104.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-110.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-111.5</span><span style="font-weight: bold">]</span>
+ <span style="font-weight: bold">[</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-96</span>.  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-106.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-103</span>.  <span style="color: #808000; text-decoration-color: #808000">...</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-110</span>.  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-109.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-113</span>. <span style="font-weight: bold">]</span>
+ <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-104.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-108</span>.  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-111</span>.  <span style="color: #808000; text-decoration-color: #808000">...</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-106</span>.  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-111</span>.  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-113.5</span><span style="font-weight: bold">]]</span>
+</pre>
+
 </div>
 
 </div>
@@ -816,8 +651,90 @@ Path<span style="font-weight: bold">(</span><span style="color: #008000; text-de
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">spec_meta</span> <span class="o">=</span> <span class="n">extract_metadata</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
-<span class="n">spec_meta</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Formato da matriz com os níveis: </span><span class="si">{</span><span class="n">fluxo</span><span class="o">.</span><span class="n">levels</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Formato da matriz com os níveis: <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8963</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3584</span><span style="font-weight: bold">)</span>
+</pre>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>O nº de linhas da matriz nos dá o número de pontos medidos naquele dado fluxo e as colunas o número de traços no qual o Span ( Stop - Start ) foi dividido. O número de traços pode ser retornada também por meio da função <code>len</code></p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fluxo</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8963</span>
+</pre>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>O atributo anterior retorna uma <code>numpy.ndarray</code>, que é um formato eficiente para processamento.</p>
+<p>No entanto temos adicionalmente o método <code>.matrix()</code> que retorna a matriz de dados como um <em>Pandas Dataframe</em> formatada com o tempo da medição de cada traço como índice das linhas e as frequências de cada traço como coluna.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fluxo</span><span class="o">.</span><span class="n">matrix</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -848,31 +765,31 @@ Path<span style="font-weight: bold">(</span><span style="color: #008000; text-de
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
-      <th></th>
-      <th>start_byte</th>
-      <th>stop_byte</th>
-      <th>antenna_id</th>
-      <th>bw</th>
-      <th>data_size</th>
-      <th>data_type</th>
-      <th>desclen</th>
-      <th>description</th>
-      <th>dynamic_id</th>
-      <th>gerror</th>
+      <th>Frequencies</th>
+      <th>105.000000</th>
+      <th>105.009768</th>
+      <th>105.019537</th>
+      <th>105.029305</th>
+      <th>105.039073</th>
+      <th>105.048842</th>
+      <th>105.058610</th>
+      <th>105.068378</th>
+      <th>105.078147</th>
+      <th>105.087915</th>
       <th>...</th>
-      <th>start_channel</th>
-      <th>start_mega</th>
-      <th>start_mili</th>
-      <th>step</th>
-      <th>stop</th>
-      <th>stop_channel</th>
-      <th>stop_mega</th>
-      <th>stop_mili</th>
-      <th>thread_id</th>
-      <th>type</th>
+      <th>139.912085</th>
+      <th>139.921853</th>
+      <th>139.931622</th>
+      <th>139.941390</th>
+      <th>139.951158</th>
+      <th>139.960927</th>
+      <th>139.970695</th>
+      <th>139.980463</th>
+      <th>139.990232</th>
+      <th>140.000000</th>
     </tr>
     <tr>
-      <th>wallclock_datetime</th>
+      <th>Time</th>
       <th></th>
       <th></th>
       <th></th>
@@ -898,794 +815,273 @@ Path<span style="font-weight: bold">(</span><span style="color: #008000; text-de
   </thead>
   <tbody>
     <tr>
-      <th>2021-05-21 00:00:00.695624</th>
-      <td>69731068</td>
-      <td>69732247</td>
-      <td>0</td>
-      <td>40</td>
-      <td>1164</td>
-      <td>1</td>
-      <td>36</td>
-      <td>PRD 2021 (Faixa principal 2 de 4).</td>
-      <td>0</td>
-      <td>-1</td>
+      <th>2021-06-20 11:56:00.734894</th>
+      <td>-99.0</td>
+      <td>-113.5</td>
+      <td>-113.5</td>
+      <td>-116.0</td>
+      <td>-113.5</td>
+      <td>-114.0</td>
+      <td>-115.0</td>
+      <td>-112.0</td>
+      <td>-113.0</td>
+      <td>-113.5</td>
       <td>...</td>
-      <td>0</td>
-      <td>70</td>
-      <td>0</td>
-      <td>0.039101</td>
-      <td>1163</td>
-      <td>0</td>
-      <td>110</td>
-      <td>0</td>
-      <td>110</td>
-      <td>67</td>
+      <td>-105.0</td>
+      <td>-105.0</td>
+      <td>-105.0</td>
+      <td>-105.5</td>
+      <td>-111.5</td>
+      <td>-109.5</td>
+      <td>-105.5</td>
+      <td>-105.5</td>
+      <td>-113.0</td>
+      <td>-116.5</td>
     </tr>
     <tr>
-      <th>2021-05-21 00:05:00.635638</th>
-      <td>69826776</td>
-      <td>69827955</td>
-      <td>0</td>
-      <td>40</td>
-      <td>1164</td>
-      <td>1</td>
-      <td>36</td>
-      <td>PRD 2021 (Faixa principal 2 de 4).</td>
-      <td>0</td>
-      <td>-1</td>
+      <th>2021-06-20 11:57:00.734925</th>
+      <td>-111.5</td>
+      <td>-110.0</td>
+      <td>-115.0</td>
+      <td>-129.5</td>
+      <td>-124.0</td>
+      <td>-114.5</td>
+      <td>-112.5</td>
+      <td>-114.5</td>
+      <td>-116.0</td>
+      <td>-121.5</td>
       <td>...</td>
-      <td>0</td>
-      <td>70</td>
-      <td>0</td>
-      <td>0.039101</td>
-      <td>1163</td>
-      <td>0</td>
-      <td>110</td>
-      <td>0</td>
-      <td>110</td>
-      <td>67</td>
-    </tr>
-    <tr>
-      <th>2021-05-21 00:10:00.606404</th>
-      <td>69861632</td>
-      <td>69862811</td>
-      <td>0</td>
-      <td>40</td>
-      <td>1164</td>
-      <td>1</td>
-      <td>36</td>
-      <td>PRD 2021 (Faixa principal 2 de 4).</td>
-      <td>0</td>
-      <td>-1</td>
-      <td>...</td>
-      <td>0</td>
-      <td>70</td>
-      <td>0</td>
-      <td>0.039101</td>
-      <td>1163</td>
-      <td>0</td>
-      <td>110</td>
-      <td>0</td>
-      <td>110</td>
-      <td>67</td>
-    </tr>
-    <tr>
-      <th>2021-05-21 00:15:00.355210</th>
-      <td>69896488</td>
-      <td>69897667</td>
-      <td>0</td>
-      <td>40</td>
-      <td>1164</td>
-      <td>1</td>
-      <td>36</td>
-      <td>PRD 2021 (Faixa principal 2 de 4).</td>
-      <td>0</td>
-      <td>-1</td>
-      <td>...</td>
-      <td>0</td>
-      <td>70</td>
-      <td>0</td>
-      <td>0.039101</td>
-      <td>1163</td>
-      <td>0</td>
-      <td>110</td>
-      <td>0</td>
-      <td>110</td>
-      <td>67</td>
-    </tr>
-    <tr>
-      <th>2021-05-21 00:20:00.385654</th>
-      <td>69992196</td>
-      <td>69993375</td>
-      <td>0</td>
-      <td>40</td>
-      <td>1164</td>
-      <td>1</td>
-      <td>36</td>
-      <td>PRD 2021 (Faixa principal 2 de 4).</td>
-      <td>0</td>
-      <td>-1</td>
-      <td>...</td>
-      <td>0</td>
-      <td>70</td>
-      <td>0</td>
-      <td>0.039101</td>
-      <td>1163</td>
-      <td>0</td>
-      <td>110</td>
-      <td>0</td>
-      <td>110</td>
-      <td>67</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 34 columns</p>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Frequ&#234;ncia-e-N&#237;vel">Frequ&#234;ncia e N&#237;vel<a class="anchor-link" href="#Frequ&#234;ncia-e-N&#237;vel"> </a></h2><p>A função seguinte extrai as frequências e nível num formato de Tabela Dinâmica:</p>
-<ul>
-<li>Colunas: Frequências (MHz)</li>
-<li>Índice: Números de Bloco</li>
-<li>Valores: Níveis (dBm ou dBuV/m)</li>
-</ul>
-
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">levels</span> <span class="o">=</span> <span class="n">extract_level</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float16&#39;</span><span class="p">)</span>
-<span class="n">levels</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>70.000000</th>
-      <th>70.039101</th>
-      <th>70.078201</th>
-      <th>70.117302</th>
-      <th>70.156403</th>
-      <th>70.195503</th>
-      <th>70.234604</th>
-      <th>70.273705</th>
-      <th>70.312805</th>
-      <th>70.351906</th>
-      <th>...</th>
-      <th>109.648094</th>
-      <th>109.687195</th>
-      <th>109.726295</th>
-      <th>109.765396</th>
-      <th>109.804497</th>
-      <th>109.843597</th>
-      <th>109.882698</th>
-      <th>109.921799</th>
-      <th>109.960899</th>
-      <th>110.000000</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>48.5</td>
-      <td>47.5</td>
-      <td>46.0</td>
-      <td>42.5</td>
-      <td>32.0</td>
-      <td>39.0</td>
-      <td>32.5</td>
-      <td>41.0</td>
-      <td>44.5</td>
-      <td>45.5</td>
-      <td>...</td>
-      <td>34.0</td>
-      <td>37.0</td>
-      <td>38.5</td>
-      <td>38.0</td>
-      <td>32.5</td>
-      <td>28.0</td>
-      <td>36.0</td>
-      <td>34.5</td>
-      <td>27.5</td>
-      <td>34.5</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>35.5</td>
-      <td>35.5</td>
-      <td>36.5</td>
-      <td>46.0</td>
-      <td>43.0</td>
-      <td>44.5</td>
-      <td>47.0</td>
-      <td>45.5</td>
-      <td>40.0</td>
-      <td>38.5</td>
-      <td>...</td>
-      <td>35.5</td>
-      <td>34.5</td>
-      <td>31.0</td>
-      <td>34.5</td>
-      <td>35.5</td>
-      <td>28.5</td>
-      <td>21.5</td>
-      <td>28.5</td>
-      <td>27.0</td>
-      <td>37.5</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>47.0</td>
-      <td>44.5</td>
-      <td>44.0</td>
-      <td>41.5</td>
-      <td>40.5</td>
-      <td>42.0</td>
-      <td>40.0</td>
-      <td>40.0</td>
-      <td>43.0</td>
-      <td>39.5</td>
-      <td>...</td>
-      <td>31.0</td>
-      <td>38.0</td>
-      <td>41.5</td>
-      <td>38.5</td>
-      <td>31.0</td>
-      <td>31.0</td>
-      <td>31.0</td>
-      <td>39.5</td>
-      <td>39.5</td>
-      <td>37.5</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>40.0</td>
-      <td>43.0</td>
-      <td>42.0</td>
-      <td>46.5</td>
-      <td>45.5</td>
-      <td>40.5</td>
-      <td>35.0</td>
-      <td>35.0</td>
-      <td>37.5</td>
-      <td>37.0</td>
-      <td>...</td>
-      <td>37.0</td>
-      <td>38.5</td>
-      <td>39.0</td>
-      <td>35.5</td>
-      <td>36.5</td>
-      <td>32.5</td>
-      <td>26.5</td>
-      <td>33.5</td>
-      <td>35.5</td>
-      <td>33.0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>40.0</td>
-      <td>35.0</td>
-      <td>32.0</td>
-      <td>42.0</td>
-      <td>41.0</td>
-      <td>40.5</td>
-      <td>36.5</td>
-      <td>32.5</td>
-      <td>46.0</td>
-      <td>47.5</td>
-      <td>...</td>
-      <td>31.0</td>
-      <td>28.0</td>
-      <td>41.0</td>
-      <td>42.5</td>
-      <td>39.0</td>
-      <td>31.0</td>
-      <td>25.0</td>
-      <td>16.5</td>
-      <td>23.0</td>
-      <td>23.0</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 1024 columns</p>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Processamento,-Extra&#231;&#227;o-e-Salvamento-dos-Metadados-e-Espectro">Processamento, Extra&#231;&#227;o e Salvamento dos Metadados e Espectro<a class="anchor-link" href="#Processamento,-Extra&#231;&#227;o-e-Salvamento-dos-Metadados-e-Espectro"> </a></h2><p>A função a seguir é um wrapper de toda funcionalidade desta biblioteca. Ela recebe o caminho <code>entrada</code> para um arquivo <code>.bin</code> ou pasta contendo vários arquivos <code>.bin</code>, extrai os metadados e os dados de espectro. Mescla o timestamp dos metadados com o arquivo de espectro e salva ambos na pasta <code>saida</code>. Essa pasta é usada como repositório e cache dos dados processados que serão utilizados pela função <a href="/rfpyefilter.html#extract_bin_stats"><code>extract_bin_stats</code></a>.</p>
-
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">rfpye.filter</span> <span class="kn">import</span> <span class="n">process_bin</span><span class="p">,</span> <span class="n">extract_bin_stats</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">process_bin</span><span class="p">(</span><span class="n">bin_file</span><span class="p">,</span> <span class="n">saida</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800000; text-decoration-color: #800000; font-weight: bold">─────────────────────────── </span>Lista de Arquivos a serem processados<span style="color: #800000; text-decoration-color: #800000; font-weight: bold"> ───────────────────────────</span>
-</pre>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #c0c0c0; text-decoration-color: #c0c0c0; font-weight: bold">[</span><span style="color: #008000; text-decoration-color: #008000">'rfeye002279-SP-Congonhas_210516_T144208.bin'</span><span style="color: #c0c0c0; text-decoration-color: #c0c0c0; font-weight: bold">]                                              </span>
-</pre>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #008080; text-decoration-color: #008080">Processando Blocos de: </span><span style="color: #800000; text-decoration-color: #800000">rfeye002279-SP-Congonhas_210516_T144208.bin</span>
-</pre>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #008080; text-decoration-color: #008080">Extraindo Metadados de: </span><span style="color: #800000; text-decoration-color: #800000">rfeye002279-SP-Congonhas_210516_T144208.bin</span>
-</pre>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">kbô 😆
-</pre>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Se chamarmos a função novamente:</p>
-
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">process_bin</span><span class="p">(</span><span class="n">bin_file</span><span class="p">,</span> <span class="n">saida</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800000; text-decoration-color: #800000; font-weight: bold">─────────────────────────── </span>Lista de Arquivos a serem processados<span style="color: #800000; text-decoration-color: #800000; font-weight: bold"> ───────────────────────────</span>
-</pre>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #c0c0c0; text-decoration-color: #c0c0c0; font-weight: bold">[</span><span style="color: #008000; text-decoration-color: #008000">'rfeye002279-SP-Congonhas_210516_T144208.bin'</span><span style="color: #c0c0c0; text-decoration-color: #c0c0c0; font-weight: bold">]                                              </span>
-</pre>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">😴 Nenhum arquivo novo a processar 💤
-</pre>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">☝ use --substituir no terminal ou <span style="color: #808000; text-decoration-color: #808000">substituir</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span> na chamada caso queira reprocessar os bins 
-e sobrepôr os arquivos existentes 😉
-</pre>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Como vemos pela mensagem de saída, nada foi feito porque esse arquivo já foi processado anteriormente e todos os arquivos de metadados e espectros presentes já foram salvos na pasta <code>saida</code></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Resumo-do-arquivo">Resumo do arquivo<a class="anchor-link" href="#Resumo-do-arquivo"> </a></h2><p>Se o que interessa é somente os dados estatísticos do arquivo como <code>Min</code>, <code>Max</code> e <code>Mean</code> basta utilizar:</p>
-
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">stats</span> <span class="o">=</span> <span class="n">extract_bin_stats</span><span class="p">(</span><span class="n">bin_file</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="n">saida</span><span class="p">)</span>
-<span class="n">stats</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Frequency</th>
-      <th>Min</th>
-      <th>Max</th>
-      <th>Mean</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>50.000000</td>
-      <td>18.0</td>
-      <td>48.5</td>
-      <td>37.81250</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>50.039101</td>
-      <td>10.5</td>
-      <td>49.0</td>
-      <td>37.62500</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>50.078201</td>
-      <td>8.5</td>
-      <td>48.5</td>
-      <td>37.59375</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>50.117302</td>
-      <td>17.5</td>
-      <td>49.5</td>
-      <td>37.96875</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>50.156403</td>
-      <td>17.5</td>
-      <td>50.0</td>
-      <td>38.00000</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>43003</th>
-      <td>5159.843750</td>
-      <td>-128.5</td>
-      <td>-104.0</td>
-      <td>-112.43750</td>
-    </tr>
-    <tr>
-      <th>43004</th>
-      <td>5159.882812</td>
-      <td>-125.0</td>
-      <td>-103.5</td>
-      <td>-112.25000</td>
-    </tr>
-    <tr>
-      <th>43005</th>
-      <td>5159.921875</td>
-      <td>-127.0</td>
-      <td>-101.5</td>
-      <td>-111.37500</td>
-    </tr>
-    <tr>
-      <th>43006</th>
-      <td>5159.960938</td>
-      <td>-123.5</td>
+      <td>-105.0</td>
       <td>-101.0</td>
-      <td>-111.12500</td>
+      <td>-100.5</td>
+      <td>-104.0</td>
+      <td>-107.0</td>
+      <td>-105.5</td>
+      <td>-112.5</td>
+      <td>-116.0</td>
+      <td>-111.0</td>
+      <td>-108.0</td>
     </tr>
     <tr>
-      <th>43007</th>
-      <td>5160.000000</td>
-      <td>-125.5</td>
+      <th>2021-06-20 11:58:00.734953</th>
+      <td>-107.0</td>
+      <td>-111.5</td>
+      <td>-130.0</td>
+      <td>-113.0</td>
+      <td>-107.0</td>
+      <td>-107.5</td>
+      <td>-110.5</td>
+      <td>-115.0</td>
+      <td>-127.5</td>
+      <td>-109.5</td>
+      <td>...</td>
+      <td>-104.5</td>
+      <td>-107.0</td>
+      <td>-108.0</td>
+      <td>-110.0</td>
+      <td>-108.0</td>
+      <td>-105.5</td>
+      <td>-119.5</td>
+      <td>-113.5</td>
+      <td>-109.5</td>
+      <td>-106.5</td>
+    </tr>
+    <tr>
+      <th>2021-06-20 11:59:00.735716</th>
+      <td>-107.0</td>
+      <td>-114.0</td>
+      <td>-115.0</td>
+      <td>-96.5</td>
+      <td>-111.5</td>
+      <td>-119.0</td>
+      <td>-116.5</td>
+      <td>-113.5</td>
+      <td>-117.0</td>
+      <td>-122.0</td>
+      <td>...</td>
+      <td>-109.5</td>
+      <td>-105.5</td>
+      <td>-102.5</td>
+      <td>-104.0</td>
+      <td>-110.5</td>
+      <td>-116.5</td>
+      <td>-111.5</td>
+      <td>-111.5</td>
+      <td>-111.0</td>
+      <td>-108.0</td>
+    </tr>
+    <tr>
+      <th>2021-06-20 12:00:00.736139</th>
+      <td>-85.5</td>
+      <td>-90.0</td>
+      <td>-97.0</td>
+      <td>-102.5</td>
+      <td>-110.0</td>
+      <td>-114.0</td>
+      <td>-117.5</td>
+      <td>-117.0</td>
+      <td>-110.5</td>
+      <td>-112.0</td>
+      <td>...</td>
+      <td>-108.5</td>
+      <td>-112.5</td>
+      <td>-120.0</td>
+      <td>-115.5</td>
+      <td>-111.5</td>
+      <td>-115.5</td>
+      <td>-112.0</td>
+      <td>-114.5</td>
+      <td>-122.0</td>
+      <td>-111.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2021-06-26 18:47:00.734834</th>
+      <td>-114.0</td>
+      <td>-112.0</td>
+      <td>-111.0</td>
+      <td>-111.0</td>
+      <td>-111.5</td>
+      <td>-110.0</td>
+      <td>-108.5</td>
+      <td>-114.0</td>
+      <td>-122.0</td>
+      <td>-116.0</td>
+      <td>...</td>
+      <td>-106.5</td>
+      <td>-105.5</td>
+      <td>-105.0</td>
+      <td>-105.0</td>
       <td>-103.5</td>
-      <td>-112.06250</td>
+      <td>-101.5</td>
+      <td>-103.5</td>
+      <td>-101.5</td>
+      <td>-102.0</td>
+      <td>-103.0</td>
+    </tr>
+    <tr>
+      <th>2021-06-26 18:48:00.734868</th>
+      <td>-110.5</td>
+      <td>-111.5</td>
+      <td>-124.5</td>
+      <td>-113.5</td>
+      <td>-104.5</td>
+      <td>-102.5</td>
+      <td>-115.0</td>
+      <td>-116.0</td>
+      <td>-113.5</td>
+      <td>-112.5</td>
+      <td>...</td>
+      <td>-107.0</td>
+      <td>-107.5</td>
+      <td>-108.5</td>
+      <td>-106.5</td>
+      <td>-104.5</td>
+      <td>-104.0</td>
+      <td>-105.0</td>
+      <td>-108.0</td>
+      <td>-109.0</td>
+      <td>-106.0</td>
+    </tr>
+    <tr>
+      <th>2021-06-26 18:49:00.734831</th>
+      <td>-103.0</td>
+      <td>-108.5</td>
+      <td>-114.0</td>
+      <td>-111.5</td>
+      <td>-116.0</td>
+      <td>-117.0</td>
+      <td>-111.0</td>
+      <td>-109.5</td>
+      <td>-110.0</td>
+      <td>-108.5</td>
+      <td>...</td>
+      <td>-112.5</td>
+      <td>-110.0</td>
+      <td>-108.5</td>
+      <td>-112.5</td>
+      <td>-105.5</td>
+      <td>-100.0</td>
+      <td>-99.5</td>
+      <td>-104.5</td>
+      <td>-110.5</td>
+      <td>-111.5</td>
+    </tr>
+    <tr>
+      <th>2021-06-26 18:50:00.734916</th>
+      <td>-96.0</td>
+      <td>-106.5</td>
+      <td>-103.0</td>
+      <td>-114.0</td>
+      <td>-113.0</td>
+      <td>-108.5</td>
+      <td>-105.5</td>
+      <td>-105.5</td>
+      <td>-105.5</td>
+      <td>-105.0</td>
+      <td>...</td>
+      <td>-108.0</td>
+      <td>-107.5</td>
+      <td>-105.5</td>
+      <td>-112.0</td>
+      <td>-106.0</td>
+      <td>-103.5</td>
+      <td>-129.0</td>
+      <td>-110.0</td>
+      <td>-109.5</td>
+      <td>-113.0</td>
+    </tr>
+    <tr>
+      <th>2021-06-26 18:52:00.734862</th>
+      <td>-104.5</td>
+      <td>-108.0</td>
+      <td>-111.0</td>
+      <td>-108.5</td>
+      <td>-108.5</td>
+      <td>-108.0</td>
+      <td>-105.5</td>
+      <td>-106.0</td>
+      <td>-109.0</td>
+      <td>-109.5</td>
+      <td>...</td>
+      <td>-110.0</td>
+      <td>-111.5</td>
+      <td>-102.0</td>
+      <td>-99.0</td>
+      <td>-102.0</td>
+      <td>-105.5</td>
+      <td>-106.5</td>
+      <td>-106.0</td>
+      <td>-111.0</td>
+      <td>-113.5</td>
     </tr>
   </tbody>
 </table>
-<p>43008 rows × 4 columns</p>
+<p>8963 rows × 3584 columns</p>
 </div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Podemos filtrar o intervalo tanto de frequência quanto de tempo da extração:</p>
-
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">stats</span> <span class="o">=</span> <span class="n">extract_bin_stats</span><span class="p">(</span><span class="n">bin_file</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="n">saida</span><span class="p">,</span> <span class="n">freq_start</span><span class="o">=</span><span class="mf">88.1</span><span class="p">,</span> <span class="n">freq_stop</span><span class="o">=</span><span class="mf">107.9</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">    Frequency   Min   Max      Mean
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.123169</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">69.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">96.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">89.43750</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.162270</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">96.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">89.43750</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.201370</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">53.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">96.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">83.62500</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.240471</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">46.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">95.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">83.81250</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.279572</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">37.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">95.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">71.93750</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.318672</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">94.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">72.37500</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.357773</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">28.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">57.40625</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">7</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.396873</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">21.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">85.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">57.90625</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.435974</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">71.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">46.00000</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">9</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.475075</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">46.40625</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.514175</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">12.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">55.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">40.71875</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">11</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.553276</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">9.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">55.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">40.93750</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">12</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.592377</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">20.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">53.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">38.06250</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">13</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.631477</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">17.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">56.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">38.28125</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">14</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.670578</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">41.59375</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">15</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.709679</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">41.90625</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.748779</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">12.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">62.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">49.96875</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">17</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.787880</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">17.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">62.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">50.25000</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">18</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.826981</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">28.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">54.37500</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">19</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.866081</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">31.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">63.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">54.68750</span>
-</pre>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">      Frequency    Min   Max      Mean
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">833</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.705833</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-133.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-64.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-90.00000</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">834</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.715599</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-120.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-62.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-88.81250</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">835</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.725372</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-117.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-60.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-88.00000</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">836</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.735138</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">19.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">75.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">46.31250</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">837</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.744904</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-128.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-58.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-86.68750</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">838</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.754677</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-121.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-57.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-84.31250</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">839</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.764442</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-116.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-49.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-80.68750</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">840</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.774208</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-120.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-41.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-76.37500</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">841</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.783981</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">18.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">79.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">59.62500</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">842</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.793747</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-121.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-38.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-72.37500</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">843</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.803520</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-115.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-38.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-69.00000</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">844</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.813286</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-116.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-38.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-66.68750</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">845</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.823051</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-118.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-40.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-65.12500</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">846</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.832825</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">25.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">79.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">69.31250</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">847</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.842590</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-124.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-42.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-62.59375</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">848</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.852356</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-111.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-41.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-59.12500</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">849</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.862129</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-119.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-39.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-55.75000</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">850</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.871895</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-110.5</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-38.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-53.15625</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">851</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.881660</span>   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">43.0</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">81.5</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">73.25000</span>
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">852</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">107.891434</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-111.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-37.0</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-51.71875</span>
-</pre>
-
 </div>
 
 </div>
