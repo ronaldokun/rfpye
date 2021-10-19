@@ -172,8 +172,6 @@ print(v5)
 
 A saída da função é um dicionário, com os metadados do arquivo:
 
-![image.png](nbs\attachment:83a77abf-8623-4f82-ae74-8a0d077b1aa8.png)
-
 No entanto as duas chaves mais importantes do dicionário retornado são `gps` e `spectrum`
 
 ```python

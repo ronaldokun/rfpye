@@ -1,7 +1,6 @@
 {
   "rfpye": {
     "Overview": "/",
-    "Processamento e Filtragem": "filter.html",
     "Parser": "parser.html",
     "Utils": "utils.html",
     "Blocks": "blocks.html",
