@@ -54,7 +54,7 @@ nb_path: "nbs\00_main.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="filter_spectrum" class="doc_header"><code>filter_spectrum</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/main.py#L44" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>filter_spectrum</code>(<strong><code>df</code></strong>:<code>DataFrame</code>, <strong><code>time_start</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>time_stop</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>freq_start</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>freq_stop</code></strong>:<code>str</code>=<em><code>None</code></em>)</p>
+<h4 id="filter_spectrum" class="doc_header"><code>filter_spectrum</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/main.py#L45" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>filter_spectrum</code>(<strong><code>df</code></strong>:<code>DataFrame</code>, <strong><code>time_start</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>time_stop</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>freq_start</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>freq_stop</code></strong>:<code>str</code>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Recebe o arquivo de espectro df e retorna de acordo com os filtros</p>
 <p>Args:
@@ -101,7 +101,7 @@ nb_path: "nbs\00_main.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="process_bin" class="doc_header"><code>process_bin</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/main.py#L127" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>process_bin</code>(<strong><code>entrada</code></strong>:<code>str</code>, <strong><code>saida</code></strong>:<code>str</code>, <strong><code>recursivo</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>pastas</code></strong>:<code>Iterable</code>[<code>str</code>]=<em><code>None</code></em>, <strong><code>levels</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>substituir</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>dtype</code></strong>:<code>str</code>=<em><code>'float16'</code></em>)</p>
+<h4 id="process_bin" class="doc_header"><code>process_bin</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/main.py#L128" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>process_bin</code>(<strong><code>entrada</code></strong>:<code>str</code>, <strong><code>saida</code></strong>:<code>str</code>, <strong><code>recursivo</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>pastas</code></strong>:<code>Iterable</code>[<code>str</code>]=<em><code>None</code></em>, <strong><code>levels</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>substituir</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>dtype</code></strong>:<code>str</code>=<em><code>'float16'</code></em>)</p>
 </blockquote>
 <p>Recebe uma pasta ou arquivo bin, processa e salva os metadados e espectro na saida.</p>
 <p>Args:
@@ -141,7 +141,7 @@ nb_path: "nbs\00_main.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="extract_bin_data" class="doc_header"><code>extract_bin_data</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/main.py#L272" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>extract_bin_data</code>(<strong><code>path</code></strong>:<code>str</code>, <strong><code>save_path</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>spec_data</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>dtype</code></strong>:<code>str</code>=<em><code>'float16'</code></em>)</p>
+<h4 id="extract_bin_data" class="doc_header"><code>extract_bin_data</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/main.py#L273" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>extract_bin_data</code>(<strong><code>path</code></strong>:<code>str</code>, <strong><code>spec_data</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>dtype</code></strong>:<code>str</code>=<em><code>'float16'</code></em>, <strong><code>save_path</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>substituir</code></strong>:<code>bool</code>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Recebe uma pasta ou arquivo bin, processa e salva os metadados e espectro na saida.</p>
 <p>Args:
@@ -814,7 +814,7 @@ A função seguinte recebe um caminho para um arquivo <code>.bin</code> ou para 
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="extract_bin_stats" class="doc_header"><code>extract_bin_stats</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/main.py#L405" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>extract_bin_stats</code>(<strong><code>filename</code></strong>:<code>str</code>, <strong><code>time_start</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>time_stop</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>freq_start</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>freq_stop</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>cache</code></strong>:<code>str</code>=<em><code>Path('D:/OneDrive - ANATEL/Code/rfpye/.cache')</code></em>)</p>
+<h4 id="extract_bin_stats" class="doc_header"><code>extract_bin_stats</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/main.py#L417" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>extract_bin_stats</code>(<strong><code>filename</code></strong>:<code>str</code>, <strong><code>time_start</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>time_stop</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>freq_start</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>freq_stop</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>cache</code></strong>:<code>str</code>=<em><code>Path('G:/Meu Drive/repos/Code/rfpye/.cache')</code></em>)</p>
 </blockquote>
 <p>Recebe o caminho para um arquivo CRFS bin e retorna um dataframe com o resumo estatístico dos dados de espectro</p>
 <p>Args:
