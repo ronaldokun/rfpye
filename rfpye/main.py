@@ -78,12 +78,14 @@ def extract_bin_data(
         parsed_bin = parse_bin(file, btypes=BTYPES)
         file_version, blocks = parsed_bin.values()
         metadata = export_metadata(blocks, filter_attrs=FILTER_ATTRS)
-        out = dict()
-        out['File_Name'] = file.name
-        out['File_Version'] = file_version
-        out['File_Type'] = 'RFEye Logger Trace'
-        out['Device'] = 'Rfeye Node'
-        out['Fluxos'] = dict()
+        out = {
+            'File_Name': file.name,
+            'File_Version': file_version,
+            'File_Type': 'RFEye Logger Trace',
+            'Device': 'Rfeye Node',
+            'Fluxos': {},
+        }
+
         for (btype, tid), df in metadata.items():
             if btype == 21:
                 out['Equipment_ID'] = df.hostname.item()
@@ -97,8 +99,7 @@ def extract_bin_data(
                 out['Sum_Longitude'] = df.longitude.sum()
             elif btype in SPECTRAL_BLOCKS:
                 timestamp = df.index.values
-                level = dict()
-                level['Initial_Time'] = timestamp.min()
+                level = {'Initial_Time': timestamp.min()}
                 level['Sample_Duration'] = df['sample'].median()
                 fluxo = df.drop(['minimum', 'sample'], axis=1).iloc[0]
                 level['Description'] = fluxo.description
@@ -202,12 +203,14 @@ def extract_bin_data(
         parsed_bin = parse_bin(file, btypes=BTYPES)
         file_version, blocks = parsed_bin.values()
         metadata = export_metadata(blocks, filter_attrs=FILTER_ATTRS)
-        out = dict()
-        out['File_Name'] = file.name
-        out['File_Version'] = file_version
-        out['File_Type'] = 'RFEye Logger Trace'
-        out['Device'] = 'Rfeye Node'
-        out['Fluxos'] = dict()
+        out = {
+            'File_Name': file.name,
+            'File_Version': file_version,
+            'File_Type': 'RFEye Logger Trace',
+            'Device': 'Rfeye Node',
+            'Fluxos': {},
+        }
+
         for (btype, tid), df in metadata.items():
             if btype == 21:
                 out['Equipment_ID'] = df.hostname.item()
@@ -221,8 +224,7 @@ def extract_bin_data(
                 out['Sum_Longitude'] = df.longitude.sum()
             elif btype in SPECTRAL_BLOCKS:
                 timestamp = df.index.values
-                level = dict()
-                level['Initial_Time'] = timestamp.min()
+                level = {'Initial_Time': timestamp.min()}
                 level['Sample_Duration'] = df['sample'].median()
                 fluxo = df.drop(['minimum', 'sample'], axis=1).iloc[0]
                 level['Description'] = fluxo.description

@@ -19,8 +19,7 @@ def extract_metadata(parsed_blocks: dict) -> dict:
         raise TypeError(
             f"It's expected the argument {parsed_blocks} to be a mapping from block attributes to a list of Blocks"
         )
-    meta = {}
-    meta['fluxos'] = []
+    meta = {'fluxos': []}
     for keys, blocks in parsed_blocks.items():
         block_type = keys[0][1]
         attrs = BLOCK_ATTRS.get(block_type)
