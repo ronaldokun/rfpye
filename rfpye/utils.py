@@ -157,7 +157,7 @@ def public_attrs(obj: Any) -> L:
     return L(k for k in dir(obj) if not k.startswith("_") and k not in EXCLUDE_ATTRS)
 
 def getattrs(obj: Any, attrs: Iterable = None) -> L:
-    """Receives an object and return the atributes listed in `attrs`, if attrs is None return the its public attributes"""
+    """Receives an object and return the atributes listed in `attrs`, if attrs is None return its public attributes"""
     if attrs is None:
         attrs = public_attrs(obj)
     return {x: getattr(obj, x) for x in attrs}
