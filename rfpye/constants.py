@@ -9,10 +9,6 @@ __all__ = ['BYTES_HEADER', 'ENDMARKER', 'EXCLUDE_ATTRS', 'DICT_PROCESSING', 'DIC
 from typing import Mapping, List
 
 # Cell
-# custom_theme = Theme({"info": "dim cyan", "warning": "magenta", "danger": "bold red"})
-# console = Console(theme=custom_theme)
-
-# Cell
 BYTES_HEADER = 36
 
 ENDMARKER: bytes = b"UUUU"
