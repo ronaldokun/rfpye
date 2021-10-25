@@ -47,6 +47,31 @@ nb_path: "nbs\02_utils.ipynb"
     
 <div class="cell border-box-sizing code_cell rendered">
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="recursive_walk" class="doc_header"><code>recursive_walk</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L28" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>recursive_walk</code>(<strong><code>path</code></strong>, <strong><code>folders</code></strong>, <strong><code>extensions</code></strong>, <strong><code>followlinks</code></strong>)</p>
+</blockquote>
+<p>Helper functions to encapsulate os.walk</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
 </div>
     {% endraw %}
 
@@ -75,7 +100,7 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlink
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_files" class="doc_header"><code>get_files</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L43" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_files</code>(<strong><code>path</code></strong>, <strong><code>extensions</code></strong>=<em><code>None</code></em>, <strong><code>recurse</code></strong>=<em><code>True</code></em>, <strong><code>folders</code></strong>=<em><code>None</code></em>, <strong><code>followlinks</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="get_files" class="doc_header"><code>get_files</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L44" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_files</code>(<strong><code>path</code></strong>, <strong><code>extensions</code></strong>=<em><code>None</code></em>, <strong><code>recurse</code></strong>=<em><code>True</code></em>, <strong><code>folders</code></strong>=<em><code>None</code></em>, <strong><code>followlinks</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Get all the files in <code>path</code> with optional <code>extensions</code>, optionally with <code>recurse</code>, only in <code>folders</code>, if specified.</p>
 
@@ -96,29 +121,16 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlink
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_files</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">extensions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">recurse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">folders</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">followlinks</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_files</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">extensions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">recurse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">folders</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">followlinks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">L</span><span class="p">:</span>
     <span class="s2">&quot;Get all the files in `path` with optional `extensions`, optionally with `recurse`, only in `folders`, if specified.&quot;</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="n">folders</span> <span class="o">=</span> <span class="n">L</span><span class="p">(</span><span class="n">folders</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">extensions</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">extensions</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">uniqueify</span><span class="p">(</span><span class="n">extensions</span><span class="p">))</span>
-        <span class="n">extensions</span> <span class="o">=</span> <span class="p">{</span><span class="n">e</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">extensions</span><span class="p">}</span>
+        <span class="n">extensions</span> <span class="o">=</span> <span class="p">{</span><span class="n">e</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">uniqueify</span><span class="p">(</span><span class="n">extensions</span><span class="p">)}</span>
     <span class="k">if</span> <span class="n">recurse</span><span class="p">:</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">followlinks</span><span class="o">=</span><span class="n">followlinks</span><span class="p">)</span>
-        <span class="p">):</span>  <span class="c1"># returns (dirpath, dirnames, filenames)</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">folders</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">d</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">[</span><span class="n">o</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">d</span> <span class="k">if</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">folders</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">d</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">[</span><span class="n">o</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">d</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">o</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)]</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">folders</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="s2">&quot;.&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">folders</span><span class="p">:</span>
-                <span class="k">continue</span>
-            <span class="n">res</span> <span class="o">+=</span> <span class="n">_get_files</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">extensions</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">f</span> <span class="o">=</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">scandir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">if</span> <span class="n">o</span><span class="o">.</span><span class="n">is_file</span><span class="p">()]</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">_get_files</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">extensions</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">L</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">recursive_walk</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">folders</span><span class="p">,</span> <span class="n">extensions</span><span class="p">,</span> <span class="n">followlinks</span><span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">scandir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">if</span> <span class="n">o</span><span class="o">.</span><span class="n">is_file</span><span class="p">()]</span>
+    <span class="k">return</span> <span class="n">_get_files</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">extensions</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -154,7 +166,7 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlink
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="bin2int" class="doc_header"><code>bin2int</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L69" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>bin2int</code>(<strong><code>binary_data</code></strong>:<code>bytes</code>, <strong><code>is_signed</code></strong>:<code>bool</code>=<em><code>True</code></em>)</p>
+<h4 id="bin2int" class="doc_header"><code>bin2int</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L56" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>bin2int</code>(<strong><code>binary_data</code></strong>:<code>bytes</code>, <strong><code>is_signed</code></strong>:<code>bool</code>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Convert bytes number to int
 :param binary_data: valor de int comprimido
@@ -182,7 +194,7 @@ O caráter recursivo e a busca em links, <code>recurse</code> e <code>followlink
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="bin2str" class="doc_header"><code>bin2str</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L78" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>bin2str</code>(<strong><code>binary_data</code></strong>:<code>bytes</code>)</p>
+<h4 id="bin2str" class="doc_header"><code>bin2str</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L65" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>bin2str</code>(<strong><code>binary_data</code></strong>:<code>bytes</code>)</p>
 </blockquote>
 <p>bytes &gt; str
 :param binary_data: valor de str comprimida
@@ -212,7 +224,7 @@ Ignora o final do dado binario (' ') que é usado apenas para manter o tamanho d
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="bin2date" class="doc_header"><code>bin2date</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L91" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>bin2date</code>(<strong><code>binary_data</code></strong>:<code>bytes</code>)</p>
+<h4 id="bin2date" class="doc_header"><code>bin2date</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L78" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>bin2date</code>(<strong><code>binary_data</code></strong>:<code>bytes</code>)</p>
 </blockquote>
 <p>Receives a byte and returns a tuple with the date
 :param binary_data: valor de data comprimido
@@ -240,7 +252,7 @@ Ignora o final do dado binario (' ') que é usado apenas para manter o tamanho d
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="bin2time" class="doc_header"><code>bin2time</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L103" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>bin2time</code>(<strong><code>binary_data</code></strong>:<code>bytes</code>)</p>
+<h4 id="bin2time" class="doc_header"><code>bin2time</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L90" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>bin2time</code>(<strong><code>binary_data</code></strong>:<code>bytes</code>)</p>
 </blockquote>
 <p>Receives a byte and returns a tuple with the time
 :param binary_data: compressed time value
@@ -271,7 +283,7 @@ Ignora o final do dado binario (' ') que é usado apenas para manter o tamanho d
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="pad" class="doc_header"><code>pad</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L116" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>pad</code>(<strong><code>text</code></strong>, <strong><code>block_size</code></strong>)</p>
+<h4 id="pad" class="doc_header"><code>pad</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L103" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>pad</code>(<strong><code>text</code></strong>, <strong><code>block_size</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -316,7 +328,7 @@ Ignora o final do dado binario (' ') que é usado apenas para manter o tamanho d
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="optimize_floats" class="doc_header"><code>optimize_floats</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L129" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>optimize_floats</code>(<strong><code>df</code></strong>:<code>DataFrame</code>, <strong><code>exclude</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="optimize_floats" class="doc_header"><code>optimize_floats</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L115" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>optimize_floats</code>(<strong><code>df</code></strong>:<code>DataFrame</code>, <strong><code>exclude</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 
 </div>
@@ -340,7 +352,7 @@ Ignora o final do dado binario (' ') que é usado apenas para manter o tamanho d
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="optimize_ints" class="doc_header"><code>optimize_ints</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L136" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>optimize_ints</code>(<strong><code>df</code></strong>:<code>DataFrame</code>, <strong><code>exclude</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="optimize_ints" class="doc_header"><code>optimize_ints</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L122" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>optimize_ints</code>(<strong><code>df</code></strong>:<code>DataFrame</code>, <strong><code>exclude</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 
 </div>
@@ -364,7 +376,7 @@ Ignora o final do dado binario (' ') que é usado apenas para manter o tamanho d
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="optimize_objects" class="doc_header"><code>optimize_objects</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L143" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>optimize_objects</code>(<strong><code>df</code></strong>:<code>DataFrame</code>, <strong><code>datetime_features</code></strong>:<code>List</code>[<code>str</code>], <strong><code>exclude</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="optimize_objects" class="doc_header"><code>optimize_objects</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L129" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>optimize_objects</code>(<strong><code>df</code></strong>:<code>DataFrame</code>, <strong><code>datetime_features</code></strong>:<code>List</code>[<code>str</code>], <strong><code>exclude</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 
 </div>
@@ -388,7 +400,7 @@ Ignora o final do dado binario (' ') que é usado apenas para manter o tamanho d
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="df_optimize" class="doc_header"><code>df_optimize</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L162" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>df_optimize</code>(<strong><code>df</code></strong>:<code>DataFrame</code>, <strong><code>datetime_features</code></strong>:<code>List</code>[<code>str</code>]=<em><code>[]</code></em>, <strong><code>exclude</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="df_optimize" class="doc_header"><code>df_optimize</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L148" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>df_optimize</code>(<strong><code>df</code></strong>:<code>DataFrame</code>, <strong><code>datetime_features</code></strong>:<code>List</code>[<code>str</code>]=<em><code>[]</code></em>, <strong><code>exclude</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 
 </div>
@@ -426,7 +438,7 @@ Ignora o final do dado binario (' ') que é usado apenas para manter o tamanho d
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="public_attrs" class="doc_header"><code>public_attrs</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L170" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>public_attrs</code>(<strong><code>obj</code></strong>:<code>Any</code>)</p>
+<h4 id="public_attrs" class="doc_header"><code>public_attrs</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L155" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>public_attrs</code>(<strong><code>obj</code></strong>:<code>Any</code>)</p>
 </blockquote>
 <p>Receives an object and return its public attributes (not starting with underscore _) excluding those listed in <a href="/rfpyeconstants.html#EXCLUDE_ATTRS"><code>EXCLUDE_ATTRS</code></a></p>
 
@@ -451,7 +463,7 @@ Ignora o final do dado binario (' ') que é usado apenas para manter o tamanho d
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="getattrs" class="doc_header"><code>getattrs</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L175" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>getattrs</code>(<strong><code>obj</code></strong>:<code>Any</code>, <strong><code>attrs</code></strong>:<code>Iterable</code>[<code>T_co</code>]=<em><code>None</code></em>)</p>
+<h4 id="getattrs" class="doc_header"><code>getattrs</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L160" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>getattrs</code>(<strong><code>obj</code></strong>:<code>Any</code>, <strong><code>attrs</code></strong>:<code>Iterable</code>[<code>T_co</code>]=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Receives an object and return the atributes listed in <code>attrs</code>, if attrs is None return its public attributes</p>
 
@@ -490,7 +502,7 @@ Ignora o final do dado binario (' ') que é usado apenas para manter o tamanho d
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="cached" class="doc_header"><code>cached</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L183" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>cached</code>(<strong><code>f</code></strong>)</p>
+<h4 id="cached" class="doc_header"><code>cached</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L167" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>cached</code>(<strong><code>f</code></strong>)</p>
 </blockquote>
 
 </div>
