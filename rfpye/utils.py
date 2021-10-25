@@ -12,7 +12,7 @@ import numpy as np
 import pandas as pd
 from fastcore.foundation import L
 from fastcore.xtras import Path
-from fastcore.basics import uniqueify, listify
+from fastcore.basics import listify, setify
 from .constants import EXCLUDE_ATTRS
 
 # Cell
@@ -46,7 +46,7 @@ def get_files(path, extensions=None, recurse=True, folders=None, followlinks=Tru
     path = Path(path)
     folders = L(folders)
     if extensions is not None:
-        extensions = {e.lower() for e in uniqueify(extensions)}
+        extensions = {e.lower() for e in setify(extensions)}
     if recurse:
         return recursive_walk(path, folders, extensions, followlinks)
     f = [o.name for o in os.scandir(path) if o.is_file()]
