@@ -15,7 +15,7 @@ from fastcore.utils import parallel
 from fastcore.foundation import L, GetAttr
 from .constants import *
 from .blocks import MAIN_BLOCKS, BaseBlock
-from .utils import get_files, getattrs, bin2int, bin2str, cached_property
+from .utils import get_files, getattrs, bin2int, bin2str, cached
 from .cyparser import cy_extract_compressed
 from loguru import logger
 import pandas as pd
@@ -26,7 +26,14 @@ from rich import print
 # For scripts
 config = {
     "handlers": [
-        {"sink": "parser.log", "serialize": True, 'rotation': "1 month", 'compression' :'zip', 'backtrace': True, 'diagnose': True},
+        {
+            "sink": "parser.log",
+            "serialize": True,
+            "rotation": "1 month",
+            "compression": "zip",
+            "backtrace": True,
+            "diagnose": True,
+        },
     ],
 }
 logger.configure(**config)
@@ -50,7 +57,7 @@ def parse_bin(bin_file: Union[str, Path]) -> dict:
         body = bfile.read()
     meta = classify_blocks(body.split(ENDMARKER))
     parsed = {
-        "filename" : bin_file.name,
+        "filename": bin_file.name,
         "file_version": bin2int(header[:4]),
         "string": bin2str(header[4:]),
     }
@@ -58,12 +65,15 @@ def parse_bin(bin_file: Union[str, Path]) -> dict:
     return parsed
 
 # Cell
-def evaluate_checksum(byte_block: bytes)->int:
+def evaluate_checksum(byte_block: bytes) -> int:
     """Receives a byte_block and verify if the calculated checksum is equal to the one registed in the specific byte"""
     try:
         checksum = np.frombuffer(byte_block[-4:], dtype=np.uint32).item()
         calculated_checksum = (
-            np.frombuffer(byte_block[:-4], dtype=np.uint8).sum().astype(np.uint32).item()
+            np.frombuffer(byte_block[:-4], dtype=np.uint8)
+            .sum()
+            .astype(np.uint32)
+            .item()
         )
     except ValueError:
         return -1
@@ -74,37 +84,45 @@ def byte2base_block(byte_block: bytes) -> Union[BaseBlock, None]:
     """Receives a byte block from the bin file and returns a dataclass with the attributes
     'thread_id', 'size', 'type', 'data', 'checksum' or None in case any error is identified.
     """
-    if byte_block == b"": return None
+    if byte_block == b"":
+        return None
     checksum = evaluate_checksum(byte_block)
     size = bin2int(byte_block[4:8])
     data = byte_block[12:-4]
     # Discard the block if a fail in checksum or in case of a truncated block
-    if checksum == -1 or size != len(data): return None
-    return BaseBlock(bin2int(byte_block[:4]), size, bin2int(byte_block[8:12]), data, checksum)
+    if checksum == -1 or size != len(data):
+        return None
+    return BaseBlock(
+        bin2int(byte_block[:4]), size, bin2int(byte_block[8:12]), data, checksum
+    )
 
 # Cell
-def create_block(byte_block: bytes)->Union[GetAttr,None]:
+def create_block(byte_block: bytes) -> Union[GetAttr, None]:
     """Receives a byte_block, and converts it into one of the main classes
     Args: byte_block: A byte block directly returned from the file
     Returns: The Instance of the Block Type or None in case of error
     """
     base_block = byte2base_block(byte_block)
-    if not base_block: return None
+    if not base_block:
+        return None
     block_type = base_block.type
     constructor = MAIN_BLOCKS.get(block_type)
     if not constructor:
-        _ = logger.log("INFO", f'This block type constructor is not implemented: {block_type}')
+        _ = logger.log(
+            "INFO", f"This block type constructor is not implemented: {block_type}"
+        )
         return None
     block = constructor(base_block)
-    if getattr(block, "gerror", -1) != -1 or getattr(block, 'gps_status', -1) == 0:
-        _ = logger.log("INFO", f'Block with error: {block_type}')
-        return None #spectral or gps blocks with error
+    if getattr(block, "gerror", -1) != -1 or getattr(block, "gps_status", -1) == 0:
+        _ = logger.log("INFO", f"Block with error: {block_type}")
+        return None  # spectral or gps blocks with error
     return block
 
 # Cell
 @dataclass
 class CrfsGPS:
     """Class with the GPS Attributes from the CRFS Bin File"""
+
     _gps_datetime: L = L()
     _latitude: L = L()
     _longitude: L = L()
@@ -112,26 +130,28 @@ class CrfsGPS:
     _num_satellites: L = L()
 
     @property
-    def latitude(self)->float:
+    def latitude(self) -> float:
         return np.median(self._latitude) if self._latitude else -1
 
     @property
-    def longitude(self)->float:
+    def longitude(self) -> float:
         return np.median(self._longitude) if self._longitude else -1
 
     @property
-    def altitude(self)->float:
+    def altitude(self) -> float:
         return np.median(self._altitude) if self._altitude else -1
 
     @property
-    def num_satellites(self)->float:
+    def num_satellites(self) -> float:
         return np.median(self._num_satellites) if self._num_satellites else 0
 
     def __repr__(self):
-        return f'GPS Data - Median of Coordinates: {self.latitude:.5f}:{self.longitude:.5f}, Altitude: {self.altitude:.2f} #Satellites: {self.num_satellites:.1f} '
+        return f"GPS Data - Median of Coordinates: {self.latitude:.5f}:{self.longitude:.5f}, Altitude: {self.altitude:.2f} #Satellites: {self.num_satellites:.1f} "
+
 
 class CrfsSpectrum(GetAttr):
     """Class with the metadata and levels of a spectrum block from a CRFS Bin File"""
+
     def __init__(self, metadata: namedtuple):
         self.default = metadata
         self.timestamp: L = L()
@@ -148,17 +168,23 @@ class CrfsSpectrum(GetAttr):
         return repr(self.default)
 
     def __str__(self):
-        return f'Blocks of Type: {self.type}, Thread_id: {self.thread_id}, Start: {self.start_mega} MHz, Stop: {self.stop_mega} MHz'
+        return f"Blocks of Type: {self.type}, Thread_id: {self.thread_id}, Start: {self.start_mega} MHz, Stop: {self.stop_mega} MHz"
 
-    @cached_property
+    @cached
     def levels(self):
         """Return the spectrum levels"""
         if self.type in UNCOMPRESSED:
-            levels = np.concatenate(self._data, dtype=np.float16).reshape((-1, self.ndata))
+            levels = np.concatenate(self._data, dtype=np.float16).reshape(
+                (-1, self.ndata)
+            )
         elif self.type in COMPRESSED:
-            levels = cy_extract_compressed(self._data, len(self._data), self.ndata, self.thresh, self.minimum)
+            levels = cy_extract_compressed(
+                self._data, len(self._data), self.ndata, self.thresh, self.minimum
+            )
         else:
-            raise ValueError("The current block is not of type spectrum or it's not implemented yet")
+            raise ValueError(
+                "The current block is not of type spectrum or it's not implemented yet"
+            )
         self._data = None
         gc.collect()
         return levels
@@ -176,8 +202,8 @@ def check_block_exists(attrs, fluxos, block):
     """Receives a dict of attributes and check if its values exist as keys in fluxos, otherwise create one and set to CrfsSpectrum Class"""
     values = tuple(attrs.values())
     if values not in fluxos:
-        attributes = [a for a in attrs.keys()] + ['thresh', 'minimum']
-        metadata = namedtuple('SpecData', attributes)
+        attributes = [a for a in attrs.keys()] + ["thresh", "minimum"]
+        metadata = namedtuple("SpecData", attributes)
         attributes = [k for k in values] + [block.thresh, block.minimum]
         fluxos[values] = CrfsSpectrum(metadata(*attributes))
     return values, fluxos
@@ -188,23 +214,23 @@ def classify_blocks(byte_blocks: Iterable) -> dict:
     meta = {}
     fluxos = {}
     gps = CrfsGPS()
-    gps_attrs = [f'_{k}' for k in BLOCK_ATTRS.get(40, [])]
     for byte_block in byte_blocks:
         block = create_block(byte_block)
-        if not block: continue
-        if block.type  == 40:
+        if not block:
+            continue
+        if block.type == 40:
             for k in BLOCK_ATTRS.get(40, []):
-                getattr(gps, f'_{k}').append(getattr(block, k))
+                getattr(gps, f"_{k}").append(getattr(block, k))
             continue
         attrs = getattrs(block, attrs=KEY_ATTRS.get(block.type, []))
         if block.type in SPECTRAL_BLOCKS:
             values, fluxos = check_block_exists(attrs, fluxos, block)
-            time = getattr(block, 'wallclock_datetime')
-            attr = 'raw_data' if block.type in COMPRESSED else 'levels'
+            time = getattr(block, "wallclock_datetime")
+            attr = "raw_data" if block.type in COMPRESSED else "levels"
             data = getattr(block, attr)
             fluxos[values]._append(time, data)
         else:
             meta.update(attrs)
-    meta['gps'] = gps
-    meta['spectrum'] = L(fluxos.values())
+    meta["gps"] = gps
+    meta["spectrum"] = L(fluxos.values())
     return meta
