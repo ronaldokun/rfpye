@@ -63,21 +63,23 @@ nb_path: "nbs\04_constants.ipynb"
 
 <span class="n">ENDMARKER</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;UUUU&quot;</span>
 
-<span class="n">EXCLUDE_ATTRS</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[</span>
+<span class="n">EXCLUDE_ATTRS</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">(</span>
     <span class="s2">&quot;count&quot;</span><span class="p">,</span>
     <span class="s2">&quot;index&quot;</span><span class="p">,</span>
     <span class="s2">&quot;checksum&quot;</span><span class="p">,</span>
     <span class="s2">&quot;default&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;date&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;time&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;nanosecs&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;walldate&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;walltime&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;wallnano&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">,</span>
     <span class="s2">&quot;data&quot;</span><span class="p">,</span>
     <span class="s2">&quot;raw_data&quot;</span><span class="p">,</span>
     <span class="s2">&quot;levels&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;matrix&quot;</span><span class="p">,</span>
     <span class="s2">&quot;frequencies&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;agc_array&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;tunning_info&quot;</span><span class="p">,</span>
-<span class="p">]</span>
+    <span class="s2">&quot;agc&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tunning&quot;</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="n">DICT_PROCESSING</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
     <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;single measurement&quot;</span><span class="p">,</span>
@@ -221,22 +223,89 @@ nb_path: "nbs\04_constants.ipynb"
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">KEY_ATTRS</span> <span class="o">=</span> <span class="p">{</span>
+    
+    <span class="mi">4</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;thread_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;start_mega&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;stop_mega&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ndata&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;processing&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="mi">5</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s1">&#39;text&#39;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="mi">6</span><span class="p">:</span> <span class="p">(),</span>
+    <span class="mi">7</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;thread_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;start_mega&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;stop_mega&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;namal&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ndata&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="mi">8</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;thread_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;start_mega&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;stop_mega&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;sampling&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;namal&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ndata&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="mi">20</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s1">&#39;n_spectral_blocks&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;nddt&#39;</span><span class="p">,</span>
+    <span class="p">),</span>
     <span class="mi">21</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;hostname&quot;</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">,</span> <span class="s2">&quot;unit_info&quot;</span><span class="p">,</span> <span class="s2">&quot;file_number&quot;</span><span class="p">),</span>
+    <span class="mi">22</span><span class="p">:</span> <span class="p">(),</span>
+    <span class="mi">23</span><span class="p">:</span> <span class="p">(),</span>
     <span class="mi">24</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;group_id&quot;</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">),</span>
     <span class="mi">40</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;gps_status&quot;</span><span class="p">,),</span>
     <span class="mi">41</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;identifier&quot;</span><span class="p">,),</span>
     <span class="mi">42</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;identifier&quot;</span><span class="p">,),</span>
+    <span class="mi">51</span><span class="p">:</span> <span class="p">(),</span>
+    <span class="mi">60</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;thread_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;start_mega&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;stop_mega&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ndata&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;nloops&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;processing&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;antuid&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="mi">61</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;thread_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;start_mega&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;stop_mega&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ndata&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;nloops&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;processing&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;antuid&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="mi">62</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;thread_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;start_mega&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;stop_mega&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;namal&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;sampling&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ndata&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;antuid&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
     <span class="mi">63</span><span class="p">:</span> <span class="p">(</span>
         <span class="s2">&quot;type&quot;</span><span class="p">,</span>
         <span class="s2">&quot;thread_id&quot;</span><span class="p">,</span>
         <span class="s2">&quot;description&quot;</span><span class="p">,</span>
         <span class="s2">&quot;start_mega&quot;</span><span class="p">,</span>
         <span class="s2">&quot;stop_mega&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;unit&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;dtype&quot;</span><span class="p">,</span>
         <span class="s2">&quot;ndata&quot;</span><span class="p">,</span>
         <span class="s2">&quot;bw&quot;</span><span class="p">,</span>
         <span class="s2">&quot;processing&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;antenna_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;antuid&quot;</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="mi">64</span><span class="p">:</span> <span class="p">(</span>
         <span class="s2">&quot;type&quot;</span><span class="p">,</span>
@@ -244,11 +313,22 @@ nb_path: "nbs\04_constants.ipynb"
         <span class="s2">&quot;description&quot;</span><span class="p">,</span>
         <span class="s2">&quot;start_mega&quot;</span><span class="p">,</span>
         <span class="s2">&quot;stop_mega&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;unit&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;dtype&quot;</span><span class="p">,</span>
         <span class="s2">&quot;ndata&quot;</span><span class="p">,</span>
         <span class="s2">&quot;bw&quot;</span><span class="p">,</span>
         <span class="s2">&quot;processing&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;antenna_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;antuid&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="mi">65</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;thread_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;dtype&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ndata&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;processing&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;antuid&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;namal&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;duration&quot;</span><span class="p">,</span>
+
     <span class="p">),</span>
     <span class="mi">67</span><span class="p">:</span> <span class="p">(</span>
         <span class="s2">&quot;type&quot;</span><span class="p">,</span>
@@ -256,11 +336,11 @@ nb_path: "nbs\04_constants.ipynb"
         <span class="s2">&quot;description&quot;</span><span class="p">,</span>
         <span class="s2">&quot;start_mega&quot;</span><span class="p">,</span>
         <span class="s2">&quot;stop_mega&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;unit&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;dtype&quot;</span><span class="p">,</span>
         <span class="s2">&quot;ndata&quot;</span><span class="p">,</span>
         <span class="s2">&quot;bw&quot;</span><span class="p">,</span>
         <span class="s2">&quot;processing&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;antenna_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;antuid&quot;</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="mi">68</span><span class="p">:</span> <span class="p">(</span>
         <span class="s2">&quot;type&quot;</span><span class="p">,</span>
@@ -268,39 +348,58 @@ nb_path: "nbs\04_constants.ipynb"
         <span class="s2">&quot;description&quot;</span><span class="p">,</span>
         <span class="s2">&quot;start_mega&quot;</span><span class="p">,</span>
         <span class="s2">&quot;stop_mega&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;unit&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;dtype&quot;</span><span class="p">,</span>
         <span class="s2">&quot;ndata&quot;</span><span class="p">,</span>
         <span class="s2">&quot;bw&quot;</span><span class="p">,</span>
         <span class="s2">&quot;processing&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;antenna_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;antuid&quot;</span><span class="p">,</span>
     <span class="p">),</span>
+    <span class="mi">69</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;thread_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;start_mega&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;stop_mega&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;dtype&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ndata&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;bw&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;opcount&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;antuid&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
 <span class="p">}</span>
 
-<span class="n">TIMED_BLOCKS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">68</span><span class="p">,</span> <span class="mi">69</span><span class="p">]</span>
+<span class="n">TIMED_BLOCKS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">68</span><span class="p">,</span> <span class="mi">69</span><span class="p">)</span>
 
-<span class="n">SPECTRAL_BLOCKS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">63</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">68</span><span class="p">]</span>
+<span class="n">SPECTRAL_BLOCKS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">61</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">68</span><span class="p">)</span>
 
-<span class="n">UNCOMPRESSED</span> <span class="o">=</span> <span class="p">[</span><span class="mi">63</span><span class="p">,</span> <span class="mi">67</span><span class="p">]</span>
+<span class="n">OCC</span> <span class="o">=</span> <span class="p">(</span><span class="mi">62</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">69</span><span class="p">)</span>
 
-<span class="n">COMPRESSED</span> <span class="o">=</span> <span class="p">[</span><span class="mi">64</span><span class="p">,</span> <span class="mi">68</span><span class="p">]</span>
+<span class="n">UNCOMPRESSED</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">67</span><span class="p">)</span>
+
+<span class="n">COMPRESSED</span> <span class="o">=</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">61</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">68</span><span class="p">)</span>
 
 <span class="n">GPS_BLOCK</span> <span class="o">=</span> <span class="mi">40</span>
 
 <span class="n">BLOCK_ATTRS</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="mi">21</span><span class="p">:</span> <span class="p">[],</span>
-    <span class="mi">40</span><span class="p">:</span> <span class="p">[</span>
+    <span class="mi">8</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">),</span>
+    <span class="mi">21</span><span class="p">:</span> <span class="p">(),</span>
+    <span class="mi">40</span><span class="p">:</span> <span class="p">(</span>
         <span class="s2">&quot;gps_datetime&quot;</span><span class="p">,</span>
         <span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
         <span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
         <span class="s2">&quot;altitude&quot;</span><span class="p">,</span>
         <span class="s2">&quot;num_satellites&quot;</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="mi">41</span><span class="p">:</span> <span class="p">[],</span>
-    <span class="mi">42</span><span class="p">:</span> <span class="p">[],</span>
-    <span class="mi">63</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">],</span>
-    <span class="mi">64</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">],</span>
-    <span class="mi">67</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">],</span>
-    <span class="mi">68</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">],</span>
+    <span class="p">),</span>
+    <span class="mi">41</span><span class="p">:</span> <span class="p">(),</span>
+    <span class="mi">42</span><span class="p">:</span> <span class="p">(),</span>
+    <span class="mi">60</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">),</span>
+    <span class="mi">61</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">),</span>
+    <span class="mi">62</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">),</span>
+    <span class="mi">63</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">),</span>
+    <span class="mi">64</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">),</span>
+    <span class="mi">65</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">),</span>
+    <span class="mi">67</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">),</span>
+    <span class="mi">68</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">),</span>
+    <span class="mi">69</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">),</span>
 <span class="p">}</span>
 </pre></div>
 

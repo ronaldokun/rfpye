@@ -77,7 +77,7 @@ def bin2str(binary_data: bytes) -> str:
 
 def bin2date(binary_data: bytes) -> L:
     """Receives a byte and returns a List with the date"""
-    date = L(*binary_data)
+    date = L(*binary_data[:-1])
     date[2] += 2000
     return date
 

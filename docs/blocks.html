@@ -114,7 +114,7 @@ It is common to all blocks and all classes that define the following blocks rece
 <p>Block with time attributes applied to non spectral blocks
 Implementa o mapeamento de funções dos blocos que possuem os seguintes campos
 (na mesma posição do vetor binario):F0 a F2</p>
-<p>F0 = (4 bytes) WALLDATE = Wall Clock Start Date of measurements
+<p>F0 = (4 bytes) _walldate = Wall Clock Start Date of measurements
 F1 = (4 bytes) WALLTIME = Wall Clock Start Time
 F2 = (4u bytes) WALLNANO = Wall Clock Start Time Nanoseconds</p>
 
@@ -140,7 +140,7 @@ F2 = (4u bytes) WALLNANO = Wall Clock Start Time Nanoseconds</p>
 <span class="sd">    Implementa o mapeamento de funções dos blocos que possuem os seguintes campos</span>
 <span class="sd">    (na mesma posição do vetor binario):F0 a F2</span>
 
-<span class="sd">    F0 = (4 bytes) WALLDATE = Wall Clock Start Date of measurements</span>
+<span class="sd">    F0 = (4 bytes) _walldate = Wall Clock Start Date of measurements</span>
 <span class="sd">    F1 = (4 bytes) WALLTIME = Wall Clock Start Time</span>
 <span class="sd">    F2 = (4u bytes) WALLNANO = Wall Clock Start Time Nanoseconds</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -152,15 +152,15 @@ F2 = (4u bytes) WALLNANO = Wall Clock Start Time Nanoseconds</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="n">block</span>
 
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">walldate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;F0 = (4 bytes) WALLDATE = Wall Clock Start Date of measurements&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">_walldate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;F0 = (4 bytes) _walldate = Wall Clock Start Date of measurements&quot;&quot;&quot;</span>
         <span class="n">date</span> <span class="o">=</span> <span class="n">bin2date</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:</span><span class="mi">4</span><span class="p">])</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">date</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">date</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">date</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
 
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">walltime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_walltime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;F1 = (4 bytes) WALLTIME = Wall Clock Start Time&quot;&quot;&quot;</span>
         <span class="n">time</span> <span class="o">=</span> <span class="n">bin2time</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">8</span><span class="p">])</span>
         <span class="k">return</span> <span class="p">(</span>
@@ -168,7 +168,7 @@ F2 = (4u bytes) WALLNANO = Wall Clock Start Time Nanoseconds</p>
         <span class="p">)</span>
 
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">wallnano</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_wallnano</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;F2 = (4u bytes) WALLNANO = Wall Clock Start Time Nanoseconds&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">BYTES_TIMED_NE</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="kc">False</span><span class="p">)</span>
 
@@ -176,7 +176,7 @@ F2 = (4u bytes) WALLNANO = Wall Clock Start Time Nanoseconds</p>
     <span class="k">def</span> <span class="nf">wallclock_datetime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the wallclock datetime&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">walldate</span><span class="si">}</span><span class="s2">T</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">walltime</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wallnano</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_walldate</span><span class="si">}</span><span class="s2">T</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_walltime</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wallnano</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
 </pre></div>
 
@@ -208,7 +208,7 @@ F2 = (4u bytes) WALLNANO = Wall Clock Start Time Nanoseconds</p>
 <h2 id="TimedSpectral" class="doc_header"><code>class</code> <code>TimedSpectral</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L74" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TimedSpectral</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Common Atributes of Block with Time Info and Spectral Data</p>
-<p>F0 = (4 bytes) WALLDATE = Wall Clock Start Date of measurements
+<p>F0 = (4 bytes) _walldate = Wall Clock Start Date of measurements
 F1 = (4 bytes) WALLTIME = Wall Clock Start Time
 F2 = (4u bytes) WALLNANO = Wall Clock Start Time Nanoseconds
 F3 = (2u bytes) STARTMEGA = Start Frequency MHz
@@ -238,7 +238,7 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TimedSpectral</span><span class="p">(</span><span class="n">GetAttr</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Common Atributes of Block with Time Info and Spectral Data</span>
 
-<span class="sd">    F0 = (4 bytes) WALLDATE = Wall Clock Start Date of measurements</span>
+<span class="sd">    F0 = (4 bytes) _walldate = Wall Clock Start Date of measurements</span>
 <span class="sd">    F1 = (4 bytes) WALLTIME = Wall Clock Start Time</span>
 <span class="sd">    F2 = (4u bytes) WALLNANO = Wall Clock Start Time Nanoseconds</span>
 <span class="sd">    F3 = (2u bytes) STARTMEGA = Start Frequency MHz</span>
@@ -366,7 +366,7 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Dtype3" class="doc_header"><code>class</code> <code>Dtype3</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L136" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Dtype3</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType3" class="doc_header"><code>class</code> <code>DType3</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L136" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType3</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Inherit from this to have all attr accesses in <code>self._xtra</code> passed down to <code>self.default</code></p>
 
@@ -387,7 +387,7 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Dtype3</span><span class="p">(</span><span class="n">GetAttr</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DType3</span><span class="p">(</span><span class="n">GetAttr</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">BaseBlock</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="n">block</span>
@@ -423,7 +423,7 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Dtype4" class="doc_header"><code>class</code> <code>Dtype4</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L148" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Dtype4</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType4" class="doc_header"><code>class</code> <code>DType4</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L148" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType4</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Inherit from this to have all attr accesses in <code>self._xtra</code> passed down to <code>self.default</code></p>
 
@@ -444,12 +444,12 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Dtype4</span><span class="p">(</span><span class="n">GetAttr</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DType4</span><span class="p">(</span><span class="n">GetAttr</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">BaseBlock</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="n">block</span>
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">start_freq</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">start_mega</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">stop_mega</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -458,7 +458,7 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
     <span class="k">def</span> <span class="nf">offset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span>
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">input_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">input</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">6</span><span class="p">])</span>
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">processing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -508,7 +508,7 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Dtype5" class="doc_header"><code>class</code> <code>Dtype5</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L188" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Dtype5</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType5" class="doc_header"><code>class</code> <code>DType5</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L188" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType5</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 5 - Free Text Information</p>
 
@@ -529,7 +529,7 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Dtype5</span><span class="p">(</span><span class="n">GetAttr</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DType5</span><span class="p">(</span><span class="n">GetAttr</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Data Type 5 - Free Text Information&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">BaseBlock</span><span class="p">):</span>
@@ -596,12 +596,12 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="n">block</span>
 
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">start_freq</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">start_mega</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Start Frequency in MHz&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">bin2str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">BYTES_6</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
 
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">stop_freq</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">stop_mega</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Stop Frequency in MHz&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">BYTES_6</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
 
@@ -670,7 +670,7 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Dtype7" class="doc_header"><code>class</code> <code>Dtype7</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L260" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Dtype7</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType7" class="doc_header"><code>class</code> <code>DType7</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L260" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType7</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 7 - Threshold Compressed Data</p>
 <p>Args:
@@ -696,7 +696,7 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Dtype7</span><span class="p">(</span><span class="n">GetAttr</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DType7</span><span class="p">(</span><span class="n">GetAttr</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Data Type 7 - Threshold Compressed Data</span>
 
 <span class="sd">    Args:</span>
@@ -711,11 +711,11 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="n">block</span>
 
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">start_freq</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">start_mega</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:</span><span class="mi">4</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">stop_freq</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">stop_mega</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">8</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
@@ -752,7 +752,7 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">36</span><span class="p">:</span><span class="mi">40</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">raw_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">levels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">40</span> <span class="p">:</span> <span class="mi">40</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ncompressed</span><span class="p">]</span>
 
     <span class="nd">@cached</span>
@@ -784,7 +784,7 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Dtype8" class="doc_header"><code>class</code> <code>Dtype8</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L324" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Dtype8</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType8" class="doc_header"><code>class</code> <code>DType8</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L324" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType8</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>10.8 Data Type 8 – Frequency Channel Occupancy (ITU-R SM.1793)
 Args:
@@ -807,7 +807,7 @@ Args:
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Dtype8</span><span class="p">(</span><span class="n">GetAttr</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DType8</span><span class="p">(</span><span class="n">GetAttr</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;10.8 Data Type 8 – Frequency Channel Occupancy (ITU-R SM.1793)</span>
 <span class="sd">    Args:</span>
 <span class="sd">        GetAttr: Delegates attributes to self.default in case it doesn&#39;t belong to this class</span>
@@ -817,11 +817,11 @@ Args:
         <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="n">block</span>
 
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">start_freq</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">start_mega</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:</span><span class="mi">4</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">stop_freq</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">stop_mega</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">8</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
@@ -857,14 +857,14 @@ Args:
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">36</span><span class="p">:</span><span class="mi">40</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">raw_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">levels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">40</span> <span class="p">:</span> <span class="mi">40</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndata</span><span class="p">])</span>
         <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> while retrieving raw_data in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
 
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">paddings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">padding</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">40</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndata</span> <span class="p">:]</span>
 </pre></div>
 
@@ -1089,7 +1089,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Dtype22" class="doc_header"><code>class</code> <code>Dtype22</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L490" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Dtype22</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType22" class="doc_header"><code>class</code> <code>DType22</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L490" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType22</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 22 – Data Thread Information</p>
 
@@ -1110,7 +1110,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Dtype22</span><span class="p">(</span><span class="n">GetAttr</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DType22</span><span class="p">(</span><span class="n">GetAttr</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Data Type 22 – Data Thread Information&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">BaseBlock</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -1147,7 +1147,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Dtype23" class="doc_header"><code>class</code> <code>Dtype23</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L503" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Dtype23</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType23" class="doc_header"><code>class</code> <code>DType23</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L503" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType23</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 23 - Free Text Information</p>
 
@@ -1168,7 +1168,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Dtype23</span><span class="p">(</span><span class="n">GetAttr</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DType23</span><span class="p">(</span><span class="n">GetAttr</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Data Type 23 - Free Text Information&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">BaseBlock</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -1332,19 +1332,23 @@ If a file is used for the output from more than one unit, multiple footers may a
         <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="n">TimedNonSpectral</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
 
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">walldate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;F3 = (4 bytes) WALLDATE = Wall Clock Start Date of measurements&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">bin2date</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">BYTES_40</span><span class="p">[</span><span class="mi">3</span><span class="p">]])</span>
+    <span class="k">def</span> <span class="nf">_gpsdate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;F3 = (4 bytes) _walldate = Wall Clock Start Date of measurements&quot;&quot;&quot;</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="n">bin2date</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">BYTES_40</span><span class="p">[</span><span class="mi">3</span><span class="p">]])</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">date</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">date</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">date</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
 
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">walltime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">_gpstime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;F4 - GPS Date. Date from GPS reading (dd/mm/yy/null)&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">bin2time</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">BYTES_40</span><span class="p">[</span><span class="mi">4</span><span class="p">]])</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">bin2time</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">BYTES_40</span><span class="p">[</span><span class="mi">4</span><span class="p">]])</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
 
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">wallclock_datetime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">gps_datetime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the wallclock datetime&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">walldate</span><span class="si">}</span><span class="s2">T</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">walltime</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_gpsdate</span><span class="si">}</span><span class="s2">T</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_gpstime</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">gps_status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
@@ -1408,7 +1412,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType41" class="doc_header"><code>class</code> <code>DType41</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L606" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType41</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType41" class="doc_header"><code>class</code> <code>DType41</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L610" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType41</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 41 – Timed Free Text Information</p>
 
@@ -1495,7 +1499,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType42" class="doc_header"><code>class</code> <code>DType42</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L648" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType42</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType42" class="doc_header"><code>class</code> <code>DType42</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L652" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType42</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 42 – Timed Free Text Information</p>
 
@@ -1591,7 +1595,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType51" class="doc_header"><code>class</code> <code>DType51</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L698" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType51</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType51" class="doc_header"><code>class</code> <code>DType51</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L702" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType51</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Classifier Data</p>
 
@@ -1728,7 +1732,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Dtype60" class="doc_header"><code>class</code> <code>Dtype60</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L790" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Dtype60</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType60" class="doc_header"><code>class</code> <code>DType60</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L794" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType60</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 60 – 8 bit Spectral Data</p>
 
@@ -1749,60 +1753,75 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Dtype60</span><span class="p">(</span><span class="n">GetAttr</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DType60</span><span class="p">(</span><span class="n">GetAttr</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Data Type 60 – 8 bit Spectral Data&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">BaseBlock</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="n">block</span>
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">walldate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="n">L</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_walldate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="n">L</span><span class="p">:</span>
         <span class="s2">&quot;F1 = (4 bytes) Wall clock date and time in seconds since 1/1/1970&quot;</span>
-        <span class="n">date</span> <span class="o">=</span> <span class="n">L</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:</span><span class="mi">4</span><span class="p">])</span>
-        <span class="n">date</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">2000</span>
-        <span class="k">return</span> <span class="n">date</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="n">bin2date</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:</span><span class="mi">4</span><span class="p">])</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">date</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">date</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">date</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">walltime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="n">L</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">L</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">8</span><span class="p">])</span>
+    <span class="k">def</span> <span class="nf">_walltime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;F1 = (4 bytes) WALLTIME = Wall Clock Start Time&quot;&quot;&quot;</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">bin2time</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">8</span><span class="p">])</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">wallnano</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_wallnano</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">8</span><span class="p">:</span><span class="mi">12</span><span class="p">],</span> <span class="kc">False</span><span class="p">)</span>
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">16</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">freqexp</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">wallclock_datetime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the wallclock datetime&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_walldate</span><span class="si">}</span><span class="s2">T</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_walltime</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wallnano</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">16</span><span class="p">:</span><span class="mi">20</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">freqexp</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">start_mega</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">16</span><span class="p">])</span> <span class="c1">#* (10 ** (self.freqexp))</span>
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">stop_mega</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">16</span><span class="p">:</span><span class="mi">20</span><span class="p">])</span> <span class="c1">#* (10 ** (self.freqexp))</span>
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">freqexp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">20</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">20</span><span class="p">:</span><span class="mi">21</span><span class="p">])</span>
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">antno</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">21</span><span class="p">])</span>
+    <span class="k">def</span> <span class="nf">antuid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">21</span><span class="p">:</span><span class="mi">22</span><span class="p">])</span>
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">gerror</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">22</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">22</span><span class="p">:</span><span class="mi">23</span><span class="p">])</span>
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">gflags</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">23</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">23</span><span class="p">:</span><span class="mi">24</span><span class="p">]</span>
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">parentid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">24</span><span class="p">:</span><span class="mi">26</span><span class="p">])</span>
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">proc</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">processing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="s1">&#39;single measurement&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="s1">&#39;average&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="s1">&#39;peak&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span><span class="s1">&#39;minimum&#39;</span><span class="p">}</span>
-        <span class="k">return</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">26</span><span class="p">]),</span> <span class="s1">&#39;unknown&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">26</span><span class="p">:</span><span class="mi">27</span><span class="p">]),</span> <span class="s1">&#39;unknown&#39;</span><span class="p">)</span>
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">nloops</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="s2">&quot;i.e. ‘number of loops’. Equal to 1 if single measurement. Values 1, 2, 4, 8, 16&quot;</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">27</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">27</span><span class="p">:</span><span class="mi">28</span><span class="p">])</span>
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">offset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="s2">&quot;Data level offset in dB 2’s Complement, range [-128, 127].&quot;</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">28</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">28</span><span class="p">:</span><span class="mi">29</span><span class="p">])</span>
+    <span class="nd">@cached</span>    
+    <span class="k">def</span> <span class="nf">minimum</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">offset</span> <span class="o">-</span> <span class="mf">127.5</span>    
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">npad</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="s2">&quot;Number of bytes of padding. 0 - 3&quot;</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">29</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">29</span><span class="p">:</span><span class="mi">30</span><span class="p">])</span>
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">ntun</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="s2">&quot;Number of 4 byte Tuning info blocks. 0 or NAGC&quot;</span>
@@ -1833,7 +1852,7 @@ If a file is used for the output from more than one unit, multiple footers may a
         <span class="s2">&quot;Array of single byte data points.&quot;</span>
         <span class="n">start</span> <span class="o">=</span> <span class="mi">40</span><span class="o">+</span><span class="mi">4</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">ntun</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">nagc</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">ndata</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">ndata</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">minimum</span>
         <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> while retrieving raw_data in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
     <span class="nd">@cached</span>
@@ -1866,7 +1885,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Dtype61" class="doc_header"><code>class</code> <code>Dtype61</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L883" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Dtype61</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType61" class="doc_header"><code>class</code> <code>DType61</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L902" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType61</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 61 – Threshold Compressed Data</p>
 
@@ -1887,13 +1906,11 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Dtype61</span><span class="p">(</span><span class="n">GetAttr</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DType61</span><span class="p">(</span><span class="n">GetAttr</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Data Type 61 – Threshold Compressed Data&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">BaseBlock</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">block</span> <span class="o">=</span> <span class="n">Dtype60</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
-        <span class="nb">delattr</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="s1">&#39;levels&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="n">block</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="n">DType60</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="mi">48</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">ntun</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">nagc</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">ndata</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">npad</span>
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">thresh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -1904,7 +1921,7 @@ If a file is used for the output from more than one unit, multiple footers may a
         <span class="s2">&quot;Number of original data points in this block before compression.&quot;</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">44</span><span class="p">:</span><span class="mi">48</span><span class="p">])</span>
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">raw_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">levels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
         <span class="n">start</span> <span class="o">=</span> <span class="mi">40</span><span class="o">+</span><span class="mi">4</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">ntun</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">nagc</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">ndata</span><span class="p">]</span>
     <span class="nd">@cached</span>
@@ -1944,7 +1961,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Dtype62" class="doc_header"><code>class</code> <code>Dtype62</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L916" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Dtype62</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType62" class="doc_header"><code>class</code> <code>DType62</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L933" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType62</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Inherit from this to have all attr accesses in <code>self._xtra</code> passed down to <code>self.default</code></p>
 
@@ -1965,39 +1982,51 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Dtype62</span><span class="p">(</span><span class="n">GetAttr</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DType62</span><span class="p">(</span><span class="n">GetAttr</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">BaseBlock</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="n">block</span>
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">walldate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_walldate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="n">L</span><span class="p">:</span>
         <span class="s2">&quot;F1 = (4 bytes) Wall clock date and time in seconds since 1/1/1970&quot;</span>
-        <span class="n">date</span> <span class="o">=</span> <span class="n">L</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:</span><span class="mi">4</span><span class="p">])</span>
-        <span class="n">date</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">2000</span>
-        <span class="k">return</span> <span class="n">date</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="n">bin2date</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:</span><span class="mi">4</span><span class="p">])</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">date</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">date</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">date</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">walltime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">L</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">8</span><span class="p">])</span>
+    <span class="k">def</span> <span class="nf">_walltime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;F1 = (4 bytes) WALLTIME = Wall Clock Start Time&quot;&quot;&quot;</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">bin2time</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">8</span><span class="p">])</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">wallnano</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_wallnano</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">8</span><span class="p">:</span><span class="mi">12</span><span class="p">],</span> <span class="kc">False</span><span class="p">)</span>
+
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">wallclock_datetime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the wallclock datetime&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_walldate</span><span class="si">}</span><span class="s2">T</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_walltime</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wallnano</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">start_mega</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">16</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">freqexp</span><span class="p">))</span>
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">stop_mega</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">16</span><span class="p">:</span><span class="mi">20</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">freqexp</span><span class="p">))</span>
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">freqexp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">20</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">20</span><span class="p">:</span><span class="mi">21</span><span class="p">])</span>
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">antno</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">21</span><span class="p">])</span>
+    <span class="k">def</span> <span class="nf">antuid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">21</span><span class="p">:</span><span class="mi">22</span><span class="p">])</span>
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">gerror</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">22</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">22</span><span class="p">:</span><span class="mi">23</span><span class="p">])</span>
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">gflags</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">23</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">23</span><span class="p">:</span><span class="mi">24</span><span class="p">]</span>
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">parentid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">24</span><span class="p">:</span><span class="mi">26</span><span class="p">])</span>
@@ -2006,17 +2035,17 @@ If a file is used for the output from more than one unit, multiple footers may a
         <span class="sd">&quot;&quot;&quot;Threshold Level in dBm&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">26</span><span class="p">:</span><span class="mi">28</span><span class="p">])</span>
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">nacc</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">namal</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Amalgamated Results. 1 if single measurement. Should include aggregation over time.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">28</span><span class="p">:</span><span class="mi">32</span><span class="p">])</span>
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">duration</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">sampling</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Duration of sampling in seconds.i.e.300,900,1800,2600&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">32</span><span class="p">:</span><span class="mi">36</span><span class="p">])</span>
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">npad</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Number of bytes of padding. 0 - 3&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">36</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">36</span><span class="p">:</span><span class="mi">37</span><span class="p">])</span>
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">reserved</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;For alignment of following fields. Set to 0.&quot;&quot;&quot;</span>
@@ -2032,7 +2061,7 @@ If a file is used for the output from more than one unit, multiple footers may a
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">44</span><span class="p">:</span><span class="mi">44</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">ndata</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> while retrieving raw_data in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> while retrieving levels in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">padding</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
@@ -2064,11 +2093,11 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType63" class="doc_header"><code>class</code> <code>DType63</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L992" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType63</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType63" class="doc_header"><code>class</code> <code>DType63</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1021" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType63</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 63 – Spectral Data - Frequencies and its levels</p>
 <p>The Following attributes are delegated to the <code>self.default</code> object</p>
-<p>F0 = (4 bytes) WALLDATE = Wall Clock Start Date of measurements
+<p>F0 = (4 bytes) _walldate = Wall Clock Start Date of measurements
 F1 = (4 bytes) WALLTIME = Wall Clock Start Time
 F2 = (4u bytes) WALLNANO = Wall Clock Start Time Nanoseconds
 F3 = (2u bytes) STARTMEGA = Start Frequency MHz
@@ -2102,7 +2131,7 @@ Total Bytes = 52 + (4 * NTUN) + NAGC + NDATA + NPAD</p>
 
 <span class="sd">    The Following attributes are delegated to the `self.default` object</span>
 
-<span class="sd">    F0 = (4 bytes) WALLDATE = Wall Clock Start Date of measurements</span>
+<span class="sd">    F0 = (4 bytes) _walldate = Wall Clock Start Date of measurements</span>
 <span class="sd">    F1 = (4 bytes) WALLTIME = Wall Clock Start Time</span>
 <span class="sd">    F2 = (4u bytes) WALLNANO = Wall Clock Start Time Nanoseconds</span>
 <span class="sd">    F3 = (2u bytes) STARTMEGA = Start Frequency MHz</span>
@@ -2116,7 +2145,7 @@ Total Bytes = 52 + (4 * NTUN) + NAGC + NDATA + NPAD</p>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">BaseBlock</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="n">TimedSpectral</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_63</span><span class="p">[</span><span class="mi">21</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_tunning</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_agc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_63</span><span class="p">[</span><span class="mi">21</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ntun</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nagc</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndata</span>
         
     <span class="nd">@cached</span>
@@ -2235,7 +2264,7 @@ Total Bytes = 52 + (4 * NTUN) + NAGC + NDATA + NPAD</p>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> while retrieving raw_data in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> while retrieving raw_data in </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">levels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
@@ -2276,7 +2305,7 @@ Total Bytes = 52 + (4 * NTUN) + NAGC + NDATA + NPAD</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType64" class="doc_header"><code>class</code> <code>DType64</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1147" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType64</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType64" class="doc_header"><code>class</code> <code>DType64</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1176" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType64</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>This is very similar to type 63, with the addition of threshold power level and number of points before compression,
 and obviously a compressed spectrum vector replacing the uncompressed</p>
@@ -2307,9 +2336,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">BaseBlock</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">block</span> <span class="o">=</span> <span class="n">DType63</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
-        <span class="nb">delattr</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="s2">&quot;levels&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="n">block</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="n">DType63</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">minimum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">offset</span> <span class="o">-</span> <span class="mf">127.5</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_63</span><span class="p">[</span><span class="mi">21</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="mi">8</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ntun</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nagc</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">ndata</span>
@@ -2339,12 +2366,12 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
     <span class="k">def</span> <span class="nf">agc</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;F23 - Array com AGC - Automatic Gain Control as dB in single unsigned byte: 0...63&quot;&quot;&quot;</span>
         <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_63</span><span class="p">[</span><span class="mi">21</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="mi">8</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ntun</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
-        <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_agc</span><span class="p">)</span>
+        <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nagc</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
         <span class="c1"># return &#39;-&#39;.join(L(self.data[start:stop]).map(str))</span>
 
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">raw_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">levels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Spectrum Data in &#39;dB&#39; with 0.5 dBm interval&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">]</span>
 
@@ -2354,7 +2381,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a tuple with frequency, spectrum_data&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">frequencies</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">frequencies</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">levels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">)</span>
@@ -2387,12 +2414,12 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType65" class="doc_header"><code>class</code> <code>DType65</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1211" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType65</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType65" class="doc_header"><code>class</code> <code>DType65</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1238" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType65</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>O Bloco do tipo 65 carrega dados de Taxa de Ocupação Espectral por Canal de Frequência (ITU-R SM.1880).</p>
 <p>O tamanho total em bytes é (48 + NDATA + NPAD)</p>
 <p>F0 a F16 e F19 já inicializados na classe TimedBlock.</p>
-<p><em>F0 = (4 bytes) WALLDATE = Wall Clock Start Date of measurements</em>F1 = (4 bytes) WALLTIME = Wall Clock Start Time
+<p><em>F0 = (4 bytes) _walldate = Wall Clock Start Date of measurements</em>F1 = (4 bytes) WALLTIME = Wall Clock Start Time
 <em>F2 = (4u bytes) WALLNANO = Wall Clock Start Time Nanoseconds</em>F3 = (2u bytes) STARTMEGA = Start Frequency MHz
 <em>F4 = (4 bytes) STARTMILLI = Start Frequency mHz</em>F5 = (2u bytes) STOPMEGA = Stop Frequency MHz
 <em>F6 = (4 bytes) STOPMILLI = Stop Frequency mHz</em>F7 = (2u bytes) STARTCHAN = Start Channel number
@@ -2447,7 +2474,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 <span class="sd">     F0 a F16 e F19 já inicializados na classe TimedBlock.</span>
 
-<span class="sd">    *F0 = (4 bytes) WALLDATE = Wall Clock Start Date of measurements</span>
+<span class="sd">    *F0 = (4 bytes) _walldate = Wall Clock Start Date of measurements</span>
 <span class="sd">    *F1 = (4 bytes) WALLTIME = Wall Clock Start Time</span>
 <span class="sd">    *F2 = (4u bytes) WALLNANO = Wall Clock Start Time Nanoseconds</span>
 <span class="sd">    *F3 = (2u bytes) STARTMEGA = Start Frequency MHz</span>
@@ -2558,9 +2585,9 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 <span class="sd">                    representing  the percentage (0..100 % in 0.5 steps)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float16</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float16</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> while retrieving raw_data in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> while retrieving levels in </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
 </pre></div>
 
     </div>
@@ -2587,7 +2614,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType66" class="doc_header"><code>class</code> <code>DType66</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1335" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType66</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType66" class="doc_header"><code>class</code> <code>DType66</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1362" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType66</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 66 – 16 bit IQ Data</p>
 
@@ -2672,7 +2699,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> while retrieving raw_data in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> while retrieving gain in </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">n_iq_pairs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -2687,7 +2714,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> while retrieving raw_data in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> while retrieving iq_array in </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
 </pre></div>
 
     </div>
@@ -2714,7 +2741,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType67" class="doc_header"><code>class</code> <code>DType67</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1417" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType67</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType67" class="doc_header"><code>class</code> <code>DType67</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1444" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType67</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 67 – Spectral Data</p>
 
@@ -2852,31 +2879,31 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">ntun</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="mi">59</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>  <span class="c1"># + 1 for ignored alignment</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">59</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>  <span class="c1">#byte 58 reserved alignment</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">2</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">nagc</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="mi">62</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">61</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">2</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">npad</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="mi">64</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">63</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">ndata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="mi">65</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">64</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">4</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">tunning</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="mi">69</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">68</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ntun</span>
         <span class="k">return</span> <span class="n">L</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 
@@ -2933,7 +2960,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType68" class="doc_header"><code>class</code> <code>DType68</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1591" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType68</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType68" class="doc_header"><code>class</code> <code>DType68</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1618" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType68</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 68 – Threshold Compressed Data</p>
 
@@ -2961,9 +2988,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
         <span class="sd">&quot;&quot;&quot;This implementation substitues inheritance of the class Block by Composition</span>
 <span class="sd">        The attributes which belong to Block are accessed normally as if it was Inherited</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">block</span> <span class="o">=</span> <span class="n">DType67</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
-        <span class="nb">delattr</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="s2">&quot;levels&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="n">block</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="n">DType67</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="mi">76</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ntun</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nagc</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">ndata</span>
 
@@ -2982,9 +3007,9 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">raw_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">levels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Spectrum Data in &#39;dB&#39; with 0.5 dBm interval&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">]</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">tunning</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
@@ -3030,7 +3055,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType69" class="doc_header"><code>class</code> <code>DType69</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1643" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType69</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType69" class="doc_header"><code>class</code> <code>DType69</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1668" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType69</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 69 – Frequency Channel Occupancy (ITU-R SM.1880)</p>
 
@@ -3064,88 +3089,83 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin2str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">24</span> <span class="p">:</span> <span class="mi">24</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">bin2str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">24</span><span class="p">:</span><span class="mi">24</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">start_mega</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">24</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="p">:,</span> <span class="mi">26</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">],</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">24</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">:</span><span class="mi">26</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">],</span> <span class="kc">False</span><span class="p">)</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">start_mili</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">26</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="p">:</span> <span class="mi">30</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">26</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">:</span><span class="mi">30</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">stop_mega</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">30</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="p">:,</span> <span class="mi">32</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">],</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">30</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">:</span><span class="mi">32</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">],</span> <span class="kc">False</span><span class="p">)</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">stop_mili</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">32</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="p">:</span> <span class="mi">36</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">32</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">:</span><span class="mi">36</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">bw</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">36</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="p">:</span> <span class="mi">40</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">36</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">:</span><span class="mi">40</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">start_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">40</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="p">:</span> <span class="mi">42</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">40</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">:</span><span class="mi">42</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">stop_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">42</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="p">:</span> <span class="mi">44</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">42</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">:</span><span class="mi">44</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">opcount</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">48</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="p">:</span> <span class="mi">49</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">],</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">48</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">:</span><span class="mi">49</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">],</span> <span class="kc">False</span><span class="p">)</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">antuid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">49</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="p">:</span> <span class="mi">50</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">],</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">49</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">:</span><span class="mi">50</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">],</span> <span class="kc">False</span><span class="p">)</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">DICT_UNIT</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">50</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="p">:</span> <span class="mi">52</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">],</span> <span class="kc">False</span><span class="p">),</span> <span class="s2">&quot;Unknown&quot;</span>
+            <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">50</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">:</span><span class="mi">52</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">],</span> <span class="kc">False</span><span class="p">),</span> <span class="s2">&quot;Unknown&quot;</span>
         <span class="p">)</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">gerror</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">52</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="p">:</span> <span class="mi">53</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">52</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">:</span><span class="mi">53</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">gflags</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">53</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="p">:</span> <span class="mi">54</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">53</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">:</span><span class="mi">54</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">npad</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">55</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="p">:</span> <span class="mi">56</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">55</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">:</span><span class="mi">56</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">thresh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">56</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="p">:</span> <span class="mi">58</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">56</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">:</span><span class="mi">58</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">duration</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">58</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="p">:</span> <span class="mi">60</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">58</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">:</span><span class="mi">60</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">ndata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">60</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="p">:</span> <span class="mi">64</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">])</span>
-
-    <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">raw_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> while retrieving raw data in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">60</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">:</span><span class="mi">64</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">levels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">minimum</span>
-
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> while retrieving levels in </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">padding</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">stop</span> <span class="p">:])</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">:])</span>
 </pre></div>
 
     </div>

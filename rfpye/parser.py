@@ -146,9 +146,7 @@ class CrfsGPS:
         return np.median(self._num_satellites) if self._num_satellites else 0
 
     def __repr__(self):
-        return f"""GPS Data - Median of Coordinates: {self.latitude:.5f}:{self.longitude:.5f}\n
-                Altitude: {self.altitude:.2f}\n
-                #Satellites: {self.num_satellites:.1f}"""
+        return f"GPS Data - Median of Coordinates: {self.latitude:.5f}:{self.longitude:.5f} Altitude: {self.altitude:.2f} #Satellites: {self.num_satellites:.1f}"
 
 
 class CrfsSpectrum(GetAttr):
@@ -157,7 +155,7 @@ class CrfsSpectrum(GetAttr):
     def __init__(self, metadata: namedtuple):
         self.default = metadata
         self.timestamp: L = L()
-        self._data: list = list()
+        self._data: L = L()
 
     def _append(self, time, data):
         self.timestamp.append(time)
@@ -170,8 +168,7 @@ class CrfsSpectrum(GetAttr):
         return repr(self.default)
 
     def __str__(self):
-        return f"""Blocks of Type: {self.type}, Thread_id: {self.thread_id},
-               Start: {self.start_mega} MHz, Stop: {self.stop_mega} MHz"""
+        return f"""Blocks of Type: {self.type}, Thread_id: {self.thread_id}, Start: {self.start_mega} MHz, Stop: {self.stop_mega} MHz"""
 
     @cached
     def levels(self):
@@ -205,18 +202,25 @@ def check_block_exists(attrs, fluxos, block):
     """Receives a dict of attributes and check if its values exist as keys in fluxos, otherwise create one and set to CrfsSpectrum Class"""
     values = tuple(attrs.values())
     if values not in fluxos:
-        attributes = [a for a in attrs.keys()] + ["thresh", "minimum"]
+        attributes = list(attrs.keys())
+        metavalues = list(values)
+        if hasattr(block, 'thresh'):
+            if 'thresh' not in attributes:
+                attributes.append('thresh')
+            metavalues.append(block.thresh)
+        if hasattr(block, 'minimum'):
+            if 'minimum' not in attributes:
+                attributes.append('minimum')
+            metavalues.append(block.minimum)
         metadata = namedtuple("SpecData", attributes)
-        attributes = [k for k in values] + [block.thresh, block.minimum]
-        fluxos[values] = CrfsSpectrum(metadata(*attributes))
+        fluxos[values] = CrfsSpectrum(metadata(*metavalues))
     return values, fluxos
 
 # Cell
 def append_spec_data(attrs, fluxos, block)->None:
     values, fluxos = check_block_exists(attrs, fluxos, block)
     time = getattr(block, "wallclock_datetime")
-    attr = "raw_data" if block.type in COMPRESSED else "levels"
-    data = getattr(block, attr)
+    data = getattr(block, 'levels')
     fluxos[values]._append(time, data)
 
 def classify_blocks(byte_blocks: Iterable) -> dict:
@@ -232,9 +236,11 @@ def classify_blocks(byte_blocks: Iterable) -> dict:
             for k in BLOCK_ATTRS.get(40, []):
                 getattr(gps, f"_{k}").append(getattr(block, k))
             continue
-        attrs = getattrs(block, attrs=KEY_ATTRS.get(block.type, []))
+        attrs = getattrs(block, attrs=KEY_ATTRS.get(block.type))
         if block.type in SPECTRAL_BLOCKS:
             append_spec_data(attrs, fluxos, block)
+        elif block.type in OCC:
+            pass
         else:
             meta.update(attrs)
     meta["gps"] = gps

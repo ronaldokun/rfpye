@@ -3,7 +3,7 @@
 __all__ = ['BYTES_HEADER', 'ENDMARKER', 'EXCLUDE_ATTRS', 'DICT_PROCESSING', 'DICT_UNIT', 'TUNING_BLOCK', 'BYTES_TIMED',
            'BYTES_TIMED_NE', 'BYTES_6', 'BYTES_20', 'BYTES_21', 'BYTES_24', 'BYTES_40', 'BYTES_41', 'BYTES_42',
            'BYTES_51', 'BYTES_63', 'BYTES_64', 'BYTES_65', 'BYTES_V5', 'BYTES_66', 'BYTES_67', 'KEY_ATTRS',
-           'TIMED_BLOCKS', 'SPECTRAL_BLOCKS', 'UNCOMPRESSED', 'COMPRESSED', 'GPS_BLOCK', 'BLOCK_ATTRS']
+           'TIMED_BLOCKS', 'SPECTRAL_BLOCKS', 'OCC', 'UNCOMPRESSED', 'COMPRESSED', 'GPS_BLOCK', 'BLOCK_ATTRS']
 
 # Cell
 from typing import Mapping, List
@@ -13,21 +13,23 @@ BYTES_HEADER = 36
 
 ENDMARKER: bytes = b"UUUU"
 
-EXCLUDE_ATTRS: List = [
+EXCLUDE_ATTRS: List = (
     "count",
     "index",
     "checksum",
     "default",
-    "date",
-    "time",
-    "nanosecs",
+    "walldate",
+    "walltime",
+    "wallnano",
+    "wallclock_datetime",
     "data",
     "raw_data",
     "levels",
+    "matrix",
     "frequencies",
-    "agc_array",
-    "tunning_info",
-]
+    "agc",
+    "tunning",
+)
 
 DICT_PROCESSING: Mapping[int, str] = {
     0: "single measurement",
@@ -151,22 +153,89 @@ BYTES_67: Mapping[int, slice] = {3: slice(12, 16), 4: slice(16, 20), 5: slice(20
 
 # Cell
 KEY_ATTRS = {
+
+    4: (
+        "type",
+        "thread_id",
+        "start_mega",
+        "stop_mega",
+        "ndata",
+        "processing",
+    ),
+    5: (
+        'text',
+    ),
+    6: (),
+    7: (
+        "type",
+        "thread_id",
+        "start_mega",
+        "stop_mega",
+        "namal",
+        "ndata",
+    ),
+    8: (
+        "type",
+        "thread_id",
+        "start_mega",
+        "stop_mega",
+        "sampling",
+        "namal",
+        "ndata",
+    ),
+    20: (
+        'n_spectral_blocks',
+        'nddt',
+    ),
     21: ("hostname", "method", "unit_info", "file_number"),
+    22: (),
+    23: (),
     24: ("group_id", "text"),
     40: ("gps_status",),
     41: ("identifier",),
     42: ("identifier",),
+    51: (),
+    60: (
+        "type",
+        "thread_id",
+        "start_mega",
+        "stop_mega",
+        "ndata",
+        "nloops",
+        "processing",
+        "antuid",
+    ),
+    61: (
+        "type",
+        "thread_id",
+        "start_mega",
+        "stop_mega",
+        "ndata",
+        "nloops",
+        "processing",
+        "antuid",
+    ),
+    62: (
+        "type",
+        "thread_id",
+        "start_mega",
+        "stop_mega",
+        "namal",
+        "sampling",
+        "ndata",
+        "antuid",
+    ),
     63: (
         "type",
         "thread_id",
         "description",
         "start_mega",
         "stop_mega",
-        "unit",
+        "dtype",
         "ndata",
         "bw",
         "processing",
-        "antenna_id",
+        "antuid",
     ),
     64: (
         "type",
@@ -174,11 +243,22 @@ KEY_ATTRS = {
         "description",
         "start_mega",
         "stop_mega",
-        "unit",
+        "dtype",
         "ndata",
         "bw",
         "processing",
-        "antenna_id",
+        "antuid",
+    ),
+    65: (
+        "type",
+        "thread_id",
+        "dtype",
+        "ndata",
+        "processing",
+        "antuid",
+        "namal",
+        "duration",
+
     ),
     67: (
         "type",
@@ -186,11 +266,11 @@ KEY_ATTRS = {
         "description",
         "start_mega",
         "stop_mega",
-        "unit",
+        "dtype",
         "ndata",
         "bw",
         "processing",
-        "antenna_id",
+        "antuid",
     ),
     68: (
         "type",
@@ -198,37 +278,56 @@ KEY_ATTRS = {
         "description",
         "start_mega",
         "stop_mega",
-        "unit",
+        "dtype",
         "ndata",
         "bw",
         "processing",
-        "antenna_id",
+        "antuid",
     ),
+    69: (
+        "type",
+        "thread_id",
+        "start_mega",
+        "stop_mega",
+        "dtype",
+        "ndata",
+        "bw",
+        "opcount",
+        "antuid",
+    )
 }
 
-TIMED_BLOCKS = [40, 41, 42, 51, 63, 64, 65, 66, 67, 68, 69]
+TIMED_BLOCKS = (40, 41, 42, 51, 63, 64, 65, 66, 67, 68, 69)
 
-SPECTRAL_BLOCKS = [63, 64, 67, 68]
+SPECTRAL_BLOCKS = (4, 7, 60, 61, 63, 64, 67, 68)
 
-UNCOMPRESSED = [63, 67]
+OCC = (62, 65, 69)
 
-COMPRESSED = [64, 68]
+UNCOMPRESSED = (4, 60, 63, 67)
+
+COMPRESSED = (7, 61, 64, 68)
 
 GPS_BLOCK = 40
 
 BLOCK_ATTRS: Mapping[int, List] = {
-    21: [],
-    40: [
+    8: ("wallclock_datetime"),
+    21: (),
+    40: (
         "gps_datetime",
         "latitude",
         "longitude",
         "altitude",
         "num_satellites",
-    ],
-    41: [],
-    42: [],
-    63: ["wallclock_datetime"],
-    64: ["wallclock_datetime"],
-    67: ["wallclock_datetime"],
-    68: ["wallclock_datetime"],
+    ),
+    41: (),
+    42: (),
+    60: ("wallclock_datetime"),
+    61: ("wallclock_datetime"),
+    62: ("wallclock_datetime"),
+    63: ("wallclock_datetime"),
+    64: ("wallclock_datetime"),
+    65: ("wallclock_datetime"),
+    67: ("wallclock_datetime"),
+    68: ("wallclock_datetime"),
+    69: ("wallclock_datetime"),
 }
