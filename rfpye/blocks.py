@@ -1010,8 +1010,6 @@ class DType63(GetAttr):
         self.default = TimedSpectral(block)
         self.start = BYTES_63[21].stop + self.n_tunning * 4 + self.n_agc
         self.stop = self.start + self.ndata
-        self.minimum = self.offset - 127.5
-        self.thresh = self.minimum
 
     @cached
     def description(self) -> str:
@@ -1053,6 +1051,14 @@ class DType63(GetAttr):
     def offset(self) -> int:
         """F14 = (1 byte) OFFSET = Data level offset in DTYPE units 2’s Complement, range [-128, 127]."""
         return bin2int(self.data[BYTES_63[14]])
+
+    @cached
+    def minimum(self)->float:
+        return self.offset - 127.5
+    @cached
+    def thresh(self)->float:
+        return self.minimum # redundancy for compatibility with Dtype68
+
 
     @cached
     def gerror(self) -> int:
@@ -1189,8 +1195,7 @@ class DType64(GetAttr):
 
     @cached
     def padding(self):
-        start = BYTES_63[21].stop + 8 + (self.n_tunning * 4) + self.n_agc + self.ndata
-        return bin2int(self.data[start:])
+        return bin2int(self.data[self.stop:])
 
     def __getitem__(self, i):
         """Return a tuple with frequency, spectrum_data"""
@@ -1417,142 +1422,146 @@ class DType67(GetAttr):
         The attributes which belong to Block are accessed normally as if it was Inherited
         """
         self.default = TimedVersion5(block)
-        self.start = BYTES_V5[5].stop + self.desclen + 44 + 4 * self.ntun + self.nagc
+        self.start = 68 + self.desclen + 4 * self.ntun + self.nagc
         self.stop = self.start + self.ndata
-        self.minimum = self.offset - 127.5
-        self.thresh = self.minimum
-
     @cached
     def description(self) -> str:
-        start = BYTES_V5[5].stop
+        start = 24
         stop = start + self.desclen
         return bin2str(self.data[start:stop])
 
     @cached
     def start_mega(self) -> int:
-        start = BYTES_V5[5].stop + self.desclen
+        start = 24 + self.desclen
         stop = start + 2
         return bin2int(self.data[start:stop], False) + self.start_mili / 1000
 
     @cached
     def start_mili(self) -> int:
-        start = BYTES_V5[5].stop + self.desclen + 2
+        start = 26 + self.desclen
         stop = start + 4
         return bin2int(self.data[start:stop])
 
     @cached
     def stop_mega(self) -> int:
-        start = BYTES_V5[5].stop + self.desclen + 6
+        start = 30 + self.desclen
         stop = start + 2
         return bin2int(self.data[start:stop], False) + self.stop_mili / 1000
 
     @cached
     def stop_mili(self) -> int:
-        start = BYTES_V5[5].stop + self.desclen + 8
+        start = 32 + self.desclen
         stop = start + 4
         return bin2int(self.data[start:stop])
 
     @cached
     def bw(self) -> int:
-        start = BYTES_V5[5].stop + self.desclen + 12
+        start = 36 + self.desclen
         stop = start + 4
         return bin2int(self.data[start:stop])
 
     @cached
     def start_channel(self) -> int:
-        start = BYTES_V5[5].stop + self.desclen + 16
+        start = 40 + self.desclen
         stop = start + 2
         return bin2int(self.data[start:stop])
 
     @cached
     def stop_channel(self) -> int:
-        start = BYTES_V5[5].stop + self.desclen + 18
+        start = 42 + self.desclen
         stop = start + 2
         return bin2int(self.data[start:stop])
 
     @cached
     def sample(self) -> int:
-        start = BYTES_V5[5].stop + self.desclen + 20
+        start = 44 + self.desclen
         stop = start + 4
         return bin2int(self.data[start:stop])
 
     @cached
     def namal(self) -> int:
-        start = BYTES_V5[5].stop + self.desclen + 24
+        start = 48 + self.desclen
         stop = start + 4
         return bin2int(self.data[start:stop])
 
     @cached
     def antuid(self) -> int:
-        start = BYTES_V5[5].stop + self.desclen + 28
+        start = 52 + self.desclen
         stop = start + 1
         return bin2int(self.data[start:stop])
 
     @cached
     def processing(self) -> Union[str, int]:
-        start = BYTES_V5[5].stop + self.desclen + 29
+        start = 53 + self.desclen
         stop = start + 1
         proc = bin2int(self.data[start:stop])
         return DICT_PROCESSING.get(proc, proc)
 
     @cached
     def dtype(self) -> Union[str, int]:
-        start = BYTES_V5[5].stop + self.desclen + 30
+        start = 54 + self.desclen
         stop = start + 1
         unit = bin2int(self.data[start:stop])
         return DICT_UNIT.get(unit, unit)
 
     @cached
     def offset(self) -> int:
-        start = BYTES_V5[5].stop + self.desclen + 31
+        start = 55 + self.desclen
         stop = start + 1
         return bin2int(self.data[start:stop])
 
     @cached
+    def minimum(self)->float:
+        return self.offset - 127.5
+    @cached
+    def thresh(self)->float:
+        return self.minimum # redundancy for compatibility with Dtype68
+
+    @cached
     def gerror(self) -> int:
-        start = BYTES_V5[5].stop + self.desclen + 32
+        start = 56 + self.desclen
         stop = start + 1
         return bin2int(self.data[start:stop])
 
     @cached
     def gflags(self) -> int:
-        start = BYTES_V5[5].stop + self.desclen + 33
+        start = 57 + self.desclen
         stop = start + 1
         return bin2int(self.data[start:stop])
 
     @cached
     def ntun(self) -> int:
-        start = BYTES_V5[5].stop + self.desclen + 35  # + 1 for ignored alignment
+        start = 59 + self.desclen  # + 1 for ignored alignment
         stop = start + 2
         return bin2int(self.data[start:stop])
 
     @cached
     def nagc(self) -> int:
-        start = BYTES_V5[5].stop + self.desclen + 37
+        start = 62 + self.desclen
         stop = start + 2
         return bin2int(self.data[start:stop])
 
     @cached
     def npad(self) -> int:
-        start = BYTES_V5[5].stop + self.desclen + 39
+        start = 64 + self.desclen
         stop = start + 1
         return bin2int(self.data[start:stop])
 
     @cached
     def ndata(self) -> int:
-        start = BYTES_V5[5].stop + self.desclen + 40
+        start = 65 + self.desclen
         stop = start + 4
         return bin2int(self.data[start:stop])
 
     @cached
     def tunning(self) -> tuple:
-        start = BYTES_V5[5].stop + self.desclen + 44
+        start = 69 + self.desclen
         stop = start + 4 * self.ntun
         return L(self.data[i : i + 2] for i in range(start, stop, 4))
 
     @cached
     def agc(self) -> np.ndarray:
-        start = BYTES_V5[5].stop + self.desclen + 44 + 4 * self.ntun
+        start = 68 + self.desclen + 4 * self.ntun
         stop = start + self.nagc
         return np.frombuffer(self.data[start:stop], np.uint8)
 

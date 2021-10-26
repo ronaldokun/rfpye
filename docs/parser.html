@@ -224,7 +224,7 @@ Returns: The Instance of the Block Type or None in case of error</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="CrfsSpectrum" class="doc_header"><code>class</code> <code>CrfsSpectrum</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L152" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CrfsSpectrum</code>(<strong><code>metadata</code></strong>:<code>namedtuple</code>) :: <code>GetAttr</code></p>
+<h2 id="CrfsSpectrum" class="doc_header"><code>class</code> <code>CrfsSpectrum</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L154" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CrfsSpectrum</code>(<strong><code>metadata</code></strong>:<code>namedtuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Class with the metadata and levels of a spectrum block from a CRFS Bin File</p>
 
@@ -272,7 +272,9 @@ Returns: The Instance of the Block Type or None in case of error</p>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_satellites</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_satellites</span> <span class="k">else</span> <span class="mi">0</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;GPS Data - Median of Coordinates: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">latitude</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">longitude</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">, Altitude: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">altitude</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> #Satellites: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_satellites</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> &quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;GPS Data - Median of Coordinates: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">latitude</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">longitude</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="se">\n</span><span class="s2"></span>
+<span class="s2">                Altitude: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">altitude</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="se">\n</span><span class="s2"></span>
+<span class="s2">                #Satellites: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_satellites</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span>
 
 
 <span class="k">class</span> <span class="nc">CrfsSpectrum</span><span class="p">(</span><span class="n">GetAttr</span><span class="p">):</span>
@@ -294,7 +296,8 @@ Returns: The Instance of the Block Type or None in case of error</p>
         <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Blocks of Type: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2">, Thread_id: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">thread_id</span><span class="si">}</span><span class="s2">, Start: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">start_mega</span><span class="si">}</span><span class="s2"> MHz, Stop: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">stop_mega</span><span class="si">}</span><span class="s2"> MHz&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;Blocks of Type: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2">, Thread_id: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">thread_id</span><span class="si">}</span><span class="s2">, </span>
+<span class="s2">               Start: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">start_mega</span><span class="si">}</span><span class="s2"> MHz, Stop: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">stop_mega</span><span class="si">}</span><span class="s2"> MHz&quot;&quot;&quot;</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">levels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -342,7 +345,7 @@ Returns: The Instance of the Block Type or None in case of error</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="check_block_exists" class="doc_header"><code>check_block_exists</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L201" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>check_block_exists</code>(<strong><code>attrs</code></strong>, <strong><code>fluxos</code></strong>, <strong><code>block</code></strong>)</p>
+<h4 id="check_block_exists" class="doc_header"><code>check_block_exists</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L204" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>check_block_exists</code>(<strong><code>attrs</code></strong>, <strong><code>fluxos</code></strong>, <strong><code>block</code></strong>)</p>
 </blockquote>
 <p>Receives a dict of attributes and check if its values exist as keys in fluxos, otherwise create one and set to CrfsSpectrum Class</p>
 
@@ -374,7 +377,7 @@ Returns: The Instance of the Block Type or None in case of error</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="append_spec_data" class="doc_header"><code>append_spec_data</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L212" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>append_spec_data</code>(<strong><code>attrs</code></strong>, <strong><code>fluxos</code></strong>, <strong><code>block</code></strong>)</p>
+<h4 id="append_spec_data" class="doc_header"><code>append_spec_data</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L215" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>append_spec_data</code>(<strong><code>attrs</code></strong>, <strong><code>fluxos</code></strong>, <strong><code>block</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -398,7 +401,7 @@ Returns: The Instance of the Block Type or None in case of error</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="classify_blocks" class="doc_header"><code>classify_blocks</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L219" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>classify_blocks</code>(<strong><code>byte_blocks</code></strong>:<code>Iterable</code>[<code>T_co</code>])</p>
+<h4 id="classify_blocks" class="doc_header"><code>classify_blocks</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L222" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>classify_blocks</code>(<strong><code>byte_blocks</code></strong>:<code>Iterable</code>[<code>T_co</code>])</p>
 </blockquote>
 <p>Receives an iterable with binary blocks and returns a dict with the metadata from file, the gps class and a list with the different spectrum classes</p>
 

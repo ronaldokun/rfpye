@@ -2118,9 +2118,7 @@ Total Bytes = 52 + (4 * NTUN) + NAGC + NDATA + NPAD</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="n">TimedSpectral</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_63</span><span class="p">[</span><span class="mi">21</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_tunning</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_agc</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndata</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">minimum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">offset</span> <span class="o">-</span> <span class="mf">127.5</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">thresh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">minimum</span>
-
+        
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">&quot;Peak&quot;</span>
@@ -2161,6 +2159,14 @@ Total Bytes = 52 + (4 * NTUN) + NAGC + NDATA + NPAD</p>
     <span class="k">def</span> <span class="nf">offset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;F14 = (1 byte) OFFSET = Data level offset in DTYPE units 2’s Complement, range [-128, 127].&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">BYTES_63</span><span class="p">[</span><span class="mi">14</span><span class="p">]])</span>
+
+    <span class="nd">@cached</span>    
+    <span class="k">def</span> <span class="nf">minimum</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">offset</span> <span class="o">-</span> <span class="mf">127.5</span>
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">thresh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">float</span><span class="p">:</span>        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">minimum</span> <span class="c1"># redundancy for compatibility with Dtype68</span>
+
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">gerror</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -2270,7 +2276,7 @@ Total Bytes = 52 + (4 * NTUN) + NAGC + NDATA + NPAD</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType64" class="doc_header"><code>class</code> <code>DType64</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1141" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType64</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType64" class="doc_header"><code>class</code> <code>DType64</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1147" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType64</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>This is very similar to type 63, with the addition of threshold power level and number of points before compression,
 and obviously a compressed spectrum vector replacing the uncompressed</p>
@@ -2344,8 +2350,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">padding</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_63</span><span class="p">[</span><span class="mi">21</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="mi">8</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_tunning</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_agc</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndata</span>
-        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:])</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">:])</span>
 
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a tuple with frequency, spectrum_data&quot;&quot;&quot;</span>
@@ -2382,7 +2387,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType65" class="doc_header"><code>class</code> <code>DType65</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1206" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType65</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType65" class="doc_header"><code>class</code> <code>DType65</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1211" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType65</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>O Bloco do tipo 65 carrega dados de Taxa de Ocupação Espectral por Canal de Frequência (ITU-R SM.1880).</p>
 <p>O tamanho total em bytes é (48 + NDATA + NPAD)</p>
@@ -2582,7 +2587,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType66" class="doc_header"><code>class</code> <code>DType66</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1330" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType66</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType66" class="doc_header"><code>class</code> <code>DType66</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1335" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType66</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 66 – 16 bit IQ Data</p>
 
@@ -2709,7 +2714,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType67" class="doc_header"><code>class</code> <code>DType67</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1412" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType67</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType67" class="doc_header"><code>class</code> <code>DType67</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1417" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType67</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 67 – Spectral Data</p>
 
@@ -2738,142 +2743,146 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 <span class="sd">        The attributes which belong to Block are accessed normally as if it was Inherited</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="n">TimedVersion5</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">44</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ntun</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nagc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="mi">68</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ntun</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nagc</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndata</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">minimum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">offset</span> <span class="o">-</span> <span class="mf">127.5</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">thresh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">minimum</span>
-
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">24</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
         <span class="k">return</span> <span class="n">bin2str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">start_mega</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">24</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">2</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">],</span> <span class="kc">False</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_mili</span> <span class="o">/</span> <span class="mi">1000</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">start_mili</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">2</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">26</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">4</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">stop_mega</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">6</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">2</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">],</span> <span class="kc">False</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop_mili</span> <span class="o">/</span> <span class="mi">1000</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">stop_mili</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">8</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">32</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">4</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">bw</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">12</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">36</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">4</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">start_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">16</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">40</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">2</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">stop_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">18</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">42</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">2</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">20</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">44</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> 
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">4</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">namal</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">24</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">48</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">4</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">antuid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">28</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">52</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">processing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">29</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">53</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="n">proc</span> <span class="o">=</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">DICT_PROCESSING</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">proc</span><span class="p">,</span> <span class="n">proc</span><span class="p">)</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">30</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">54</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="n">unit</span> <span class="o">=</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">DICT_UNIT</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">offset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">31</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">55</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
 
+    <span class="nd">@cached</span>    
+    <span class="k">def</span> <span class="nf">minimum</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">offset</span> <span class="o">-</span> <span class="mf">127.5</span>
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">thresh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">float</span><span class="p">:</span>        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">minimum</span> <span class="c1"># redundancy for compatibility with Dtype68</span>
+
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">gerror</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">32</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">56</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">gflags</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">33</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">57</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">ntun</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">35</span>  <span class="c1"># + 1 for ignored alignment</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">59</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>  <span class="c1"># + 1 for ignored alignment</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">2</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">nagc</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">37</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">62</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">2</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">npad</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">39</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">64</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">ndata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">40</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">65</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">4</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">tunning</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">44</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">69</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ntun</span>
         <span class="k">return</span> <span class="n">L</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">agc</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">44</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ntun</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">68</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ntun</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nagc</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
 
@@ -2924,7 +2933,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType68" class="doc_header"><code>class</code> <code>DType68</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1582" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType68</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType68" class="doc_header"><code>class</code> <code>DType68</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1591" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType68</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 68 – Threshold Compressed Data</p>
 
@@ -3021,7 +3030,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType69" class="doc_header"><code>class</code> <code>DType69</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1634" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType69</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType69" class="doc_header"><code>class</code> <code>DType69</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1643" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType69</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 69 – Frequency Channel Occupancy (ITU-R SM.1880)</p>
 

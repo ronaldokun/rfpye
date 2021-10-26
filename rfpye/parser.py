@@ -146,7 +146,9 @@ class CrfsGPS:
         return np.median(self._num_satellites) if self._num_satellites else 0
 
     def __repr__(self):
-        return f"GPS Data - Median of Coordinates: {self.latitude:.5f}:{self.longitude:.5f}, Altitude: {self.altitude:.2f} #Satellites: {self.num_satellites:.1f} "
+        return f"""GPS Data - Median of Coordinates: {self.latitude:.5f}:{self.longitude:.5f}\n
+                Altitude: {self.altitude:.2f}\n
+                #Satellites: {self.num_satellites:.1f}"""
 
 
 class CrfsSpectrum(GetAttr):
@@ -168,7 +170,8 @@ class CrfsSpectrum(GetAttr):
         return repr(self.default)
 
     def __str__(self):
-        return f"Blocks of Type: {self.type}, Thread_id: {self.thread_id}, Start: {self.start_mega} MHz, Stop: {self.stop_mega} MHz"
+        return f"""Blocks of Type: {self.type}, Thread_id: {self.thread_id},
+               Start: {self.start_mega} MHz, Stop: {self.stop_mega} MHz"""
 
     @cached
     def levels(self):

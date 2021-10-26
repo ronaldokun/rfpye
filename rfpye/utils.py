@@ -42,7 +42,7 @@ def recursive_walk(path, folders, extensions, followlinks) -> L:
 
 # Cell
 def get_files(path, extensions=None, recurse=True, folders=None, followlinks=True)->L:
-    "Get all the files in `path` with optional `extensions`, optionally with `recurse`, only in `folders`, if specified."
+    "Get all the filerefas in `path` with optional `extensions`, optionally with `recurse`, only in `folders`, if specified."
     path = Path(path)
     folders = L(folders)
     if extensions is not None:
@@ -76,32 +76,18 @@ def bin2str(binary_data: bytes) -> str:
 
 
 def bin2date(binary_data: bytes) -> L:
-    """Receives a byte and returns a tuple with the date
-    :param binary_data: valor de data comprimido
-    :return: dia, mês, ano, reserva
-
-    Date is expressed as dd/mm/yy/null, i.e. 4 bytes
-    """
+    """Receives a byte and returns a List with the date"""
     date = L(*binary_data)
     date[2] += 2000
     return date
 
 
 def bin2time(binary_data: bytes) -> L:
-    """Receives a byte and returns a tuple with the time
-    :param binary_data: compressed time value
-    :return: hours, minutes, seconds, decimals
-
-     Time is expressed as hh/mm/ss/cc (4 bytes), where cc is centiseconds;
-     and a 32-bit nanoseconds field, expressed as an unsigned 32-bit integer,
-     to support higher precision where required.
-     At most one of cc and nanoseconds can be nonzero.
-    """
+    """Receives a byte and returns a list with the time"""
     return L(*binary_data)
 
 
 def pad(text, block_size):
-
     # Calculate the missing number of
     # bytes, say N
     pad_size = block_size - len(text) % block_size
