@@ -72,6 +72,7 @@ nb_path: "nbs\04_constants.ipynb"
     <span class="s2">&quot;walltime&quot;</span><span class="p">,</span>
     <span class="s2">&quot;wallnano&quot;</span><span class="p">,</span>
     <span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
     <span class="s2">&quot;data&quot;</span><span class="p">,</span>
     <span class="s2">&quot;raw_data&quot;</span><span class="p">,</span>
     <span class="s2">&quot;levels&quot;</span><span class="p">,</span>
@@ -290,7 +291,6 @@ nb_path: "nbs\04_constants.ipynb"
         <span class="s2">&quot;thread_id&quot;</span><span class="p">,</span>
         <span class="s2">&quot;start_mega&quot;</span><span class="p">,</span>
         <span class="s2">&quot;stop_mega&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;namal&quot;</span><span class="p">,</span>
         <span class="s2">&quot;sampling&quot;</span><span class="p">,</span>
         <span class="s2">&quot;ndata&quot;</span><span class="p">,</span>
         <span class="s2">&quot;antuid&quot;</span><span class="p">,</span>
@@ -322,13 +322,12 @@ nb_path: "nbs\04_constants.ipynb"
     <span class="mi">65</span><span class="p">:</span> <span class="p">(</span>
         <span class="s2">&quot;type&quot;</span><span class="p">,</span>
         <span class="s2">&quot;thread_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;start_mega&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;stop_mega&quot;</span><span class="p">,</span>
         <span class="s2">&quot;dtype&quot;</span><span class="p">,</span>
         <span class="s2">&quot;ndata&quot;</span><span class="p">,</span>
         <span class="s2">&quot;processing&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;antuid&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;namal&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;duration&quot;</span><span class="p">,</span>
-
+        <span class="s2">&quot;antuid&quot;</span>
     <span class="p">),</span>
     <span class="mi">67</span><span class="p">:</span> <span class="p">(</span>
         <span class="s2">&quot;type&quot;</span><span class="p">,</span>
@@ -371,9 +370,11 @@ nb_path: "nbs\04_constants.ipynb"
 
 <span class="n">SPECTRAL_BLOCKS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">61</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">68</span><span class="p">)</span>
 
-<span class="n">OCC</span> <span class="o">=</span> <span class="p">(</span><span class="mi">62</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">69</span><span class="p">)</span>
+<span class="n">OCC</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">62</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">69</span><span class="p">)</span>
 
-<span class="n">UNCOMPRESSED</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">67</span><span class="p">)</span>
+<span class="n">VECTOR_BLOCKS</span> <span class="o">=</span> <span class="n">SPECTRAL_BLOCKS</span> <span class="o">+</span> <span class="n">OCC</span>
+
+<span class="n">UNCOMPRESSED</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">67</span><span class="p">)</span> <span class="o">+</span> <span class="n">OCC</span>
 
 <span class="n">COMPRESSED</span> <span class="o">=</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">61</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">68</span><span class="p">)</span>
 

@@ -154,12 +154,8 @@ class CrfsSpectrum(GetAttr):
 
     def __init__(self, metadata: namedtuple):
         self.default = metadata
-        self.timestamp: L = L()
+        self._timestamp: L = L()
         self._data: L = L()
-
-    def _append(self, time, data):
-        self.timestamp.append(time)
-        self._data.append(data)
 
     def __len__(self):
         return self.levels.shape[0]
@@ -192,7 +188,8 @@ class CrfsSpectrum(GetAttr):
     def matrix(self):
         """Returns the matrix formed from the spectrum levels and timestamp"""
         frequencies = np.linspace(self.start_mega, self.stop_mega, num=self.ndata)
-        data = pd.DataFrame(self.levels, index=self.timestamp, columns=frequencies)
+        index = self._timestamp if len(self._timestamp) == len(self) else None
+        data = pd.DataFrame(self.levels, index=index, columns=frequencies)
         data.columns.name = "Frequencies"
         data.index.name = "Time"
         return data
@@ -219,9 +216,12 @@ def check_block_exists(attrs, fluxos, block):
 # Cell
 def append_spec_data(attrs, fluxos, block)->None:
     values, fluxos = check_block_exists(attrs, fluxos, block)
-    time = getattr(block, "wallclock_datetime")
-    data = getattr(block, 'levels')
-    fluxos[values]._append(time, data)
+    time = getattr(block, "wallclock_datetime", None)
+    data = getattr(block, 'levels', None)
+    if time is not None:
+        fluxos[values]._timestamp.append(time)
+    if data is not None:
+        fluxos[values]._data.append(data)
 
 def classify_blocks(byte_blocks: Iterable) -> dict:
     """Receives an iterable with binary blocks and returns a dict with the metadata from file, the gps class and a list with the different spectrum classes"""
@@ -237,10 +237,8 @@ def classify_blocks(byte_blocks: Iterable) -> dict:
                 getattr(gps, f"_{k}").append(getattr(block, k))
             continue
         attrs = getattrs(block, attrs=KEY_ATTRS.get(block.type))
-        if block.type in SPECTRAL_BLOCKS:
+        if block.type in VECTOR_BLOCKS:
             append_spec_data(attrs, fluxos, block)
-        elif block.type in OCC:
-            pass
         else:
             meta.update(attrs)
     meta["gps"] = gps

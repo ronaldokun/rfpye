@@ -343,12 +343,26 @@ class DType8(GetAttr):
         return bin2int(self.data[8:12])
 
     @cached
-    def utc_time(self) -> list:
-        return [bin2int(d) for d in self.data[12:16]]
+    def _walldate(self) -> list:
+        date = bin2date(self.data[12:16])
+        return (
+            f"{str(date[2]).zfill(4)}-{str(date[1]).zfill(2)}-{str(date[0]).zfill(2)}"
+        )
 
     @cached
-    def utc_date(self) -> list:
-        return [bin2int(d) for d in self.data[16:20]]
+    def _walltime(self) -> list:
+        time = bin2time(self.data[16:20])
+        return (
+            f"{str(time[0]).zfill(2)}:{str(time[1]).zfill(2)}:{str(time[2]).zfill(2)}"
+        )
+
+
+    @cached
+    def wallclock_datetime(self) -> np.datetime64:
+        """Returns the wallclock datetime"""
+        return np.datetime64(
+            f"{self._walldate}T{self._walltime}"
+        )
 
     @cached
     def sampling(self) -> int:
@@ -373,7 +387,7 @@ class DType8(GetAttr):
     @cached
     def levels(self) -> np.ndarray:
         try:
-            return np.frombuffer(self.data[40 : 40 + self.ndata])
+            return np.frombuffer(self.data[40 : 40 + self.ndata], dtype=np.uint8)
         except ValueError as e:
             raise ValueError(f"{e} while retrieving raw_data in {self.filename}") from e
 
@@ -1343,7 +1357,7 @@ class DType65(GetAttr):
         Number of equal width channels dividing the reported frequency width
         """
         return bin2int(self.data[BYTES_65[19]])
-
+    @cached
     def levels(self) -> np.ndarray:
         """
         self > -> List[float]
@@ -1354,7 +1368,7 @@ class DType65(GetAttr):
                     representing  the percentage (0..100 % in 0.5 steps)
         """
         try:
-            return np.frombuffer(self.data[self.start:self.stop], dtype=np.float16)
+            return np.frombuffer(self.data[self.start:self.stop], dtype=np.uint8) / 2.0
         except ValueError as e:
             raise ValueError(f"{e} while retrieving levels in {self}") from e
 

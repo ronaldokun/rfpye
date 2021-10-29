@@ -3,7 +3,8 @@
 __all__ = ['BYTES_HEADER', 'ENDMARKER', 'EXCLUDE_ATTRS', 'DICT_PROCESSING', 'DICT_UNIT', 'TUNING_BLOCK', 'BYTES_TIMED',
            'BYTES_TIMED_NE', 'BYTES_6', 'BYTES_20', 'BYTES_21', 'BYTES_24', 'BYTES_40', 'BYTES_41', 'BYTES_42',
            'BYTES_51', 'BYTES_63', 'BYTES_64', 'BYTES_65', 'BYTES_V5', 'BYTES_66', 'BYTES_67', 'KEY_ATTRS',
-           'TIMED_BLOCKS', 'SPECTRAL_BLOCKS', 'OCC', 'UNCOMPRESSED', 'COMPRESSED', 'GPS_BLOCK', 'BLOCK_ATTRS']
+           'TIMED_BLOCKS', 'SPECTRAL_BLOCKS', 'OCC', 'VECTOR_BLOCKS', 'UNCOMPRESSED', 'COMPRESSED', 'GPS_BLOCK',
+           'BLOCK_ATTRS']
 
 # Cell
 from typing import Mapping, List
@@ -22,6 +23,7 @@ EXCLUDE_ATTRS: List = (
     "walltime",
     "wallnano",
     "wallclock_datetime",
+    "timestamp",
     "data",
     "raw_data",
     "levels",
@@ -220,7 +222,6 @@ KEY_ATTRS = {
         "thread_id",
         "start_mega",
         "stop_mega",
-        "namal",
         "sampling",
         "ndata",
         "antuid",
@@ -252,13 +253,12 @@ KEY_ATTRS = {
     65: (
         "type",
         "thread_id",
+        "start_mega",
+        "stop_mega",
         "dtype",
         "ndata",
         "processing",
-        "antuid",
-        "namal",
-        "duration",
-
+        "antuid"
     ),
     67: (
         "type",
@@ -301,9 +301,11 @@ TIMED_BLOCKS = (40, 41, 42, 51, 63, 64, 65, 66, 67, 68, 69)
 
 SPECTRAL_BLOCKS = (4, 7, 60, 61, 63, 64, 67, 68)
 
-OCC = (62, 65, 69)
+OCC = (8, 62, 65, 69)
 
-UNCOMPRESSED = (4, 60, 63, 67)
+VECTOR_BLOCKS = SPECTRAL_BLOCKS + OCC
+
+UNCOMPRESSED = (4, 60, 63, 67) + OCC
 
 COMPRESSED = (7, 61, 64, 68)
 
