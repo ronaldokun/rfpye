@@ -171,6 +171,7 @@ KEY_ATTRS = {
     7: (
         "type",
         "thread_id",
+        "thresh",
         "start_mega",
         "stop_mega",
         "namal",
@@ -210,6 +211,7 @@ KEY_ATTRS = {
     61: (
         "type",
         "thread_id",
+        "thresh",
         "start_mega",
         "stop_mega",
         "ndata",
@@ -241,6 +243,7 @@ KEY_ATTRS = {
     64: (
         "type",
         "thread_id",
+        "thresh",
         "description",
         "start_mega",
         "stop_mega",
@@ -275,6 +278,7 @@ KEY_ATTRS = {
     68: (
         "type",
         "thread_id",
+        "thresh",
         "description",
         "start_mega",
         "stop_mega",
