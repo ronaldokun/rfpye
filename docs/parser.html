@@ -31,15 +31,7 @@ nb_path: "nbs\01_parser.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Processamento-do-Arquivo-.bin-e-cria&#231;&#227;o-dos-diferentes-tipos-de-blocos">Processamento do Arquivo <code>.bin</code> e cria&#231;&#227;o dos diferentes tipos de blocos<a class="anchor-link" href="#Processamento-do-Arquivo-.bin-e-cria&#231;&#227;o-dos-diferentes-tipos-de-blocos"> </a></h2><p>A função seguinte <a href="/rfpyeparser.html#parse_bin"><code>parse_bin</code></a> recebe um arquivo <code>.bin</code> e mapeia os blocos contidos nele retornando um dicionário:</p>
-<ul>
-<li><code>file_version</code>: Versão do arquivo <code>.bin</code></li>
-<li><p><a href="/rfpyeblocks.html"><code>blocks</code></a>: Dicionário com os blocos do arquivo <code>.bin</code>. Cada tipo de bloco tem sua Classe Própria</p>
-<p>O dicionário <a href="/rfpyeblocks.html"><code>blocks</code></a> retornado tem como chave uma tupla (tipo de bloco, <code>thread_id</code>) e os valores como uma lista com os blocos ( classes ) extraídos sequencialmente.</p>
-</li>
-</ul>
-<p>O tipo de bloco é a natureza do dado contido, por exemplo: 40 - GPS, 67 - Dado Espectral. O <code>thread_id</code> discrimina em geral diferentes "faixas" do mesmo tipo de dado. Para dados espectrais, por exemplo, diferentes thread_id representam varreduras de faixas de frequência distintas</p>
-
+<h2 id="Processamento-do-Arquivo-.bin-e-cria&#231;&#227;o-dos-diferentes-tipos-de-blocos">Processamento do Arquivo <code>.bin</code> e cria&#231;&#227;o dos diferentes tipos de blocos<a class="anchor-link" href="#Processamento-do-Arquivo-.bin-e-cria&#231;&#227;o-dos-diferentes-tipos-de-blocos"> </a></h2>
 </div>
 </div>
 </div>
@@ -54,16 +46,42 @@ nb_path: "nbs\01_parser.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="parse_bin" class="doc_header"><code>parse_bin</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L42" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parse_bin</code>(<strong><code>bin_file</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>])</p>
+<h4 id="evaluate_checksum" class="doc_header"><code>evaluate_checksum</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L42" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>evaluate_checksum</code>(<strong><code>byte_block</code></strong>:<code>bytes</code>)</p>
 </blockquote>
-<p>Receives a CRFS binfile and returns a dictionary with the file metadata, a GPS Class and a list with the different Spectrum Classes
-A block is a piece of the .bin file with a known start and end and that contains different types of information.
-It has several fields: file_type, header, data and footer.
-Each field has lengths and information defined in the documentation.
-Args:
-    bin_file (Union[str, Path]): path to the bin file</p>
-<p>Returns:
-    Dictionary with the file metadata, file_version, string info, gps and spectrum blocks.</p>
+<p>Receives a byte_block and verify if the calculated checksum is equal to the one registed in the specific byte</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="byte2base_block" class="doc_header"><code>byte2base_block</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L57" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>byte2base_block</code>(<strong><code>byte_block</code></strong>:<code>bytes</code>)</p>
+</blockquote>
+<p>Receives a byte block from the bin file and returns a dataclass with the attributes
+'thread_id', 'size', 'type', 'data', 'checksum' or None in case any error is identified.</p>
 
 </div>
 
@@ -100,72 +118,7 @@ Args:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="evaluate_checksum" class="doc_header"><code>evaluate_checksum</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L68" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>evaluate_checksum</code>(<strong><code>byte_block</code></strong>:<code>bytes</code>)</p>
-</blockquote>
-<p>Receives a byte_block and verify if the calculated checksum is equal to the one registed in the specific byte</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="byte2base_block" class="doc_header"><code>byte2base_block</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L83" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>byte2base_block</code>(<strong><code>byte_block</code></strong>:<code>bytes</code>)</p>
-</blockquote>
-<p>Receives a byte block from the bin file and returns a dataclass with the attributes
-'thread_id', 'size', 'type', 'data', 'checksum' or None in case any error is identified.</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="create_block" class="doc_header"><code>create_block</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L100" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_block</code>(<strong><code>byte_block</code></strong>:<code>bytes</code>)</p>
+<h4 id="create_block" class="doc_header"><code>create_block</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L74" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_block</code>(<strong><code>byte_block</code></strong>:<code>bytes</code>)</p>
 </blockquote>
 <p>Receives a byte_block, and converts it into one of the main classes
 Args: byte_block: A byte block directly returned from the file
@@ -188,6 +141,13 @@ Returns: The Instance of the Block Type or None in case of error</p>
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A função a seguir recebe os bytes lidos do arquivo <code>.bin</code> e mapeia esses bytes em diferentes classes de acordo com o tipo de bloco</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -199,7 +159,46 @@ Returns: The Instance of the Block Type or None in case of error</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="CrfsGPS" class="doc_header"><code>class</code> <code>CrfsGPS</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L123" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CrfsGPS</code>()</p>
+<h4 id="parse_bin" class="doc_header"><code>parse_bin</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L96" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parse_bin</code>(<strong><code>bin_file</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>])</p>
+</blockquote>
+<p>Receives a CRFS binfile and returns a dictionary with the file metadata, a GPS Class and a list with the different Spectrum Classes
+A block is a piece of the .bin file with a known start and end and that contains different types of information.
+It has several fields: file_type, header, data and footer.
+Each field has lengths and information defined in the documentation.
+Args:
+    bin_file (Union[str, Path]): path to the bin file</p>
+<p>Returns:
+    Dictionary with the file metadata, file_version, string info, gps and spectrum blocks.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="CrfsGPS" class="doc_header"><code>class</code> <code>CrfsGPS</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L124" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CrfsGPS</code>()</p>
 </blockquote>
 <p>Class with the GPS Attributes from the CRFS Bin File</p>
 
@@ -224,7 +223,7 @@ Returns: The Instance of the Block Type or None in case of error</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="CrfsSpectrum" class="doc_header"><code>class</code> <code>CrfsSpectrum</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L152" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CrfsSpectrum</code>(<strong><code>metadata</code></strong>:<code>namedtuple</code>) :: <code>GetAttr</code></p>
+<h2 id="CrfsSpectrum" class="doc_header"><code>class</code> <code>CrfsSpectrum</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L153" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CrfsSpectrum</code>(<strong><code>metadata</code></strong>:<code>namedtuple</code>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Class with the metadata and levels of a spectrum block from a CRFS Bin File</p>
 
@@ -310,12 +309,15 @@ Returns: The Instance of the Block Type or None in case of error</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">levels</span>
+    
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">frequencies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_mega</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop_mega</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ndata</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Returns the matrix formed from the spectrum levels and timestamp&quot;&quot;&quot;</span>
-        <span class="n">frequencies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_mega</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop_mega</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ndata</span><span class="p">)</span>
         <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_timestamp</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_timestamp</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">levels</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">frequencies</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">levels</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">frequencies</span><span class="p">)</span>
         <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Frequencies&quot;</span>
         <span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Time&quot;</span>
         <span class="k">return</span> <span class="n">data</span>
@@ -339,7 +341,7 @@ Returns: The Instance of the Block Type or None in case of error</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="check_block_exists" class="doc_header"><code>check_block_exists</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L198" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>check_block_exists</code>(<strong><code>attrs</code></strong>, <strong><code>fluxos</code></strong>, <strong><code>block</code></strong>)</p>
+<h4 id="check_block_exists" class="doc_header"><code>check_block_exists</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L202" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>check_block_exists</code>(<strong><code>attrs</code></strong>, <strong><code>fluxos</code></strong>)</p>
 </blockquote>
 <p>Receives a dict of attributes and check if its values exist as keys in fluxos, otherwise create one and set to CrfsSpectrum Class</p>
 
@@ -371,7 +373,7 @@ Returns: The Instance of the Block Type or None in case of error</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="append_spec_data" class="doc_header"><code>append_spec_data</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L217" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>append_spec_data</code>(<strong><code>attrs</code></strong>, <strong><code>fluxos</code></strong>, <strong><code>block</code></strong>)</p>
+<h4 id="append_spec_data" class="doc_header"><code>append_spec_data</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L221" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>append_spec_data</code>(<strong><code>attrs</code></strong>, <strong><code>fluxos</code></strong>, <strong><code>block</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -395,7 +397,7 @@ Returns: The Instance of the Block Type or None in case of error</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="classify_blocks" class="doc_header"><code>classify_blocks</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L226" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>classify_blocks</code>(<strong><code>byte_blocks</code></strong>:<code>Iterable</code>[<code>T_co</code>])</p>
+<h4 id="classify_blocks" class="doc_header"><code>classify_blocks</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L230" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>classify_blocks</code>(<strong><code>byte_blocks</code></strong>:<code>Iterable</code>[<code>T_co</code>])</p>
 </blockquote>
 <p>Receives an iterable with binary blocks and returns a dict with the metadata from file, the gps class and a list with the different spectrum classes</p>
 
