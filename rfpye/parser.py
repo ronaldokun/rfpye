@@ -170,7 +170,7 @@ class CrfsSpectrum(GetAttr):
     def levels(self):
         """Return the spectrum levels"""
         if self.type in UNCOMPRESSED:
-            levels = np.concatenate(self._data, dtype=np.float16).reshape(
+            levels = np.concatenate(self._data).reshape(
                 (-1, self.ndata)
             )
         elif self.type in COMPRESSED:
