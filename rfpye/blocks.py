@@ -61,7 +61,7 @@ class TimedNonSpectral(GetAttr):
     @cached
     def _wallnano(self) -> int:
         """F2 = (4u bytes) WALLNANO = Wall Clock Start Time Nanoseconds"""
-        return bin2int(self.data[BYTES_TIMED_NE[2]], False)
+        return bin2int(self.data[8:12], False)
 
     @cached
     def wallclock_datetime(self) -> np.datetime64:
@@ -91,27 +91,28 @@ class TimedSpectral(GetAttr):
 
     @cached
     def start_mega(self):
-        return bin2int(self.data[BYTES_TIMED[3]], False) + self.start_mili / 1000
-
-    @cached
-    def stop_mega(self):
-        return bin2int(self.data[BYTES_TIMED[5]], False) + self.stop_mili / 1000
+        return bin2int(self.data[12:14], False)
 
     @cached
     def start_mili(self):
-        return bin2int(self.data[BYTES_TIMED[4]])
+        return bin2int(self.data[14:18])
+
+    @cached
+    def stop_mega(self):
+        return bin2int(self.data[18:20], False)
+
 
     @cached
     def stop_mili(self):
-        return bin2int(self.data[BYTES_TIMED[6]])
+        return bin2int(self.data[20:24])
 
     @cached
     def start_channel(self):
-        return bin2int(self.data[BYTES_TIMED[7]], False)
+        return bin2int(self.data[24:26], False)
 
     @cached
     def stop_channel(self):
-        return bin2int(self.data[BYTES_TIMED[8]], False)
+        return bin2int(self.data[26:28], False)
 
 # Cell
 class TimedVersion5(GetAttr):
@@ -137,52 +138,64 @@ class DType3(GetAttr):
     def __init__(self, block: BaseBlock) -> None:
         super().__init__()
         self.default = block
+
     @cached
-    def textlen(self)->int:
+    def textlen(self) -> int:
         return bin2int(self.data[:4])
+
     @cached
-    def text(self)->str:
-        return bin2str(self.data[4:4+self.textlen])
+    def text(self) -> str:
+        return bin2str(self.data[4 : 4 + self.textlen])
 
 # Cell
 class DType4(GetAttr):
     def __init__(self, block: BaseBlock):
         super().__init__()
         self.default = block
+
     @cached
     def start_mega(self) -> int:
         return bin2int(self.data[:2])
+
     @cached
     def stop_mega(self) -> int:
         return bin2int(self.data[2:4])
+
     @cached
     def offset(self) -> int:
         return bin2int(self.data[4:5])
+
     @cached
     def input(self) -> int:
         return bin2int(self.data[5:6])
+
     @cached
     def processing(self) -> int:
-        d = {0: 'Single Measurement', 1: 'Average', 2: 'Peak'}
-        return d.get(bin2int(self.data[6:7]), 'Unknown')
+        d = {0: "Single Measurement", 1: "Average", 2: "Peak"}
+        return d.get(bin2int(self.data[6:7]), "Unknown")
+
     @cached
     def npad(self) -> int:
         return bin2int(self.data[7:8])
+
     @cached
     def ndata(self) -> int:
         return bin2int(self.data[8:12])
+
     @cached
     def raw_data(self) -> np.ndarray:
         try:
-            return np.frombuffer(self.data[12:12+self.ndata], dtype=np.uint8)
+            return np.frombuffer(self.data[12 : 12 + self.ndata], dtype=np.uint8)
         except ValueError:
             return np.empty(self.ndata, dtype=np.uint8)
+
     @cached
-    def levels(self)->np.ndarray:
-        return -self.raw_data/2 + self.offset
+    def levels(self) -> np.ndarray:
+        return (-self.raw_data / 2 + self.offset).astype(np.float32)
+
     @cached
-    def padding(self)->bytes:
-        return self.data[12+self.ndata:]
+    def padding(self) -> bytes:
+        return self.data[12 + self.ndata :]
 
 # Cell
 class DType5(GetAttr):
@@ -194,9 +207,10 @@ class DType5(GetAttr):
     @cached
     def text_len(self) -> int:
         return bin2int(self.data[:4])
+
     @cached
     def text(self) -> str:
-        return bin2str(self.data[4:4+self.text_len])
+        return bin2str(self.data[4 : 4 + self.text_len])
 
 # Cell
 class DType6(GetAttr):
@@ -356,13 +370,10 @@ class DType8(GetAttr):
             f"{str(time[0]).zfill(2)}:{str(time[1]).zfill(2)}:{str(time[2]).zfill(2)}"
         )
 
-
     @cached
     def wallclock_datetime(self) -> np.datetime64:
         """Returns the wallclock datetime"""
-        return np.datetime64(
-            f"{self._walldate}T{self._walltime}"
-        )
+        return np.datetime64(f"{self._walldate}T{self._walltime}")
 
     @cached
     def sampling(self) -> int:
@@ -503,31 +514,38 @@ class DType21(GetAttr):
 # Cell
 class DType22(GetAttr):
     """Data Type 22 – Data Thread Information"""
+
     def __init__(self, block: BaseBlock) -> None:
         super().__init__()
         self.default = block
+
     @cached
-    def textlen(self)->int:
+    def textlen(self) -> int:
         return bin2int(self.data[:4])
+
     @cached
-    def text(self)->str:
-        return bin2str(self.data[4:4+self.textlen])
+    def text(self) -> str:
+        return bin2str(self.data[4 : 4 + self.textlen])
 
 # Cell
 class DType23(GetAttr):
     """Data Type 23 - Free Text Information"""
+
     def __init__(self, block: BaseBlock):
         super().__init__()
         self.default = block
+
     @cached
-    def textid(self)->int:
+    def textid(self) -> int:
         return bin2str(self.data[:32])
+
     @cached
-    def textlen(self)->int:
+    def textlen(self) -> int:
         return bin2int(self.data[32:36])
+
     @cached
-    def text(self)->str:
-        return bin2str(self.data[36:36+self.textlen])
+    def text(self) -> str:
+        return bin2str(self.data[36 : 36 + self.textlen])
 
 # Cell
 class DType24(GetAttr):
@@ -576,7 +594,9 @@ class DType40(GetAttr):
     def _gpstime(self) -> str:
         """F4 - GPS Date. Date from GPS reading (dd/mm/yy/null)"""
         time = bin2time(self.data[BYTES_40[4]])
-        return f"{str(time[0]).zfill(2)}:{str(time[1]).zfill(2)}:{str(time[2]).zfill(2)}"
+        return (
+            f"{str(time[0]).zfill(2)}:{str(time[1]).zfill(2)}:{str(time[2]).zfill(2)}"
+        )
 
     @cached
     def gps_datetime(self) -> np.datetime64:
@@ -733,7 +753,7 @@ class DType51(GetAttr):
     def center_mega(self):
         start = BYTES_51[5].stop + self.desclen
         stop = start + 2
-        return bin2int(self.data[start:stop], False) + self.center_mili / 1000
+        return bin2int(self.data[start:stop], False)
 
     @cached
     def center_mili(self):
@@ -810,8 +830,9 @@ class DType60(GetAttr):
 
     def __init__(self, block: BaseBlock) -> None:
         self.default = block
+
     @cached
-    def _walldate(self)-> L:
+    def _walldate(self) -> L:
         "F1 = (4 bytes) Wall clock date and time in seconds since 1/1/1970"
         date = bin2date(self.data[:4])
         return (
@@ -825,92 +846,121 @@ class DType60(GetAttr):
         return (
             f"{str(time[0]).zfill(2)}:{str(time[1]).zfill(2)}:{str(time[2]).zfill(2)}"
         )
+
     @cached
-    def _wallnano(self)-> int:
+    def _wallnano(self) -> int:
         return bin2int(self.data[8:12], False)
+
     @cached
     def wallclock_datetime(self) -> np.datetime64:
         """Returns the wallclock datetime"""
         return np.datetime64(
             f"{self._walldate}T{self._walltime}.{int(self._wallnano/1000)}"
         )
+
     @cached
-    def start_mega(self)-> int:
-        return bin2int(self.data[12:16]) #* (10 ** (self.freqexp))
+    def start_mega(self) -> int:
+        return bin2int(self.data[12:16])  # * (10 ** (self.freqexp))
+
     @cached
-    def stop_mega(self)-> int:
-        return bin2int(self.data[16:20]) #* (10 ** (self.freqexp))
+    def stop_mega(self) -> int:
+        return bin2int(self.data[16:20])  # * (10 ** (self.freqexp))
+
     @cached
-    def freqexp(self)-> int:
+    def freqexp(self) -> int:
         return bin2int(self.data[20:21])
+
     @cached
-    def antuid(self)-> int:
+    def antuid(self) -> int:
         return bin2int(self.data[21:22])
+
     @cached
-    def gerror(self)-> int:
+    def gerror(self) -> int:
         return bin2int(self.data[22:23])
+
     @cached
-    def gflags(self)-> int:
+    def gflags(self) -> int:
         return self.data[23:24]
+
     @cached
-    def parentid(self)-> int:
+    def parentid(self) -> int:
         return bin2int(self.data[24:26])
+
     @cached
-    def processing(self)-> int:
-        d = {0:'single measurement', 1:'average', 2:'peak', 3:'minimum'}
-        return d.get(bin2int(self.data[26:27]), 'unknown')
+    def processing(self) -> int:
+        d = {0: "single measurement", 1: "average", 2: "peak", 3: "minimum"}
+        return d.get(bin2int(self.data[26:27]), "unknown")
+
     @cached
-    def nloops(self)-> int:
+    def nloops(self) -> int:
         "i.e. ‘number of loops’. Equal to 1 if single measurement. Values 1, 2, 4, 8, 16"
         return bin2int(self.data[27:28])
+
     @cached
-    def offset(self)-> int:
+    def offset(self) -> int:
         "Data level offset in dB 2’s Complement, range [-128, 127]."
         return bin2int(self.data[28:29])
+
     @cached
-    def minimum(self)->float:
+    def minimum(self) -> float:
         return self.offset - 127.5
+
     @cached
-    def npad(self)-> int:
+    def npad(self) -> int:
         "Number of bytes of padding. 0 - 3"
         return bin2int(self.data[29:30])
+
     @cached
-    def ntun(self)-> int:
+    def ntun(self) -> int:
         "Number of 4 byte Tuning info blocks. 0 or NAGC"
         return bin2int(self.data[30:32])
+
     @cached
-    def nagc(self)-> int:
+    def nagc(self) -> int:
         "Number of single byte AGC values. 0 or number of tunings in the sweep"
         return bin2int(self.data[32:34])
+
     @cached
-    def reserved(self)-> int:
+    def reserved(self) -> int:
         "For alignment of following fields. Set to 0."
         return bin2int(self.data[34:36])
+
     @cached
-    def ndata(self)-> int:
+    def ndata(self) -> int:
         "Number of single byte data points in this block."
         return bin2int(self.data[36:40])
+
     @cached
-    def tunning(self)-> list:
+    def tunning(self) -> list:
         "Array of 4 byte Tuning info blocks.One block per tuning (1 or 10 MHz)."
-        return L(self.data[i:i+4] for i in range(40, 40+4*self.ntun, 4))
+        return L(self.data[i : i + 4] for i in range(40, 40 + 4 * self.ntun, 4))
+
     @cached
-    def agc(self)-> list:
+    def agc(self) -> list:
         "Array of single unsigned byte AGC values. Current actual values are 0..63."
-        return np.frombuffer(self.data[40+4*self.ntun:40+4*self.ntun+self.nagc], dtype=np.uint8)
-        #return L(bin2int(self.data[i], True) for i in range(40+4*self.ntun, 40+4*self.ntun+self.nagc, 1))
+        return np.frombuffer(
+            self.data[40 + 4 * self.ntun : 40 + 4 * self.ntun + self.nagc],
+            dtype=np.uint8,
+        )
+
     @cached
-    def levels(self)-> list:
+    def raw_data(self) -> np.ndarray:
         "Array of single byte data points."
-        start = 40+4*self.ntun+self.nagc
+        start = 40 + 4 * self.ntun + self.nagc
         try:
-            return np.frombuffer(self.data[start:start+self.ndata], dtype=np.uint8)/2 + self.minimum
+            return np.frombuffer(self.data[start : start + self.ndata], dtype=np.uint8)
         except ValueError as e:
             raise ValueError(f"{e} while retrieving raw_data in {self.filename}") from e
+
     @cached
-    def padding(self)-> bytes:
+    def levels(self) -> list:
+        "Array of single byte data points."
+        return (self.raw_data / 2 + self.minimum).astype(np.float32)
+
+    @cached
+    def padding(self) -> bytes:
         "Padding to align to 4 byte boundary."
-        return self.data[40+4*self.ntun+self.nagc+self.ndata:]
+        return self.data[40 + 4 * self.ntun + self.nagc + self.ndata :]
 
 # Cell
 class DType61(GetAttr):
@@ -918,42 +968,59 @@ class DType61(GetAttr):
 
     def __init__(self, block: BaseBlock) -> None:
         self.default = DType60(block)
-        self.size = 48 + (self.default.ntun * 4) + self.default.nagc + self.default.ndata + self.default.npad
+        self.size = (
+            48
+            + (self.default.ntun * 4)
+            + self.default.nagc
+            + self.default.ndata
+            + self.default.npad
+        )
+
     @cached
-    def thresh(self)-> int:
+    def thresh(self) -> int:
         "Threshold Level in dBm.All data below this level will be run length encoded."
         return bin2int(self.data[40:44])
+
     @cached
-    def ndata(self)-> int:
+    def ndata(self) -> int:
         "Number of original data points in this block before compression."
         return bin2int(self.data[44:48])
+
     @cached
-    def levels(self)-> bytes:
-        start = 40+4*self.ntun+self.nagc
-        return self.data[start:start+self.ndata]
+    def levels(self) -> bytes:
+        start = 40 + 4 * self.ntun + self.nagc
+        return self.data[start : start + self.ndata]
+
     @cached
-    def tunning(self)-> list:
+    def tunning(self) -> list:
         "Array of 4 byte Tuning info blocks.One block per tuning (1 or 10 MHz)."
-        return L(self.data[i:i+4] for i in range(48, 48+4*self.ntun, 4))
+        return L(self.data[i : i + 4] for i in range(48, 48 + 4 * self.ntun, 4))
+
     @cached
-    def agc(self)-> np.ndarray:
-        return np.frombuffer(self.data[48+4*self.ntun:48+4*self.ntun+self.nagc], dtype=np.uint8)
+    def agc(self) -> np.ndarray:
+        return np.frombuffer(
+            self.data[48 + 4 * self.ntun : 48 + 4 * self.ntun + self.nagc],
+            dtype=np.uint8,
+        )
+
     @cached
-    def padding(self)-> bytes:
+    def padding(self) -> bytes:
         "Padding to align to 4 byte boundary."
-        return self.data[48+4*self.ntun+self.nagc:]
+        return self.data[48 + 4 * self.ntun + self.nagc :]
 
 # Cell
 class DType62(GetAttr):
     def __init__(self, block: BaseBlock) -> None:
         self.default = block
+
     @cached
-    def _walldate(self)-> L:
+    def _walldate(self) -> L:
         "F1 = (4 bytes) Wall clock date and time in seconds since 1/1/1970"
         date = bin2date(self.data[:4])
         return (
             f"{str(date[2]).zfill(4)}-{str(date[1]).zfill(2)}-{str(date[0]).zfill(2)}"
         )
+
     @cached
     def _walltime(self) -> str:
         """F1 = (4 bytes) WALLTIME = Wall Clock Start Time"""
@@ -961,8 +1028,9 @@ class DType62(GetAttr):
         return (
             f"{str(time[0]).zfill(2)}:{str(time[1]).zfill(2)}:{str(time[2]).zfill(2)}"
         )
+
     @cached
-    def _wallnano(self)-> int:
+    def _wallnano(self) -> int:
         return bin2int(self.data[8:12], False)
 
     @cached
@@ -971,64 +1039,78 @@ class DType62(GetAttr):
         return np.datetime64(
             f"{self._walldate}T{self._walltime}.{int(self._wallnano/1000)}"
         )
+
     @cached
-    def start_mega(self)-> int:
+    def start_mega(self) -> int:
         return bin2int(self.data[12:16]) * (10 ** (self.freqexp))
+
     @cached
-    def stop_mega(self)-> int:
+    def stop_mega(self) -> int:
         return bin2int(self.data[16:20]) * (10 ** (self.freqexp))
+
     @cached
-    def freqexp(self)-> int:
+    def freqexp(self) -> int:
         return bin2int(self.data[20:21])
+
     @cached
-    def antuid(self)-> int:
+    def antuid(self) -> int:
         return bin2int(self.data[21:22])
+
     @cached
-    def gerror(self)-> int:
+    def gerror(self) -> int:
         return bin2int(self.data[22:23])
+
     @cached
-    def gflags(self)-> int:
+    def gflags(self) -> int:
         return self.data[23:24]
+
     @cached
-    def parentid(self)-> int:
+    def parentid(self) -> int:
         return bin2int(self.data[24:26])
+
     @cached
-    def thresh(self)-> int:
+    def thresh(self) -> int:
         """Threshold Level in dBm"""
         return bin2int(self.data[26:28])
+
     @cached
-    def namal(self)-> int:
+    def namal(self) -> int:
         """Amalgamated Results. 1 if single measurement. Should include aggregation over time."""
         return bin2int(self.data[28:32])
+
     @cached
-    def sampling(self)-> int:
+    def sampling(self) -> int:
         """Duration of sampling in seconds.i.e.300,900,1800,2600"""
         return bin2int(self.data[32:36])
+
     @cached
-    def npad(self)-> int:
+    def npad(self) -> int:
         """Number of bytes of padding. 0 - 3"""
         return bin2int(self.data[36:37])
+
     @cached
-    def reserved(self)-> int:
+    def reserved(self) -> int:
         """For alignment of following fields. Set to 0."""
         return bin2int(self.data[37:40])
+
     @cached
-    def ndata(self)-> int:
+    def ndata(self) -> int:
         """Number of single byte data points in this block.
         Number of equal width channels dividing the reported frequency width"""
         return bin2int(self.data[40:44])
+
     @cached
-    def levels(self)-> np.ndarray:
+    def levels(self) -> np.ndarray:
         """Array of single byte data points representing the percentage. (0...100% in 0.5 steps)"""
         try:
-            return np.frombuffer(self.data[44:44+self.ndata], dtype=np.uint8)
+            return np.frombuffer(self.data[44 : 44 + self.ndata], dtype=np.uint8)
         except ValueError as e:
             raise ValueError(f"{e} while retrieving levels in {self.type}") from e
 
     @cached
-    def padding(self)-> bytes:
+    def padding(self) -> bytes:
         """Padding to align to 4 byte boundary."""
-        return self.data[44+self.ndata:]
+        return self.data[44 + self.ndata :]
 
 # Cell
 # TODO: review agc and tunning
@@ -1051,7 +1133,7 @@ class DType63(GetAttr):
 
     def __init__(self, block: BaseBlock) -> None:
         self.default = TimedSpectral(block)
-        self.start = BYTES_63[21].stop + self.ntun * 4 + self.nagc
+        self.start = 52 + self.ntun * 4 + self.nagc
         self.stop = self.start + self.ndata
 
     @cached
@@ -1061,17 +1143,17 @@ class DType63(GetAttr):
     @cached
     def sample(self) -> int:
         """F9 = (4 bytes) SAMPLE = Duration of sampling.Time taken by the FPGA and Radio to execute command in µs."""
-        return bin2int(self.data[BYTES_63[9]])
+        return bin2int(self.data[28:32])
 
     @cached
     def namal(self) -> int:
         """F10 =(4 bytes) NAMAL = Amalgamated  Results"""
-        return bin2int(self.data[BYTES_63[10]])
+        return bin2int(self.data[32:36])
 
     @cached
     def antuid(self) -> int:
         """F11 = (1u byte) ANTUID Antenna number [0-255]"""
-        return bin2int(self.data[BYTES_63[11]], False)
+        return bin2int(self.data[36:37], False)
 
     @cached
     def processing(self) -> Union[str, int]:
@@ -1081,62 +1163,62 @@ class DType63(GetAttr):
         2 = peak,
         3 = minimum
         """
-        proc = bin2int(self.data[BYTES_63[12]])
+        proc = bin2int(self.data[37:38])
         return DICT_PROCESSING.get(proc, proc)
 
     @cached
     def dtype(self) -> Union[str, int]:
         """F13 = (1 byte) DTYPE = Data Type. 0 = dBm, 1 = dBuV/m"""
-        unit: int = bin2int(self.data[BYTES_63[13]])
+        unit: int = bin2int(self.data[38:39])
         return DICT_UNIT.get(unit, unit)
 
     @cached
     def offset(self) -> int:
         """F14 = (1 byte) OFFSET = Data level offset in DTYPE units 2’s Complement, range [-128, 127]."""
-        return bin2int(self.data[BYTES_63[14]])
+        return bin2int(self.data[39:40])
 
     @cached
-    def minimum(self)->float:
+    def minimum(self) -> float:
         return self.offset - 127.5
-    @cached
-    def thresh(self)->float:
-        return self.minimum # redundancy for compatibility with Dtype68
 
+    @cached
+    def thresh(self) -> float:
+        return self.minimum  # redundancy for compatibility with Dtype68
 
     @cached
     def gerror(self) -> int:
         """F15 = (1 byte) GERROR = Global Error Code. Radio or processing global error code"""
-        return bin2int(self.data[BYTES_63[15]])
+        return bin2int(self.data[40:41])
 
     @cached
     def gflags(self) -> int:
         """F16 - Códigos de alertas globais ou de processamento do radio."""
-        return bin2int(self.data[BYTES_63[16]])
+        return bin2int(self.data[41:42])
 
     @cached
     def group_id(self) -> int:
         """F17 - O ID do grupo à qual a medida pertence.0 caso não pertença a nenhum grupo."""
-        return bin2int(self.data[BYTES_63[17]])
+        return bin2int(self.data[42:43])
 
     @cached
     def ntun(self) -> int:
         """F18 - 0 ou igual à quantidade de valores de AGC usados na amostra"""
-        return bin2int(self.data[BYTES_63[18]])
+        return bin2int(self.data[43:45])
 
     @cached
     def nagc(self) -> int:
         """F19 - 0 ou igual à quantidade de valores de "tunings" usados na amostra"""
-        return bin2int(self.data[BYTES_63[19]])
+        return bin2int(self.data[45:47])
 
     @cached
     def npad(self) -> int:
         """F20 - Valor que varia de 0 a 3 indicando o preenchimento nulo para manter o tamanho do bloco (em bytes) fixo"""
-        return bin2int(self.data[BYTES_63[20]])
+        return bin2int(self.data[47:48])
 
     @cached
     def ndata(self) -> int:
         """F21 - O número de canais (ou "steps") que dividem igualmente a largura de banda"""
-        return bin2int(self.data[BYTES_63[21]])
+        return bin2int(self.data[48:52])
 
     @cached
     def frequencies(self) -> np.ndarray:
@@ -1153,14 +1235,14 @@ class DType63(GetAttr):
     @cached
     def tunning(self) -> Tuple:
         """F22 - Informações do 'tunning'. One Block per tunning(1 or 10MHz)"""
-        start = BYTES_63[21].stop
+        start = 52
         stop = start + (4 * self.ntun)
         return L(self.data[i : i + 4] for i in range(start, stop, 4))
 
     @cached
     def agc(self) -> np.ndarray:
         """F23 - Array com AGC - Automatic Gain Control as dB in single unsigned byte: 0...63"""
-        start = BYTES_63[21].stop + (self.ntun * 4)
+        start = 52 + (self.ntun * 4)
         stop = start + self.nagc
         return np.frombuffer(self.data[start:stop], np.uint8)
 
@@ -1174,7 +1256,7 @@ class DType63(GetAttr):
 
     @cached
     def levels(self) -> np.ndarray:
-        return (self.raw_data / 2) + self.minimum
+        return ((self.raw_data / 2) + self.minimum).astype(np.float32)
 
     def __getitem__(self, i):
         """Return a tuple with frequency, spectrum_data"""
@@ -1236,7 +1318,7 @@ class DType64(GetAttr):
 
     @cached
     def padding(self):
-        return bin2int(self.data[self.stop:])
+        return bin2int(self.data[self.stop :])
 
     def __getitem__(self, i):
         """Return a tuple with frequency, spectrum_data"""
@@ -1357,6 +1439,7 @@ class DType65(GetAttr):
         Number of equal width channels dividing the reported frequency width
         """
         return bin2int(self.data[BYTES_65[19]])
+
     @cached
     def levels(self) -> np.ndarray:
         """
@@ -1368,7 +1451,9 @@ class DType65(GetAttr):
                     representing  the percentage (0..100 % in 0.5 steps)
         """
         try:
-            return np.frombuffer(self.data[self.start:self.stop], dtype=np.uint8) / 2.0
+            return (
+                np.frombuffer(self.data[self.start : self.stop], dtype=np.uint8) / 2.0
+            ).astype(np.float32)
         except ValueError as e:
             raise ValueError(f"{e} while retrieving levels in {self}") from e
 
@@ -1465,6 +1550,7 @@ class DType67(GetAttr):
         self.default = TimedVersion5(block)
         self.start = 68 + self.desclen + 4 * self.ntun + self.nagc
         self.stop = self.start + self.ndata
+
     @cached
     def description(self) -> str:
         start = 24
@@ -1475,7 +1561,7 @@ class DType67(GetAttr):
     def start_mega(self) -> int:
         start = 24 + self.desclen
         stop = start + 2
-        return bin2int(self.data[start:stop], False) + self.start_mili / 1000
+        return bin2int(self.data[start:stop], False)
 
     @cached
     def start_mili(self) -> int:
@@ -1487,7 +1573,7 @@ class DType67(GetAttr):
     def stop_mega(self) -> int:
         start = 30 + self.desclen
         stop = start + 2
-        return bin2int(self.data[start:stop], False) + self.stop_mili / 1000
+        return bin2int(self.data[start:stop], False)
 
     @cached
     def stop_mili(self) -> int:
@@ -1552,11 +1638,12 @@ class DType67(GetAttr):
         return bin2int(self.data[start:stop])
 
     @cached
-    def minimum(self)->float:
+    def minimum(self) -> float:
         return self.offset - 127.5
+
     @cached
-    def thresh(self)->float:
-        return self.minimum # redundancy for compatibility with Dtype68
+    def thresh(self) -> float:
+        return self.minimum  # redundancy for compatibility with Dtype68
 
     @cached
     def gerror(self) -> int:
@@ -1572,7 +1659,7 @@ class DType67(GetAttr):
 
     @cached
     def ntun(self) -> int:
-        start = 59 + self.desclen  #byte 58 reserved alignment
+        start = 59 + self.desclen  # byte 58 reserved alignment
         stop = start + 2
         return bin2int(self.data[start:stop])
 
@@ -1615,7 +1702,7 @@ class DType67(GetAttr):
 
     @cached
     def levels(self) -> np.ndarray:
-        return (self.raw_data / 2) + self.minimum
+        return ((self.raw_data / 2) + self.minimum).astype(np.float32)
 
     @cached
     def padding(self) -> bytes:
@@ -1657,7 +1744,7 @@ class DType68(GetAttr):
     @cached
     def levels(self) -> np.ndarray:
         """Spectrum Data in 'dB' with 0.5 dBm interval"""
-        return self.data[self.start:self.stop]
+        return self.data[self.start : self.stop]
 
     @cached
     def tunning(self) -> tuple:
@@ -1692,83 +1779,86 @@ class DType69(GetAttr):
 
     @cached
     def description(self) -> str:
-        return bin2str(self.data[24:24 + self.desclen])
+        return bin2str(self.data[24 : 24 + self.desclen])
 
     @cached
     def start_mega(self) -> int:
-        return bin2int(self.data[24+self.desclen:26 + self.desclen], False)
+        return bin2int(self.data[24 + self.desclen : 26 + self.desclen], False)
 
     @cached
     def start_mili(self) -> int:
-        return bin2int(self.data[26+self.desclen:30 + self.desclen])
+        return bin2int(self.data[26 + self.desclen : 30 + self.desclen])
 
     @cached
     def stop_mega(self) -> int:
-        return bin2int(self.data[30+self.desclen:32 + self.desclen], False)
+        return bin2int(self.data[30 + self.desclen : 32 + self.desclen], False)
 
     @cached
     def stop_mili(self) -> int:
-        return bin2int(self.data[32+self.desclen:36 + self.desclen])
+        return bin2int(self.data[32 + self.desclen : 36 + self.desclen])
 
     @cached
     def bw(self) -> int:
-        return bin2int(self.data[36+self.desclen:40 + self.desclen])
+        return bin2int(self.data[36 + self.desclen : 40 + self.desclen])
 
     @cached
     def start_channel(self) -> int:
-        return bin2int(self.data[40+self.desclen:42 + self.desclen])
+        return bin2int(self.data[40 + self.desclen : 42 + self.desclen])
 
     @cached
     def stop_channel(self) -> int:
-        return bin2int(self.data[42+self.desclen:44 + self.desclen])
+        return bin2int(self.data[42 + self.desclen : 44 + self.desclen])
 
     @cached
     def opcount(self) -> int:
-        return bin2int(self.data[48+self.desclen:49 + self.desclen], False)
+        return bin2int(self.data[48 + self.desclen : 49 + self.desclen], False)
 
     @cached
     def antuid(self) -> int:
-        return bin2int(self.data[49+self.desclen:50 + self.desclen], False)
+        return bin2int(self.data[49 + self.desclen : 50 + self.desclen], False)
 
     @cached
     def dtype(self) -> int:
         return DICT_UNIT.get(
-            bin2int(self.data[50+self.desclen:52 + self.desclen], False), "Unknown"
+            bin2int(self.data[50 + self.desclen : 52 + self.desclen], False), "Unknown"
         )
 
     @cached
     def gerror(self) -> int:
-        return bin2int(self.data[52+self.desclen:53 + self.desclen])
+        return bin2int(self.data[52 + self.desclen : 53 + self.desclen])
 
     @cached
     def gflags(self) -> int:
-        return bin2int(self.data[53+self.desclen:54 + self.desclen])
+        return bin2int(self.data[53 + self.desclen : 54 + self.desclen])
 
     @cached
     def npad(self) -> int:
-        return bin2int(self.data[55+self.desclen:56 + self.desclen])
+        return bin2int(self.data[55 + self.desclen : 56 + self.desclen])
 
     @cached
     def thresh(self) -> int:
-        return bin2int(self.data[56+self.desclen:58 + self.desclen])
+        return bin2int(self.data[56 + self.desclen : 58 + self.desclen])
 
     @cached
     def duration(self) -> int:
-        return bin2int(self.data[58+self.desclen:60 + self.desclen])
+        return bin2int(self.data[58 + self.desclen : 60 + self.desclen])
 
     @cached
     def ndata(self) -> int:
-        return bin2int(self.data[60+self.desclen:64 + self.desclen])
+        return bin2int(self.data[60 + self.desclen : 64 + self.desclen])
 
     @cached
     def levels(self) -> np.ndarray:
         try:
-            return np.frombuffer(self.data[self.start:self.stop], dtype=np.uint8)
+            return (
+                np.frombuffer(self.data[self.start : self.stop], dtype=np.uint8) / 2.0
+            ).astype(np.float32)
         except ValueError as e:
             raise ValueError(f"{e} while retrieving levels in {self}") from e
+
     @cached
     def padding(self) -> int:
-        return bin2int(self.data[self.stop:])
+        return bin2int(self.data[self.stop :])
 
 # Cell
 MAIN_BLOCKS = {

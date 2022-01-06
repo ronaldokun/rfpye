@@ -36,7 +36,7 @@ nb_path: "nbs\04_constants.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">List</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
 </pre></div>
 
     </div>
@@ -164,22 +164,6 @@ nb_path: "nbs\04_constants.ipynb"
 
 <span class="n">BYTES_51</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">5</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">24</span><span class="p">)}</span>
 
-<span class="n">BYTES_63</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="mi">9</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span>
-    <span class="mi">10</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">36</span><span class="p">),</span>
-    <span class="mi">11</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="mi">37</span><span class="p">),</span>
-    <span class="mi">12</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">37</span><span class="p">,</span> <span class="mi">38</span><span class="p">),</span>
-    <span class="mi">13</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">38</span><span class="p">,</span> <span class="mi">39</span><span class="p">),</span>
-    <span class="mi">14</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">39</span><span class="p">,</span> <span class="mi">40</span><span class="p">),</span>
-    <span class="mi">15</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">41</span><span class="p">),</span>
-    <span class="mi">16</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">41</span><span class="p">,</span> <span class="mi">42</span><span class="p">),</span>
-    <span class="mi">17</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="mi">43</span><span class="p">),</span>
-    <span class="mi">18</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">43</span><span class="p">,</span> <span class="mi">45</span><span class="p">),</span>
-    <span class="mi">19</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">45</span><span class="p">,</span> <span class="mi">47</span><span class="p">),</span>
-    <span class="mi">20</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">47</span><span class="p">,</span> <span class="mi">48</span><span class="p">),</span>
-    <span class="mi">21</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="mi">52</span><span class="p">),</span>
-<span class="p">}</span>
-
 <span class="n">BYTES_64</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">22</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">52</span><span class="p">,</span> <span class="mi">56</span><span class="p">),</span> <span class="mi">23</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">56</span><span class="p">,</span> <span class="mi">60</span><span class="p">)}</span>
 
 <span class="n">BYTES_65</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
@@ -224,7 +208,6 @@ nb_path: "nbs\04_constants.ipynb"
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">KEY_ATTRS</span> <span class="o">=</span> <span class="p">{</span>
-    
     <span class="mi">4</span><span class="p">:</span> <span class="p">(</span>
         <span class="s2">&quot;type&quot;</span><span class="p">,</span>
         <span class="s2">&quot;thread_id&quot;</span><span class="p">,</span>
@@ -233,9 +216,7 @@ nb_path: "nbs\04_constants.ipynb"
         <span class="s2">&quot;ndata&quot;</span><span class="p">,</span>
         <span class="s2">&quot;processing&quot;</span><span class="p">,</span>
     <span class="p">),</span>
-    <span class="mi">5</span><span class="p">:</span> <span class="p">(</span>
-        <span class="s1">&#39;text&#39;</span><span class="p">,</span>
-    <span class="p">),</span>
+    <span class="mi">5</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,),</span>
     <span class="mi">6</span><span class="p">:</span> <span class="p">(),</span>
     <span class="mi">7</span><span class="p">:</span> <span class="p">(</span>
         <span class="s2">&quot;type&quot;</span><span class="p">,</span>
@@ -256,8 +237,8 @@ nb_path: "nbs\04_constants.ipynb"
         <span class="s2">&quot;ndata&quot;</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="mi">20</span><span class="p">:</span> <span class="p">(</span>
-        <span class="s1">&#39;n_spectral_blocks&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;nddt&#39;</span><span class="p">,</span>
+        <span class="s2">&quot;n_spectral_blocks&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;nddt&quot;</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="mi">21</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;hostname&quot;</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">,</span> <span class="s2">&quot;unit_info&quot;</span><span class="p">,</span> <span class="s2">&quot;file_number&quot;</span><span class="p">),</span>
     <span class="mi">22</span><span class="p">:</span> <span class="p">(),</span>
@@ -280,7 +261,7 @@ nb_path: "nbs\04_constants.ipynb"
     <span class="mi">61</span><span class="p">:</span> <span class="p">(</span>
         <span class="s2">&quot;type&quot;</span><span class="p">,</span>
         <span class="s2">&quot;thread_id&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;thresh&quot;</span><span class="p">,</span> 
+        <span class="s2">&quot;thresh&quot;</span><span class="p">,</span>
         <span class="s2">&quot;start_mega&quot;</span><span class="p">,</span>
         <span class="s2">&quot;stop_mega&quot;</span><span class="p">,</span>
         <span class="s2">&quot;ndata&quot;</span><span class="p">,</span>
@@ -330,7 +311,7 @@ nb_path: "nbs\04_constants.ipynb"
         <span class="s2">&quot;dtype&quot;</span><span class="p">,</span>
         <span class="s2">&quot;ndata&quot;</span><span class="p">,</span>
         <span class="s2">&quot;processing&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;antuid&quot;</span>
+        <span class="s2">&quot;antuid&quot;</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="mi">67</span><span class="p">:</span> <span class="p">(</span>
         <span class="s2">&quot;type&quot;</span><span class="p">,</span>
@@ -351,6 +332,7 @@ nb_path: "nbs\04_constants.ipynb"
         <span class="s2">&quot;description&quot;</span><span class="p">,</span>
         <span class="s2">&quot;start_mega&quot;</span><span class="p">,</span>
         <span class="s2">&quot;stop_mega&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;minimum&quot;</span><span class="p">,</span>
         <span class="s2">&quot;dtype&quot;</span><span class="p">,</span>
         <span class="s2">&quot;ndata&quot;</span><span class="p">,</span>
         <span class="s2">&quot;bw&quot;</span><span class="p">,</span>
@@ -367,7 +349,7 @@ nb_path: "nbs\04_constants.ipynb"
         <span class="s2">&quot;bw&quot;</span><span class="p">,</span>
         <span class="s2">&quot;opcount&quot;</span><span class="p">,</span>
         <span class="s2">&quot;antuid&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="p">),</span>
 <span class="p">}</span>
 
 <span class="n">TIMED_BLOCKS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">68</span><span class="p">,</span> <span class="mi">69</span><span class="p">)</span>
@@ -384,7 +366,7 @@ nb_path: "nbs\04_constants.ipynb"
 
 <span class="n">GPS_BLOCK</span> <span class="o">=</span> <span class="mi">40</span>
 
-<span class="n">BLOCK_ATTRS</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+<span class="n">BLOCK_ATTRS</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
     <span class="mi">8</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;wallclock_datetime&quot;</span><span class="p">),</span>
     <span class="mi">21</span><span class="p">:</span> <span class="p">(),</span>
     <span class="mi">40</span><span class="p">:</span> <span class="p">(</span>

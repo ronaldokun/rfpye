@@ -2,12 +2,11 @@
 
 __all__ = ['BYTES_HEADER', 'ENDMARKER', 'EXCLUDE_ATTRS', 'DICT_PROCESSING', 'DICT_UNIT', 'TUNING_BLOCK', 'BYTES_TIMED',
            'BYTES_TIMED_NE', 'BYTES_6', 'BYTES_20', 'BYTES_21', 'BYTES_24', 'BYTES_40', 'BYTES_41', 'BYTES_42',
-           'BYTES_51', 'BYTES_63', 'BYTES_64', 'BYTES_65', 'BYTES_V5', 'BYTES_66', 'BYTES_67', 'KEY_ATTRS',
-           'TIMED_BLOCKS', 'SPECTRAL_BLOCKS', 'OCC', 'VECTOR_BLOCKS', 'UNCOMPRESSED', 'COMPRESSED', 'GPS_BLOCK',
-           'BLOCK_ATTRS']
+           'BYTES_51', 'BYTES_64', 'BYTES_65', 'BYTES_V5', 'BYTES_66', 'BYTES_67', 'KEY_ATTRS', 'TIMED_BLOCKS',
+           'SPECTRAL_BLOCKS', 'OCC', 'VECTOR_BLOCKS', 'UNCOMPRESSED', 'COMPRESSED', 'GPS_BLOCK', 'BLOCK_ATTRS']
 
 # Cell
-from typing import Mapping, List
+from typing import Mapping, List, Tuple
 
 # Cell
 BYTES_HEADER = 36
@@ -115,22 +114,6 @@ BYTES_42: Mapping[int, slice] = {
 
 BYTES_51: Mapping[int, slice] = {5: slice(20, 24)}
 
-BYTES_63: Mapping[int, slice] = {
-    9: slice(28, 32),
-    10: slice(32, 36),
-    11: slice(36, 37),
-    12: slice(37, 38),
-    13: slice(38, 39),
-    14: slice(39, 40),
-    15: slice(40, 41),
-    16: slice(41, 42),
-    17: slice(42, 43),
-    18: slice(43, 45),
-    19: slice(45, 47),
-    20: slice(47, 48),
-    21: slice(48, 52),
-}
-
 BYTES_64: Mapping[int, slice] = {22: slice(52, 56), 23: slice(56, 60)}
 
 BYTES_65: Mapping[int, slice] = {
@@ -155,7 +138,6 @@ BYTES_67: Mapping[int, slice] = {3: slice(12, 16), 4: slice(16, 20), 5: slice(20
 
 # Cell
 KEY_ATTRS = {
-
     4: (
         "type",
         "thread_id",
@@ -164,9 +146,7 @@ KEY_ATTRS = {
         "ndata",
         "processing",
     ),
-    5: (
-        'text',
-    ),
+    5: ("text",),
     6: (),
     7: (
         "type",
@@ -187,8 +167,8 @@ KEY_ATTRS = {
         "ndata",
     ),
     20: (
-        'n_spectral_blocks',
-        'nddt',
+        "n_spectral_blocks",
+        "nddt",
     ),
     21: ("hostname", "method", "unit_info", "file_number"),
     22: (),
@@ -261,7 +241,7 @@ KEY_ATTRS = {
         "dtype",
         "ndata",
         "processing",
-        "antuid"
+        "antuid",
     ),
     67: (
         "type",
@@ -282,6 +262,7 @@ KEY_ATTRS = {
         "description",
         "start_mega",
         "stop_mega",
+        "minimum",
         "dtype",
         "ndata",
         "bw",
@@ -298,7 +279,7 @@ KEY_ATTRS = {
         "bw",
         "opcount",
         "antuid",
-    )
+    ),
 }
 
 TIMED_BLOCKS = (40, 41, 42, 51, 63, 64, 65, 66, 67, 68, 69)
@@ -315,7 +296,7 @@ COMPRESSED = (7, 61, 64, 68)
 
 GPS_BLOCK = 40
 
-BLOCK_ATTRS: Mapping[int, List] = {
+BLOCK_ATTRS: Mapping[int, Tuple] = {
     8: ("wallclock_datetime"),
     21: (),
     40: (

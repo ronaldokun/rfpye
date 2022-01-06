@@ -40,7 +40,7 @@ Abaixo mostramos as funcionalidades principais dos módulos, utilizando-os dentr
 Precisamos necessariamente de um diretório de entrada, contendo um ou mais arquivos `.bin`
 > Mude os caminhos abaixo para suas pastas locais
 
-```
+```python
 from fastcore.xtras import Path
 from rfpye.utils import get_files
 from rich import print
@@ -48,7 +48,7 @@ from rich import print
 
 A função abaixo baixa alguns arquivos de exemplo:
 
-```
+```python
 path = Path(r'binfiles')
 if not path.exists() or not len(get_files(path, extensions=['.bin'])):
     path = Path('.')
@@ -62,9 +62,9 @@ if not path.exists() or not len(get_files(path, extensions=['.bin'])):
 A função `parse_bin` é a função principal que encapsula o processamento dos arquivos bin.
 
 
-<h4 id="parse_bin" class="doc_header"><code>parse_bin</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L42" class="source_link" style="float:right">[source]</a></h4>
+<h4 id="parse_bin" class="doc_header"><code>parse_bin</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L358" class="source_link" style="float:right">[source]</a></h4>
 
-> <code>parse_bin</code>(**`bin_file`**:`Union`\[`str`, `Path`\])
+> <code>parse_bin</code>(**`bin_file`**:`Union`\[`str`, `Path`\], **`precision`**=*`float32`*)
 
 Receives a CRFS binfile and returns a dictionary with the file metadata, a GPS Class and a list with the different Spectrum Classes
 A block is a piece of the .bin file with a known start and end and that contains different types of information.
@@ -81,12 +81,12 @@ Returns:
 
 Vamos listar arquivos da última versão do script Logger, **CRFS Bin - Versão 5**
 
-```
+```python
 files = get_files(r'D:\OneDrive - ANATEL\Sensores', extensions=['.bin'])
 file = files.shuffle()[0]
 ```
 
-```
+```python
 %%time
 dados = parse_bin(file)
 ```
@@ -94,7 +94,7 @@ dados = parse_bin(file)
     Wall time: 15.1 s
     
 
-```
+```python
 print(dados)
 ```
 
@@ -170,7 +170,7 @@ No entanto as duas chaves mais importantes do dicionário retornado são `gps` e
 
 Se você imprimir a classe retornada pela chave `gps` é retornado um resumo dos seus atributos:
 
-```
+```python
 print(dados['gps'])
 ```
 
@@ -190,7 +190,7 @@ print(dados['gps'])
 Receives an object and return the atributes listed in `attrs`, if attrs is None return its public attributes
 
 
-```
+```python
 print(getattrs(dados['gps']))
 ```
 
@@ -205,7 +205,7 @@ Os atributos listados são os valores consolidados por meio da __mediana__ dos d
 ### Dados Brutos de GPS
 > Caso desejar a lista original de valores, os atributos são os mesmos mas precedidos de `_`, o que os torna __atributos privados__ em python, isso somente quer dizer que não são explicitados em algus métodos como `getattrs`, pois normalmente não são acessíveis diretamente, mas nada impede que sejam acessados.
 
-```
+```python
 dados['gps']._latitude
 ```
 
@@ -216,7 +216,7 @@ dados['gps']._latitude
 
 
 
-```
+```python
 dados['gps']._longitude
 ```
 
@@ -227,7 +227,7 @@ dados['gps']._longitude
 
 
 
-```
+```python
 dados['gps']._altitude
 ```
 
@@ -238,7 +238,7 @@ dados['gps']._altitude
 
 
 
-```
+```python
 dados['gps']._num_satellites 
 ```
 
@@ -252,7 +252,7 @@ dados['gps']._num_satellites
 ## Dados de Nível Espectral
 Cada arquivo bin normalmente possui vários fluxos de espectro distintos, cada fluxo espectral é uma classe Python, na chave `spectrum` é retornado uma lista com todos os fluxos de espectro.
 
-```
+```python
 fluxos = dados['spectrum']
 print(len(fluxos))
 ```
@@ -265,13 +265,13 @@ print(len(fluxos))
 
 Vamos investigar um deles:
 
-```
+```python
 fluxo = fluxos[0]
 ```
 
 Ao imprimir um fluxo é mostrado informações mínimas sobre o seu conteúdo:
 
-```
+```python
 print(fluxo)
 ```
 
@@ -283,7 +283,7 @@ print(fluxo)
 
 A função `repr` retorna uma representação com todos os metadados do fluxo:
 
-```
+```python
 print(repr(fluxo))
 ```
 
@@ -297,7 +297,7 @@ print(repr(fluxo))
 
 Qualquer um dos atributos listados podem ser acessados diretamente:
 
-```
+```python
 print(fluxo.description) , print(fluxo.bw)
 ```
 
@@ -322,7 +322,7 @@ print(fluxo.description) , print(fluxo.bw)
 
 No entanto o principal atributo de um fluxo de espectro são os valores de nível medidos, os valores medidos são retornados por meio do atributo `levels`:
 
-```
+```python
 print(fluxo.levels)
 ```
 
@@ -338,7 +338,7 @@ print(fluxo.levels)
 
 
 
-```
+```python
 print(f'Formato da matriz com os níveis: {fluxo.levels.shape}')
 ```
 
@@ -350,7 +350,7 @@ print(f'Formato da matriz com os níveis: {fluxo.levels.shape}')
 
 O nº de linhas da matriz nos dá o número de pontos medidos naquele dado fluxo e as colunas o número de traços no qual o Span ( Stop - Start ) foi dividido. O número de traços pode ser retornada também por meio da função `len`
 
-```
+```python
 print(len(fluxo))
 ```
 
@@ -367,7 +367,7 @@ No entanto temos adicionalmente o método `.matrix()` que retorna a matriz de da
 
 Vamos mostrar as cinco primeiras e cinco últimas linhas e colunas. 
 
-```
+```python
 fluxo.matrix().iloc[:5, :5]
 ```
 
@@ -454,7 +454,7 @@ fluxo.matrix().iloc[:5, :5]
 
 
 
-```
+```python
 fluxo.matrix().iloc[-5:, -5:]
 ```
 
@@ -543,7 +543,7 @@ fluxo.matrix().iloc[-5:, -5:]
 
 Novamente, caso desejado acessar todos os atributos de um fluxo no formato de dicionário, basta utilizar a função `getattrs`
 
-```
+```python
 print(getattrs(fluxo))
 ```
 
@@ -569,11 +569,11 @@ print(getattrs(fluxo))
 ### CRFS Bin - Versão 5 - Arquivos Comprimidos
 Vamos listar arquivos da última versão do script Logger, Versão 5, arquivos comprimidos onde o piso de ruído é suprimido.
 
-```
+```python
 file = r'binfiles\compressed\rfeye002290_210922_T204046_MaskBroken.bin'
 ```
 
-```
+```python
 %%time
 compressed = parse_bin(file)
 ```
@@ -581,7 +581,7 @@ compressed = parse_bin(file)
     Wall time: 8.76 s
     
 
-```
+```python
 print(compressed)
 ```
 
@@ -623,7 +623,7 @@ print(compressed)
 
 
 
-```
+```python
 fluxo = compressed['spectrum'] ; fluxos
 ```
 
@@ -634,7 +634,7 @@ fluxo = compressed['spectrum'] ; fluxos
 
 
 
-```
+```python
 fluxo = fluxos[0]
 fluxo.matrix().iloc[:5, [0, 1, 2, -3, -2, -1]]
 ```
@@ -729,7 +729,7 @@ fluxo.matrix().iloc[:5, [0, 1, 2, -3, -2, -1]]
 
 
 
-```
+```python
 print(len(fluxo))
 ```
 
@@ -741,7 +741,7 @@ print(len(fluxo))
 
 ### CRFS Bin - Versão 4
 
-```
+```python
 file = r'binfiles\v4\rfeye002292_210208_T202215_CRFSBINv.4.bin'
 blocks = parse_bin(file)
 print(blocks)
@@ -818,7 +818,7 @@ print(blocks)
 
 
 
-```
+```python
 blocks['spectrum'][0].matrix().iloc[:5, [0, 1, 2, -3, -2, -1]]
 ```
 
@@ -914,7 +914,7 @@ blocks['spectrum'][0].matrix().iloc[:5, [0, 1, 2, -3, -2, -1]]
 
 ### CRFS Bin - Versão 3
 
-```
+```python
 file = r'binfiles\v3\rfeye002292_210208_T203238_CRFSBINv.3.bin'
 blocks = parse_bin(file)
 print(blocks)
@@ -951,7 +951,7 @@ print(blocks)
 
 
 
-```
+```python
 blocks['spectrum'][0].matrix().iloc[:5, [0, 1, 2, -3, -2, -1]]
 ```
 
@@ -1047,7 +1047,7 @@ blocks['spectrum'][0].matrix().iloc[:5, [0, 1, 2, -3, -2, -1]]
 
 ### CRFS Bin Versão 2
 
-```
+```python
 from rfpye.parser import parse_bin
 file = r'binfiles\v2\rfeye002092_210208_T203131_CRFSBINv.2.bin'
 blocks = parse_bin(file)
@@ -1112,7 +1112,7 @@ print(blocks)
 
 
 
-```
+```python
 blocks['spectrum'][0].matrix().iloc[:5, [0, 1, 2, -3, -2, -1]]
 ```
 
@@ -1208,7 +1208,7 @@ blocks['spectrum'][0].matrix().iloc[:5, [0, 1, 2, -3, -2, -1]]
 
 ### Fluxo de Ocupação
 
-```
+```python
 from rfpye.parser import parse_bin
 file = r'binfiles\occ\rfeye002090-VCP_FM_occ15min_191221_085803.bin'
 blocks = parse_bin(file)
@@ -1236,7 +1236,7 @@ print(blocks)
 
 
 
-```
+```python
 blocks['spectrum'][-1].matrix().iloc[:5, 1003:1010]
 ```
 

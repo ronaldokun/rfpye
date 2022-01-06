@@ -61,14 +61,18 @@ def byte2base_block(byte_block: bytes) -> Union[BaseBlock, None]:
     if byte_block == b"":
         return None
     checksum = evaluate_checksum(byte_block)
-    size = bin2int(byte_block[4:8])
-    data = byte_block[12:-4]
-    # Discard the block if a fail in checksum or in case of a truncated block
-    if checksum == -1 or size != len(data):
+    # if checksum == -1:
+    #     return None
+    try:
+        thread_id = np.frombuffer(byte_block[:4], dtype=np.int32).item()
+        size = np.frombuffer(byte_block[4:8], dtype=np.int32).item()
+        type = np.frombuffer(byte_block[8:12], dtype=np.int32).item()
+        data = byte_block[12:-4]
+    except ValueError as e:
         return None
-    return BaseBlock(
-        bin2int(byte_block[:4]), size, bin2int(byte_block[8:12]), data, checksum
-    )
+    # if size != len(data):
+    #     return None
+    return BaseBlock(thread_id, size, type, data, checksum)
 
 # Cell
 def create_block(byte_block: bytes) -> Union[GetAttr, None]:
@@ -77,7 +81,7 @@ def create_block(byte_block: bytes) -> Union[GetAttr, None]:
     Returns: The Instance of the Block Type or None in case of error
     """
     base_block = byte2base_block(byte_block)
-    if not base_block:
+    if base_block is None:
         return None, None
     block_type = base_block.type
     constructor = MAIN_BLOCKS.get(block_type)
@@ -93,7 +97,7 @@ def create_block(byte_block: bytes) -> Union[GetAttr, None]:
     return getattrs(block, KEY_ATTRS.get(block.type)), block
 
 # Cell
-def parse_bin(bin_file: Union[str, Path]) -> dict:
+def parse_bin(bin_file: Union[str, Path], precision=np.float32) -> dict:
     """Receives a CRFS binfile and returns a dictionary with the file metadata, a GPS Class and a list with the different Spectrum Classes
     A block is a piece of the .bin file with a known start and end and that contains different types of information.
     It has several fields: file_type, header, data and footer.
@@ -110,7 +114,7 @@ def parse_bin(bin_file: Union[str, Path]) -> dict:
         header = bfile.read(BYTES_HEADER)
         body = bfile.read()
     blocks = parallel(create_block, body.split(ENDMARKER), threadpool=True)
-    meta = classify_blocks(blocks)
+    meta = classify_blocks(blocks, precision)
     parsed = {
         "filename": bin_file.name,
         "file_version": bin2int(header[:4]),
@@ -153,10 +157,11 @@ class CrfsGPS:
 class CrfsSpectrum(GetAttr):
     """Class with the metadata and levels of a spectrum block from a CRFS Bin File"""
 
-    def __init__(self, metadata: namedtuple):
+    def __init__(self, metadata: namedtuple, precision=np.float32):
         self.default = metadata
         self._timestamp: L = L()
         self._data: L = L()
+        self.precision = precision
 
     def __len__(self):
         return self.levels.shape[0]
@@ -168,15 +173,25 @@ class CrfsSpectrum(GetAttr):
         return f"""Blocks of Type: {self.type}, Thread_id: {self.thread_id}, Start: {self.start_mega} MHz, Stop: {self.stop_mega} MHz"""
 
     @cached
+    def start_dateidx(self):
+        return self._timestamp[0].item()
+
+    @cached
+    def stop_dateidx(self):
+        return self._timestamp[-1].item()
+
+    @cached
     def levels(self):
         """Return the spectrum levels"""
         if self.type in UNCOMPRESSED:
-            levels = np.concatenate(self._data).reshape(
-                (-1, self.ndata)
-            )
+            levels = np.concatenate(self._data).reshape((-1, self.ndata))
         elif self.type in COMPRESSED:
             levels = cy_extract_compressed(
-                self._data, len(self._data), self.ndata, self.thresh, self.minimum
+                list(self._data),
+                len(self._data),
+                int(self.ndata),
+                int(self.thresh),
+                float(self.minimum),
             )
         else:
             raise ValueError(
@@ -184,10 +199,12 @@ class CrfsSpectrum(GetAttr):
             )
         self._data = None
         gc.collect()
+        if self.precision != np.float32:
+            levels = levels.astype(self.precision)
         return levels
 
     @cached
-    def frequencies(self)->np.ndarray:
+    def frequencies(self) -> np.ndarray:
         return np.linspace(self.start_mega, self.stop_mega, num=self.ndata)
 
     def matrix(self):
@@ -199,41 +216,32 @@ class CrfsSpectrum(GetAttr):
         return data
 
 # Cell
-def check_block_exists(attrs, fluxos):
+def check_block_exists(attrs, fluxos, precision):
     """Receives a dict of attributes and check if its values exist as keys in fluxos, otherwise create one and set to CrfsSpectrum Class"""
     values = tuple(attrs.values())
     if values not in fluxos:
-        # attributes = list(attrs.keys())
-        # metavalues = list(values)
-        # if hasattr(block, 'thresh'):
-        #     if 'thresh' not in attributes:
-        #         attributes.append('thresh')
-        #     metavalues.append(block.thresh)
-        # if hasattr(block, 'minimum'):
-        #     if 'minimum' not in attributes:
-        #         attributes.append('minimum')
-        #     metavalues.append(block.minimum)
         metadata = namedtuple("SpecData", attrs.keys())
-        fluxos[values] = CrfsSpectrum(metadata(*attrs.values()))
+        fluxos[values] = CrfsSpectrum(metadata(*attrs.values()), precision)
     return values, fluxos
 
 # Cell
-def append_spec_data(attrs, fluxos, block)->None:
-    values, fluxos = check_block_exists(attrs, fluxos)
+def append_spec_data(attrs, fluxos, block, precision=np.float32) -> None:
+    values, fluxos = check_block_exists(attrs, fluxos, precision)
     time = getattr(block, "wallclock_datetime", None)
-    data = getattr(block, 'levels', None)
+    data = getattr(block, "levels", None)
     if time is not None:
         fluxos[values]._timestamp.append(time)
     if data is not None:
         fluxos[values]._data.append(data)
 
-def classify_blocks(byte_blocks: Iterable) -> dict:
+
+def classify_blocks(byte_blocks: Iterable, precision=np.float32) -> dict:
     """Receives an iterable with binary blocks and returns a dict with the metadata from file, the gps class and a list with the different spectrum classes"""
     meta = {}
     fluxos = {}
     gps = CrfsGPS()
     for attrs, block in byte_blocks:
-        if not block:
+        if block is None:
             continue
         dtype = block.type
         if dtype == 40:
@@ -241,7 +249,7 @@ def classify_blocks(byte_blocks: Iterable) -> dict:
                 getattr(gps, f"_{k}").append(getattr(block, k))
             continue
         if dtype in VECTOR_BLOCKS:
-            append_spec_data(attrs, fluxos, block)
+            append_spec_data(attrs, fluxos, block, precision)
         else:
             meta.update(attrs)
     meta["gps"] = gps
