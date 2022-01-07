@@ -111,7 +111,9 @@ def parse_bin(bin_file: Union[str, Path], precision=np.float32) -> dict:
         file.seek(36, 0)
         while (next_block := file.tell()) < file_size:
             attrs, block = create_block(file, next_block)
-            assert file.read(4) == b'UUUU', "End of block not found"
+            if not file.read(4) == b'UUUU':
+                logger.warning("End of block not found, skipping it")
+                continue
             if block is None:
                 continue
             dtype = block.type
