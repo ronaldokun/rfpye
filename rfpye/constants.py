@@ -146,7 +146,7 @@ KEY_ATTRS = {
         "ndata",
         "processing",
     ),
-    5: ("text",),
+    5: (),
     6: (),
     7: (
         "type",
@@ -173,7 +173,7 @@ KEY_ATTRS = {
     21: ("hostname", "method", "unit_info", "file_number"),
     22: (),
     23: (),
-    24: ("group_id", "text"),
+    24: (),
     40: ("gps_status",),
     41: ("identifier",),
     42: ("identifier",),
