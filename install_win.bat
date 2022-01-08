@@ -4,7 +4,9 @@ call conda activate rfpye
 
 call conda install -c intel libpython m2w64-toolchain -y
 
-echo [build] > %CONDA_PREFIX%\Lib\distutils\distutils.cfg
+echo [build_ext] > %CONDA_PREFIX%\Lib\distutils\distutils.cfg
+
+echo define=MS_WIN64 >> %CONDA_PREFIX%\Lib\distutils\distutils.cfg
 
 echo compiler = mingw32 >> %CONDA_PREFIX%\Lib\distutils\distutils.cfg
 

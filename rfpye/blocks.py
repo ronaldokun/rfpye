@@ -223,7 +223,7 @@ class DType6(GetAttr):
     @cached
     def start_mega(self) -> str:
         """Start Frequency in MHz"""
-        return bin2str(self.data[BYTES_6[0]])
+        return bin2int(self.data[BYTES_6[0]])
 
     @cached
     def stop_mega(self) -> int:
@@ -284,6 +284,7 @@ class DType7(GetAttr):
     # The attributes which don't belong to this class are delegated to default: i.e Block
     def __init__(self, block: BaseBlock):
         self.default = block
+        self.minimum = self.offset - 127.5
 
     @cached
     def start_mega(self) -> int:
@@ -332,7 +333,7 @@ class DType7(GetAttr):
 
     @cached
     def padding(self) -> bytes:
-        return self.data[40 + self.ndata :]
+        return self.data[40 + self.ndata:]
 
 # Cell
 class DType8(GetAttr):
@@ -860,11 +861,11 @@ class DType60(GetAttr):
 
     @cached
     def start_mega(self) -> int:
-        return bin2int(self.data[12:16])  # * (10 ** (self.freqexp))
+        return bin2int(self.data[12:16])
 
     @cached
     def stop_mega(self) -> int:
-        return bin2int(self.data[16:20])  # * (10 ** (self.freqexp))
+        return bin2int(self.data[16:20])
 
     @cached
     def freqexp(self) -> int:
@@ -1042,11 +1043,11 @@ class DType62(GetAttr):
 
     @cached
     def start_mega(self) -> int:
-        return bin2int(self.data[12:16]) * (10 ** (self.freqexp))
+        return bin2int(self.data[12:16])
 
     @cached
     def stop_mega(self) -> int:
-        return bin2int(self.data[16:20]) * (10 ** (self.freqexp))
+        return bin2int(self.data[16:20])
 
     @cached
     def freqexp(self) -> int:
@@ -1279,34 +1280,34 @@ class DType64(GetAttr):
     def __init__(self, block: BaseBlock) -> None:
         self.default = DType63(block)
         self.minimum = self.offset - 127.5
-        self.start = BYTES_63[21].stop + 8 + (self.ntun * 4) + self.nagc
+        self.start = 52 + 8 + (self.ntun * 4) + self.nagc
         self.stop = self.start + self.default.ndata
 
     @cached
     def thresh(self):
         """F22 - THRESH = Threshold Level in dB All data below this level will be run length encoded"""
-        start = BYTES_63[21].stop
+        start = 52
         stop = start + 4
         return bin2int(self.data[start:stop])
 
     @cached
     def ndata(self):
         """F23 - NORIG = Number of original data points4 Before compression"""
-        start = BYTES_63[21].stop + 4
+        start = 52 + 4
         stop = start + 4
         return bin2int(self.data[start:stop])
 
     @cached
     def tunning(self) -> Tuple:
         """F24 - Informações do 'tunning'. One Block per tunning(1 or 10MHz)"""
-        start = BYTES_63[21].stop + 8
+        start = 52 + 8
         stop = start + (4 * self.ntun)
         return L(self.data[i : i + 4] for i in range(start, stop, 4))
 
     @cached
     def agc(self) -> bytes:
         """F23 - Array com AGC - Automatic Gain Control as dB in single unsigned byte: 0...63"""
-        start = BYTES_63[21].stop + 8 + (self.ntun * 4)
+        start = 52 + 8 + (self.ntun * 4)
         stop = start + (self.nagc)
         return np.fromiter(self.data[start:stop], np.uint8)
         # return '-'.join(L(self.data[start:stop]).map(str))

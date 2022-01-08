@@ -10,13 +10,12 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import *
 from collections import defaultdict, namedtuple
-from fastcore.basics import partialler, listify
 from fastcore.utils import parallel
 from fastcore.foundation import L, GetAttr
 from .constants import *
 from .blocks import MAIN_BLOCKS, BaseBlock
 from .utils import get_files, getattrs, bin2int, bin2str, cached
-# from rfpye.cyparser import cy_extract_compressed
+from .cyparser import cy_extract_compressed
 from loguru import logger
 import pandas as pd
 import numpy as np
@@ -83,7 +82,7 @@ def create_block(file, next_block) -> Union[GetAttr, None]:
     if getattr(block, "gerror", -1) != -1 or getattr(block, "gps_status", -1) == 0:
         _ = logger.log("INFO", f"Block with error: {block_type}")
         return None, None  # spectral or gps blocks with error
-    return getattrs(block, KEY_ATTRS.get(block.type)), block
+    return getattrs(block, KEY_ATTRS.get(block.type), as_tuple=True), block
 
 # Cell
 def parse_bin(bin_file: Union[str, Path], precision=np.float32) -> dict:
@@ -101,7 +100,7 @@ def parse_bin(bin_file: Union[str, Path], precision=np.float32) -> dict:
     meta = {}
     fluxos = {}
     gps = CrfsGPS()
-    with  open(bin_file, mode="rb") as file:
+    with open(bin_file, mode="rb") as file:
         # The first block of the file is the header and is 36 bytes long.
         header = file.read(BYTES_HEADER)
         meta["filename"] = bin_file.name
@@ -111,7 +110,7 @@ def parse_bin(bin_file: Union[str, Path], precision=np.float32) -> dict:
         file.seek(36, 0)
         while (next_block := file.tell()) < file_size:
             attrs, block = create_block(file, next_block)
-            if not file.read(4) == b'UUUU':
+            if file.read(4) != b'UUUU':
                 logger.warning("End of block not found, skipping it")
                 continue
             if block is None:
@@ -124,7 +123,7 @@ def parse_bin(bin_file: Union[str, Path], precision=np.float32) -> dict:
             elif dtype in VECTOR_BLOCKS:
                 append_spec_data(attrs, fluxos, block, precision)
             else:
-                meta.update(attrs)
+                meta.update(attrs._asdict())
     meta["gps"] = gps
     meta["spectrum"] = L(fluxos.values())
     return meta
@@ -225,11 +224,9 @@ class CrfsSpectrum(GetAttr):
 # Cell
 def check_block_exists(attrs, fluxos, precision):
     """Receives a dict of attributes and check if its values exist as keys in fluxos, otherwise create one and set to CrfsSpectrum Class"""
-    values = tuple(attrs.values())
-    if values not in fluxos:
-        metadata = namedtuple("SpecData", attrs.keys())
-        fluxos[values] = CrfsSpectrum(metadata(*attrs.values()), precision)
-    return values, fluxos
+    if attrs not in fluxos:
+        fluxos[attrs] = CrfsSpectrum(attrs, precision)
+    return attrs, fluxos
 
 # Cell
 def append_spec_data(attrs, fluxos, block, precision=np.float32) -> None:

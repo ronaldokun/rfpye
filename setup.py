@@ -3,6 +3,20 @@ from configparser import ConfigParser
 import setuptools
 from Cython.Build import cythonize
 import numpy
+from setuptools.command.build_ext import build_ext
+
+link_args = ['-static-libgcc',
+             '-static-libstdc++',
+             '-Wl,-Bstatic,--whole-archive',
+             '-lwinpthread',
+             '-Wl,--no-whole-archive']
+
+class Build(build_ext):
+    def build_extensions(self):
+        if self.compiler.compiler_type == 'mingw32':
+            for e in self.extensions:
+                e.extra_link_args = link_args
+        super(Build, self).build_extensions()
 
 assert parse_version(setuptools.__version__) >= parse_version("36.2")
 
@@ -46,7 +60,7 @@ statuses = [
     "7 - Inactive",
 ]
 py_versions = (
-    "2.0 2.1 2.2 2.3 2.4 2.5 2.6 2.7 3.0 3.1 3.2 3.3 3.4 3.5 3.6 3.7 3.8".split()
+    "2.0 2.1 2.2 2.3 2.4 2.5 2.6 2.7 3.0 3.1 3.2 3.3 3.4 3.5 3.6 3.7 3.8 3.9".split()
 )
 
 requirements = cfg.get("requirements", "").split()
@@ -56,6 +70,7 @@ min_python = cfg["min_python"]
 
 setuptools.setup(
     name=cfg["lib_name"],
+    cmdclass={'build_ext': Build},
     ext_modules=cythonize("rfpye/cyparser.pyx"),
     include_dirs=[numpy.get_include()],
     license=lic[0],
