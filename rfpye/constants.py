@@ -155,7 +155,6 @@ KEY_ATTRS = {
         "minimum",
         "start_mega",
         "stop_mega",
-        "namal",
         "ndata",
     ),
     8: (
@@ -164,7 +163,6 @@ KEY_ATTRS = {
         "start_mega",
         "stop_mega",
         "sampling",
-        "namal",
         "ndata",
     ),
     20: (
@@ -207,7 +205,6 @@ KEY_ATTRS = {
         "start_mega",
         "stop_mega",
         "thresh",
-        "namal",
         "sampling",
         "ndata",
         "antuid",
@@ -235,7 +232,6 @@ KEY_ATTRS = {
         "dtype",
         "ndata",
         "bw",
-        'namal',
         "processing",
         "antuid",
     ),

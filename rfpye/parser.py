@@ -9,7 +9,8 @@ import gc
 from dataclasses import dataclass
 from pathlib import Path
 from typing import *
-from collections import defaultdict, namedtuple
+from collections import defaultdict
+from dataclasses import asdict, make_dataclass
 from fastcore.utils import parallel
 from fastcore.foundation import L, GetAttr
 from .constants import *
@@ -123,7 +124,7 @@ def parse_bin(bin_file: Union[str, Path], precision=np.float32) -> dict:
             elif dtype in VECTOR_BLOCKS:
                 append_spec_data(attrs, fluxos, block, precision)
             else:
-                meta.update(attrs._asdict())
+                meta.update(dict(zip(*attrs)))
     meta["gps"] = gps
     meta["spectrum"] = L(fluxos.values())
     return meta
@@ -163,7 +164,7 @@ class CrfsGPS:
 class CrfsSpectrum(GetAttr):
     """Class with the metadata and levels of a spectrum block from a CRFS Bin File"""
 
-    def __init__(self, metadata: namedtuple, precision=np.float32):
+    def __init__(self, metadata, precision=np.float32):
         self.default = metadata
         self._timestamp: L = L()
         self._data: L = L()
@@ -173,7 +174,7 @@ class CrfsSpectrum(GetAttr):
         return self.levels.shape[0]
 
     def __repr__(self):
-        return repr(self.default)
+        return f"SpectrumData - {repr(self.default)}"
 
     def __str__(self):
         return f"""Blocks of Type: {self.type}, Thread_id: {self.thread_id}, Start: {self.start_mega} MHz, Stop: {self.stop_mega} MHz"""
@@ -224,16 +225,18 @@ class CrfsSpectrum(GetAttr):
 # Cell
 def check_block_exists(attrs, fluxos, precision):
     """Receives a dict of attributes and check if its values exist as keys in fluxos, otherwise create one and set to CrfsSpectrum Class"""
-    if attrs not in fluxos:
-        fluxos[attrs] = CrfsSpectrum(attrs, precision)
-    return attrs, fluxos
+    keys, vals = attrs
+    if vals not in fluxos:
+        metadata = make_dataclass('SpecData', fields=[(k,type(k)) for k in keys])
+        fluxos[vals] = CrfsSpectrum(metadata(*vals), precision)
+    return keys, vals, fluxos
 
 # Cell
 def append_spec_data(attrs, fluxos, block, precision=np.float32) -> None:
-    values, fluxos = check_block_exists(attrs, fluxos, precision)
+    keys, vals, fluxos = check_block_exists(attrs, fluxos, precision)
     time = getattr(block, "wallclock_datetime", None)
     data = getattr(block, "levels", None)
     if time is not None:
-        fluxos[values]._timestamp.append(time)
+        fluxos[vals]._timestamp.append(time)
     if data is not None:
-        fluxos[values]._data.append(data)
+        fluxos[vals]._data.append(data)

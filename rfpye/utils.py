@@ -8,7 +8,7 @@ import os
 import functools
 import platform
 from typing import *
-from collections import namedtuple
+from dataclasses import make_dataclass
 import pandas as pd
 from fastcore.foundation import L
 from fastcore.xtras import Path
@@ -129,7 +129,7 @@ def df_optimize(df: pd.DataFrame, datetime_features: List[str] = [], exclude=Non
 # Cell
 def public_attrs(obj: Any) -> L:
     """Receives an object and return its public attributes (not starting with underscore _) excluding those listed in `EXCLUDE_ATTRS`"""
-    return L(k for k in dir(obj) if not k.startswith("_") and k not in EXCLUDE_ATTRS)
+    return tuple(k for k in dir(obj) if not k.startswith("_") and k not in EXCLUDE_ATTRS)
 
 
 def getattrs(obj: Any, attrs: Iterable = None, as_tuple=False) -> L:
@@ -137,8 +137,8 @@ def getattrs(obj: Any, attrs: Iterable = None, as_tuple=False) -> L:
     if attrs is None:
         attrs = public_attrs(obj)
     if as_tuple:
-        return namedtuple("Attrs", attrs)(*[getattr(obj, k) for k in attrs])
-    return {x: getattr(obj, x) for x in attrs}
+        return attrs, tuple(getattr(obj, k) for k in attrs)
+    return {k: getattr(obj, k) for k in attrs}
 
 # Cell
 def cached(f):
