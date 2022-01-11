@@ -1680,7 +1680,7 @@ If a file is used for the output from more than one unit, multiple footers may a
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">real_time_bw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">bw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_51</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">6</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">4</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
@@ -2336,10 +2336,10 @@ Total Bytes = 52 + (4 * NTUN) + NAGC + NDATA + NPAD</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">start_mega</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop_mega</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ndata</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span>
         <span class="p">)</span>
 
-    <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">bw</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Retorna o RBW calculado a partir de STARTMEGA, STOPMEGA e NDATA.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">stop_mega</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_mega</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndata</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="c1"># @cached</span>
+    <span class="c1"># def bw(self) -&gt; int:</span>
+    <span class="c1">#     &quot;&quot;&quot;Retorna o RBW calculado a partir de STARTMEGA, STOPMEGA e NDATA.&quot;&quot;&quot;</span>
+    <span class="c1">#     return int((self.stop_mega - self.start_mega) * 1000 / (self.ndata - 1))</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">tunning</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
@@ -2763,7 +2763,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">real_time_bw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">bw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_V5</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">desclen</span> <span class="o">+</span> <span class="mi">6</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">4</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">])</span>

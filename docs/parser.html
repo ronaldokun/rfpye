@@ -32,6 +32,32 @@ nb_path: "nbs\01_parser.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">load_ext</span> line_profiler
+<span class="o">%</span><span class="k">autoreload</span> 2 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
@@ -63,7 +89,7 @@ nb_path: "nbs\01_parser.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="evaluate_checksum" class="doc_header"><code>evaluate_checksum</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L40" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>evaluate_checksum</code>(<strong><code>file</code></strong>, <strong><code>next_block</code></strong>, <strong><code>data_size</code></strong>)</p>
+<h4 id="evaluate_checksum" class="doc_header"><code>evaluate_checksum</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L48" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>evaluate_checksum</code>(<strong><code>file</code></strong>, <strong><code>next_block</code></strong>, <strong><code>data_size</code></strong>)</p>
 </blockquote>
 <p>Receives a byte_block and verify if the calculated checksum is equal to the one registed in the specific byte</p>
 
@@ -95,7 +121,7 @@ nb_path: "nbs\01_parser.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="buffer2base_block" class="doc_header"><code>buffer2base_block</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L55" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>buffer2base_block</code>(<strong><code>file</code></strong>, <strong><code>next_block</code></strong>:<code>int</code>)</p>
+<h4 id="buffer2base_block" class="doc_header"><code>buffer2base_block</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L63" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>buffer2base_block</code>(<strong><code>file</code></strong>, <strong><code>next_block</code></strong>:<code>int</code>)</p>
 </blockquote>
 <p>Receives an opened file buffer from the bin file and returns a dataclass with the attributes
 'thread_id', 'size', 'type', 'data', 'checksum' or None in case any error is identified.</p>
@@ -135,7 +161,7 @@ nb_path: "nbs\01_parser.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="create_block" class="doc_header"><code>create_block</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L68" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_block</code>(<strong><code>file</code></strong>, <strong><code>next_block</code></strong>)</p>
+<h4 id="create_block" class="doc_header"><code>create_block</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L76" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_block</code>(<strong><code>file</code></strong>, <strong><code>next_block</code></strong>)</p>
 </blockquote>
 <p>Receives a byte_block, and converts it into one of the main classes
 Args: byte_block: A byte block directly returned from the file
@@ -176,7 +202,7 @@ Returns: The Instance of the Block Type or None in case of error</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="parse_bin" class="doc_header"><code>parse_bin</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L89" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parse_bin</code>(<strong><code>bin_file</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>], <strong><code>precision</code></strong>=<em><code>float32</code></em>)</p>
+<h4 id="parse_bin" class="doc_header"><code>parse_bin</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L97" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parse_bin</code>(<strong><code>bin_file</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>], <strong><code>precision</code></strong>=<em><code>float32</code></em>)</p>
 </blockquote>
 <p>Receives a CRFS binfile and returns a dictionary with the file metadata, a GPS Class and a list with the different Spectrum Classes
 A block is a piece of the .bin file with a known start and end and that contains different types of information.
@@ -215,7 +241,7 @@ Args:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="CrfsGPS" class="doc_header"><code>class</code> <code>CrfsGPS</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L134" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CrfsGPS</code>()</p>
+<h2 id="CrfsGPS" class="doc_header"><code>class</code> <code>CrfsGPS</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L139" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CrfsGPS</code>()</p>
 </blockquote>
 <p>Class with the GPS Attributes from the CRFS Bin File</p>
 
@@ -240,7 +266,7 @@ Args:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="CrfsSpectrum" class="doc_header"><code>class</code> <code>CrfsSpectrum</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L164" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CrfsSpectrum</code>(<strong><code>metadata</code></strong>, <strong><code>precision</code></strong>=<em><code>float32</code></em>) :: <code>GetAttr</code></p>
+<h2 id="CrfsSpectrum" class="doc_header"><code>class</code> <code>CrfsSpectrum</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L185" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CrfsSpectrum</code>(<strong><code>metadata</code></strong>, <strong><code>precision</code></strong>=<em><code>float32</code></em>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Class with the metadata and levels of a spectrum block from a CRFS Bin File</p>
 
@@ -265,11 +291,27 @@ Args:
 <span class="k">class</span> <span class="nc">CrfsGPS</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Class with the GPS Attributes from the CRFS Bin File&quot;&quot;&quot;</span>
 
-    <span class="n">_gps_datetime</span><span class="p">:</span> <span class="n">L</span> <span class="o">=</span> <span class="n">L</span><span class="p">()</span>
-    <span class="n">_latitude</span><span class="p">:</span> <span class="n">L</span> <span class="o">=</span> <span class="n">L</span><span class="p">()</span>
-    <span class="n">_longitude</span><span class="p">:</span> <span class="n">L</span> <span class="o">=</span> <span class="n">L</span><span class="p">()</span>
-    <span class="n">_altitude</span><span class="p">:</span> <span class="n">L</span> <span class="o">=</span> <span class="n">L</span><span class="p">()</span>
-    <span class="n">_num_satellites</span><span class="p">:</span> <span class="n">L</span> <span class="o">=</span> <span class="n">L</span><span class="p">()</span>
+    <span class="n">_data</span><span class="p">:</span> <span class="n">L</span> <span class="o">=</span> <span class="n">L</span><span class="p">()</span>
+
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">_gps_datetime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">attrgot</span><span class="p">(</span><span class="s2">&quot;gps_datetime&quot;</span><span class="p">)</span>
+
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">_latitude</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">attrgot</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">)</span>
+
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">_longitude</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">attrgot</span><span class="p">(</span><span class="s2">&quot;longitude&quot;</span><span class="p">)</span>
+
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">_altitude</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">attrgot</span><span class="p">(</span><span class="s2">&quot;altitude&quot;</span><span class="p">)</span>
+
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">_num_satellites</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">attrgot</span><span class="p">(</span><span class="s2">&quot;num_satellites&quot;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">latitude</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
@@ -296,18 +338,22 @@ Args:
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="n">metadata</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_timestamp</span><span class="p">:</span> <span class="n">L</span> <span class="o">=</span> <span class="n">L</span><span class="p">()</span>
+        <span class="c1"># self._timestamp: L = L()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span> <span class="n">L</span> <span class="o">=</span> <span class="n">L</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">precision</span> <span class="o">=</span> <span class="n">precision</span>
 
     <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">levels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;SpectrumData - </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;Blocks of Type: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2">, Thread_id: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">thread_id</span><span class="si">}</span><span class="s2">, Start: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">start_mega</span><span class="si">}</span><span class="s2"> MHz, Stop: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">stop_mega</span><span class="si">}</span><span class="s2"> MHz&quot;&quot;&quot;</span>
+
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">_timestamp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">attrgot</span><span class="p">(</span><span class="s1">&#39;wallclock_datetime&#39;</span><span class="p">)</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">start_dateidx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -321,10 +367,10 @@ Args:
     <span class="k">def</span> <span class="nf">levels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the spectrum levels&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">in</span> <span class="n">UNCOMPRESSED</span><span class="p">:</span>
-            <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndata</span><span class="p">))</span>
+            <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">attrgot</span><span class="p">(</span><span class="s1">&#39;levels&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndata</span><span class="p">))</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">in</span> <span class="n">COMPRESSED</span><span class="p">:</span>
             <span class="n">levels</span> <span class="o">=</span> <span class="n">cy_extract_compressed</span><span class="p">(</span>
-                <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">),</span>
+                <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">attrgot</span><span class="p">(</span><span class="s1">&#39;levels&#39;</span><span class="p">)),</span>
                 <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">),</span>
                 <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndata</span><span class="p">),</span>
                 <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">thresh</span><span class="p">),</span>
@@ -334,8 +380,6 @@ Args:
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;The current block is not of type spectrum or it&#39;s not implemented yet&quot;</span>
             <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">precision</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">:</span>
             <span class="n">levels</span> <span class="o">=</span> <span class="n">levels</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">levels</span>
@@ -371,7 +415,7 @@ Args:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="check_block_exists" class="doc_header"><code>check_block_exists</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L226" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>check_block_exists</code>(<strong><code>attrs</code></strong>, <strong><code>fluxos</code></strong>, <strong><code>precision</code></strong>)</p>
+<h4 id="check_block_exists" class="doc_header"><code>check_block_exists</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L249" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>check_block_exists</code>(<strong><code>keys</code></strong>, <strong><code>vals</code></strong>, <strong><code>fluxos</code></strong>, <strong><code>precision</code></strong>)</p>
 </blockquote>
 <p>Receives a dict of attributes and check if its values exist as keys in fluxos, otherwise create one and set to CrfsSpectrum Class</p>
 
@@ -403,8 +447,9 @@ Args:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="append_spec_data" class="doc_header"><code>append_spec_data</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L235" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>append_spec_data</code>(<strong><code>attrs</code></strong>, <strong><code>fluxos</code></strong>, <strong><code>block</code></strong>, <strong><code>precision</code></strong>=<em><code>float32</code></em>)</p>
+<h4 id="append_spec_data" class="doc_header"><code>append_spec_data</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L256" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>append_spec_data</code>(<strong><code>block_type</code></strong>, <strong><code>fluxos</code></strong>, <strong><code>block</code></strong>, <strong><code>precision</code></strong>=<em><code>float32</code></em>)</p>
 </blockquote>
+<p>Append the spectrum data to the fluxos dict</p>
 
 </div>
 
@@ -430,24 +475,8 @@ Args:
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dados</span> <span class="o">=</span> <span class="n">parse_bin</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dados</span><span class="p">[</span><span class="s1">&#39;spectrum&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">levels</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">file</span> <span class="o">=</span> <span class="n">get_files</span><span class="p">(</span><span class="s1">&#39;binfiles/v5&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="o">%</span><span class="k">lprun</span> -f parse_bin parse_bin(file)
 </pre></div>
 
     </div>
@@ -459,119 +488,57 @@ Args:
 
 <div class="output_area">
 
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Timer unit: 1e-07 s
 
+Total time: 14.6849 s
+File: C:\Users\rsilva\AppData\Local\Temp/ipykernel_25332/586484204.py
+Function: parse_bin at line 2
 
-<div class="output_text output_subarea output_execute_result">
-<pre>array([[-111.5, -112. , -111. , ..., -101. , -101. , -101. ],
-       [-112.5, -112. , -111.5, ..., -101. , -101.5, -100. ],
-       [-110.5, -115. , -115. , ...,  -84.5,  -78. ,  -77.5],
-       ...,
-       [-111.5, -111.5, -111.5, ..., -101. , -100.5, -101. ],
-       [-115. , -113.5, -114. , ..., -101. , -101. , -101.5],
-       [-114.5, -115.5, -113.5, ...,  -99.5, -101.5,  -99. ]],
-      dtype=float32)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dados</span><span class="p">[</span><span class="s1">&#39;spectrum&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">matrix</span><span class="p">()</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>array([[-111.5, -112. , -111. , ..., -101. , -101. , -101. ],
-       [-112.5, -112. , -111.5, ..., -101. , -101.5, -100. ],
-       [-110.5, -115. , -115. , ...,  -84.5,  -78. ,  -77.5],
-       ...,
-       [-111.5, -111.5, -111.5, ..., -101. , -100.5, -101. ],
-       [-115. , -113.5, -114. , ..., -101. , -101. , -101.5],
-       [-114.5, -115.5, -113.5, ...,  -99.5, -101.5,  -99. ]],
-      dtype=float32)</pre>
-</div>
-
-</div>
-
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+     2                                           def parse_bin(bin_file: Union[str, Path], precision=np.float32) -&gt; dict:
+     3                                               &#34;&#34;&#34;Receives a CRFS binfile and returns a dictionary with the file metadata, a GPS Class and a list with the different Spectrum Classes
+     4                                               A block is a piece of the .bin file with a known start and end and that contains different types of information.
+     5                                               It has several fields: file_type, header, data and footer.
+     6                                               Each field has lengths and information defined in the documentation.
+     7                                               Args:
+     8                                                   bin_file (Union[str, Path]): path to the bin file
+     9                                           
+    10                                               Returns:
+    11                                                   Dictionary with the file metadata, file_version, string info, gps and spectrum blocks.
+    12                                               &#34;&#34;&#34;
+    13         1        459.0    459.0      0.0      bin_file = Path(bin_file)
+    14         1         12.0     12.0      0.0      meta = {}
+    15         1          7.0      7.0      0.0      fluxos = {}
+    16         1         61.0     61.0      0.0      gps = CrfsGPS()
+    17         1       6656.0   6656.0      0.0      with open(bin_file, mode=&#34;rb&#34;) as file:
+    18                                                   # The first block of the file is the header and is 36 bytes long.
+    19         1        444.0    444.0      0.0          header = file.read(BYTES_HEADER)
+    20         1         65.0     65.0      0.0          meta[&#34;filename&#34;] = bin_file.name
+    21         1         68.0     68.0      0.0          meta[&#34;file_version&#34;] = bin2int(header[:4])
+    22         1         49.0     49.0      0.0          meta[&#34;string&#34;] = bin2str(header[4:])
+    23         1         90.0     90.0      0.0          file_size = file.seek(0, 2)
+    24         1         33.0     33.0      0.0          file.seek(36, 0)
+    25     43025    1832786.0     42.6      1.2          while (next_block := file.tell()) &lt; file_size:
+    26     43024   70265201.0   1633.2     47.8              block_type, block = create_block(file, next_block)
+    27     43024     598742.0     13.9      0.4              if file.read(4) != b&#39;UUUU&#39;:
+    28                                                           logger.warning(&#34;End of block not found, skipping it&#34;)
+    29                                                           continue
+    30     43024     269157.0      6.3      0.2              if block is None: 
+    31                                                           continue
+    32     43024     252191.0      5.9      0.2              if block_type == 40:
+    33      9057     450498.0     49.7      0.3                  gps._data.append(block)
+    34     33967     281404.0      8.3      0.2              elif block_type in VECTOR_BLOCKS:
+    35     33814   72849910.0   2154.4     49.6                  append_spec_data(block_type,fluxos, block, precision)
+    36                                                       else:
+    37       153      41232.0    269.5      0.0                  meta.update(getattrs(block, KEY_ATTRS.get(block_type)))
+    38         1         11.0     11.0      0.0      meta[&#34;gps&#34;] = gps
+    39         1        296.0    296.0      0.0      meta[&#34;spectrum&#34;] = L(fluxos.values())
+    40         1          5.0      5.0      0.0      return meta</pre>
 </div>
 </div>
 
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dados</span><span class="p">[</span><span class="s1">&#39;spectrum&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">matrix</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>array([[-111.5, -112. , -111. , ..., -101. , -101. , -101. ],
-       [-112.5, -112. , -111.5, ..., -101. , -101.5, -100. ],
-       [-110.5, -115. , -115. , ...,  -84.5,  -78. ,  -77.5],
-       ...,
-       [-111.5, -111.5, -111.5, ..., -101. , -100.5, -101. ],
-       [-115. , -113.5, -114. , ..., -101. , -101. , -101.5],
-       [-114.5, -115.5, -113.5, ...,  -99.5, -101.5,  -99. ]],
-      dtype=float32)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">make_dataclass</span><span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)])</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">X</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
 </div>
 </div>
 

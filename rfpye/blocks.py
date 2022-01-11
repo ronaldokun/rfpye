@@ -763,7 +763,7 @@ class DType51(GetAttr):
         return bin2int(self.data[start:stop])
 
     @cached
-    def real_time_bw(self):
+    def bw(self):
         start = BYTES_51[5].stop + self.desclen + 6
         stop = start + 4
         return bin2int(self.data[start:stop])
@@ -1228,10 +1228,10 @@ class DType63(GetAttr):
             self.start_mega, self.stop_mega, num=self.ndata, dtype=np.float32
         )
 
-    @cached
-    def bw(self) -> int:
-        """Retorna o RBW calculado a partir de STARTMEGA, STOPMEGA e NDATA."""
-        return int((self.stop_mega - self.start_mega) * 1000 / (self.ndata - 1))
+    # @cached
+    # def bw(self) -> int:
+    #     """Retorna o RBW calculado a partir de STARTMEGA, STOPMEGA e NDATA."""
+    #     return int((self.stop_mega - self.start_mega) * 1000 / (self.ndata - 1))
 
     @cached
     def tunning(self) -> Tuple:
@@ -1487,7 +1487,7 @@ class DType66(GetAttr):
         return bin2int(self.data[start:stop])
 
     @cached
-    def real_time_bw(self):
+    def bw(self):
         start = BYTES_V5[5].stop + self.desclen + 6
         stop = start + 4
         return bin2int(self.data[start:stop])

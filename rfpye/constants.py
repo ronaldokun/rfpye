@@ -138,6 +138,7 @@ BYTES_67: Mapping[int, slice] = {3: slice(12, 16), 4: slice(16, 20), 5: slice(20
 
 # Cell
 KEY_ATTRS = {
+    3: (),
     4: (
         "type",
         "thread_id",
@@ -217,7 +218,6 @@ KEY_ATTRS = {
         "stop_mega",
         "dtype",
         "ndata",
-        "bw",
         "processing",
         "antuid",
     ),
@@ -231,7 +231,6 @@ KEY_ATTRS = {
         "stop_mega",
         "dtype",
         "ndata",
-        "bw",
         "processing",
         "antuid",
     ),
