@@ -11,6 +11,8 @@ for folder in Path('binfiles').iterdir():
         print(f'\t{file.name}')
         start = time()
         dados = parse_bin(file)
+        for m in dados['spectrum'].attrgot('levels'):
+            print(m.shape)
         total = time() - start
         print(dados)       
         print(f'Tempo de processamento: {total:.2f}s')

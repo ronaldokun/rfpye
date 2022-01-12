@@ -4,11 +4,13 @@
 
 ## Instalação
 
-Como parte dessa lib utiliza código c compilado com `Cython`, é preciso que um compilador `C` esteja instalado. No entanto é recomendado a criação de um ambiente virtual para que a instalação das dependências não interfira com o a instalação base do python. Para tal é recomendamos o uso do conda. A seguir é mostrado instruções para a criação do ambiente virtual, com todas as dependências, inclusive o compilador C, utilizando o conda.
+Como parte dessa lib utiliza código c compilado com `Cython`, é preciso que um compilador `C` esteja instalado. É recomendado a criação de um ambiente virtual para que a instalação das dependências não interfira com o a instalação base do python. Para tal é recomendamos o uso do conda. A seguir é mostrado instruções para a criação do ambiente virtual, com todas as dependências utilizando o conda.
 
 Instale o [miniconda](https://docs.conda.io/en/latest/miniconda.html). Com o conda instalado e disponível no seu `PATH` ou através do `Anaconda Prompt`, execute os comando:
 
 ### Linux:
+
+Em Linux normalmente o sistema já possui o compilador `gcc` instalado.
 
 ```bash
 conda create -n rfpye pip python=3.7 gcc -c intel -c conda-forge -y
@@ -18,21 +20,19 @@ python -m pip install rfpye
 
 ### Windows
 
+É preciso ter o compilador `Microsoft Visual C++ 2015-2019 Redistributable x64` Versão 14.x instalado.    
+
+
 ```bash
 conda create -n rfpye pip python=3.7 libpython m2w64-toolchain -c intel -y
 conda activate rfpye
-echo [build] > %CONDA_PREFIX%\Lib\distutils\distutils.cfg
-echo compiler = mingw32 >> %CONDA_PREFIX%\Lib\distutils\distutils.cfg
 python -m pip install rfpye
 ```
 
 O comando acima cria um ambiente virtual com o mesmo nome da biblioteca `rfpye`, instala as dependências básicas necessárias para a compilação, em seguida ativa o ambiente virtual e instala o módulo.
-As duas linhas adicionais em Windows cria um arquivo de configuração `distutils.cfg` para o compilador `m2w64`, que é utilizado pelo conda para compilar o código.
 
 Depois disso basta instalar normalmente a lib:
 `python -m pip install rfpye`
-
-Em Linux normalmente o sistema já possui o compilador `gcc` instalado então basta executar o comando `pip install` acima.
 
 ## Como utilizar
 Abaixo mostramos as funcionalidades principais dos módulos, utilizando-os dentro de algum outro script ou `REPL`

@@ -31,20 +31,19 @@ nb_path: "nbs\index.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Instala&#231;&#227;o">Instala&#231;&#227;o<a class="anchor-link" href="#Instala&#231;&#227;o"> </a></h2><p>Como parte dessa lib utiliza código c compilado com <code>Cython</code>, é preciso que um compilador <code>C</code> esteja instalado. No entanto é recomendado a criação de um ambiente virtual para que a instalação das dependências não interfira com o a instalação base do python. Para tal é recomendamos o uso do conda. A seguir é mostrado instruções para a criação do ambiente virtual, com todas as dependências, inclusive o compilador C, utilizando o conda.</p>
+<h2 id="Instala&#231;&#227;o">Instala&#231;&#227;o<a class="anchor-link" href="#Instala&#231;&#227;o"> </a></h2><p>Como parte dessa lib utiliza código c compilado com <code>Cython</code>, é preciso que um compilador <code>C</code> esteja instalado. É recomendado a criação de um ambiente virtual para que a instalação das dependências não interfira com o a instalação base do python. Para tal é recomendamos o uso do conda. A seguir é mostrado instruções para a criação do ambiente virtual, com todas as dependências utilizando o conda.</p>
 <p>Instale o <a href="https://docs.conda.io/en/latest/miniconda.html">miniconda</a>. Com o conda instalado e disponível no seu <code>PATH</code> ou através do <code>Anaconda Prompt</code>, execute os comando:</p>
-<h3 id="Linux:">Linux:<a class="anchor-link" href="#Linux:"> </a></h3><div class="highlight"><pre><span></span>conda create -n rfpye pip <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.7 gcc -c intel -c conda-forge -y
+<h3 id="Linux:">Linux:<a class="anchor-link" href="#Linux:"> </a></h3><p>Em Linux normalmente o sistema já possui o compilador <code>gcc</code> instalado.</p>
+<div class="highlight"><pre><span></span>conda create -n rfpye pip <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.7 gcc -c intel -c conda-forge -y
 conda activate rfpye
 python -m pip install rfpye
 </pre></div>
-<h3 id="Windows">Windows<a class="anchor-link" href="#Windows"> </a></h3><div class="highlight"><pre><span></span>conda create -n rfpye pip <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.7 libpython m2w64-toolchain -c intel -y
+<h3 id="Windows">Windows<a class="anchor-link" href="#Windows"> </a></h3><p>É preciso ter o compilador <code>Microsoft Visual C++ 2015-2019 Redistributable x64</code> Versão 14.x instalado.</p>
+<div class="highlight"><pre><span></span>conda create -n rfpye pip <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.7 libpython m2w64-toolchain -c intel -y
 conda activate rfpye
-<span class="nb">echo</span> <span class="o">[</span>build<span class="o">]</span> &gt; %CONDA_PREFIX%<span class="se">\L</span>ib<span class="se">\d</span>istutils<span class="se">\d</span>istutils.cfg
-<span class="nb">echo</span> <span class="nv">compiler</span> <span class="o">=</span> mingw32 &gt;&gt; %CONDA_PREFIX%<span class="se">\L</span>ib<span class="se">\d</span>istutils<span class="se">\d</span>istutils.cfg
 python -m pip install rfpye
 </pre></div>
-<p>O comando acima cria um ambiente virtual com o mesmo nome da biblioteca <code>rfpye</code>, instala as dependências básicas necessárias para a compilação, em seguida ativa o ambiente virtual e instala o módulo.
-As duas linhas adicionais em Windows cria um arquivo de configuração <code>distutils.cfg</code> para o compilador <code>m2w64</code>, que é utilizado pelo conda para compilar o código.</p>
+<p>O comando acima cria um ambiente virtual com o mesmo nome da biblioteca <code>rfpye</code>, instala as dependências básicas necessárias para a compilação, em seguida ativa o ambiente virtual e instala o módulo.</p>
 
 </div>
 </div>
@@ -53,13 +52,6 @@ As duas linhas adicionais em Windows cria um arquivo de configuração <code>dis
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Depois disso basta instalar normalmente a lib:
 <code>python -m pip install rfpye</code></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Em Linux normalmente o sistema já possui o compilador <code>gcc</code> instalado então basta executar o comando <code>pip install</code> acima.</p>
 
 </div>
 </div>
@@ -147,7 +139,7 @@ As duas linhas adicionais em Windows cria um arquivo de configuração <code>dis
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="parse_bin" class="doc_header"><code>parse_bin</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L100" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parse_bin</code>(<strong><code>bin_file</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>], <strong><code>precision</code></strong>=<em><code>float32</code></em>)</p>
+<h4 id="parse_bin" class="doc_header"><code>parse_bin</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L103" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parse_bin</code>(<strong><code>bin_file</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>], <strong><code>precision</code></strong>=<em><code>float32</code></em>)</p>
 </blockquote>
 <p>Receives a CRFS binfile and returns a dictionary with the file metadata, a GPS Class and a list with the different Spectrum Classes
 A block is a piece of the .bin file with a known start and end and that contains different types of information.
@@ -398,7 +390,7 @@ Args:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="getattrs" class="doc_header"><code>getattrs</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L146" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>getattrs</code>(<strong><code>obj</code></strong>:<code>Any</code>, <strong><code>attrs</code></strong>:<code>Iterable</code>[<code>T_co</code>]=<em><code>None</code></em>)</p>
+<h4 id="getattrs" class="doc_header"><code>getattrs</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/utils.py#L135" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>getattrs</code>(<strong><code>obj</code></strong>:<code>Any</code>, <strong><code>attrs</code></strong>:<code>Iterable</code>=<em><code>None</code></em>, <strong><code>as_tuple</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Receives an object and return the atributes listed in <code>attrs</code>, if attrs is None return its public attributes</p>
 
