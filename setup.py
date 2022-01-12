@@ -3,20 +3,21 @@ from configparser import ConfigParser
 import setuptools
 from Cython.Build import cythonize
 import numpy
-from setuptools.command.build_ext import build_ext
 
-link_args = ['-static-libgcc',
-             '-static-libstdc++',
-             '-Wl,-Bstatic,--whole-archive',
-             '-lwinpthread',
-             '-Wl,--no-whole-archive']
+# from setuptools.command.build_ext import build_ext
 
-class Build(build_ext):
-    def build_extensions(self):
-        if self.compiler.compiler_type == 'mingw32':
-            for e in self.extensions:
-                e.extra_link_args = link_args
-        super(Build, self).build_extensions()
+# link_args = ['-static-libgcc',
+#              '-static-libstdc++',
+#              '-Wl,-Bstatic,--whole-archive',
+#              '-lwinpthread',
+#              '-Wl,--no-whole-archive']
+
+# class Build(build_ext):
+#     def build_extensions(self):
+#         if self.compiler.compiler_type == 'mingw32':
+#             for e in self.extensions:
+#                 e.extra_link_args = link_args
+#         super(Build, self).build_extensions()
 
 assert parse_version(setuptools.__version__) >= parse_version("36.2")
 
@@ -70,7 +71,7 @@ min_python = cfg["min_python"]
 
 setuptools.setup(
     name=cfg["lib_name"],
-    cmdclass={'build_ext': Build},
+    # cmdclass={'build_ext': Build},
     ext_modules=cythonize("rfpye/cyparser.pyx"),
     include_dirs=[numpy.get_include()],
     license=lic[0],
