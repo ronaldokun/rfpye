@@ -45,6 +45,7 @@ nb_path: "nbs\01_parser.ipynb"
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
 <span class="o">%</span><span class="k">load_ext</span> line_profiler
+<span class="o">%</span><span class="k">load_ext</span> cython
 <span class="o">%</span><span class="k">autoreload</span> 2 
 </pre></div>
 
@@ -357,17 +358,20 @@ Args:
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">start_dateidx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_timestamp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;wallclock_datetime&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">stop_dateidx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_timestamp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;wallclock_datetime&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
 
     <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">levels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the spectrum levels&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">in</span> <span class="n">UNCOMPRESSED</span><span class="p">:</span>
-            <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">attrgot</span><span class="p">(</span><span class="s1">&#39;levels&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndata</span><span class="p">))</span>
+            <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndata</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">level</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">attrgot</span><span class="p">(</span><span class="s1">&#39;levels&#39;</span><span class="p">)):</span>
+                <span class="n">levels</span><span class="p">[</span><span class="n">i</span><span class="p">,:]</span> <span class="o">=</span> <span class="n">level</span>
+            <span class="c1"># levels = np.concatenate(self._data.attrgot(&#39;levels&#39;)).reshape((-1, self.ndata))</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">in</span> <span class="n">COMPRESSED</span><span class="p">:</span>
             <span class="n">levels</span> <span class="o">=</span> <span class="n">cy_extract_compressed</span><span class="p">(</span>
                 <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">attrgot</span><span class="p">(</span><span class="s1">&#39;levels&#39;</span><span class="p">)),</span>
@@ -415,39 +419,7 @@ Args:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="check_block_exists" class="doc_header"><code>check_block_exists</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L249" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>check_block_exists</code>(<strong><code>keys</code></strong>, <strong><code>vals</code></strong>, <strong><code>fluxos</code></strong>, <strong><code>precision</code></strong>)</p>
-</blockquote>
-<p>Receives a dict of attributes and check if its values exist as keys in fluxos, otherwise create one and set to CrfsSpectrum Class</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="append_spec_data" class="doc_header"><code>append_spec_data</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L256" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>append_spec_data</code>(<strong><code>block_type</code></strong>, <strong><code>fluxos</code></strong>, <strong><code>block</code></strong>, <strong><code>precision</code></strong>=<em><code>float32</code></em>)</p>
+<h4 id="append_spec_data" class="doc_header"><code>append_spec_data</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L252" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>append_spec_data</code>(<strong><code>block_type</code></strong>, <strong><code>fluxos</code></strong>, <strong><code>block</code></strong>, <strong><code>precision</code></strong>=<em><code>float32</code></em>)</p>
 </blockquote>
 <p>Append the spectrum data to the fluxos dict</p>
 
@@ -475,8 +447,25 @@ Args:
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">file</span> <span class="o">=</span> <span class="n">get_files</span><span class="p">(</span><span class="s1">&#39;binfiles/v5&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-<span class="o">%</span><span class="k">lprun</span> -f parse_bin parse_bin(file)
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">file</span> <span class="o">=</span> <span class="n">get_files</span><span class="p">(</span><span class="s1">&#39;binfiles/Outros&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">dados</span> <span class="o">=</span> <span class="n">parse_bin</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">dados</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -488,57 +477,416 @@ Args:
 
 <div class="output_area">
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Timer unit: 1e-07 s
 
-Total time: 14.6849 s
-File: C:\Users\rsilva\AppData\Local\Temp/ipykernel_25332/586484204.py
-Function: parse_bin at line 2
+<div class="output_html rendered_html output_subarea ">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span>
+    <span style="color: #008000; text-decoration-color: #008000">'filename'</span>: <span style="color: #008000; text-decoration-color: #008000">'201201_T153421_OneThreadID.bin'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'file_version'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">22</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'string'</span>: <span style="color: #008000; text-decoration-color: #008000">'CRFS DATA FILE V022'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'hostname'</span>: <span style="color: #008000; text-decoration-color: #008000">'rfeye002292'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'method'</span>: <span style="color: #008000; text-decoration-color: #008000">'CRFS default method'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'unit_info'</span>: <span style="color: #008000; text-decoration-color: #008000">'CRFS default unit info'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'file_number'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'identifier'</span>: <span style="color: #008000; text-decoration-color: #008000">'LOGGER_VERSION'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'gps'</span>: GPS Data - Median of Coordinates: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-1.00000</span>:<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-1.00000</span> Altitude: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-1.00</span> #Satellites: 
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'spectrum'</span>: <span style="font-weight: bold">[</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SpecData</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">type</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">63</span>, <span style="color: #808000; text-decoration-color: #808000">thread_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">110</span>, <span style="color: #808000; text-decoration-color: #808000">description</span>=<span style="color: #008000; text-decoration-color: #008000">'Peak'</span>, <span style="color: #808000; text-decoration-color: #808000">start_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>, 
+<span style="color: #808000; text-decoration-color: #808000">stop_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">110</span>, <span style="color: #808000; text-decoration-color: #808000">dtype</span>=<span style="color: #008000; text-decoration-color: #008000">'dBm'</span>, <span style="color: #808000; text-decoration-color: #808000">ndata</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2048</span>, <span style="color: #808000; text-decoration-color: #808000">processing</span>=<span style="color: #008000; text-decoration-color: #008000">'peak'</span>, <span style="color: #808000; text-decoration-color: #808000">antuid</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span><span style="font-weight: bold">)]</span>
+<span style="font-weight: bold">}</span>
+</pre>
 
-Line #      Hits         Time  Per Hit   % Time  Line Contents
-==============================================================
-     2                                           def parse_bin(bin_file: Union[str, Path], precision=np.float32) -&gt; dict:
-     3                                               &#34;&#34;&#34;Receives a CRFS binfile and returns a dictionary with the file metadata, a GPS Class and a list with the different Spectrum Classes
-     4                                               A block is a piece of the .bin file with a known start and end and that contains different types of information.
-     5                                               It has several fields: file_type, header, data and footer.
-     6                                               Each field has lengths and information defined in the documentation.
-     7                                               Args:
-     8                                                   bin_file (Union[str, Path]): path to the bin file
-     9                                           
-    10                                               Returns:
-    11                                                   Dictionary with the file metadata, file_version, string info, gps and spectrum blocks.
-    12                                               &#34;&#34;&#34;
-    13         1        459.0    459.0      0.0      bin_file = Path(bin_file)
-    14         1         12.0     12.0      0.0      meta = {}
-    15         1          7.0      7.0      0.0      fluxos = {}
-    16         1         61.0     61.0      0.0      gps = CrfsGPS()
-    17         1       6656.0   6656.0      0.0      with open(bin_file, mode=&#34;rb&#34;) as file:
-    18                                                   # The first block of the file is the header and is 36 bytes long.
-    19         1        444.0    444.0      0.0          header = file.read(BYTES_HEADER)
-    20         1         65.0     65.0      0.0          meta[&#34;filename&#34;] = bin_file.name
-    21         1         68.0     68.0      0.0          meta[&#34;file_version&#34;] = bin2int(header[:4])
-    22         1         49.0     49.0      0.0          meta[&#34;string&#34;] = bin2str(header[4:])
-    23         1         90.0     90.0      0.0          file_size = file.seek(0, 2)
-    24         1         33.0     33.0      0.0          file.seek(36, 0)
-    25     43025    1832786.0     42.6      1.2          while (next_block := file.tell()) &lt; file_size:
-    26     43024   70265201.0   1633.2     47.8              block_type, block = create_block(file, next_block)
-    27     43024     598742.0     13.9      0.4              if file.read(4) != b&#39;UUUU&#39;:
-    28                                                           logger.warning(&#34;End of block not found, skipping it&#34;)
-    29                                                           continue
-    30     43024     269157.0      6.3      0.2              if block is None: 
-    31                                                           continue
-    32     43024     252191.0      5.9      0.2              if block_type == 40:
-    33      9057     450498.0     49.7      0.3                  gps._data.append(block)
-    34     33967     281404.0      8.3      0.2              elif block_type in VECTOR_BLOCKS:
-    35     33814   72849910.0   2154.4     49.6                  append_spec_data(block_type,fluxos, block, precision)
-    36                                                       else:
-    37       153      41232.0    269.5      0.0                  meta.update(getattrs(block, KEY_ATTRS.get(block_type)))
-    38         1         11.0     11.0      0.0      meta[&#34;gps&#34;] = gps
-    39         1        296.0    296.0      0.0      meta[&#34;spectrum&#34;] = L(fluxos.values())
-    40         1          5.0      5.0      0.0      return meta</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dados</span><span class="p">[</span><span class="s1">&#39;spectrum&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">matrix</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Frequencies</th>
+      <th>70.000000</th>
+      <th>70.019541</th>
+      <th>70.039082</th>
+      <th>70.058622</th>
+      <th>70.078163</th>
+      <th>70.097704</th>
+      <th>70.117245</th>
+      <th>70.136786</th>
+      <th>70.156326</th>
+      <th>70.175867</th>
+      <th>...</th>
+      <th>109.824133</th>
+      <th>109.843674</th>
+      <th>109.863214</th>
+      <th>109.882755</th>
+      <th>109.902296</th>
+      <th>109.921837</th>
+      <th>109.941378</th>
+      <th>109.960918</th>
+      <th>109.980459</th>
+      <th>110.000000</th>
+    </tr>
+    <tr>
+      <th>Time</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2020-12-01 15:34:21.578869</th>
+      <td>-110.5</td>
+      <td>-97.5</td>
+      <td>-98.5</td>
+      <td>-87.0</td>
+      <td>-83.5</td>
+      <td>-84.5</td>
+      <td>-87.0</td>
+      <td>-90.0</td>
+      <td>-91.0</td>
+      <td>-89.5</td>
+      <td>...</td>
+      <td>-87.0</td>
+      <td>-93.0</td>
+      <td>-85.0</td>
+      <td>-82.5</td>
+      <td>-85.0</td>
+      <td>-95.0</td>
+      <td>-86.5</td>
+      <td>-85.5</td>
+      <td>-84.5</td>
+      <td>-83.5</td>
+    </tr>
+    <tr>
+      <th>2020-12-01 15:34:21.714679</th>
+      <td>-85.0</td>
+      <td>-82.0</td>
+      <td>-83.5</td>
+      <td>-84.0</td>
+      <td>-83.5</td>
+      <td>-84.5</td>
+      <td>-87.0</td>
+      <td>-90.0</td>
+      <td>-87.5</td>
+      <td>-83.5</td>
+      <td>...</td>
+      <td>-87.0</td>
+      <td>-89.0</td>
+      <td>-85.0</td>
+      <td>-82.5</td>
+      <td>-85.0</td>
+      <td>-91.5</td>
+      <td>-86.5</td>
+      <td>-85.5</td>
+      <td>-81.5</td>
+      <td>-81.5</td>
+    </tr>
+    <tr>
+      <th>2020-12-01 15:34:21.920160</th>
+      <td>-95.5</td>
+      <td>-99.0</td>
+      <td>-90.5</td>
+      <td>-87.5</td>
+      <td>-88.5</td>
+      <td>-87.0</td>
+      <td>-89.0</td>
+      <td>-92.0</td>
+      <td>-87.5</td>
+      <td>-87.5</td>
+      <td>...</td>
+      <td>-86.0</td>
+      <td>-86.5</td>
+      <td>-88.0</td>
+      <td>-93.5</td>
+      <td>-89.5</td>
+      <td>-84.5</td>
+      <td>-79.0</td>
+      <td>-78.5</td>
+      <td>-79.0</td>
+      <td>-82.0</td>
+    </tr>
+    <tr>
+      <th>2020-12-01 15:34:22.134015</th>
+      <td>-88.0</td>
+      <td>-87.0</td>
+      <td>-85.5</td>
+      <td>-86.5</td>
+      <td>-84.5</td>
+      <td>-83.5</td>
+      <td>-84.5</td>
+      <td>-83.5</td>
+      <td>-84.5</td>
+      <td>-86.5</td>
+      <td>...</td>
+      <td>-86.0</td>
+      <td>-86.5</td>
+      <td>-88.0</td>
+      <td>-89.5</td>
+      <td>-89.5</td>
+      <td>-84.5</td>
+      <td>-79.0</td>
+      <td>-78.5</td>
+      <td>-79.0</td>
+      <td>-82.0</td>
+    </tr>
+    <tr>
+      <th>2020-12-01 15:34:22.346173</th>
+      <td>-85.0</td>
+      <td>-82.0</td>
+      <td>-83.5</td>
+      <td>-84.0</td>
+      <td>-83.5</td>
+      <td>-83.5</td>
+      <td>-84.5</td>
+      <td>-83.5</td>
+      <td>-84.5</td>
+      <td>-83.5</td>
+      <td>...</td>
+      <td>-83.0</td>
+      <td>-84.0</td>
+      <td>-85.0</td>
+      <td>-82.5</td>
+      <td>-85.0</td>
+      <td>-82.0</td>
+      <td>-79.0</td>
+      <td>-78.5</td>
+      <td>-79.0</td>
+      <td>-81.5</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2020-12-01 16:13:53.588775</th>
+      <td>-87.5</td>
+      <td>-86.0</td>
+      <td>-85.5</td>
+      <td>-88.0</td>
+      <td>-98.0</td>
+      <td>-91.0</td>
+      <td>-87.0</td>
+      <td>-87.5</td>
+      <td>-84.5</td>
+      <td>-81.5</td>
+      <td>...</td>
+      <td>-87.5</td>
+      <td>-88.5</td>
+      <td>-84.5</td>
+      <td>-81.5</td>
+      <td>-81.0</td>
+      <td>-81.5</td>
+      <td>-85.0</td>
+      <td>-80.0</td>
+      <td>-79.0</td>
+      <td>-79.0</td>
+    </tr>
+    <tr>
+      <th>2020-12-01 16:13:53.640917</th>
+      <td>-89.0</td>
+      <td>-91.5</td>
+      <td>-94.0</td>
+      <td>-98.0</td>
+      <td>-87.5</td>
+      <td>-88.0</td>
+      <td>-88.0</td>
+      <td>-90.0</td>
+      <td>-89.5</td>
+      <td>-90.5</td>
+      <td>...</td>
+      <td>-86.0</td>
+      <td>-91.5</td>
+      <td>-101.0</td>
+      <td>-104.5</td>
+      <td>-96.5</td>
+      <td>-99.5</td>
+      <td>-97.0</td>
+      <td>-108.5</td>
+      <td>-92.0</td>
+      <td>-85.0</td>
+    </tr>
+    <tr>
+      <th>2020-12-01 16:13:53.688087</th>
+      <td>-84.0</td>
+      <td>-85.0</td>
+      <td>-81.5</td>
+      <td>-80.5</td>
+      <td>-82.5</td>
+      <td>-83.5</td>
+      <td>-83.0</td>
+      <td>-82.5</td>
+      <td>-83.0</td>
+      <td>-81.5</td>
+      <td>...</td>
+      <td>-82.5</td>
+      <td>-82.5</td>
+      <td>-82.5</td>
+      <td>-81.5</td>
+      <td>-81.0</td>
+      <td>-81.5</td>
+      <td>-79.0</td>
+      <td>-79.5</td>
+      <td>-79.0</td>
+      <td>-78.0</td>
+    </tr>
+    <tr>
+      <th>2020-12-01 16:13:53.744093</th>
+      <td>-90.0</td>
+      <td>-85.5</td>
+      <td>-84.5</td>
+      <td>-85.5</td>
+      <td>-93.0</td>
+      <td>-86.0</td>
+      <td>-87.0</td>
+      <td>-91.0</td>
+      <td>-91.5</td>
+      <td>-90.5</td>
+      <td>...</td>
+      <td>-96.0</td>
+      <td>-108.5</td>
+      <td>-99.0</td>
+      <td>-92.5</td>
+      <td>-92.0</td>
+      <td>-105.0</td>
+      <td>-85.0</td>
+      <td>-98.5</td>
+      <td>-87.5</td>
+      <td>-83.0</td>
+    </tr>
+    <tr>
+      <th>2020-12-01 16:13:53.784548</th>
+      <td>-86.5</td>
+      <td>-85.5</td>
+      <td>-84.5</td>
+      <td>-85.5</td>
+      <td>-88.5</td>
+      <td>-86.0</td>
+      <td>-87.0</td>
+      <td>-83.5</td>
+      <td>-83.5</td>
+      <td>-85.0</td>
+      <td>...</td>
+      <td>-90.5</td>
+      <td>-87.5</td>
+      <td>-91.0</td>
+      <td>-92.5</td>
+      <td>-89.0</td>
+      <td>-85.5</td>
+      <td>-85.0</td>
+      <td>-87.0</td>
+      <td>-84.0</td>
+      <td>-83.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>46382 rows × 2048 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="n">cython</span> <span class="o">--</span><span class="n">annotate</span>
+<span class="k">cimport</span> <span class="nn">cython</span>
+
+<span class="k">ctypedef</span> <span class="nb">object</span> <span class="n">CrfsGPS</span>
+
+<span class="nd">@cython</span><span class="o">.</span><span class="n">boundscheck</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+<span class="nd">@cython</span><span class="o">.</span><span class="n">wraparound</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
 </div>
 </div>
 

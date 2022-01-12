@@ -8,7 +8,7 @@ ctypedef np.float32_t DTYPE_t
 @cython.boundscheck(False)
 @cython.wraparound(False)
 cpdef np.ndarray[DTYPE_t, ndim=2] cy_extract_compressed(list data, int rows, int cols, int thresh, float MIN):
-    cdef np.ndarray[DTYPE_t, ndim=2] decoded = np.full((rows, cols), thresh, np.float32)
+    cdef np.ndarray[DTYPE_t, ndim=2] decoded = np.full((rows, cols), thresh - 1, np.float32)
     cdef const unsigned char[:] src
     cdef int RUN = 255
     cdef int ESC = 254

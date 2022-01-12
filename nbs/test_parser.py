@@ -5,7 +5,7 @@ from time import time
 from pathlib import Path                                                                                                
 
 inicio = time()
-for folder in Path('binfiles').iterdir():
+for folder in Path('binfiles/Erro').iterdir():
     print(f'Teste para arquivos do tipo {folder.name}')
     for file in get_files(folder, '.bin'):
         print(f'\t{file.name}')

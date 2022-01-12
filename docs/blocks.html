@@ -398,7 +398,7 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:</span><span class="mi">4</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">bin2str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">4</span> <span class="p">:</span> <span class="mi">4</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">textlen</span><span class="p">])</span>
 </pre></div>
 
@@ -1148,7 +1148,7 @@ If a file is used for the output from more than one unit, multiple footers may a
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:</span><span class="mi">4</span><span class="p">])</span>
 
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">bin2str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">4</span> <span class="p">:</span> <span class="mi">4</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">textlen</span><span class="p">])</span>
 </pre></div>
 
@@ -1303,7 +1303,7 @@ If a file is used for the output from more than one unit, multiple footers may a
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">BYTES_24</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
 
     <span class="nd">@cached</span>
-    <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;F2 - Texto armazenado no bloco sem os bytes nulos ao final&quot;&quot;&quot;</span>
         <span class="n">start</span> <span class="o">=</span> <span class="n">BYTES_24</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_len</span>
@@ -1822,6 +1822,10 @@ If a file is used for the output from more than one unit, multiple footers may a
         <span class="p">)</span>
 
     <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># To maintain compatibility with Other Blocks</span>
+        <span class="k">return</span> <span class="s1">&#39;dBm&#39;</span>
+
+    <span class="nd">@cached</span>
     <span class="k">def</span> <span class="nf">start_mega</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">16</span><span class="p">])</span>
 
@@ -1950,7 +1954,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType61" class="doc_header"><code>class</code> <code>DType61</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L967" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType61</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType61" class="doc_header"><code>class</code> <code>DType61</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L971" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType61</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 61 – Threshold Compressed Data</p>
 
@@ -2041,7 +2045,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType62" class="doc_header"><code>class</code> <code>DType62</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1013" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType62</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType62" class="doc_header"><code>class</code> <code>DType62</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1017" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType62</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Inherit from this to have all attr accesses in <code>self._xtra</code> passed down to <code>self.default</code></p>
 
@@ -2190,7 +2194,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType63" class="doc_header"><code>class</code> <code>DType63</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1118" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType63</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType63" class="doc_header"><code>class</code> <code>DType63</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1122" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType63</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 63 – Spectral Data - Frequencies and its levels</p>
 <p>The Following attributes are delegated to the <code>self.default</code> object</p>
@@ -2402,7 +2406,7 @@ Total Bytes = 52 + (4 * NTUN) + NAGC + NDATA + NPAD</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType64" class="doc_header"><code>class</code> <code>DType64</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1273" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType64</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType64" class="doc_header"><code>class</code> <code>DType64</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1277" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType64</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>This is very similar to type 63, with the addition of threshold power level and number of points before compression,
 and obviously a compressed spectrum vector replacing the uncompressed</p>
@@ -2511,7 +2515,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType65" class="doc_header"><code>class</code> <code>DType65</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1335" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType65</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType65" class="doc_header"><code>class</code> <code>DType65</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1339" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType65</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>O Bloco do tipo 65 carrega dados de Taxa de Ocupação Espectral por Canal de Frequência (ITU-R SM.1880).</p>
 <p>O tamanho total em bytes é (48 + NDATA + NPAD)</p>
@@ -2714,7 +2718,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType66" class="doc_header"><code>class</code> <code>DType66</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1462" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType66</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType66" class="doc_header"><code>class</code> <code>DType66</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1466" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType66</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 66 – 16 bit IQ Data</p>
 
@@ -2841,7 +2845,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType67" class="doc_header"><code>class</code> <code>DType67</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1544" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType67</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType67" class="doc_header"><code>class</code> <code>DType67</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1548" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType67</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 67 – Spectral Data</p>
 
@@ -3062,7 +3066,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType68" class="doc_header"><code>class</code> <code>DType68</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1720" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType68</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType68" class="doc_header"><code>class</code> <code>DType68</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1724" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType68</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 68 – Threshold Compressed Data</p>
 
@@ -3157,7 +3161,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType69" class="doc_header"><code>class</code> <code>DType69</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1770" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType69</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType69" class="doc_header"><code>class</code> <code>DType69</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1774" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType69</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 69 – Frequency Channel Occupancy (ITU-R SM.1880)</p>
 

@@ -144,7 +144,7 @@ class DType3(GetAttr):
         return bin2int(self.data[:4])
 
     @cached
-    def text(self) -> str:
+    def description(self) -> str:
         return bin2str(self.data[4 : 4 + self.textlen])
 
 # Cell
@@ -525,7 +525,7 @@ class DType22(GetAttr):
         return bin2int(self.data[:4])
 
     @cached
-    def text(self) -> str:
+    def description(self) -> str:
         return bin2str(self.data[4 : 4 + self.textlen])
 
 # Cell
@@ -567,7 +567,7 @@ class DType24(GetAttr):
         return bin2int(self.data[BYTES_24[1]])
 
     @cached
-    def text(self) -> str:
+    def description(self) -> str:
         """F2 - Texto armazenado no bloco sem os bytes nulos ao final"""
         start = BYTES_24[1].stop
         stop = start + self.text_len
@@ -858,6 +858,10 @@ class DType60(GetAttr):
         return np.datetime64(
             f"{self._walldate}T{self._walltime}.{int(self._wallnano/1000)}"
         )
+
+    @cached
+    def dtype(self): # To maintain compatibility with Other Blocks
+        return 'dBm'
 
     @cached
     def start_mega(self) -> int:
