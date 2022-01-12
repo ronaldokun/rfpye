@@ -155,7 +155,7 @@ class CrfsGPS:
         return self._latitude[key], self._longitude[key], self._altitude[key], self._num_satellites[key]
 
     def __iter__(self):
-        return zip(self._latitude, self._longitude)
+        return zip(self._latitude, self._longitude, self._altitude, self._num_satellites)
 
     @cached
     def _gps_datetime(self):
@@ -209,7 +209,7 @@ class CrfsSpectrum(GetAttr):
         return self.timestamp[key], self.levels[key]
 
     def __iter__(self):
-        return iter(self.levels)
+        return zip(self.timestamp, self.levels)
 
     def __len__(self):
         return len(self._data)
@@ -273,6 +273,6 @@ def append_spec_data(block_type, fluxos, block, precision=np.float32) -> None:
     """Append the spectrum data to the fluxos dict"""
     keys, vals = getattrs(block, KEY_ATTRS.get(block_type), as_tuple=True)
     if vals not in fluxos:
-        metadata = make_dataclass('SpecData', fields=[(k,type(k)) for k in keys])
+        metadata = make_dataclass('Spectrum', fields=[(k,type(k)) for k in keys])
         fluxos[vals] = CrfsSpectrum(metadata(*vals), precision)
     fluxos[vals]._data.append(block)
