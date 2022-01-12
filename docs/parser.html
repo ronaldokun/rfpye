@@ -53,6 +53,25 @@ nb_path: "nbs\01_parser.ipynb"
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The autoreload extension is already loaded. To reload it, use:
+  %reload_ext autoreload
+The line_profiler extension is already loaded. To reload it, use:
+  %reload_ext line_profiler
+The cython extension is already loaded. To reload it, use:
+  %reload_ext cython
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
     {% endraw %}
 
@@ -122,7 +141,7 @@ nb_path: "nbs\01_parser.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="buffer2base_block" class="doc_header"><code>buffer2base_block</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L63" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>buffer2base_block</code>(<strong><code>file</code></strong>, <strong><code>next_block</code></strong>:<code>int</code>)</p>
+<h4 id="buffer2base_block" class="doc_header"><code>buffer2base_block</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L72" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>buffer2base_block</code>(<strong><code>file</code></strong>, <strong><code>next_block</code></strong>:<code>int</code>)</p>
 </blockquote>
 <p>Receives an opened file buffer from the bin file and returns a dataclass with the attributes
 'thread_id', 'size', 'type', 'data', 'checksum' or None in case any error is identified.</p>
@@ -162,7 +181,7 @@ nb_path: "nbs\01_parser.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="create_block" class="doc_header"><code>create_block</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L76" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_block</code>(<strong><code>file</code></strong>, <strong><code>next_block</code></strong>)</p>
+<h4 id="create_block" class="doc_header"><code>create_block</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L85" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_block</code>(<strong><code>file</code></strong>, <strong><code>next_block</code></strong>)</p>
 </blockquote>
 <p>Receives a byte_block, and converts it into one of the main classes
 Args: byte_block: A byte block directly returned from the file
@@ -203,7 +222,7 @@ Returns: The Instance of the Block Type or None in case of error</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="parse_bin" class="doc_header"><code>parse_bin</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L97" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parse_bin</code>(<strong><code>bin_file</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>], <strong><code>precision</code></strong>=<em><code>float32</code></em>)</p>
+<h4 id="parse_bin" class="doc_header"><code>parse_bin</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L104" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parse_bin</code>(<strong><code>bin_file</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>], <strong><code>precision</code></strong>=<em><code>float32</code></em>)</p>
 </blockquote>
 <p>Receives a CRFS binfile and returns a dictionary with the file metadata, a GPS Class and a list with the different Spectrum Classes
 A block is a piece of the .bin file with a known start and end and that contains different types of information.
@@ -242,7 +261,7 @@ Args:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="CrfsGPS" class="doc_header"><code>class</code> <code>CrfsGPS</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L139" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CrfsGPS</code>()</p>
+<h2 id="CrfsGPS" class="doc_header"><code>class</code> <code>CrfsGPS</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L147" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CrfsGPS</code>()</p>
 </blockquote>
 <p>Class with the GPS Attributes from the CRFS Bin File</p>
 
@@ -267,7 +286,7 @@ Args:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="CrfsSpectrum" class="doc_header"><code>class</code> <code>CrfsSpectrum</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L185" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CrfsSpectrum</code>(<strong><code>metadata</code></strong>, <strong><code>precision</code></strong>=<em><code>float32</code></em>) :: <code>GetAttr</code></p>
+<h2 id="CrfsSpectrum" class="doc_header"><code>class</code> <code>CrfsSpectrum</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L193" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CrfsSpectrum</code>(<strong><code>metadata</code></strong>, <strong><code>precision</code></strong>=<em><code>float32</code></em>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Class with the metadata and levels of a spectrum block from a CRFS Bin File</p>
 
@@ -419,7 +438,7 @@ Args:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="append_spec_data" class="doc_header"><code>append_spec_data</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L252" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>append_spec_data</code>(<strong><code>block_type</code></strong>, <strong><code>fluxos</code></strong>, <strong><code>block</code></strong>, <strong><code>precision</code></strong>=<em><code>float32</code></em>)</p>
+<h4 id="append_spec_data" class="doc_header"><code>append_spec_data</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L260" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>append_spec_data</code>(<strong><code>block_type</code></strong>, <strong><code>fluxos</code></strong>, <strong><code>block</code></strong>, <strong><code>precision</code></strong>=<em><code>float32</code></em>)</p>
 </blockquote>
 <p>Append the spectrum data to the fluxos dict</p>
 
@@ -447,11 +466,27 @@ Args:
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">file</span> <span class="o">=</span> <span class="n">get_files</span><span class="p">(</span><span class="s1">&#39;binfiles/Outros&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">dados</span> <span class="o">=</span> <span class="n">parse_bin</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">file</span> <span class="o">=</span> <span class="n">get_files</span><span class="p">(</span><span class="s1">&#39;binfiles/Erro&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">file</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Path(&#39;binfiles/Erro/rfeye002213_CheckSum&amp;EOF.bin&#39;)</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -465,7 +500,42 @@ Args:
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">dados</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dados</span> <span class="o">=</span> <span class="n">parse_bin</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+<span class="n">dados</span><span class="p">[</span><span class="s1">&#39;spectrum&#39;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(#22) [SpecData(type=67, thread_id=300, description=&#39;PMEC 2021 (Faixa 1 de 10).&#39;, start_mega=105, stop_mega=140, dtype=&#39;dBm&#39;, ndata=3584, bw=18457, processing=&#39;peak&#39;, antuid=0),SpecData(type=67, thread_id=310, description=&#39;PMEC 2021 (Faixa 2 de 10).&#39;, start_mega=155, stop_mega=165, dtype=&#39;dBm&#39;, ndata=1024, bw=18457, processing=&#39;peak&#39;, antuid=0),SpecData(type=67, thread_id=100, description=&#39;PRD 2021 (Faixa principal 1 de 4).&#39;, start_mega=50, stop_mega=90, dtype=&#39;dBμV/m&#39;, ndata=1024, bw=73828, processing=&#39;peak&#39;, antuid=0),SpecData(type=67, thread_id=110, description=&#39;PRD 2021 (Faixa principal 2 de 4).&#39;, start_mega=70, stop_mega=110, dtype=&#39;dBμV/m&#39;, ndata=1024, bw=73828, processing=&#39;peak&#39;, antuid=0),SpecData(type=67, thread_id=120, description=&#39;PRD 2021 (Faixa principal 3 de 4).&#39;, start_mega=170, stop_mega=220, dtype=&#39;dBμV/m&#39;, ndata=1280, bw=73828, processing=&#39;peak&#39;, antuid=0),SpecData(type=67, thread_id=130, description=&#39;PRD 2021 (Faixa principal 4 de 4).&#39;, start_mega=470, stop_mega=700, dtype=&#39;dBμV/m&#39;, ndata=5888, bw=73828, processing=&#39;peak&#39;, antuid=0),SpecData(type=67, thread_id=200, description=&#39;PMEF 2021 (Faixa 1 de 6).&#39;, start_mega=700, stop_mega=960, dtype=&#39;dBm&#39;, ndata=6656, bw=73828, processing=&#39;peak&#39;, antuid=0),SpecData(type=67, thread_id=210, description=&#39;PMEF 2021 (Faixa 2 de 6).&#39;, start_mega=1710, stop_mega=1980, dtype=&#39;dBm&#39;, ndata=6912, bw=73828, processing=&#39;peak&#39;, antuid=0),SpecData(type=67, thread_id=220, description=&#39;PMEF 2021 (Faixa 3 de 6).&#39;, start_mega=2100, stop_mega=2169, dtype=&#39;dBm&#39;, ndata=1792, bw=73828, processing=&#39;peak&#39;, antuid=0),SpecData(type=67, thread_id=230, description=&#39;PMEF 2021 (Faixa 4 de 6).&#39;, start_mega=2290, stop_mega=2390, dtype=&#39;dBm&#39;, ndata=2560, bw=73828, processing=&#39;peak&#39;, antuid=0)...]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">dados</span><span class="p">[</span><span class="s1">&#39;spectrum&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">attrgot</span><span class="p">(</span><span class="s1">&#39;thread_id&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dados</span><span class="p">[</span><span class="s1">&#39;spectrum&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="nb">len</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -479,20 +549,19 @@ Args:
 
 
 <div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span>
-    <span style="color: #008000; text-decoration-color: #008000">'filename'</span>: <span style="color: #008000; text-decoration-color: #008000">'201201_T153421_OneThreadID.bin'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'file_version'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">22</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'string'</span>: <span style="color: #008000; text-decoration-color: #008000">'CRFS DATA FILE V022'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'hostname'</span>: <span style="color: #008000; text-decoration-color: #008000">'rfeye002292'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'method'</span>: <span style="color: #008000; text-decoration-color: #008000">'CRFS default method'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'unit_info'</span>: <span style="color: #008000; text-decoration-color: #008000">'CRFS default unit info'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'file_number'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'identifier'</span>: <span style="color: #008000; text-decoration-color: #008000">'LOGGER_VERSION'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'gps'</span>: GPS Data - Median of Coordinates: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-1.00000</span>:<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-1.00000</span> Altitude: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-1.00</span> #Satellites: 
-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'spectrum'</span>: <span style="font-weight: bold">[</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SpecData</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">type</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">63</span>, <span style="color: #808000; text-decoration-color: #808000">thread_id</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">110</span>, <span style="color: #808000; text-decoration-color: #808000">description</span>=<span style="color: #008000; text-decoration-color: #008000">'Peak'</span>, <span style="color: #808000; text-decoration-color: #808000">start_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>, 
-<span style="color: #808000; text-decoration-color: #808000">stop_mega</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">110</span>, <span style="color: #808000; text-decoration-color: #808000">dtype</span>=<span style="color: #008000; text-decoration-color: #008000">'dBm'</span>, <span style="color: #808000; text-decoration-color: #808000">ndata</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2048</span>, <span style="color: #808000; text-decoration-color: #808000">processing</span>=<span style="color: #008000; text-decoration-color: #008000">'peak'</span>, <span style="color: #808000; text-decoration-color: #808000">antuid</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span><span style="font-weight: bold">)]</span>
-<span style="font-weight: bold">}</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">300</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">310</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">100</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">110</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">120</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">130</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">200</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">210</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">220</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">230</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">240</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">250</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">320</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">330</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">340</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">350</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">360</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">370</span>, 
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">380</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">390</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">310</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">300</span><span style="font-weight: bold">]</span>
+</pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">745</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">744</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">149</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">149</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">149</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">149</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">49</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">49</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">49</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">49</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">49</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">49</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">49</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">49</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">49</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">49</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">49</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">49</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">49</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">49</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">]</span>
 </pre>
 
 </div>
@@ -544,27 +613,27 @@ Args:
   <thead>
     <tr style="text-align: right;">
       <th>Frequencies</th>
-      <th>70.000000</th>
-      <th>70.019541</th>
-      <th>70.039082</th>
-      <th>70.058622</th>
-      <th>70.078163</th>
-      <th>70.097704</th>
-      <th>70.117245</th>
-      <th>70.136786</th>
-      <th>70.156326</th>
-      <th>70.175867</th>
+      <th>105.000000</th>
+      <th>105.009768</th>
+      <th>105.019537</th>
+      <th>105.029305</th>
+      <th>105.039073</th>
+      <th>105.048842</th>
+      <th>105.058610</th>
+      <th>105.068378</th>
+      <th>105.078147</th>
+      <th>105.087915</th>
       <th>...</th>
-      <th>109.824133</th>
-      <th>109.843674</th>
-      <th>109.863214</th>
-      <th>109.882755</th>
-      <th>109.902296</th>
-      <th>109.921837</th>
-      <th>109.941378</th>
-      <th>109.960918</th>
-      <th>109.980459</th>
-      <th>110.000000</th>
+      <th>139.912085</th>
+      <th>139.921853</th>
+      <th>139.931622</th>
+      <th>139.941390</th>
+      <th>139.951158</th>
+      <th>139.960927</th>
+      <th>139.970695</th>
+      <th>139.980463</th>
+      <th>139.990232</th>
+      <th>140.000000</th>
     </tr>
     <tr>
       <th>Time</th>
@@ -593,124 +662,124 @@ Args:
   </thead>
   <tbody>
     <tr>
-      <th>2020-12-01 15:34:21.578869</th>
-      <td>-110.5</td>
-      <td>-97.5</td>
-      <td>-98.5</td>
-      <td>-87.0</td>
-      <td>-83.5</td>
-      <td>-84.5</td>
-      <td>-87.0</td>
-      <td>-90.0</td>
-      <td>-91.0</td>
-      <td>-89.5</td>
-      <td>...</td>
-      <td>-87.0</td>
-      <td>-93.0</td>
-      <td>-85.0</td>
-      <td>-82.5</td>
-      <td>-85.0</td>
-      <td>-95.0</td>
-      <td>-86.5</td>
-      <td>-85.5</td>
-      <td>-84.5</td>
-      <td>-83.5</td>
-    </tr>
-    <tr>
-      <th>2020-12-01 15:34:21.714679</th>
-      <td>-85.0</td>
-      <td>-82.0</td>
-      <td>-83.5</td>
-      <td>-84.0</td>
-      <td>-83.5</td>
-      <td>-84.5</td>
-      <td>-87.0</td>
-      <td>-90.0</td>
-      <td>-87.5</td>
-      <td>-83.5</td>
-      <td>...</td>
-      <td>-87.0</td>
-      <td>-89.0</td>
-      <td>-85.0</td>
-      <td>-82.5</td>
-      <td>-85.0</td>
-      <td>-91.5</td>
-      <td>-86.5</td>
-      <td>-85.5</td>
-      <td>-81.5</td>
-      <td>-81.5</td>
-    </tr>
-    <tr>
-      <th>2020-12-01 15:34:21.920160</th>
-      <td>-95.5</td>
-      <td>-99.0</td>
-      <td>-90.5</td>
-      <td>-87.5</td>
+      <th>2021-08-21 12:03:01.699260</th>
       <td>-88.5</td>
-      <td>-87.0</td>
-      <td>-89.0</td>
+      <td>-82.0</td>
+      <td>-73.5</td>
+      <td>-69.0</td>
+      <td>-69.5</td>
+      <td>-62.0</td>
+      <td>-50.5</td>
+      <td>-44.5</td>
+      <td>-42.0</td>
+      <td>-45.0</td>
+      <td>...</td>
+      <td>-100.5</td>
+      <td>-101.0</td>
+      <td>-106.0</td>
+      <td>-106.5</td>
+      <td>-108.0</td>
+      <td>-105.0</td>
+      <td>-102.0</td>
+      <td>-102.5</td>
+      <td>-105.0</td>
+      <td>-105.5</td>
+    </tr>
+    <tr>
+      <th>2021-08-21 12:04:01.979498</th>
+      <td>-74.0</td>
+      <td>-68.5</td>
+      <td>-68.0</td>
+      <td>-51.5</td>
+      <td>-50.0</td>
+      <td>-47.5</td>
+      <td>-45.0</td>
+      <td>-44.5</td>
+      <td>-46.0</td>
+      <td>-46.0</td>
+      <td>...</td>
+      <td>-99.5</td>
+      <td>-99.5</td>
+      <td>-99.0</td>
+      <td>-101.5</td>
+      <td>-106.0</td>
+      <td>-99.5</td>
+      <td>-101.0</td>
+      <td>-103.5</td>
+      <td>-100.5</td>
+      <td>-103.0</td>
+    </tr>
+    <tr>
+      <th>2021-08-21 12:05:01.919943</th>
+      <td>-79.0</td>
+      <td>-75.5</td>
+      <td>-70.5</td>
+      <td>-52.0</td>
+      <td>-46.5</td>
+      <td>-44.5</td>
+      <td>-45.5</td>
+      <td>-46.0</td>
+      <td>-41.5</td>
+      <td>-43.5</td>
+      <td>...</td>
+      <td>-95.5</td>
+      <td>-97.0</td>
       <td>-92.0</td>
-      <td>-87.5</td>
-      <td>-87.5</td>
-      <td>...</td>
-      <td>-86.0</td>
-      <td>-86.5</td>
-      <td>-88.0</td>
       <td>-93.5</td>
-      <td>-89.5</td>
-      <td>-84.5</td>
-      <td>-79.0</td>
-      <td>-78.5</td>
-      <td>-79.0</td>
-      <td>-82.0</td>
+      <td>-98.0</td>
+      <td>-100.5</td>
+      <td>-105.5</td>
+      <td>-99.0</td>
+      <td>-101.0</td>
+      <td>-108.0</td>
     </tr>
     <tr>
-      <th>2020-12-01 15:34:22.134015</th>
-      <td>-88.0</td>
-      <td>-87.0</td>
-      <td>-85.5</td>
-      <td>-86.5</td>
-      <td>-84.5</td>
-      <td>-83.5</td>
-      <td>-84.5</td>
-      <td>-83.5</td>
-      <td>-84.5</td>
-      <td>-86.5</td>
+      <th>2021-08-21 12:06:01.349459</th>
+      <td>-93.0</td>
+      <td>-90.5</td>
+      <td>-81.0</td>
+      <td>-74.0</td>
+      <td>-67.5</td>
+      <td>-57.5</td>
+      <td>-48.0</td>
+      <td>-41.0</td>
+      <td>-39.5</td>
+      <td>-42.0</td>
       <td>...</td>
-      <td>-86.0</td>
-      <td>-86.5</td>
-      <td>-88.0</td>
-      <td>-89.5</td>
-      <td>-89.5</td>
-      <td>-84.5</td>
-      <td>-79.0</td>
-      <td>-78.5</td>
-      <td>-79.0</td>
-      <td>-82.0</td>
+      <td>-94.0</td>
+      <td>-99.5</td>
+      <td>-101.5</td>
+      <td>-99.5</td>
+      <td>-104.0</td>
+      <td>-118.0</td>
+      <td>-107.0</td>
+      <td>-108.0</td>
+      <td>-105.0</td>
+      <td>-104.5</td>
     </tr>
     <tr>
-      <th>2020-12-01 15:34:22.346173</th>
+      <th>2021-08-21 12:07:01.279492</th>
       <td>-85.0</td>
-      <td>-82.0</td>
-      <td>-83.5</td>
-      <td>-84.0</td>
-      <td>-83.5</td>
-      <td>-83.5</td>
-      <td>-84.5</td>
-      <td>-83.5</td>
-      <td>-84.5</td>
-      <td>-83.5</td>
+      <td>-80.5</td>
+      <td>-74.0</td>
+      <td>-70.5</td>
+      <td>-63.0</td>
+      <td>-48.5</td>
+      <td>-41.5</td>
+      <td>-41.0</td>
+      <td>-42.5</td>
+      <td>-47.0</td>
       <td>...</td>
-      <td>-83.0</td>
-      <td>-84.0</td>
-      <td>-85.0</td>
-      <td>-82.5</td>
-      <td>-85.0</td>
-      <td>-82.0</td>
-      <td>-79.0</td>
-      <td>-78.5</td>
-      <td>-79.0</td>
-      <td>-81.5</td>
+      <td>-96.5</td>
+      <td>-98.0</td>
+      <td>-101.0</td>
+      <td>-99.5</td>
+      <td>-101.0</td>
+      <td>-109.5</td>
+      <td>-101.5</td>
+      <td>-100.5</td>
+      <td>-101.0</td>
+      <td>-103.0</td>
     </tr>
     <tr>
       <th>...</th>
@@ -737,128 +806,128 @@ Args:
       <td>...</td>
     </tr>
     <tr>
-      <th>2020-12-01 16:13:53.588775</th>
-      <td>-87.5</td>
-      <td>-86.0</td>
-      <td>-85.5</td>
-      <td>-88.0</td>
-      <td>-98.0</td>
-      <td>-91.0</td>
-      <td>-87.0</td>
-      <td>-87.5</td>
-      <td>-84.5</td>
-      <td>-81.5</td>
+      <th>2021-08-22 00:23:01.491219</th>
+      <td>-65.5</td>
+      <td>-59.5</td>
+      <td>-55.5</td>
+      <td>-54.5</td>
+      <td>-53.0</td>
+      <td>-47.5</td>
+      <td>-44.0</td>
+      <td>-48.0</td>
+      <td>-52.0</td>
+      <td>-52.5</td>
       <td>...</td>
-      <td>-87.5</td>
-      <td>-88.5</td>
-      <td>-84.5</td>
-      <td>-81.5</td>
-      <td>-81.0</td>
-      <td>-81.5</td>
-      <td>-85.0</td>
-      <td>-80.0</td>
-      <td>-79.0</td>
-      <td>-79.0</td>
-    </tr>
-    <tr>
-      <th>2020-12-01 16:13:53.640917</th>
-      <td>-89.0</td>
-      <td>-91.5</td>
-      <td>-94.0</td>
-      <td>-98.0</td>
-      <td>-87.5</td>
-      <td>-88.0</td>
-      <td>-88.0</td>
-      <td>-90.0</td>
-      <td>-89.5</td>
-      <td>-90.5</td>
-      <td>...</td>
-      <td>-86.0</td>
-      <td>-91.5</td>
-      <td>-101.0</td>
-      <td>-104.5</td>
-      <td>-96.5</td>
-      <td>-99.5</td>
-      <td>-97.0</td>
-      <td>-108.5</td>
-      <td>-92.0</td>
-      <td>-85.0</td>
-    </tr>
-    <tr>
-      <th>2020-12-01 16:13:53.688087</th>
-      <td>-84.0</td>
-      <td>-85.0</td>
-      <td>-81.5</td>
-      <td>-80.5</td>
-      <td>-82.5</td>
-      <td>-83.5</td>
-      <td>-83.0</td>
-      <td>-82.5</td>
-      <td>-83.0</td>
-      <td>-81.5</td>
-      <td>...</td>
-      <td>-82.5</td>
-      <td>-82.5</td>
-      <td>-82.5</td>
-      <td>-81.5</td>
-      <td>-81.0</td>
-      <td>-81.5</td>
-      <td>-79.0</td>
-      <td>-79.5</td>
-      <td>-79.0</td>
-      <td>-78.0</td>
-    </tr>
-    <tr>
-      <th>2020-12-01 16:13:53.744093</th>
-      <td>-90.0</td>
-      <td>-85.5</td>
-      <td>-84.5</td>
-      <td>-85.5</td>
-      <td>-93.0</td>
-      <td>-86.0</td>
-      <td>-87.0</td>
-      <td>-91.0</td>
-      <td>-91.5</td>
-      <td>-90.5</td>
-      <td>...</td>
-      <td>-96.0</td>
-      <td>-108.5</td>
-      <td>-99.0</td>
-      <td>-92.5</td>
-      <td>-92.0</td>
+      <td>-109.0</td>
       <td>-105.0</td>
-      <td>-85.0</td>
-      <td>-98.5</td>
-      <td>-87.5</td>
-      <td>-83.0</td>
+      <td>-103.0</td>
+      <td>-99.5</td>
+      <td>-101.0</td>
+      <td>-104.0</td>
+      <td>-104.5</td>
+      <td>-105.5</td>
+      <td>-106.5</td>
+      <td>-98.0</td>
     </tr>
     <tr>
-      <th>2020-12-01 16:13:53.784548</th>
-      <td>-86.5</td>
-      <td>-85.5</td>
-      <td>-84.5</td>
-      <td>-85.5</td>
-      <td>-88.5</td>
-      <td>-86.0</td>
-      <td>-87.0</td>
-      <td>-83.5</td>
-      <td>-83.5</td>
-      <td>-85.0</td>
+      <th>2021-08-22 00:24:01.481216</th>
+      <td>-64.5</td>
+      <td>-63.0</td>
+      <td>-59.0</td>
+      <td>-50.5</td>
+      <td>-45.0</td>
+      <td>-43.5</td>
+      <td>-47.0</td>
+      <td>-53.5</td>
+      <td>-54.0</td>
+      <td>-62.5</td>
       <td>...</td>
-      <td>-90.5</td>
-      <td>-87.5</td>
-      <td>-91.0</td>
+      <td>-105.5</td>
+      <td>-104.0</td>
+      <td>-104.0</td>
+      <td>-99.5</td>
+      <td>-97.5</td>
+      <td>-97.5</td>
+      <td>-105.5</td>
+      <td>-105.5</td>
+      <td>-107.0</td>
+      <td>-104.5</td>
+    </tr>
+    <tr>
+      <th>2021-08-22 00:25:01.651117</th>
+      <td>-103.5</td>
+      <td>-99.5</td>
       <td>-92.5</td>
-      <td>-89.0</td>
-      <td>-85.5</td>
-      <td>-85.0</td>
-      <td>-87.0</td>
-      <td>-84.0</td>
-      <td>-83.0</td>
+      <td>-88.0</td>
+      <td>-81.5</td>
+      <td>-75.5</td>
+      <td>-70.5</td>
+      <td>-61.5</td>
+      <td>-58.5</td>
+      <td>-56.5</td>
+      <td>...</td>
+      <td>-104.0</td>
+      <td>-112.0</td>
+      <td>-118.0</td>
+      <td>-109.0</td>
+      <td>-108.5</td>
+      <td>-107.5</td>
+      <td>-105.0</td>
+      <td>-102.0</td>
+      <td>-104.0</td>
+      <td>-100.0</td>
+    </tr>
+    <tr>
+      <th>2021-08-22 00:26:00.931429</th>
+      <td>-58.0</td>
+      <td>-55.5</td>
+      <td>-51.0</td>
+      <td>-45.0</td>
+      <td>-45.5</td>
+      <td>-44.0</td>
+      <td>-45.5</td>
+      <td>-51.0</td>
+      <td>-54.0</td>
+      <td>-52.5</td>
+      <td>...</td>
+      <td>-104.0</td>
+      <td>-103.5</td>
+      <td>-103.5</td>
+      <td>-102.5</td>
+      <td>-104.5</td>
+      <td>-100.5</td>
+      <td>-107.0</td>
+      <td>-103.5</td>
+      <td>-101.0</td>
+      <td>-100.5</td>
+    </tr>
+    <tr>
+      <th>2021-08-22 00:27:01.871195</th>
+      <td>-72.0</td>
+      <td>-63.5</td>
+      <td>-57.0</td>
+      <td>-50.0</td>
+      <td>-45.0</td>
+      <td>-46.0</td>
+      <td>-45.5</td>
+      <td>-49.5</td>
+      <td>-57.0</td>
+      <td>-61.0</td>
+      <td>...</td>
+      <td>-100.0</td>
+      <td>-99.5</td>
+      <td>-99.5</td>
+      <td>-101.5</td>
+      <td>-110.0</td>
+      <td>-109.5</td>
+      <td>-103.5</td>
+      <td>-100.5</td>
+      <td>-103.0</td>
+      <td>-103.5</td>
     </tr>
   </tbody>
 </table>
-<p>46382 rows × 2048 columns</p>
+<p>745 rows × 3584 columns</p>
 </div>
 </div>
 
@@ -887,6 +956,32 @@ Args:
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+Error compiling Cython file:
+------------------------------------------------------------
+...
+
+ctypedef object CrfsGPS
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+^
+------------------------------------------------------------
+
+C:\Users\rsilva\.ipython\cython\_cython_magic_98c655412a46cff311afb5f5b8b31186.pyx:7:0: Decorators can only be followed by functions or classes
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 

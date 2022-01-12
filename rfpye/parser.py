@@ -47,7 +47,13 @@ logger.configure(**config)
 # Cell
 def evaluate_checksum(file, next_block, data_size) -> int:
     """Receives a byte_block and verify if the calculated checksum is equal to the one registed in the specific byte"""
-    checksum = np.frombuffer(file.read(4), np.uint32).item()
+    start = file.tell()
+    try:
+        checksum = np.frombuffer(file.read(4), np.uint32).item()
+    except ValueError:
+        logger.error(f"Erro na leitura do checksum")
+        file.seek(4, 1)
+        return None
     block_size = file.tell() - next_block
     file.seek(-block_size, 1) # Go back to the beginning of the block
     calculated_checksum = (
@@ -57,15 +63,18 @@ def evaluate_checksum(file, next_block, data_size) -> int:
             .item()
         )
     file.seek(4,1) # skip checksum
-    return checksum if calculated_checksum == checksum else None
+    if checksum != calculated_checksum:
+        logger.error(f"Checksum diferente: {checksum} != {calculated_checksum}. Posicao: {file.tell()}")
+        return None
+    return checksum
 
 # Cell
 def buffer2base_block(file, next_block: int) -> Union[BaseBlock, None]:
     """Receives an opened file buffer from the bin file and returns a dataclass with the attributes
     'thread_id', 'size', 'type', 'data', 'checksum' or None in case any error is identified.
     """
-    thread_id = np.frombuffer(file.read(4), np.uint32).item()
-    block_size = np.frombuffer(file.read(4), np.uint32).item()
+    thread_id = np.frombuffer(file.read(4), np.int32).item()
+    block_size = np.frombuffer(file.read(4), np.int32).item()
     block_type = np.frombuffer(file.read(4), np.int32).item()
     data_block = file.read(block_size)
     if (checksum := evaluate_checksum(file, next_block, block_size)) is None:
@@ -83,13 +92,11 @@ def create_block(file, next_block) -> Tuple:
         return None, None
     constructor = MAIN_BLOCKS.get(block_type)
     if not constructor:
-        _ = logger.log(
-            "INFO", f"This block type constructor is not implemented: {block_type}"
-        )
+        logger.warning(f"This block type constructor is not implemented: {block_type}")
         return None, None
     block = constructor(base_block)
     if getattr(block, "gerror", -1) != -1 or getattr(block, "gps_status", -1) == 0:
-        _ = logger.log("INFO", f"Block with error: {block_type}")
+        logger.error("INFO", f"Block with error: {block_type}")
         return None, None  # spectral or gps blocks with error
     return block_type, block
 
@@ -116,11 +123,12 @@ def parse_bin(bin_file: Union[str, Path], precision=np.float32) -> dict:
         meta["file_version"] = bin2int(header[:4])
         meta["string"] = bin2str(header[4:])
         file_size = file.seek(0, 2)
+        logger.info(f'Tamanho do arquivo: {file_size} bytes')
         file.seek(36, 0)
         while (next_block := file.tell()) < file_size:
             block_type, block = create_block(file, next_block)
-            if file.read(4) != b'UUUU':
-                logger.warning("End of block not found, skipping it")
+            if (eof := file.read(4)) != b'UUUU':
+                logger.error(f"EOF diferente de UUUU: {eof}, posicao: {file.tell()}")
                 continue
             if block is None:
                 continue

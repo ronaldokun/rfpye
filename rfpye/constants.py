@@ -138,7 +138,7 @@ BYTES_67: Mapping[int, slice] = {3: slice(12, 16), 4: slice(16, 20), 5: slice(20
 
 # Cell
 KEY_ATTRS = {
-    3: ('description'),
+    3: ('description',),
     4: (
         "type",
         "thread_id",
@@ -171,9 +171,9 @@ KEY_ATTRS = {
         "nddt",
     ),
     21: ("hostname", "method", "unit_info", "file_number"),
-    22: ('description'),
+    22: ('description',),
     23: (),
-    24: ('description'),
+    24: ('description',),
     40: ("gps_status",),
     41: ("identifier",),
     42: ("identifier",),
@@ -273,7 +273,7 @@ KEY_ATTRS = {
     69: (
         "type",
         "thread_id",
-        "description"
+        "description",
         "start_mega",
         "stop_mega",
         "dtype",
