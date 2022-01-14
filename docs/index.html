@@ -26,6 +26,21 @@ nb_path: "nbs\index.ipynb"
     
 <div class="cell border-box-sizing code_cell rendered">
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>C:\Users\rsilva\Miniconda3\envs\rfpye39\lib\site-packages\fastprogress\fastprogress.py:102: UserWarning: Couldn&#39;t import ipywidgets properly, progress bar will use console behavior
+  warn(&#34;Couldn&#39;t import ipywidgets properly, progress bar will use console behavior&#34;)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
     {% endraw %}
 
@@ -139,7 +154,7 @@ python -m pip install rfpye
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="parse_bin" class="doc_header"><code>parse_bin</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L103" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parse_bin</code>(<strong><code>bin_file</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>], <strong><code>precision</code></strong>=<em><code>float32</code></em>)</p>
+<h4 id="parse_bin" class="doc_header"><code>parse_bin</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L242" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parse_bin</code>(<strong><code>bin_file</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>], <strong><code>precision</code></strong>=<em><code>float32</code></em>)</p>
 </blockquote>
 <p>Receives a CRFS binfile and returns a dictionary with the file metadata, a GPS Class and a list with the different Spectrum Classes
 A block is a piece of the .bin file with a known start and end and that contains different types of information.
