@@ -138,6 +138,7 @@ BYTES_67: Mapping[int, slice] = {3: slice(12, 16), 4: slice(16, 20), 5: slice(20
 
 # Cell
 KEY_ATTRS = {
+    1: ('hostname',),
     3: ('description',),
     4: (
         "type",
@@ -174,7 +175,6 @@ KEY_ATTRS = {
     22: ('description',),
     23: (),
     24: ('description',),
-    40: ("gps_status",),
     41: ("identifier",),
     42: ("identifier",),
     51: (),

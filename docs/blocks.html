@@ -367,6 +367,199 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Data-Type-1---Unit-Information">Data Type 1 - Unit Information<a class="anchor-link" href="#Data-Type-1---Unit-Information"> </a></h3>
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="DType1" class="doc_header"><code>class</code> <code>DType1</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L137" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType1</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+</blockquote>
+<p>V.1 Unit Information</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DType1</span><span class="p">(</span><span class="n">GetAttr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;V.1 Unit Information&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">BaseBlock</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="n">block</span>
+
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">hostname</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">bin2str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:</span><span class="mi">16</span><span class="p">])</span>
+
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">text_len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">16</span><span class="p">:</span><span class="mi">20</span><span class="p">])</span>
+
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">bin2str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">20</span><span class="p">:</span><span class="mi">20</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_len</span><span class="p">])</span>
+
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">ant_type1</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">20</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_len</span> <span class="p">:</span> <span class="mi">20</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_len</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">ant_type2</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">20</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_len</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:</span> <span class="mi">20</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_len</span> <span class="o">+</span> <span class="mi">2</span><span class="p">])</span>
+
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">ant_type3</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">20</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_len</span> <span class="o">+</span> <span class="mi">2</span> <span class="p">:</span> <span class="mi">20</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_len</span> <span class="o">+</span> <span class="mi">3</span><span class="p">])</span>
+
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">ant_type4</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">20</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_len</span> <span class="o">+</span> <span class="mi">3</span> <span class="p">:</span> <span class="mi">20</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_len</span> <span class="o">+</span> <span class="mi">4</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Data-Type-2-&#8211;-GPS-Data">Data Type 2 &#8211; GPS Data<a class="anchor-link" href="#Data-Type-2-&#8211;-GPS-Data"> </a></h3>
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="DType2" class="doc_header"><code>class</code> <code>DType2</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L171" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType2</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+</blockquote>
+<p>Data Type 40 – GPS Data</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DType2</span><span class="p">(</span><span class="n">GetAttr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Data Type 40 – GPS Data&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">BaseBlock</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="n">block</span>
+
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">_gps_time</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;GPS Time. Date from GPS reading (hh/mm/ss/null)&quot;&quot;&quot;</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">bin2time</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:</span><span class="mi">4</span><span class="p">])</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">_gps_date</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;GPS Date. Date from GPS reading (dd/mm/yy/null)&quot;&quot;&quot;</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="n">bin2date</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">8</span><span class="p">])</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">date</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">date</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">date</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">gps_datetime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the GPS datetime&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_gps_date</span><span class="si">}</span><span class="s2">T</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_gps_time</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">gps_posfix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Positional Fix and status.</span>
+<span class="sd">        0=No Fix, 1=Standard GPS, 2=Differential GPS...n=others.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">8</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">gps_status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;0 = Bad, 1 = Good&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">12</span><span class="p">])</span>
+
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">num_satellites</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;F6 - Satellites in view. 0=bad, 1+ better&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">14</span><span class="p">])</span>
+
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">latitude</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Latitude = Degrees * 1000000: +ve=N, -ve=S&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">14</span><span class="p">:</span><span class="mi">18</span><span class="p">])</span> <span class="o">/</span> <span class="mi">1000000</span>
+
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">longitude</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Longitude = Degrees * 1000000: +ve=E, -ve=W&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">18</span><span class="p">:</span><span class="mi">22</span><span class="p">])</span> <span class="o">/</span> <span class="mi">1000000</span>
+
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">speed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Speed = kph * 1000&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">22</span><span class="p">:</span><span class="mi">26</span><span class="p">])</span> <span class="o">/</span> <span class="mi">1000</span>
+
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">heading</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;F7 - Heading. Degrees * 100&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">26</span><span class="p">:</span><span class="mi">28</span><span class="p">])</span> <span class="o">/</span> <span class="mi">100</span>
+
+    <span class="nd">@cached</span>
+    <span class="k">def</span> <span class="nf">altitude</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Altitude = Metres * 1000&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">bin2int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">28</span><span class="p">:</span><span class="mi">32</span><span class="p">])</span> <span class="o">/</span> <span class="mi">1000</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Data-Type-3---Data-Thread">Data Type 3 - Data Thread<a class="anchor-link" href="#Data-Type-3---Data-Thread"> </a></h3>
 </div>
 </div>
@@ -382,7 +575,7 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType3" class="doc_header"><code>class</code> <code>DType3</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L137" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType3</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType3" class="doc_header"><code>class</code> <code>DType3</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L240" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType3</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Inherit from this to have all attr accesses in <code>self._xtra</code> passed down to <code>self.default</code></p>
 
@@ -441,7 +634,7 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType4" class="doc_header"><code>class</code> <code>DType4</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L151" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType4</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType4" class="doc_header"><code>class</code> <code>DType4</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L254" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType4</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Inherit from this to have all attr accesses in <code>self._xtra</code> passed down to <code>self.default</code></p>
 
@@ -536,7 +729,7 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType5" class="doc_header"><code>class</code> <code>DType5</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L201" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType5</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType5" class="doc_header"><code>class</code> <code>DType5</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L304" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType5</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 5 - Free Text Information</p>
 
@@ -596,7 +789,7 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType6" class="doc_header"><code>class</code> <code>DType6</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L216" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType6</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType6" class="doc_header"><code>class</code> <code>DType6</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L319" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType6</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 6 – 16 bit IQ Data.Logger versions 1 to 4</p>
 
@@ -699,7 +892,7 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType7" class="doc_header"><code>class</code> <code>DType7</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L274" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType7</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType7" class="doc_header"><code>class</code> <code>DType7</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L377" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType7</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 7 - Threshold Compressed Data</p>
 <p>Args:
@@ -814,7 +1007,7 @@ F8 = (2u bytes) STOPCHAN = Stop Channel number</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType8" class="doc_header"><code>class</code> <code>DType8</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L339" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType8</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType8" class="doc_header"><code>class</code> <code>DType8</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L442" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType8</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>10.8 Data Type 8 – Frequency Channel Occupancy (ITU-R SM.1793)
 Args:
@@ -935,7 +1128,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType20" class="doc_header"><code>class</code> <code>DType20</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L411" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType20</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType20" class="doc_header"><code>class</code> <code>DType20</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L514" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType20</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 20 – File Footer - Optional</p>
 
@@ -1044,7 +1237,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType21" class="doc_header"><code>class</code> <code>DType21</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L475" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType21</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType21" class="doc_header"><code>class</code> <code>DType21</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L578" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType21</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 21 – Unit and Job Information.Logger versions 3 to 5</p>
 
@@ -1130,7 +1323,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType22" class="doc_header"><code>class</code> <code>DType22</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L516" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType22</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType22" class="doc_header"><code>class</code> <code>DType22</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L619" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType22</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 22 – Data Thread Information</p>
 
@@ -1191,7 +1384,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType23" class="doc_header"><code>class</code> <code>DType23</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L532" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType23</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType23" class="doc_header"><code>class</code> <code>DType23</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L635" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType23</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 23 - Free Text Information</p>
 
@@ -1236,29 +1429,6 @@ If a file is used for the output from more than one unit, multiple footers may a
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-intense-fg ansi-bold">~\AppData\Local\Temp/ipykernel_15928/2877060240.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span><span class="ansi-green-intense-fg ansi-bold">class</span> Dtype23<span class="ansi-yellow-intense-fg ansi-bold">(</span>GetAttr<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-fg">      2</span>     <span class="ansi-blue-intense-fg ansi-bold">&#34;&#34;&#34;Data Type 23 - Free Text Information&#34;&#34;&#34;</span>
-<span class="ansi-green-fg">      3</span>     <span class="ansi-green-intense-fg ansi-bold">def</span> __init__<span class="ansi-yellow-intense-fg ansi-bold">(</span>self<span class="ansi-yellow-intense-fg ansi-bold">,</span> block<span class="ansi-yellow-intense-fg ansi-bold">:</span> BaseBlock<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-fg">      4</span>         super<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">.</span>__init__<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">      5</span>         self<span class="ansi-yellow-intense-fg ansi-bold">.</span>default <span class="ansi-yellow-intense-fg ansi-bold">=</span> block
-
-<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name &#39;GetAttr&#39; is not defined</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
     {% endraw %}
 
@@ -1279,7 +1449,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType24" class="doc_header"><code>class</code> <code>DType24</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L552" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType24</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType24" class="doc_header"><code>class</code> <code>DType24</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L655" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType24</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 24 – Data Thread Information</p>
 
@@ -1349,7 +1519,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType40" class="doc_header"><code>class</code> <code>DType40</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L577" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType40</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType40" class="doc_header"><code>class</code> <code>DType40</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L680" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType40</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 40 – GPS Data</p>
 
@@ -1462,7 +1632,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType41" class="doc_header"><code>class</code> <code>DType41</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L645" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType41</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType41" class="doc_header"><code>class</code> <code>DType41</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L748" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType41</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 41 – Timed Free Text Information</p>
 
@@ -1549,7 +1719,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType42" class="doc_header"><code>class</code> <code>DType42</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L687" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType42</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType42" class="doc_header"><code>class</code> <code>DType42</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L790" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType42</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 42 – Timed Free Text Information</p>
 
@@ -1645,7 +1815,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType51" class="doc_header"><code>class</code> <code>DType51</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L737" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType51</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType51" class="doc_header"><code>class</code> <code>DType51</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L840" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType51</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Classifier Data</p>
 
@@ -1782,7 +1952,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType60" class="doc_header"><code>class</code> <code>DType60</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L829" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType60</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType60" class="doc_header"><code>class</code> <code>DType60</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L932" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType60</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 60 – 8 bit Spectral Data</p>
 
@@ -1969,7 +2139,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType61" class="doc_header"><code>class</code> <code>DType61</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L971" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType61</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType61" class="doc_header"><code>class</code> <code>DType61</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1074" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType61</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 61 – Threshold Compressed Data</p>
 
@@ -2060,7 +2230,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType62" class="doc_header"><code>class</code> <code>DType62</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1017" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType62</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType62" class="doc_header"><code>class</code> <code>DType62</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1120" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType62</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Inherit from this to have all attr accesses in <code>self._xtra</code> passed down to <code>self.default</code></p>
 
@@ -2209,7 +2379,7 @@ If a file is used for the output from more than one unit, multiple footers may a
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType63" class="doc_header"><code>class</code> <code>DType63</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1122" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType63</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType63" class="doc_header"><code>class</code> <code>DType63</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1225" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType63</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 63 – Spectral Data - Frequencies and its levels</p>
 <p>The Following attributes are delegated to the <code>self.default</code> object</p>
@@ -2421,7 +2591,7 @@ Total Bytes = 52 + (4 * NTUN) + NAGC + NDATA + NPAD</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType64" class="doc_header"><code>class</code> <code>DType64</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1277" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType64</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType64" class="doc_header"><code>class</code> <code>DType64</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1380" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType64</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>This is very similar to type 63, with the addition of threshold power level and number of points before compression,
 and obviously a compressed spectrum vector replacing the uncompressed</p>
@@ -2530,7 +2700,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType65" class="doc_header"><code>class</code> <code>DType65</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1339" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType65</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType65" class="doc_header"><code>class</code> <code>DType65</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1442" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType65</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>O Bloco do tipo 65 carrega dados de Taxa de Ocupação Espectral por Canal de Frequência (ITU-R SM.1880).</p>
 <p>O tamanho total em bytes é (48 + NDATA + NPAD)</p>
@@ -2733,7 +2903,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType66" class="doc_header"><code>class</code> <code>DType66</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1466" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType66</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType66" class="doc_header"><code>class</code> <code>DType66</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1569" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType66</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 66 – 16 bit IQ Data</p>
 
@@ -2860,7 +3030,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType67" class="doc_header"><code>class</code> <code>DType67</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1548" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType67</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType67" class="doc_header"><code>class</code> <code>DType67</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1651" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType67</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 67 – Spectral Data</p>
 
@@ -3081,7 +3251,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType68" class="doc_header"><code>class</code> <code>DType68</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1724" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType68</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType68" class="doc_header"><code>class</code> <code>DType68</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1827" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType68</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 68 – Threshold Compressed Data</p>
 
@@ -3176,7 +3346,7 @@ and obviously a compressed spectrum vector replacing the uncompressed</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DType69" class="doc_header"><code>class</code> <code>DType69</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1774" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType69</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
+<h2 id="DType69" class="doc_header"><code>class</code> <code>DType69</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/blocks.py#L1877" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DType69</code>(<strong><code>block</code></strong>:<a href="/rfpyeblocks.html#BaseBlock"><code>BaseBlock</code></a>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Data Type 69 – Frequency Channel Occupancy (ITU-R SM.1880)</p>
 

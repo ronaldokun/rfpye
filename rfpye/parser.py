@@ -266,7 +266,7 @@ def parse_bin(bin_file: Union[str, Path], precision=np.float32) -> dict:
             block_type, block = create_block(file, next_block)
             if block is None:
                 continue
-            if block_type == 40:
+            if block_type in (2, 40):
                 gps._data.append(block)
             elif block_type in VECTOR_BLOCKS:
                 append_spec_data(block_type,fluxos, block, precision)
@@ -274,4 +274,5 @@ def parse_bin(bin_file: Union[str, Path], precision=np.float32) -> dict:
                 meta.update(getattrs(block, KEY_ATTRS.get(block_type)))
     meta["gps"] = gps
     meta["spectrum"] = L(fluxos.values())
+    meta['hostname'] = meta['hostname'][:2].upper() + meta['hostname'][2:]
     return meta
