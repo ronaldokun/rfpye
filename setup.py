@@ -27,7 +27,6 @@ class get_numpy_include(object):
 
     def __str__(self):
         import numpy
-
         return numpy.get_include()
 
 
@@ -42,7 +41,7 @@ expected = (
     + "lib_name user branch license status min_python audience language".split()
 )
 for o in expected:
-    assert o in cfg, "missing expected setting: {}".format(o)
+    assert o in cfg, f"missing expected setting: {o}"
 setup_cfg = {o: cfg[o] for o in cfg_keys}
 
 licenses = {
@@ -71,30 +70,31 @@ min_python = cfg["min_python"]
 
 setuptools.setup(
     name=cfg["lib_name"],
-    # cmdclass={'build_ext': Build},
     ext_modules=cythonize("rfpye/cyparser.pyx"),
     include_dirs=[numpy.get_include()],
     license=lic[0],
-    classifiers=[
-        "Development Status :: " + statuses[int(cfg["status"])],
-        "Intended Audience :: " + cfg["audience"].title(),
-        "License :: " + lic[1],
-        "Natural Language :: " + cfg["language"].title(),
-    ]
-    + [
-        "Programming Language :: Python :: " + o
-        for o in py_versions[py_versions.index(min_python) :]
-    ],
+    classifiers=(
+        [
+            "Development Status :: " + statuses[int(cfg["status"])],
+            "Intended Audience :: " + cfg["audience"].title(),
+            f"License :: {lic[1]}",
+            "Natural Language :: " + cfg["language"].title(),
+        ]
+        + [
+            f"Programming Language :: Python :: {o}"
+            for o in py_versions[py_versions.index(min_python) :]
+        ]
+    ),
     url=cfg["git_url"],
     packages=setuptools.find_packages(),
     include_package_data=True,
     install_requires=requirements,
     extras_require={"dev": dev_requirements},
     dependency_links=cfg.get("dep_links", "").split(),
-    python_requires=">=" + cfg["min_python"],
+    python_requires=">=" + min_python,
     long_description=open("README.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
     zip_safe=False,
     entry_points={"console_scripts": cfg.get("console_scripts", "").split()},
-    **setup_cfg
+    **setup_cfg,
 )
