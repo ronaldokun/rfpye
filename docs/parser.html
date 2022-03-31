@@ -68,6 +68,25 @@ nb_path: "nbs\01_parser.ipynb"
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The autoreload extension is already loaded. To reload it, use:
+  %reload_ext autoreload
+The line_profiler extension is already loaded. To reload it, use:
+  %reload_ext line_profiler
+The cython extension is already loaded. To reload it, use:
+  %reload_ext cython
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
     {% endraw %}
 
@@ -82,7 +101,7 @@ nb_path: "nbs\01_parser.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="CrfsGPS" class="doc_header"><code>class</code> <code>CrfsGPS</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L46" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CrfsGPS</code>()</p>
+<h2 id="CrfsGPS" class="doc_header"><code>class</code> <code>CrfsGPS</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L47" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CrfsGPS</code>()</p>
 </blockquote>
 <p>Class with the GPS Attributes from the CRFS Bin File</p>
 
@@ -107,7 +126,7 @@ nb_path: "nbs\01_parser.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="CrfsSpectrum" class="doc_header"><code>class</code> <code>CrfsSpectrum</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L100" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CrfsSpectrum</code>(<strong><code>metadata</code></strong>, <strong><code>precision</code></strong>=<em><code>float32</code></em>) :: <code>GetAttr</code></p>
+<h2 id="CrfsSpectrum" class="doc_header"><code>class</code> <code>CrfsSpectrum</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L101" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CrfsSpectrum</code>(<strong><code>metadata</code></strong>, <strong><code>precision</code></strong>=<em><code>float32</code></em>) :: <code>GetAttr</code></p>
 </blockquote>
 <p>Class with the metadata and levels of a spectrum block from a CRFS Bin File</p>
 
@@ -292,7 +311,7 @@ nb_path: "nbs\01_parser.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="parse_bin" class="doc_header"><code>parse_bin</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L242" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parse_bin</code>(<strong><code>bin_file</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>], <strong><code>precision</code></strong>=<em><code>float32</code></em>)</p>
+<h4 id="parse_bin" class="doc_header"><code>parse_bin</code><a href="https://github.com/ronaldokun/rfpye/tree/master/rfpye/parser.py#L245" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parse_bin</code>(<strong><code>bin_file</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>], <strong><code>precision</code></strong>=<em><code>float32</code></em>)</p>
 </blockquote>
 <p>Receives a CRFS binfile and returns a dictionary with the file metadata, a GPS Class and a list with the different Spectrum Classes
 A block is a piece of the .bin file with a known start and end and that contains different types of information.
@@ -340,6 +359,8 @@ Args:
         <span class="n">header</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">BYTES_HEADER</span><span class="p">)</span>
         <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;filename&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bin_file</span><span class="o">.</span><span class="n">name</span>
         <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;file_version&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bin2int</span><span class="p">(</span><span class="n">header</span><span class="p">[:</span><span class="mi">4</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;file_version&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">21</span><span class="p">:</span>
+            <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Script_CRFSBINv2&#39;</span>
         <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;string&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bin2str</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="mi">4</span><span class="p">:])</span>
         <span class="n">file_size</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
         <span class="n">file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -356,6 +377,25 @@ Args:
     <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;gps&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gps</span>
     <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;spectrum&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">L</span><span class="p">(</span><span class="n">fluxos</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
     <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;hostname&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;hostname&#39;</span><span class="p">][:</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;hostname&#39;</span><span class="p">][</span><span class="mi">2</span><span class="p">:]</span>
+    
+    <span class="k">if</span> <span class="n">modtime</span> <span class="o">:=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">gps</span><span class="p">,</span> <span class="s1">&#39;_gps_datetime&#39;</span><span class="p">):</span>
+        <span class="n">modtime</span> <span class="o">=</span> <span class="n">modtime</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c1">#.astype(datetime)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">modtime</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">bin_file</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_mtime</span><span class="p">))</span>
+        
+    <span class="k">def</span> <span class="nf">set_timestamp</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span><span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Create a timestamp from the file modification time backwards by 1s for each measurement&quot;&quot;&quot;</span>
+        <span class="n">timestamp</span> <span class="o">=</span> <span class="n">L</span><span class="p">()</span>
+        <span class="n">mtime</span> <span class="o">=</span> <span class="n">modtime</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">spec</span><span class="p">)):</span>
+            <span class="n">timestamp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mtime</span><span class="p">)</span>
+            <span class="n">mtime</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">)</span>
+        <span class="n">timestamp</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s1">&#39;timestamp&#39;</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
+        
+
+    <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;spectrum&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">type</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">))</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">set_timestamp</span><span class="p">)</span>
+    
     <span class="k">return</span> <span class="n">meta</span>                 
 </pre></div>
 
@@ -373,26 +413,8 @@ Args:
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">files</span> <span class="o">=</span> <span class="n">get_files</span><span class="p">(</span><span class="s1">&#39;binfiles/Occ&#39;</span><span class="p">)</span>
-<span class="n">file</span> <span class="o">=</span> <span class="n">files</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dados</span> <span class="o">=</span> <span class="n">parse_bin</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
-<span class="n">dados</span><span class="p">[</span><span class="s1">&#39;spectrum&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">files</span> <span class="o">=</span> <span class="n">get_files</span><span class="p">(</span><span class="s1">&#39;D:\OneDrive - ANATEL\BinFiles\Combo1 (RFLook - arquivos iniciais)&#39;</span><span class="p">)</span>
+<span class="n">files</span>
 </pre></div>
 
     </div>
@@ -407,7 +429,7 @@ Args:
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(#1) [Spectrum(type=65, thread_id=121, start_mega=80, stop_mega=110, dtype=&#39;dBm&#39;, ndata=1536, processing=&#39;peak&#39;, antuid=0)]</pre>
+<pre>(#4) [Path(&#39;D:/OneDrive - ANATEL/BinFiles/Combo1 (RFLook - arquivos iniciais)/201201_T153421_OneThreadID.bin&#39;),Path(&#39;D:/OneDrive - ANATEL/BinFiles/Combo1 (RFLook - arquivos iniciais)/201201_T154509_MultiplesThreadID.bin&#39;),Path(&#39;D:/OneDrive - ANATEL/BinFiles/Combo1 (RFLook - arquivos iniciais)/SCAN_M_450470_rfeye002088_170426_171908.bin&#39;),Path(&#39;D:/OneDrive - ANATEL/BinFiles/Combo1 (RFLook - arquivos iniciais)/Script1.cfg&#39;)]</pre>
 </div>
 
 </div>
@@ -425,8 +447,10 @@ Args:
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">dados</span><span class="p">[</span><span class="s1">&#39;spectrum&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">attrgot</span><span class="p">(</span><span class="s1">&#39;thread_id&#39;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">dados</span><span class="p">[</span><span class="s1">&#39;spectrum&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="nb">len</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">file</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;D:\OneDrive - ANATEL\SpecFiles\Combo3 (CRFS Bin - DataTypes 4, 7, 8, 60-65 e 67-69)\rfeye002292_210208_T203238_CRFSBINv.3.bin&#39;</span>
+<span class="c1">#file = r&#39;D:\OneDrive - ANATEL\SpecFiles\Combo3 (CRFS Bin - DataTypes 4, 7, 8, 60-65 e 67-69)\rfeye002292_210208_T202215_CRFSBINv.4.bin&#39;</span>
+<span class="n">dados</span> <span class="o">=</span> <span class="n">parse_bin</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+<span class="n">dados</span>
 </pre></div>
 
     </div>
@@ -439,21 +463,19 @@ Args:
 <div class="output_area">
 
 
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">121</span><span style="font-weight: bold">]</span>
-</pre>
 
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5983</span><span style="font-weight: bold">]</span>
-</pre>
-
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;filename&#39;: &#39;rfeye002292_210208_T203238_CRFSBINv.3.bin&#39;,
+ &#39;file_version&#39;: 21,
+ &#39;method&#39;: &#39;Script_CRFSBINv3&#39;,
+ &#39;string&#39;: &#39;CRFS DATA FILE V021&#39;,
+ &#39;hostname&#39;: &#39;RFeye002292&#39;,
+ &#39;unit_info&#39;: &#39;Stationary&#39;,
+ &#39;file_number&#39;: 0,
+ &#39;identifier&#39;: &#39;LOGGER_VERSION&#39;,
+ &#39;description&#39;: &#39;ClearWrite. Peak.&#39;,
+ &#39;gps&#39;: GPS Data - Median of Coordinates: -12.97163:-38.48149 Altitude: 150.60 #Satellites: 12.0,
+ &#39;spectrum&#39;: (#8) [Spectrum(type=60, thread_id=10, start_mega=105, stop_mega=140, ndata=3584, nloops=1, processing=&#39;peak&#39;, antuid=0),Spectrum(type=60, thread_id=11, start_mega=105, stop_mega=140, ndata=3584, nloops=1, processing=&#39;average&#39;, antuid=0),Spectrum(type=60, thread_id=20, start_mega=76, stop_mega=108, ndata=8192, nloops=1, processing=&#39;peak&#39;, antuid=0),Spectrum(type=60, thread_id=30, start_mega=70, stop_mega=110, ndata=1024, nloops=4, processing=&#39;peak&#39;, antuid=0),Spectrum(type=60, thread_id=12, start_mega=105, stop_mega=140, ndata=3584, nloops=1, processing=&#39;peak&#39;, antuid=0),Spectrum(type=60, thread_id=13, start_mega=105, stop_mega=140, ndata=3584, nloops=1, processing=&#39;average&#39;, antuid=0),Spectrum(type=61, thread_id=14, thresh=-90, minimum=-147.5, start_mega=105, stop_mega=140, ndata=3584, nloops=1, processing=&#39;average&#39;, antuid=0),Spectrum(type=62, thread_id=15, start_mega=105, stop_mega=140, thresh=-90, ndata=3584, antuid=0)]}</pre>
 </div>
 
 </div>
@@ -471,7 +493,8 @@ Args:
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dados</span><span class="p">[</span><span class="s1">&#39;spectrum&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">matrix</span><span class="p">()</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">379</span><span class="p">:</span><span class="mi">390</span><span class="p">,]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="nb">list</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;D:\OneDrive - ANATEL\SpecFiles&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">iterdir</span><span class="p">())</span>
 </pre></div>
 
     </div>
@@ -484,341 +507,58 @@ Args:
 <div class="output_area">
 
 
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>Time</th>
-      <th>2019-12-21 09:00:01.367337</th>
-      <th>2019-12-21 09:15:01.357259</th>
-      <th>2019-12-21 09:30:01.357357</th>
-      <th>2019-12-21 09:45:01.357273</th>
-      <th>2019-12-21 10:00:01.419225</th>
-      <th>2019-12-21 10:15:01.457292</th>
-      <th>2019-12-21 10:30:01.457319</th>
-      <th>2019-12-21 10:45:01.457347</th>
-      <th>2019-12-21 11:00:01.557361</th>
-      <th>2019-12-21 11:15:01.657314</th>
-      <th>...</th>
-      <th>2020-03-17 05:00:00.717407</th>
-      <th>2020-03-17 05:15:00.727240</th>
-      <th>2020-03-17 05:30:00.817241</th>
-      <th>2020-03-17 05:45:01.165917</th>
-      <th>2020-03-17 06:00:01.117366</th>
-      <th>2020-03-17 06:15:01.117384</th>
-      <th>2020-03-17 06:30:01.117365</th>
-      <th>2020-03-17 06:45:01.356074</th>
-      <th>2020-03-17 07:00:01.417270</th>
-      <th>2020-03-17 07:15:01.437418</th>
-    </tr>
-    <tr>
-      <th>Frequencies</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>87.407166</th>
-      <td>5.0</td>
-      <td>3.5</td>
-      <td>3.5</td>
-      <td>2.5</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>...</td>
-      <td>3.0</td>
-      <td>4.0</td>
-      <td>1.5</td>
-      <td>2.0</td>
-      <td>3.0</td>
-      <td>2.0</td>
-      <td>6.0</td>
-      <td>2.0</td>
-      <td>2.0</td>
-      <td>4.0</td>
-    </tr>
-    <tr>
-      <th>87.426710</th>
-      <td>26.0</td>
-      <td>25.0</td>
-      <td>23.5</td>
-      <td>14.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>...</td>
-      <td>24.0</td>
-      <td>29.0</td>
-      <td>24.0</td>
-      <td>25.5</td>
-      <td>28.5</td>
-      <td>23.5</td>
-      <td>27.5</td>
-      <td>26.5</td>
-      <td>25.5</td>
-      <td>27.0</td>
-    </tr>
-    <tr>
-      <th>87.446254</th>
-      <td>68.0</td>
-      <td>66.5</td>
-      <td>64.0</td>
-      <td>57.5</td>
-      <td>48.5</td>
-      <td>49.5</td>
-      <td>48.5</td>
-      <td>47.0</td>
-      <td>45.5</td>
-      <td>52.0</td>
-      <td>...</td>
-      <td>66.5</td>
-      <td>67.5</td>
-      <td>69.0</td>
-      <td>71.0</td>
-      <td>69.0</td>
-      <td>68.5</td>
-      <td>73.0</td>
-      <td>73.5</td>
-      <td>72.0</td>
-      <td>70.5</td>
-    </tr>
-    <tr>
-      <th>87.465798</th>
-      <td>97.5</td>
-      <td>93.5</td>
-      <td>94.5</td>
-      <td>94.0</td>
-      <td>100.0</td>
-      <td>100.0</td>
-      <td>100.0</td>
-      <td>100.0</td>
-      <td>100.0</td>
-      <td>100.0</td>
-      <td>...</td>
-      <td>96.5</td>
-      <td>95.5</td>
-      <td>96.5</td>
-      <td>96.5</td>
-      <td>97.5</td>
-      <td>96.5</td>
-      <td>97.0</td>
-      <td>97.0</td>
-      <td>96.0</td>
-      <td>95.5</td>
-    </tr>
-    <tr>
-      <th>87.485342</th>
-      <td>98.5</td>
-      <td>98.5</td>
-      <td>99.5</td>
-      <td>99.0</td>
-      <td>100.0</td>
-      <td>100.0</td>
-      <td>100.0</td>
-      <td>100.0</td>
-      <td>100.0</td>
-      <td>100.0</td>
-      <td>...</td>
-      <td>99.0</td>
-      <td>98.5</td>
-      <td>99.5</td>
-      <td>100.0</td>
-      <td>99.5</td>
-      <td>99.5</td>
-      <td>99.0</td>
-      <td>100.0</td>
-      <td>99.0</td>
-      <td>99.0</td>
-    </tr>
-    <tr>
-      <th>87.504886</th>
-      <td>94.5</td>
-      <td>93.5</td>
-      <td>93.0</td>
-      <td>95.0</td>
-      <td>100.0</td>
-      <td>100.0</td>
-      <td>100.0</td>
-      <td>100.0</td>
-      <td>100.0</td>
-      <td>100.0</td>
-      <td>...</td>
-      <td>93.5</td>
-      <td>94.0</td>
-      <td>95.0</td>
-      <td>95.5</td>
-      <td>96.5</td>
-      <td>96.5</td>
-      <td>96.0</td>
-      <td>96.0</td>
-      <td>96.0</td>
-      <td>94.5</td>
-    </tr>
-    <tr>
-      <th>87.524430</th>
-      <td>72.5</td>
-      <td>69.0</td>
-      <td>67.5</td>
-      <td>55.0</td>
-      <td>42.0</td>
-      <td>40.5</td>
-      <td>41.5</td>
-      <td>42.0</td>
-      <td>42.0</td>
-      <td>46.0</td>
-      <td>...</td>
-      <td>68.5</td>
-      <td>69.5</td>
-      <td>68.0</td>
-      <td>72.0</td>
-      <td>73.0</td>
-      <td>69.5</td>
-      <td>74.5</td>
-      <td>71.0</td>
-      <td>70.5</td>
-      <td>67.5</td>
-    </tr>
-    <tr>
-      <th>87.543974</th>
-      <td>21.5</td>
-      <td>26.5</td>
-      <td>20.0</td>
-      <td>16.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>...</td>
-      <td>23.5</td>
-      <td>25.5</td>
-      <td>20.0</td>
-      <td>25.5</td>
-      <td>26.5</td>
-      <td>23.0</td>
-      <td>29.5</td>
-      <td>21.5</td>
-      <td>24.0</td>
-      <td>24.0</td>
-    </tr>
-    <tr>
-      <th>87.563518</th>
-      <td>2.0</td>
-      <td>1.5</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>...</td>
-      <td>1.5</td>
-      <td>2.5</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>2.5</td>
-      <td>2.5</td>
-      <td>5.5</td>
-      <td>0.0</td>
-      <td>3.0</td>
-      <td>2.5</td>
-    </tr>
-    <tr>
-      <th>87.583062</th>
-      <td>0.0</td>
-      <td>0.5</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>...</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.5</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>87.602606</th>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>...</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-  </tbody>
-</table>
-<p>11 rows × 5983 columns</p>
+<div class="output_text output_subarea output_execute_result">
+<pre>[Path(&#39;D:/OneDrive - ANATEL/SpecFiles/.git&#39;),
+ Path(&#39;D:/OneDrive - ANATEL/SpecFiles/Combo1 (Arquivos Performance)&#39;),
+ Path(&#39;D:/OneDrive - ANATEL/SpecFiles/Combo2 (Arquivos com Erros)&#39;),
+ Path(&#39;D:/OneDrive - ANATEL/SpecFiles/Combo3 (CRFS Bin - DataTypes 4, 7, 8, 60-65 e 67-69)&#39;),
+ Path(&#39;D:/OneDrive - ANATEL/SpecFiles/Combo4 (CRFS Bin - Multiples ThreadID 10)&#39;),
+ Path(&#39;D:/OneDrive - ANATEL/SpecFiles/Combo5 (CRFS Bin - Same Task Differents ThreadIDs)&#39;),
+ Path(&#39;D:/OneDrive - ANATEL/SpecFiles/Combo6 (CRFS Bin - PMEC e PRD 2020)&#39;),
+ Path(&#39;D:/OneDrive - ANATEL/SpecFiles/Combo7 (CRFS Bin - PMEC e PRD 2021)&#39;),
+ Path(&#39;D:/OneDrive - ANATEL/SpecFiles/Combo8 (Argus CSV)&#39;),
+ Path(&#39;D:/OneDrive - ANATEL/SpecFiles/Combo9 (RF Look Bin)&#39;),
+ Path(&#39;D:/OneDrive - ANATEL/SpecFiles/README.md&#39;)]</pre>
 </div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">dados</span><span class="p">[</span><span class="s1">&#39;gps&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">_gps_datetime</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">numpy.datetime64</span><span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'2021-02-08T20:32:59'</span><span style="font-weight: bold">)</span>, <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">numpy.datetime64</span><span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'2021-02-08T20:33:59'</span><span style="font-weight: bold">)</span>, 
+<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">numpy.datetime64</span><span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'2021-02-08T20:34:59'</span><span style="font-weight: bold">)</span>, <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">numpy.datetime64</span><span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'2021-02-08T20:35:59'</span><span style="font-weight: bold">)</span>, 
+<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">numpy.datetime64</span><span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'2021-02-08T20:36:59'</span><span style="font-weight: bold">)</span>, <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">numpy.datetime64</span><span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'2021-02-08T20:37:59'</span><span style="font-weight: bold">)</span>, 
+<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">numpy.datetime64</span><span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'2021-02-08T20:38:59'</span><span style="font-weight: bold">)</span>, <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">numpy.datetime64</span><span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'2021-02-08T20:39:59'</span><span style="font-weight: bold">)</span>, 
+<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">numpy.datetime64</span><span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'2021-02-08T20:40:59'</span><span style="font-weight: bold">)</span>, <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">numpy.datetime64</span><span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'2021-02-08T20:41:59'</span><span style="font-weight: bold">)</span>, 
+<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">numpy.datetime64</span><span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'2021-02-08T20:42:59'</span><span style="font-weight: bold">)</span>, <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">numpy.datetime64</span><span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'2021-02-08T20:43:59'</span><span style="font-weight: bold">)]</span>
+</pre>
+
 </div>
 
 </div>

@@ -12,7 +12,7 @@ cpdef np.ndarray[DTYPE_t, ndim=2] cy_extract_compressed(list data, int rows, int
     cdef const unsigned char[:] src
     cdef int RUN = 255
     cdef int ESC = 254
-    cdef int NRSC
+    cdef int nsrc
     cdef int i
     cdef int j
     cdef int ib
@@ -32,11 +32,12 @@ cpdef np.ndarray[DTYPE_t, ndim=2] cy_extract_compressed(list data, int rows, int
                 j+=nrun
             elif ib == ESC:
                 # next value is literal
-                decoded[row, j] = MIN + src[i]/2.
-                i+=1 ; j+=1
+                decoded[row, j] = (src[i]/2.) + MIN
+                i+=1 
+                j+=1
             else:
-                # value
-                decoded[row, j] = MIN + ib/2.
+                # literal value
+                decoded[row, j] = (ib/2.) + MIN
                 j+=1
     return decoded
 

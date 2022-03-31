@@ -192,7 +192,7 @@ class DType2(GetAttr):
     @cached
     def gps_datetime(self) -> np.datetime64:
         """Returns the GPS datetime"""
-        return np.datetime64(f"{self._gps_date}T{self._gps_time}")
+        return np.datetime64(f"{self._gps_date}T{self._gps_time}.000000")
 
     @cached
     def gps_posfix(self) -> int:
@@ -256,6 +256,10 @@ class DType4(GetAttr):
         super().__init__()
         self.default = block
 
+    # @cached
+    # def antuid(self)-> int:
+    #     return 0 #compatibility with newer formats
+
     @cached
     def start_mega(self) -> int:
         return bin2int(self.data[:2])
@@ -269,7 +273,7 @@ class DType4(GetAttr):
         return bin2int(self.data[4:5])
 
     @cached
-    def input(self) -> int:
+    def antuid(self) -> int:
         return bin2int(self.data[5:6])
 
     @cached
@@ -294,7 +298,7 @@ class DType4(GetAttr):
 
     @cached
     def levels(self) -> np.ndarray:
-        return (-self.raw_data / 2 + self.offset).astype(np.float32)
+        return -(self.raw_data / 2 - self.offset).astype(np.float32)
 
     @cached
     def padding(self) -> bytes:
@@ -339,7 +343,7 @@ class DType6(GetAttr):
         return bin2int(self.data[BYTES_6[2]])
 
     @cached
-    def input(self) -> int:
+    def antuid(self) -> int:
         """Antenna Input Number 1=ip1, 2=ip2, 3=ip3, 4=ip4"""
         return bin2int(self.data[BYTES_6[3]])
 
@@ -406,12 +410,13 @@ class DType7(GetAttr):
         return bin2int(self.data[12:16])
 
     @cached
-    def input(self) -> int:
+    def antuid(self) -> int:
         return bin2int(self.data[16:20])
 
     @cached
     def processing(self) -> int:
-        return bin2int(self.data[20:24])
+        d = {0: "Single Measurement", 1: "Average", 2: "Peak"}
+        return d.get(bin2int(self.data[20:24]), "Unknown")
 
     @cached
     def namal(self) -> int:
@@ -432,7 +437,7 @@ class DType7(GetAttr):
 
     @cached
     def levels(self) -> np.ndarray:
-        return self.data[40 : 40 + self.ncompressed]
+        return np.frombuffer(self.data[40 : 40 + self.ncompressed], dtype=np.uint8)
 
     @cached
     def padding(self) -> bytes:
@@ -477,14 +482,14 @@ class DType8(GetAttr):
     @cached
     def wallclock_datetime(self) -> np.datetime64:
         """Returns the wallclock datetime"""
-        return np.datetime64(f"{self._walldate}T{self._walltime}")
+        return np.datetime64(f"{self._walldate}T{self._walltime}.000000")
 
     @cached
     def sampling(self) -> int:
         return bin2int(self.data[20:24])
 
     @cached
-    def input(self) -> int:
+    def antuid(self) -> int:
         return bin2int(self.data[24:28])
 
     @cached
@@ -500,11 +505,15 @@ class DType8(GetAttr):
         return bin2int(self.data[36:40])
 
     @cached
-    def levels(self) -> np.ndarray:
+    def raw_data(self) -> np.ndarray:
         try:
             return np.frombuffer(self.data[40 : 40 + self.ndata], dtype=np.uint8)
         except ValueError as e:
             raise ValueError(f"{e} while retrieving raw_data in {self.filename}") from e
+
+    @cached
+    def levels(self) -> np.ndarray:
+        return (self.raw_data / 2).astype(np.float32)
 
     @cached
     def padding(self) -> bytes:
@@ -1095,11 +1104,6 @@ class DType61(GetAttr):
         return bin2int(self.data[44:48])
 
     @cached
-    def levels(self) -> bytes:
-        start = 40 + 4 * self.ntun + self.nagc
-        return self.data[start : start + self.ndata]
-
-    @cached
     def tunning(self) -> list:
         "Array of 4 byte Tuning info blocks.One block per tuning (1 or 10 MHz)."
         return L(self.data[i : i + 4] for i in range(48, 48 + 4 * self.ntun, 4))
@@ -1112,9 +1116,14 @@ class DType61(GetAttr):
         )
 
     @cached
+    def levels(self) -> bytes:
+        start = 48 + 4 * self.ntun + self.nagc
+        return np.frombuffer(self.data[start : start + self.ndata], dtype=np.uint8)
+
+    @cached
     def padding(self) -> bytes:
         "Padding to align to 4 byte boundary."
-        return self.data[48 + 4 * self.ntun + self.nagc :]
+        return self.data[48 + 4 * self.ntun + self.nagc + self.ndata:]
 
 # Cell
 class DType62(GetAttr):
@@ -1211,7 +1220,7 @@ class DType62(GetAttr):
     def levels(self) -> np.ndarray:
         """Array of single byte data points representing the percentage. (0...100% in 0.5 steps)"""
         try:
-            return np.frombuffer(self.data[44 : 44 + self.ndata], dtype=np.uint8)
+            return (np.frombuffer(self.data[44 : 44 + self.ndata], dtype=np.uint8) / 2).astype(np.float32)
         except ValueError as e:
             raise ValueError(f"{e} while retrieving levels in {self.type}") from e
 
@@ -1422,7 +1431,7 @@ class DType64(GetAttr):
     @cached
     def levels(self) -> np.ndarray:
         """Spectrum Data in 'dB' with 0.5 dBm interval"""
-        return self.data[self.start : self.stop]
+        return np.frombuffer(self.data[self.start : self.stop], dtype=np.uint8)
 
     @cached
     def padding(self):
@@ -1852,7 +1861,7 @@ class DType68(GetAttr):
     @cached
     def levels(self) -> np.ndarray:
         """Spectrum Data in 'dB' with 0.5 dBm interval"""
-        return self.data[self.start : self.stop]
+        return np.frombuffer(self.data[self.start : self.stop], dtype=np.uint8)
 
     @cached
     def tunning(self) -> tuple:

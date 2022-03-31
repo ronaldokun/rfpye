@@ -15,6 +15,7 @@ import gc
 from pathlib import Path
 from typing import *
 from dataclasses import make_dataclass
+from datetime import datetime, timedelta
 from fastcore.basics import partialler
 from fastcore.utils import parallel
 from fastcore.foundation import L, GetAttr
@@ -33,7 +34,7 @@ config = {
         {
             "sink": "parser.log",
             "serialize": True,
-            "rotation": "1 month",
+            "rotation": "1 week",
             "compression": "zip",
             "backtrace": True,
             "diagnose": True,
@@ -212,7 +213,7 @@ def buffer2base_block(file, next_block: int) -> Union[BaseBlock, None]:
     if (checksum := evaluate_checksum(file, next_block, block_size)) is None:
         file.seek(start, 0)
         while file.read(4) not in (b'', b'UUUU'):
-            pass
+            continue
         return None, None
     if (eof := file.read(4)) != b'UUUU':
         logger.error(f"EOF diferente de UUUU: {eof}, posicao: {file.tell()}")
@@ -238,6 +239,8 @@ def create_block(file, next_block) -> Tuple:
         return None, None  # spectral or gps blocks with error
     return block_type, block
 
+
+
 # Cell
 def parse_bin(bin_file: Union[str, Path], precision=np.float32) -> dict:
     """Receives a CRFS binfile and returns a dictionary with the file metadata, a GPS Class and a list with the different Spectrum Classes
@@ -259,6 +262,8 @@ def parse_bin(bin_file: Union[str, Path], precision=np.float32) -> dict:
         header = file.read(BYTES_HEADER)
         meta["filename"] = bin_file.name
         meta["file_version"] = bin2int(header[:4])
+        if meta['file_version'] == 21:
+            meta['method'] = 'Script_CRFSBINv2'
         meta["string"] = bin2str(header[4:])
         file_size = file.seek(0, 2)
         file.seek(36, 0)
@@ -275,4 +280,23 @@ def parse_bin(bin_file: Union[str, Path], precision=np.float32) -> dict:
     meta["gps"] = gps
     meta["spectrum"] = L(fluxos.values())
     meta['hostname'] = meta['hostname'][:2].upper() + meta['hostname'][2:]
+
+    if modtime := getattr(gps, '_gps_datetime'):
+        modtime = modtime[-1] #.astype(datetime)
+    else:
+        modtime = np.datetime64(datetime.fromtimestamp(bin_file.stat().st_mtime))
+
+    def set_timestamp(spec)-> None:
+        """Create a timestamp from the file modification time backwards by 1s for each measurement"""
+        timestamp = L()
+        mtime = modtime
+        for s in range(len(spec)):
+            timestamp.append(mtime)
+            mtime -= np.timedelta64(1, "s")
+        timestamp.reverse()
+        setattr(spec, 'timestamp', timestamp)
+
+
+    meta['spectrum'].filter(lambda x: x.type in (4,7)).map(set_timestamp)
+
     return meta
