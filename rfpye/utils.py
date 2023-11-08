@@ -142,12 +142,20 @@ def getattrs(obj: Any, attrs: Iterable = None, as_tuple=False) -> L:
 
 # Cell
 def cached(f):
-    version = float(platform.python_version()[:3])
-    if version >= 3.8:
-        return functools.cached_property(f)
-    elif version >= 3.2:
-        return property(functools.lru_cache()(f))
-    else:
+    version_list = platform.python_version().split(".")
+    major_version = int(version_list[0])
+    minor_version = int(version_list[1])
+    
+    if major_version < 3:
         raise NotImplementedError(
-            "There is no cache attribute implemented for python < 3.2"
+            "There is no cache attribute implemented for python < 3"
         )
+    else:
+        if minor_version >= 8:
+            return functools.cached_property(f)
+        elif minor_version >= 2:
+            return property(functools.lru_cache()(f))
+        else:
+            raise NotImplementedError(
+                "There is no cache attribute implemented for python < 3.2"
+            )
