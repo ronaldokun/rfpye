@@ -4,3 +4,43 @@ requires = ["setuptools>=51.1.2", "wheel", "Cython>=0.29.23,<3", "numpy>=1.20.3;
 # uncomment to enable pep517 after versioneer problem is fixed.
 # https://github.com/python-versioneer/python-versioneer/issues/193
 # build-backend = "setuptools.build_meta"
+
+[project]
+name = "rfpye"
+version = "0.3.7"
+description = "Binary Files Parser resulted from the script Logger from CRFS - Rfeye Node Equipament"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+authors = [{name = "Ronaldo Batista", email = "ronaldokun@gmail.com"}]
+keywords = ["spectrum", "monitoring"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Natural Language :: Portuguese",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+]
+dependencies = [
+  "Cython",
+  "numpy",
+  "fastcore",
+  "feather-format",
+  "pandas",
+  "rich",
+  "openpyxl",
+  "loguru",
+]
+
+[project.optional-dependencies]
+dev = [
+  "nbdev>=1.1.3",
+  "mypy",
+  "black",
+  "twine",
+]
+
+[project.urls]
+Documentation = "https://ronaldokun.github.io/rfpye"
+Homepage = "https://github.com/ronaldokun/rfpye/tree/master/"
