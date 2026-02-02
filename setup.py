@@ -1,8 +1,9 @@
 from pkg_resources import parse_version
 from configparser import ConfigParser
 import setuptools
-from Cython.Build import cythonize
+from setuptools.extension import Extension
 import numpy
+import os
 
 # from setuptools.command.build_ext import build_ext
 
@@ -68,10 +69,24 @@ dev_requirements = (cfg.get("dev_requirements") or "").split()
 lic = licenses[cfg["license"]]
 min_python = cfg["min_python"]
 
+# Build extension from pre-compiled .c file if C compiler is available
+ext_modules = []
+try:
+    if os.path.exists("rfpye/cyparser.pyx"):
+        from Cython.Build import cythonize
+        ext_modules = cythonize("rfpye/cyparser.pyx", include_path=[numpy.get_include()])
+    elif os.path.exists("rfpye/cyparser.c"):
+        # Build from pre-compiled .c file
+        ext_modules = [Extension("rfpye.cyparser", ["rfpye/cyparser.c"], include_dirs=[numpy.get_include()])]
+except Exception as e:
+    # If Cython extension fails to build, skip it
+    print(f"Warning: Could not build Cython extension: {e}")
+    print("Proceeding without compiled extension.")
+    ext_modules = []
+
 setuptools.setup(
     name=cfg["lib_name"],
-    ext_modules=cythonize("rfpye/cyparser.pyx"),
-    include_dirs=[numpy.get_include()],
+    ext_modules=ext_modules,
     license=lic[0],
     classifiers=(
         [

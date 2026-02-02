@@ -22,7 +22,13 @@ from fastcore.foundation import L, GetAttr
 from .constants import *
 from .blocks import MAIN_BLOCKS, BaseBlock
 from .utils import get_files, getattrs, bin2int, bin2str, cached
-from .cyparser import cy_extract_compressed
+
+# Try to import optional Cython extension
+try:
+    from .cyparser import cy_extract_compressed
+except ImportError:
+    cy_extract_compressed = None
+
 from loguru import logger
 import pandas as pd
 import numpy as np
@@ -142,13 +148,21 @@ class CrfsSpectrum(GetAttr):
                 levels[i,:] = level
             # levels = np.concatenate(self._data.attrgot('levels')).reshape((-1, self.ndata))
         elif self.type in COMPRESSED:
-            levels = cy_extract_compressed(
-                list(self._data.attrgot('levels')),
-                len(self._data),
-                int(self.ndata),
-                int(self.thresh),
-                float(self.minimum),
-            )
+            if cy_extract_compressed is not None:
+                levels = cy_extract_compressed(
+                    list(self._data.attrgot('levels')),
+                    len(self._data),
+                    int(self.ndata),
+                    int(self.thresh),
+                    float(self.minimum),
+                )
+            else:
+                logger.warning("Cython extension not available, using pure Python fallback for compressed data")
+                # Simple pure-Python fallback for compressed extraction
+                raw_levels = list(self._data.attrgot('levels'))
+                levels = np.zeros((len(raw_levels), self.ndata), dtype=self.precision)
+                for i, data in enumerate(raw_levels):
+                    levels[i, :] = data
         else:
             raise ValueError(
                 "The current block is not of type spectrum or it's not implemented yet"

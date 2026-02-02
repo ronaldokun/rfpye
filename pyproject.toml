@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=51.1.2", "wheel", "Cython>=0.29.23,<3", "numpy>=1.20.3"]
+requires = ["setuptools>=51.1.2", "wheel", "numpy>=1.20.3"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -25,18 +25,16 @@ dependencies = [
   "Cython",
   "numpy",
   "fastcore",
-  "feather-format",
   "pandas",
   "rich",
-  "openpyxl",
   "loguru",
 ]
 
 [project.optional-dependencies]
 dev = [
-  "nbdev>=2.3.0",
+  "fasttransform",
   "mypy",
-  "black",
+  "ruff",
   "twine",
   "pytest",
 ]
@@ -44,3 +42,16 @@ dev = [
 [project.urls]
 Documentation = "https://ronaldokun.github.io/rfpye"
 Homepage = "https://github.com/ronaldokun/rfpye/tree/master/"
+
+[tool.nbdev]
+lib_path = "rfpye"
+nbs_path = "nbs"
+doc_path = "docs"
+recursive = true
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.1.0",
+    "nbdev>=3.0.0",
+
+]
