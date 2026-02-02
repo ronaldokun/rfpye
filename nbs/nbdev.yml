@@ -1,0 +1,9 @@
+project:
+  output-dir: docs
+
+website:
+  title: "rfpye"
+  site-url: "https://ronaldokun.github.io/rfpye"
+  description: "Binary Files Parser resulted from the script Logger from CRFS - Rfeye Node Equipament"
+  repo-branch: main
+  repo-url: ""

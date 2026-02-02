@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "rfpye"
-version = "0.3.7"
+version = "0.3.8"
 description = "Binary Files Parser resulted from the script Logger from CRFS - Rfeye Node Equipament"
 readme = "README.md"
 requires-python = ">=3.10"
