@@ -28,6 +28,7 @@ class get_numpy_include(object):
 
     def __str__(self):
         import numpy
+
         return numpy.get_include()
 
 
@@ -60,9 +61,7 @@ statuses = [
     "6 - Mature",
     "7 - Inactive",
 ]
-py_versions = (
-    "2.0 2.1 2.2 2.3 2.4 2.5 2.6 2.7 3.0 3.1 3.2 3.3 3.4 3.5 3.6 3.7 3.8 3.9".split()
-)
+py_versions = "3.10 3.11 3.12 3.13".split()
 
 requirements = cfg.get("requirements", "").split()
 dev_requirements = (cfg.get("dev_requirements") or "").split()
@@ -74,10 +73,19 @@ ext_modules = []
 try:
     if os.path.exists("rfpye/cyparser.pyx"):
         from Cython.Build import cythonize
-        ext_modules = cythonize("rfpye/cyparser.pyx", include_path=[numpy.get_include()])
+
+        ext_modules = cythonize(
+            "rfpye/cyparser.pyx", include_path=[numpy.get_include()]
+        )
     elif os.path.exists("rfpye/cyparser.c"):
         # Build from pre-compiled .c file
-        ext_modules = [Extension("rfpye.cyparser", ["rfpye/cyparser.c"], include_dirs=[numpy.get_include()])]
+        ext_modules = [
+            Extension(
+                "rfpye.cyparser",
+                ["rfpye/cyparser.c"],
+                include_dirs=[numpy.get_include()],
+            )
+        ]
 except Exception as e:
     # If Cython extension fails to build, skip it
     print(f"Warning: Could not build Cython extension: {e}")

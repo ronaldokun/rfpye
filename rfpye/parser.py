@@ -34,21 +34,6 @@ import pandas as pd
 import numpy as np
 from rich import print
 
-# For scripts
-config = {
-    "handlers": [
-        {
-            "sink": "parser.log",
-            "serialize": True,
-            "rotation": "1 week",
-            "compression": "zip",
-            "backtrace": True,
-            "diagnose": True,
-        },
-    ],
-}
-logger.configure(**config)
-
 # Cell
 class CrfsGPS:
     """Class with the GPS Attributes from the CRFS Bin File"""
@@ -256,17 +241,31 @@ def create_block(file, next_block) -> Tuple:
 
 
 # Cell
-def parse_bin(bin_file: Union[str, Path], precision=np.float32) -> dict:
+def parse_bin(bin_file: Union[str, Path], precision=np.float32, log_file: Union[str, Path, None] = None) -> dict:
     """Receives a CRFS binfile and returns a dictionary with the file metadata, a GPS Class and a list with the different Spectrum Classes
     A block is a piece of the .bin file with a known start and end and that contains different types of information.
     It has several fields: file_type, header, data and footer.
     Each field has lengths and information defined in the documentation.
     Args:
         bin_file (Union[str, Path]): path to the bin file
+        precision: numpy dtype for spectrum data (default: np.float32)
+        log_file (Union[str, Path, None]): optional file path for logging output. If provided, logs will be written to this file.
 
     Returns:
         Dictionary with the file metadata, file_version, string info, gps and spectrum blocks.
     """
+    # Configure logging if log_file is provided
+    if log_file is not None:
+        logger.configure(handlers=[
+            {
+                "sink": str(log_file),
+                "serialize": True,
+                "rotation": "1 week",
+                "compression": "zip",
+                "backtrace": True,
+                "diagnose": True,
+            },
+        ])
     bin_file = Path(bin_file)
     meta = {}
     fluxos = {}
