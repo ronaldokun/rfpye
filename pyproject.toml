@@ -8,13 +8,12 @@ version = "0.3.8"
 description = "Binary Files Parser resulted from the script Logger from CRFS - Rfeye Node Equipament"
 readme = "README.md"
 requires-python = ">=3.10"
-license = {file = "LICENSE"}
+license = "Apache-2.0"
 authors = [{name = "Ronaldo Batista", email = "ronaldokun@gmail.com"}]
 keywords = ["spectrum", "monitoring"]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Intended Audience :: Developers",
-  "License :: OSI Approved :: Apache Software License",
   "Natural Language :: Portuguese",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
