@@ -135,31 +135,146 @@ class CrfsSpectrum(GetAttr):
 
     @cached
     def levels(self):
-        """Return the spectrum levels"""
+        """
+        Return the spectrum levels matrix.
+
+        This method is a CRITICAL boundary between Python and native C code
+        (cy_extract_compressed). Therefore, ALL structural sanity checks
+        MUST be performed here to prevent heap corruption (double free,
+        invalid malloc, etc).
+
+        Design principles:
+            - Never trust raw metadata coming directly from BIN blocks.
+            - Never call C code with unchecked structural parameters.
+            - Fail fast in Python with explicit errors instead of aborting
+            the entire process.
+        """
+
+        n_traces = len(self._data)
+
+        # =================================================
+        # Common structural sanity checks
+        # =================================================
+
+        if n_traces <= 0:
+            raise ValueError("Spectrum has no traces")
+
+        if not isinstance(self.ndata, int) or self.ndata <= 0:
+            raise ValueError(f"Invalid ndata: {self.ndata}")
+
+        # =================================================
+        # UNCOMPRESSED spectra (pure NumPy path)
+        # =================================================
         if self.type in UNCOMPRESSED:
-            levels = np.empty((len(self._data), self.ndata), dtype=self.precision)
-            for i, level in enumerate(self._data.attrgot('levels')):
-                levels[i,:] = level
-            # levels = np.concatenate(self._data.attrgot('levels')).reshape((-1, self.ndata))
+
+            # Ensure each trace has the expected number of bins
+            raw_levels = list(self._data.attrgot('levels'))
+
+            for i, lvl in enumerate(raw_levels):
+                if not hasattr(lvl, "__len__") or len(lvl) != self.ndata:
+                    raise ValueError(
+                        f"Uncompressed level length mismatch at trace {i}: "
+                        f"{len(lvl) if hasattr(lvl,'__len__') else 'N/A'} != {self.ndata}"
+                    )
+
+            levels = np.empty((n_traces, self.ndata), dtype=self.precision)
+
+            for i, lvl in enumerate(raw_levels):
+                levels[i, :] = lvl
+
+        # =================================================
+        # COMPRESSED spectra (C extension boundary)
+        # =================================================
         elif self.type in COMPRESSED:
+
+            raw_levels = list(self._data.attrgot('levels'))
+
+            # ---- block-to-trace consistency ----
+            if len(raw_levels) != n_traces:
+                raise ValueError(
+                    f"Compressed levels count mismatch: "
+                    f"{len(raw_levels)} != {n_traces}"
+                )
+
+            # ---- C algorithm parameters sanity ----
+            if not isinstance(self.thresh, (int, float)):
+                raise ValueError(f"Invalid thresh: {self.thresh}")
+
+            if not isinstance(self.minimum, (int, float)):
+                raise ValueError(f"Invalid minimum: {self.minimum}")
+
+            # ---- SAFE call into C ----
+            # All arguments are now structurally validated.
             levels = cy_extract_compressed(
-                list(self._data.attrgot('levels')),
-                len(self._data),
+                raw_levels,
+                n_traces,
                 int(self.ndata),
                 int(self.thresh),
                 float(self.minimum),
             )
+
+            # ---- post-condition check ----
+            # If C returned garbage shape, do NOT proceed.
+            if not isinstance(levels, np.ndarray) or levels.ndim != 2:
+                raise ValueError("Compressed spectrum returned invalid matrix")
+
+            if levels.shape[0] != n_traces or levels.shape[1] != self.ndata:
+                raise ValueError(
+                    f"Compressed levels shape mismatch: "
+                    f"{levels.shape} != ({n_traces}, {self.ndata})"
+                )
+
+        # =================================================
+        # Unsupported spectrum type
+        # =================================================
         else:
             raise ValueError(
                 "The current block is not of type spectrum or it's not implemented yet"
             )
+
+        # =================================================
+        # Precision normalization (SAFE)
+        # =================================================
         if self.precision != np.float32:
-            levels = levels.astype(self.precision)
+            levels = levels.astype(self.precision, copy=False)
+
         return levels
 
+
+    # @cached
+    # def frequencies(self) -> np.ndarray:
+    #     return np.linspace(self.start_mega, self.stop_mega, num=self.ndata)
     @cached
     def frequencies(self) -> np.ndarray:
+        """
+        Frequency axis generation with defensive validation.
+
+        Prevents pathological allocations caused by corrupted
+        or inconsistent CRFS metadata.
+        """
+
+        span = self.stop_mega - self.start_mega
+        if span <= 0:
+            raise ValueError("Invalid frequency span")
+
+        # RBW is authoritative if present
+        if hasattr(self, "rbw") and self.rbw > 0:
+            expected = int(span / self.rbw) + 1
+
+            # allow small deviation
+            if abs(self.ndata - expected) > max(10, expected * 0.1):
+                raise ValueError(
+                    f"Inconsistent ndata vs RBW: "
+                    f"ndata={self.ndata}, expected≈{expected}"
+                )
+
+        # Absolute hard safety (last line of defense)
+        if self.ndata <= 0 or self.ndata > 5_000_000:
+            raise ValueError(f"Absurd ndata: {self.ndata}")
+
         return np.linspace(self.start_mega, self.stop_mega, num=self.ndata)
+
+
 
     def matrix(self):
         """Returns the matrix formed from the spectrum levels and timestamp"""
